@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLPAK - Developer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0e1117;
+            color: #c9d1d9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            flex: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #f0f6fc;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            margin-top: 8px;
+            font-size: 16px;
+            color: #8b949e;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 20px;
+        }
+
+        .app-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .app-card:hover {
+            border-color: #4CAF50;
+        }
+
+        .app-card h2 {
+            font-size: 20px;
+            color: #f0f6fc;
+            margin-bottom: 8px;
+        }
+
+        .app-card .tagline {
+            font-size: 14px;
+            color: #8b949e;
+            margin-bottom: 16px;
+        }
+
+        .app-card .description {
+            font-size: 15px;
+            color: #c9d1d9;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .app-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .app-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .link-store {
+            background: #238636;
+            color: #fff;
+        }
+
+        .link-store:hover {
+            background: #2ea043;
+        }
+
+        .link-secondary {
+            background: #21262d;
+            color: #c9d1d9;
+            border: 1px solid #30363d;
+        }
+
+        .link-secondary:hover {
+            background: #30363d;
+        }
+
+        .contact {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid #21262d;
+        }
+
+        .contact p {
+            font-size: 14px;
+            color: #8b949e;
+        }
+
+        .contact a {
+            color: #58a6ff;
+            text-decoration: none;
+        }
+
+        .contact a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 24px;
+            font-size: 12px;
+            color: #484f58;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>CLPAK</h1>
+            <p>Mobile App Developer</p>
+        </div>
+
+        <div class="section-title">Apps</div>
+
+        <div class="app-card">
+            <h2>대나무숲</h2>
+            <div class="tagline">24시간 후 바람처럼 사라집니다</div>
+            <div class="description">
+                익명으로 마음속 이야기를 나누는 공간. 모든 글은 24시간 뒤 자동으로 사라지며, 비공개 모드로 나만의 감정을 기록할 수도 있습니다.
+            </div>
+            <div class="app-links">
+                <a href="https://play.google.com/store/apps/details?id=com.jukforest.juk_forest" class="link-store">Google Play</a>
+                <a href="https://claypark.github.io/juk-forest-pages/privacy.html" class="link-secondary">개인정보처리방침</a>
+                <a href="https://claypark.github.io/juk-forest-pages/terms.html" class="link-secondary">이용약관</a>
+            </div>
+        </div>
+
+        <div class="contact">
+            <div class="section-title">Contact</div>
+            <p>문의: <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a></p>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2026 CLPAK
+    </div>
+</body>
+</html>
