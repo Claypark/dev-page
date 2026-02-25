@@ -51,6 +51,7 @@
         }
 
         .app-card {
+            --hover-color: #4CAF50;
             background: #161b22;
             border: 1px solid #30363d;
             border-radius: 12px;
@@ -60,7 +61,26 @@
         }
 
         .app-card:hover {
-            border-color: #4CAF50;
+            border-color: var(--hover-color);
+        }
+
+        .app-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .app-card-header h2 {
+            font-size: 20px;
+            color: #f0f6fc;
+        }
+
+        .app-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            object-fit: cover;
         }
 
         .app-card h2 {
@@ -166,6 +186,22 @@
                 <a href="https://play.google.com/store/apps/details?id=com.jukforest.juk_forest" class="link-store">Google Play</a>
                 <a href="https://claypark.github.io/juk-forest-pages/privacy.html" class="link-secondary">개인정보처리방침</a>
                 <a href="https://claypark.github.io/juk-forest-pages/terms.html" class="link-secondary">이용약관</a>
+            </div>
+        </div>
+
+        <div class="app-card" style="--hover-color: #a855f7;">
+            <div class="app-card-header">
+                <h2>오운완</h2>
+                <img src="ounwan-icon.png" alt="오운완 앱 아이콘" class="app-icon">
+            </div>
+            <div class="tagline">오늘 운세 완료! AI가 분석하는 나만의 사주 운세</div>
+            <div class="description">
+                생년월일시를 입력하면 사주팔자를 분석하고, AI 3중 검증으로 오늘의 운세를 생성합니다. 총운, 연애, 금전, 건강, 직장 등 다양한 카테고리의 운세와 궁합 분석을 제공합니다.
+            </div>
+            <div class="app-links">
+                <a href="#" class="link-secondary" style="cursor: default; opacity: 0.5;">개발중</a>
+                <a href="https://claypark.github.io/ounwan-pages/privacy.html" class="link-secondary">개인정보처리방침</a>
+                <a href="https://claypark.github.io/ounwan-pages/terms.html" class="link-secondary">이용약관</a>
             </div>
         </div>
 
