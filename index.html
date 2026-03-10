@@ -106,6 +106,7 @@
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
         .app-links a {
@@ -137,6 +138,27 @@
 
         .link-secondary:hover {
             background: #30363d;
+        }
+
+        .app-meta-links {
+            display: flex;
+            gap: 4px;
+            margin-top: 12px;
+            font-size: 12px;
+        }
+
+        .app-meta-links a {
+            color: #484f58;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .app-meta-links a:hover {
+            color: #8b949e;
+        }
+
+        .app-meta-links .separator {
+            color: #30363d;
         }
 
         .contact {
@@ -187,8 +209,11 @@
             </div>
             <div class="app-links">
                 <a href="https://play.google.com/store/apps/details?id=com.jukforest.juk_forest" class="link-store">Google Play</a>
-                <a href="https://claypark.github.io/juk-forest-pages/privacy.html" class="link-secondary">개인정보처리방침</a>
-                <a href="https://claypark.github.io/juk-forest-pages/terms.html" class="link-secondary">이용약관</a>
+            </div>
+            <div class="app-meta-links">
+                <a href="https://claypark.github.io/juk-forest-pages/privacy.html">개인정보처리방침</a>
+                <span class="separator">·</span>
+                <a href="https://claypark.github.io/juk-forest-pages/terms.html">이용약관</a>
             </div>
         </div>
 
@@ -203,8 +228,11 @@
             </div>
             <div class="app-links">
                 <a href="#" class="link-secondary" style="cursor: default; opacity: 0.5;">개발중</a>
-                <a href="https://claypark.github.io/ounwan-pages/privacy.html" class="link-secondary">개인정보처리방침</a>
-                <a href="https://claypark.github.io/ounwan-pages/terms.html" class="link-secondary">이용약관</a>
+            </div>
+            <div class="app-meta-links">
+                <a href="https://claypark.github.io/ounwan-pages/privacy.html">개인정보처리방침</a>
+                <span class="separator">·</span>
+                <a href="https://claypark.github.io/ounwan-pages/terms.html">이용약관</a>
             </div>
         </div>
 
