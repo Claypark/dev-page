@@ -684,7 +684,14 @@ const SUPABASE_URL = 'https://nhroluokyjwdecsmpbwh.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ocm9sdW9reWp3ZGVjc21wYndoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxMDYyMTAsImV4cCI6MjA4ODY4MjIxMH0.aj200jMjwdK3bHLDBVL0b22AJhWd3rDl9XVcWkAbcYc';
 const FUNCTIONS_URL = `${SUPABASE_URL}/functions/v1`;
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    persistSession: true,
+    detectSessionInUrl: true,
+    autoRefreshToken: true,
+    storageKey: 'push-admin-auth',
+  },
+});
 
 // ─── STATE ────────────────────────────────────────────
 let currentUser = null;
@@ -1508,8 +1515,16 @@ function escapeHtml(str) {
 }
 
 // ─── INIT ─────────────────────────────────────────────
+// Restore session on page load
+(async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) {
+    await onLogin(session);
+  }
+})();
+
 supabase.auth.onAuthStateChange(async (event, session) => {
-  if (session && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || event === 'TOKEN_REFRESHED')) {
+  if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
     await onLogin(session);
   }
   if (event === 'SIGNED_OUT') {
