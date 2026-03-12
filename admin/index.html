@@ -916,7 +916,13 @@ window.sendImmediate = async function() {
     if (localized) payload.localized = localized;
 
     const result = await apiCall('send-push', 'POST', payload, appId);
-    showToast(`전송 완료: ${result.sent ?? 0}건 성공, ${result.failed ?? 0}건 실패`);
+    if (result.sent > 0) {
+      showToast(`전송 완료: ${result.sent}건 성공, ${result.failed ?? 0}건 실패`);
+    } else if (result.sent === 0 && result.failed > 0) {
+      showToast(`전송 실패: ${result.failed}건 모두 실패`, 'error');
+    } else {
+      showToast('전송 대상 디바이스가 없습니다', 'error');
+    }
     document.getElementById('send-title').value = '';
     document.getElementById('send-body').value = '';
     document.getElementById('send-localized-list').innerHTML = '';
