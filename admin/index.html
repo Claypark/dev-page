@@ -1076,18 +1076,20 @@ window.saveEvent = async function() {
 
   try {
     if (editId) {
-      await supabase.from('push_events').update({
+      const { error } = await supabase.from('push_events').update({
         title_template: titleTemplate,
         body_template: bodyTemplate,
       }).eq('id', editId);
+      if (error) { showToast('수정 실패: ' + error.message, 'error'); return; }
       showToast('이벤트 규칙이 수정되었습니다');
     } else {
-      await supabase.from('push_events').insert({
+      const { error } = await supabase.from('push_events').insert({
         app_id: appId,
         event_name: eventName,
         title_template: titleTemplate,
         body_template: bodyTemplate,
       });
+      if (error) { showToast('등록 실패: ' + error.message, 'error'); return; }
       showToast('이벤트 규칙이 생성되었습니다');
     }
     closeEventModal();
@@ -1105,7 +1107,8 @@ window.editEvent = async function(id) {
 };
 
 window.toggleEvent = async function(id, active) {
-  await supabase.from('push_events').update({ is_active: active }).eq('id', id);
+  const { error } = await supabase.from('push_events').update({ is_active: active }).eq('id', id);
+  if (error) { showToast('변경 실패: ' + error.message, 'error'); return; }
   showToast(active ? '이벤트 규칙이 활성화되었습니다' : '이벤트 규칙이 비활성화되었습니다');
   loadEvents();
 };
@@ -1195,19 +1198,21 @@ window.saveApp = async function() {
     if (editId) {
       const updates = { name, fcm_project_id: fcmProject || null };
       if (fcmSa) updates.fcm_service_account = fcmSa;
-      await supabase.from('apps').update(updates).eq('id', editId);
+      const { error } = await supabase.from('apps').update(updates).eq('id', editId);
+      if (error) { showToast('수정 실패: ' + error.message, 'error'); return; }
       showToast('앱 정보가 수정되었습니다');
     } else {
       const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
       const appKey = slug + '-' + generateKey('', 8);
       const appSecret = generateKey('secret-', 32);
-      await supabase.from('apps').insert({
+      const { error } = await supabase.from('apps').insert({
         app_key: appKey,
         app_secret: appSecret,
         name,
         fcm_project_id: fcmProject || null,
         fcm_service_account: fcmSa,
       });
+      if (error) { showToast('등록 실패: ' + error.message, 'error'); return; }
       showToast('앱이 등록되었습니다');
     }
     closeAppModal();
@@ -1227,7 +1232,8 @@ window.editApp = async function(id) {
 
 window.deleteApp = async function(id, name) {
   if (!confirm(`"${name}" 앱을 삭제하시겠습니까? 관련된 디바이스, 스케줄, 로그가 모두 삭제됩니다.`)) return;
-  await supabase.from('apps').delete().eq('id', id);
+  const { error } = await supabase.from('apps').delete().eq('id', id);
+  if (error) { showToast('삭제 실패: ' + error.message, 'error'); return; }
   showToast('앱이 삭제되었습니다');
   await loadApps();
   loadAppsTab();
