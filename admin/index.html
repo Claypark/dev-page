@@ -508,9 +508,13 @@
           <option value="weekly:tue,thu">매주 화목</option>
         </select>
       </div>
-      <div class="form-group">
+      <div class="form-group" id="sched-time-group">
         <label>예약 시각</label>
         <input type="datetime-local" id="sched-time">
+      </div>
+      <div class="form-group" id="sched-localtime-group" style="display:none;">
+        <label>현지 시각 (HH:MM)</label>
+        <input type="time" id="sched-local-hour">
       </div>
       <div class="form-group">
         <label>대상</label>
@@ -524,6 +528,12 @@
     <div class="form-group">
       <label>종료일 (선택)</label>
       <input type="date" id="sched-until">
+    </div>
+    <div class="form-group" style="margin-top:12px;">
+      <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:13px;">
+        <input type="checkbox" id="sched-local-time" onchange="toggleLocalTime()" style="width:auto;">
+        사용자 현지 시간 기준으로 발송 (시간대별 자동 분배)
+      </label>
     </div>
 
     <div style="margin-top:20px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
@@ -902,6 +912,12 @@ async function loadSchedules() {
   `;
 }
 
+window.toggleLocalTime = function() {
+  const checked = document.getElementById('sched-local-time').checked;
+  document.getElementById('sched-time-group').style.display = checked ? 'none' : '';
+  document.getElementById('sched-localtime-group').style.display = checked ? '' : 'none';
+};
+
 window.openScheduleModal = function(schedule) {
   document.getElementById('schedule-modal').style.display = 'flex';
   document.getElementById('sched-edit-id').value = schedule?.id || '';
@@ -912,6 +928,12 @@ window.openScheduleModal = function(schedule) {
     document.getElementById('sched-repeat').value = schedule.repeat_rule || '';
     document.getElementById('sched-target').value =
       schedule.target_type === 'segment' ? (schedule.target_value || 'all') : schedule.target_type;
+    document.getElementById('sched-local-time').checked = !!schedule.use_local_time;
+    if (schedule.use_local_time && schedule.local_hour != null) {
+      const hh = String(schedule.local_hour).padStart(2, '0');
+      const mm = String(schedule.local_minute ?? 0).padStart(2, '0');
+      document.getElementById('sched-local-hour').value = `${hh}:${mm}`;
+    }
     if (schedule.scheduled_at) {
       const d = new Date(schedule.scheduled_at);
       document.getElementById('sched-time').value = d.toISOString().slice(0, 16);
@@ -924,9 +946,12 @@ window.openScheduleModal = function(schedule) {
     document.getElementById('sched-repeat').value = '';
     document.getElementById('sched-target').value = 'all';
     document.getElementById('sched-time').value = '';
+    document.getElementById('sched-local-hour').value = '';
     document.getElementById('sched-until').value = '';
+    document.getElementById('sched-local-time').checked = false;
     renderVariants([{ title: '', body: '' }]);
   }
+  toggleLocalTime();
 };
 
 window.closeScheduleModal = function() {
@@ -993,9 +1018,10 @@ window.saveSchedule = async function() {
   const scheduledAt = document.getElementById('sched-time').value;
   const targetVal = document.getElementById('sched-target').value;
   const untilVal = document.getElementById('sched-until').value;
+  const useLocalTime = document.getElementById('sched-local-time').checked;
   const variants = collectVariants().filter(v => v.title || v.body);
 
-  if (!scheduledAt) { showToast('예약 시각을 입력하세요', 'error'); return; }
+  if (!useLocalTime && !scheduledAt) { showToast('예약 시각을 입력하세요', 'error'); return; }
   if (variants.length === 0) { showToast('문구를 하나 이상 입력하세요', 'error'); return; }
 
   const target = targetVal === 'all'
@@ -1007,10 +1033,19 @@ window.saveSchedule = async function() {
     title: variants[0]?.title,
     body: variants[0]?.body,
     target,
-    scheduled_at: new Date(scheduledAt).toISOString(),
+    scheduled_at: useLocalTime ? new Date().toISOString() : new Date(scheduledAt).toISOString(),
     repeat_rule: repeatRule,
     repeat_until: untilVal ? new Date(untilVal + 'T23:59:59').toISOString() : null,
+    use_local_time: useLocalTime,
   };
+
+  if (useLocalTime) {
+    const localTimeVal = document.getElementById('sched-local-hour').value;
+    if (!localTimeVal) { showToast('현지 시각을 입력하세요', 'error'); return; }
+    const [hh, mm] = localTimeVal.split(':').map(Number);
+    payload.local_hour = hh;
+    payload.local_minute = mm || 0;
+  }
 
   const btn = document.getElementById('sched-save-btn');
   btn.disabled = true;
