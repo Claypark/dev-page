@@ -257,15 +257,69 @@
     .badge-failed { background: rgba(218,54,51,0.2); color: var(--danger-hover); }
     .badge-cancelled { background: rgba(139,148,158,0.2); color: var(--text-muted); }
 
-    /* Variant editor */
-    .variant-item {
+    /* Variant editor - locale groups */
+    .locale-group {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .locale-group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
       background: var(--bg-input);
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .locale-group-header:hover { background: var(--border); }
+
+    .locale-group-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .locale-group-title .locale-flag {
+      font-size: 16px;
+    }
+
+    .locale-group-title .locale-count {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-muted);
+      background: var(--border);
+      padding: 1px 7px;
+      border-radius: 10px;
+    }
+
+    .locale-group-body {
+      padding: 10px 14px;
+    }
+
+    .locale-group-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .variant-item {
+      background: var(--bg);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 12px;
       margin-bottom: 8px;
       position: relative;
     }
+
+    .variant-item:last-child { margin-bottom: 0; }
 
     .variant-item .variant-num {
       font-size: 11px;
@@ -274,9 +328,6 @@
     }
 
     .variant-remove {
-      position: absolute;
-      top: 8px;
-      right: 8px;
       background: none;
       border: none;
       color: var(--text-muted);
@@ -287,6 +338,25 @@
     }
 
     .variant-remove:hover { color: var(--danger-hover); }
+
+    .btn-add-locale {
+      background: transparent;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 10px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 12px;
+      width: 100%;
+      text-align: center;
+      transition: all 0.15s;
+    }
+
+    .btn-add-locale:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.05);
+    }
 
     /* Toast */
     .toast {
@@ -536,13 +606,13 @@
       </label>
     </div>
 
-    <div style="margin-top:20px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+    <div style="margin-top:20px; margin-bottom:8px;">
       <label style="font-size:12px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">
-        랜덤 문구 (전송 시 하나를 랜덤 선택)
+        랜덤 문구 (언어별 그룹, 전송 시 해당 언어에서 하나를 랜덤 선택)
       </label>
-      <button class="btn btn-secondary btn-sm" onclick="addVariant()">+ 문구 추가</button>
     </div>
     <div id="variants-container"></div>
+    <div id="add-locale-area" style="margin-top:8px;"></div>
 
     <div class="form-actions">
       <button class="btn btn-secondary" onclick="closeScheduleModal()">취소</button>
@@ -959,56 +1029,149 @@ window.closeScheduleModal = function() {
 };
 
 const LOCALES = [
-  { value: '', label: '기본 (전체)' },
-  { value: 'ko', label: '한국어' },
-  { value: 'en', label: 'English' },
-  { value: 'es', label: 'Español' },
+  { value: '', label: '기본 (전체)', flag: '🌐' },
+  { value: 'ko', label: '한국어', flag: '🇰🇷' },
+  { value: 'en', label: 'English', flag: '🇺🇸' },
+  { value: 'es', label: 'Español', flag: '🇪🇸' },
 ];
 
-function localeOptions(selected) {
-  return LOCALES.map(l => `<option value="${l.value}" ${l.value === (selected || '') ? 'selected' : ''}>${l.label}</option>`).join('');
+function getLocaleInfo(val) {
+  return LOCALES.find(l => l.value === (val || '')) || LOCALES[0];
+}
+
+function groupVariantsByLocale(variants) {
+  const groups = {};
+  for (const v of variants) {
+    const key = v.locale || '';
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(v);
+  }
+  // Always ensure at least the default group exists
+  if (!groups['']) groups[''] = [{ title: '', body: '', locale: null }];
+  return groups;
 }
 
 function renderVariants(variants) {
   const container = document.getElementById('variants-container');
-  container.innerHTML = variants.map((v, i) => `
-    <div class="variant-item" data-idx="${i}">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-        <div class="variant-num">문구 ${i + 1}</div>
-        <div style="display:flex; align-items:center; gap:6px;">
-          <select class="var-locale" style="width:auto; padding:4px 8px; font-size:11px;">${localeOptions(v.locale)}</select>
-          ${variants.length > 1 ? `<button class="variant-remove" onclick="removeVariant(${i})">×</button>` : ''}
+  const groups = groupVariantsByLocale(variants);
+  const usedLocales = Object.keys(groups);
+
+  container.innerHTML = usedLocales.map(localeKey => {
+    const info = getLocaleInfo(localeKey);
+    const items = groups[localeKey];
+    const isDefault = localeKey === '';
+    return `
+      <div class="locale-group" data-locale="${localeKey}">
+        <div class="locale-group-header">
+          <div class="locale-group-title">
+            <span class="locale-flag">${info.flag}</span>
+            ${info.label}
+            <span class="locale-count">${items.length}개 문구</span>
+          </div>
+          <div class="locale-group-actions">
+            <button class="btn btn-secondary btn-sm" onclick="addVariantToLocale('${localeKey}')" title="문구 추가" style="padding:2px 8px; font-size:11px;">+ 추가</button>
+            ${!isDefault ? `<button class="variant-remove" onclick="removeLocaleGroup('${localeKey}')" title="이 언어 그룹 삭제">×</button>` : ''}
+          </div>
+        </div>
+        <div class="locale-group-body">
+          ${items.map((v, i) => `
+            <div class="variant-item" data-locale="${localeKey}" data-idx="${i}">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <div class="variant-num">문구 ${i + 1}</div>
+                ${items.length > 1 || !isDefault ? `<button class="variant-remove" onclick="removeVariantFromLocale('${localeKey}', ${i})">×</button>` : ''}
+              </div>
+              <div class="form-group" style="margin-bottom:8px">
+                <input type="text" class="var-title" value="${escapeHtml(v.title)}" placeholder="제목">
+              </div>
+              <div class="form-group" style="margin-bottom:0">
+                <textarea class="var-body" rows="2" placeholder="본문">${escapeHtml(v.body)}</textarea>
+              </div>
+            </div>
+          `).join('')}
         </div>
       </div>
-      <div class="form-group" style="margin-bottom:8px">
-        <input type="text" class="var-title" value="${escapeHtml(v.title)}" placeholder="제목">
-      </div>
-      <div class="form-group" style="margin-bottom:0">
-        <textarea class="var-body" rows="2" placeholder="본문">${escapeHtml(v.body)}</textarea>
-      </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
+
+  // Render "add locale" buttons for unused locales
+  const unusedLocales = LOCALES.filter(l => l.value && !usedLocales.includes(l.value));
+  const addArea = document.getElementById('add-locale-area');
+  if (unusedLocales.length > 0) {
+    addArea.innerHTML = `
+      <button class="btn-add-locale" onclick="showLocaleMenu(this)">+ 언어 추가</button>
+      <div id="locale-menu" style="display:none; margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;"></div>
+    `;
+  } else {
+    addArea.innerHTML = '';
+  }
 }
 
-window.addVariant = function() {
+window.showLocaleMenu = function(btn) {
+  const groups = groupVariantsByLocale(collectVariants());
+  const usedLocales = Object.keys(groups);
+  const unusedLocales = LOCALES.filter(l => l.value && !usedLocales.includes(l.value));
+
+  const menu = btn.nextElementSibling;
+  if (menu.style.display === 'flex') {
+    menu.style.display = 'none';
+    return;
+  }
+  menu.style.display = 'flex';
+  menu.innerHTML = unusedLocales.map(l =>
+    `<button class="btn btn-secondary btn-sm" onclick="addLocaleGroup('${l.value}')" style="font-size:12px;">${l.flag} ${l.label}</button>`
+  ).join('');
+};
+
+window.addLocaleGroup = function(locale) {
   const variants = collectVariants();
-  variants.push({ title: '', body: '', locale: '' });
+  variants.push({ title: '', body: '', locale: locale });
   renderVariants(variants);
 };
 
-window.removeVariant = function(idx) {
+window.removeLocaleGroup = function(locale) {
+  const variants = collectVariants().filter(v => (v.locale || '') !== locale);
+  renderVariants(variants);
+};
+
+window.addVariantToLocale = function(locale) {
   const variants = collectVariants();
-  variants.splice(idx, 1);
+  variants.push({ title: '', body: '', locale: locale || null });
+  renderVariants(variants);
+};
+
+window.removeVariantFromLocale = function(locale, idx) {
+  const variants = collectVariants();
+  let count = 0;
+  const removeIdx = variants.findIndex(v => {
+    if ((v.locale || '') === locale) {
+      if (count === idx) return true;
+      count++;
+    }
+    return false;
+  });
+  if (removeIdx >= 0) variants.splice(removeIdx, 1);
+  // If group becomes empty and it's default, keep at least one
+  const remaining = variants.filter(v => (v.locale || '') === locale);
+  if (locale === '' && remaining.length === 0) {
+    variants.push({ title: '', body: '', locale: null });
+  }
   renderVariants(variants);
 };
 
 function collectVariants() {
-  const items = document.querySelectorAll('#variants-container .variant-item');
-  return Array.from(items).map(el => ({
-    title: el.querySelector('.var-title').value,
-    body: el.querySelector('.var-body').value,
-    locale: el.querySelector('.var-locale').value || null,
-  }));
+  const groups = document.querySelectorAll('#variants-container .locale-group');
+  const variants = [];
+  groups.forEach(group => {
+    const locale = group.dataset.locale;
+    group.querySelectorAll('.variant-item').forEach(el => {
+      variants.push({
+        title: el.querySelector('.var-title').value,
+        body: el.querySelector('.var-body').value,
+        locale: locale || null,
+      });
+    });
+  });
+  return variants;
 }
 
 window.saveSchedule = async function() {
