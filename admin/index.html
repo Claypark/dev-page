@@ -773,19 +773,39 @@ async function apiCall(fnName, method, body, appId) {
   const app = apps.find(a => a.id === appId) || apps[0];
   if (!app) throw new Error('No app configured');
 
-  const session = (await supabase.auth.getSession()).data.session;
+  let { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
+    const { data } = await supabase.auth.refreshSession();
+    session = data?.session;
+  }
+
+  if (!session) {
+    showToast('세션이 만료되었습니다. 다시 로그인해주세요.', 'error');
+    logout();
+    throw new Error('Session expired');
+  }
+
   const headers = {
     'Content-Type': 'application/json',
     'x-app-key': app.app_key,
     'x-app-secret': app.app_secret,
-    'Authorization': `Bearer ${session?.access_token}`,
+    'Authorization': `Bearer ${session.access_token}`,
   };
 
   const opts = { method, headers };
   if (body && method !== 'GET') opts.body = JSON.stringify(body);
 
   const resp = await fetch(`${FUNCTIONS_URL}/${fnName}`, opts);
-  return resp.json();
+  const result = await resp.json();
+
+  if (resp.status === 401) {
+    showToast('인증 오류: 다시 로그인해주세요.', 'error');
+    logout();
+    throw new Error('Auth failed');
+  }
+
+  return result;
 }
 
 // ─── TABS ─────────────────────────────────────────────
