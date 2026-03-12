@@ -361,6 +361,69 @@
       background: rgba(88,166,255,0.05);
     }
 
+    /* Bulk input modal */
+    .bulk-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+    .bulk-modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      width: 540px;
+      max-width: 95vw;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .bulk-modal textarea {
+      width: 100%;
+      min-height: 280px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      padding: 12px;
+      font-size: 13px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      line-height: 1.6;
+      resize: vertical;
+    }
+    .bulk-modal textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+    }
+    .bulk-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+    .bulk-preview {
+      margin-top: 12px;
+      max-height: 120px;
+      overflow-y: auto;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .bulk-preview-item {
+      padding: 6px 10px;
+      border-left: 2px solid var(--accent);
+      margin-bottom: 4px;
+      background: var(--bg-input);
+      border-radius: 0 4px 4px 0;
+    }
+    .bulk-preview-item .bp-title {
+      color: var(--text);
+      font-weight: 600;
+    }
+
     /* Toast */
     .toast {
       position: fixed;
@@ -624,6 +687,29 @@
   </div>
 </div>
 
+<!-- Bulk Input Modal -->
+<div id="bulk-modal" class="bulk-overlay" style="display:none;" onclick="if(event.target===this)closeBulkModal()">
+  <div class="bulk-modal">
+    <div class="modal-title">벌크 문구 입력</div>
+    <input type="hidden" id="bulk-locale">
+    <textarea id="bulk-text" placeholder="제목과 본문을 한 줄씩 입력하고, 문구 사이는 빈 줄로 구분하세요.
+
+좋은 아침이에요 ☀️
+아침마다 새로우니 주의 성실하심이 크도소이다 — 애가 3:23
+
+오늘 하루도 함께해요
+잠깐 멈추고, 오늘 하루를 기도로 시작해 보세요."></textarea>
+    <div class="bulk-hint">
+      📋 형식: 첫 줄 = 제목, 둘째 줄 = 본문, 빈 줄로 구분 &nbsp;|&nbsp; 제목만 한 줄로 쓰면 본문은 비워둡니다
+    </div>
+    <div id="bulk-preview" class="bulk-preview"></div>
+    <div class="form-actions" style="margin-top:16px;">
+      <button class="btn btn-secondary" onclick="closeBulkModal()">취소</button>
+      <button class="btn btn-primary" onclick="applyBulk()" id="bulk-apply-btn">적용</button>
+    </div>
+  </div>
+</div>
+
 <!-- Event Modal -->
 <div id="event-modal" class="modal-overlay" style="display:none;" onclick="if(event.target===this)closeEventModal()">
   <div class="modal">
@@ -783,10 +869,19 @@ async function apiCall(fnName, method, body, appId) {
     'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
   };
 
-  const opts = { method, headers };
+  const opts = { method, headers, signal: AbortSignal.timeout(30000) };
   if (body && method !== 'GET') opts.body = JSON.stringify(body);
 
-  const resp = await fetch(`${FUNCTIONS_URL}/${fnName}`, opts);
+  let resp;
+  try {
+    resp = await fetch(`${FUNCTIONS_URL}/${fnName}`, opts);
+  } catch (e) {
+    if (e.name === 'TimeoutError' || e.name === 'AbortError') {
+      throw new Error('서버 응답이 너무 오래 걸립니다. 잠시 후 다시 시도해주세요.');
+    }
+    throw new Error('네트워크 오류가 발생했습니다.');
+  }
+
   const result = await resp.json();
 
   if (!resp.ok) {
@@ -975,6 +1070,58 @@ async function loadSchedules() {
     return s.title || '-';
   };
 
+  const calcNextRun = s => {
+    if (s.status !== 'pending') return null;
+    const base = s.next_run_at || s.scheduled_at;
+    if (!base) return null;
+
+    const now = new Date();
+    let next = new Date(base);
+
+    if (!s.repeat_rule) return next > now ? next : null;
+
+    if (s.use_local_time && s.local_hour != null) {
+      next = new Date(now);
+      next.setHours(s.local_hour, s.local_minute ?? 0, 0, 0);
+      if (next <= now) next.setDate(next.getDate() + 1);
+
+      if (s.repeat_rule === 'daily') return next;
+      if (s.repeat_rule?.startsWith('weekly:')) {
+        const dayMap = { 'Sun':0,'Mon':1,'Tue':2,'Wed':3,'Thu':4,'Fri':5,'Sat':6 };
+        const targetDay = dayMap[s.repeat_rule.replace('weekly:','')];
+        if (targetDay != null) {
+          let diff = targetDay - next.getDay();
+          if (diff < 0 || (diff === 0 && next <= now)) diff += 7;
+          next.setDate(now.getDate() + diff);
+          next.setHours(s.local_hour, s.local_minute ?? 0, 0, 0);
+        }
+        return next;
+      }
+      if (s.repeat_rule?.startsWith('monthly:')) {
+        const targetDate = parseInt(s.repeat_rule.replace('monthly:',''));
+        next.setDate(targetDate);
+        if (next <= now) next.setMonth(next.getMonth() + 1);
+        next.setDate(targetDate);
+        return next;
+      }
+      return next;
+    }
+
+    while (next <= now) {
+      if (s.repeat_rule === 'daily') next.setDate(next.getDate() + 1);
+      else if (s.repeat_rule?.startsWith('weekly:')) next.setDate(next.getDate() + 7);
+      else if (s.repeat_rule?.startsWith('monthly:')) next.setMonth(next.getMonth() + 1);
+      else break;
+    }
+    return next > now ? next : null;
+  };
+
+  const formatNextRun = s => {
+    const next = calcNextRun(s);
+    if (!next) return '-';
+    return next.toLocaleString('ko-KR', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+  };
+
   container.innerHTML = `
     <table>
       <thead><tr><th>앱</th><th>문구</th><th>반복</th><th>다음 실행</th><th>상태</th><th></th></tr></thead>
@@ -984,7 +1131,7 @@ async function loadSchedules() {
             <td>${getAppName(s.app_id)}</td>
             <td>${getTitle(s)}</td>
             <td>${repeatLabel(s.repeat_rule)}</td>
-            <td style="white-space:nowrap;">${s.next_run_at ? new Date(s.next_run_at).toLocaleString('ko-KR', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '-'}</td>
+            <td style="white-space:nowrap;">${formatNextRun(s)}</td>
             <td>${statusBadge(s.status)}</td>
             <td style="white-space:nowrap;">
               <button class="btn btn-ghost btn-sm" onclick="editSchedule('${s.id}')">편집</button>
@@ -1090,6 +1237,7 @@ function renderVariants(variants) {
             <span class="locale-count">${items.length}개 문구</span>
           </div>
           <div class="locale-group-actions">
+            <button class="btn btn-secondary btn-sm" onclick="openBulkModal('${localeKey}')" title="벌크 입력" style="padding:2px 8px; font-size:11px;">📋 벌크</button>
             <button class="btn btn-secondary btn-sm" onclick="addVariantToLocale('${localeKey}')" title="문구 추가" style="padding:2px 8px; font-size:11px;">+ 추가</button>
             ${!isDefault ? `<button class="variant-remove" onclick="removeLocaleGroup('${localeKey}')" title="이 언어 그룹 삭제">×</button>` : ''}
           </div>
@@ -1195,6 +1343,79 @@ function collectVariants() {
   return variants;
 }
 
+function parseBulkText(text) {
+  const blocks = text.trim().split(/\n\s*\n/);
+  const results = [];
+  for (const block of blocks) {
+    const lines = block.trim().split('\n').map(l => l.trim()).filter(Boolean);
+    if (lines.length === 0) continue;
+    results.push({
+      title: lines[0],
+      body: lines.length > 1 ? lines.slice(1).join('\n') : '',
+    });
+  }
+  return results;
+}
+
+window.openBulkModal = function(locale) {
+  document.getElementById('bulk-modal').style.display = 'flex';
+  document.getElementById('bulk-locale').value = locale;
+  document.getElementById('bulk-text').value = '';
+  document.getElementById('bulk-preview').innerHTML = '';
+
+  const textarea = document.getElementById('bulk-text');
+  textarea.oninput = () => {
+    const parsed = parseBulkText(textarea.value);
+    const preview = document.getElementById('bulk-preview');
+    if (parsed.length === 0) {
+      preview.innerHTML = '';
+      return;
+    }
+    preview.innerHTML = `<div style="margin-bottom:6px; font-size:11px; color:var(--text-muted);">${parsed.length}개 문구 감지됨</div>` +
+      parsed.map((p, i) => `
+        <div class="bulk-preview-item">
+          <span class="bp-title">${i+1}. ${escapeHtml(p.title)}</span>
+          ${p.body ? `<br><span>${escapeHtml(p.body).substring(0, 80)}${p.body.length > 80 ? '…' : ''}</span>` : ''}
+        </div>
+      `).join('');
+  };
+
+  setTimeout(() => textarea.focus(), 100);
+};
+
+window.closeBulkModal = function() {
+  document.getElementById('bulk-modal').style.display = 'none';
+};
+
+window.applyBulk = function() {
+  const text = document.getElementById('bulk-text').value;
+  const locale = document.getElementById('bulk-locale').value;
+  const parsed = parseBulkText(text);
+
+  if (parsed.length === 0) {
+    showToast('입력된 문구가 없습니다', 'error');
+    return;
+  }
+
+  const variants = collectVariants();
+  const localeKey = locale || null;
+
+  const hasEmpty = variants.some(v =>
+    (v.locale || '') === (locale || '') && !v.title && !v.body
+  );
+  const filtered = hasEmpty
+    ? variants.filter(v => !((v.locale || '') === (locale || '') && !v.title && !v.body))
+    : variants;
+
+  for (const p of parsed) {
+    filtered.push({ title: p.title, body: p.body, locale: localeKey });
+  }
+
+  renderVariants(filtered);
+  closeBulkModal();
+  showToast(`${parsed.length}개 문구가 추가되었습니다`);
+};
+
 window.saveSchedule = async function() {
   const editId = document.getElementById('sched-edit-id').value;
   const appId = document.getElementById('sched-app').value;
@@ -1232,7 +1453,9 @@ window.saveSchedule = async function() {
   }
 
   const btn = document.getElementById('sched-save-btn');
+  const btnOrigText = btn.textContent;
   btn.disabled = true;
+  btn.textContent = '저장 중...';
 
   try {
     if (editId) {
@@ -1248,6 +1471,7 @@ window.saveSchedule = async function() {
     showToast(e.message, 'error');
   } finally {
     btn.disabled = false;
+    btn.textContent = btnOrigText;
   }
 };
 
