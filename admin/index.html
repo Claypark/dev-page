@@ -426,14 +426,10 @@
     <div id="tab-send" class="tab-content" style="display:none;">
       <div class="card">
         <div class="card-title">즉시 푸시 전송</div>
-        <div class="form-group">
-          <label>앱 선택</label>
-          <select id="send-app"></select>
-        </div>
         <div class="form-row">
           <div class="form-group">
-            <label>제목</label>
-            <input type="text" id="send-title" placeholder="알림 제목">
+            <label>앱 선택</label>
+            <select id="send-app"></select>
           </div>
           <div class="form-group">
             <label>대상</label>
@@ -445,9 +441,12 @@
           </div>
         </div>
         <div class="form-group">
-          <label>본문</label>
-          <textarea id="send-body" placeholder="알림 내용"></textarea>
+          <label>기본 메시지 (매칭되는 언어가 없을 때)</label>
+          <input type="text" id="send-title" placeholder="제목" style="margin-bottom:6px;">
+          <textarea id="send-body" placeholder="본문"></textarea>
         </div>
+        <div id="send-localized-list"></div>
+        <button class="btn btn-secondary btn-sm" onclick="addSendLocale()" style="margin-bottom:12px;">+ 언어별 메시지 추가</button>
         <div class="form-actions">
           <button class="btn btn-primary" onclick="sendImmediate()" id="send-btn">전송하기</button>
         </div>
@@ -770,13 +769,47 @@ async function loadDashboard() {
 }
 
 // ─── SEND PUSH ────────────────────────────────────────
+window.addSendLocale = function() {
+  const container = document.getElementById('send-localized-list');
+  const idx = container.querySelectorAll('.send-locale-item').length;
+  const div = document.createElement('div');
+  div.className = 'send-locale-item';
+  div.style.cssText = 'border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:8px;position:relative;';
+  div.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+      <select class="sl-locale" style="width:auto;padding:4px 8px;font-size:12px;">
+        ${LOCALES.filter(l => l.value).map(l => `<option value="${l.value}">${l.label}</option>`).join('')}
+      </select>
+      <button class="variant-remove" onclick="this.closest('.send-locale-item').remove()">×</button>
+    </div>
+    <input type="text" class="sl-title" placeholder="제목" style="margin-bottom:6px;">
+    <textarea class="sl-body" rows="2" placeholder="본문"></textarea>
+  `;
+  container.appendChild(div);
+};
+
+function collectSendLocalized() {
+  const items = document.querySelectorAll('#send-localized-list .send-locale-item');
+  const localized = {};
+  items.forEach(el => {
+    const locale = el.querySelector('.sl-locale').value;
+    const title = el.querySelector('.sl-title').value.trim();
+    const body = el.querySelector('.sl-body').value.trim();
+    if (locale && (title || body)) {
+      localized[locale] = { title, body };
+    }
+  });
+  return Object.keys(localized).length > 0 ? localized : undefined;
+}
+
 window.sendImmediate = async function() {
   const appId = document.getElementById('send-app').value;
   const title = document.getElementById('send-title').value.trim();
   const body = document.getElementById('send-body').value.trim();
   const targetVal = document.getElementById('send-target').value;
+  const localized = collectSendLocalized();
 
-  if (!title || !body) { showToast('제목과 본문을 입력하세요', 'error'); return; }
+  if (!title || !body) { showToast('기본 제목과 본문을 입력하세요', 'error'); return; }
 
   const btn = document.getElementById('send-btn');
   btn.disabled = true;
@@ -787,10 +820,14 @@ window.sendImmediate = async function() {
       ? { type: 'all' }
       : { type: 'segment', value: targetVal };
 
-    const result = await apiCall('send-push', 'POST', { title, body, target }, appId);
+    const payload = { title, body, target };
+    if (localized) payload.localized = localized;
+
+    const result = await apiCall('send-push', 'POST', payload, appId);
     showToast(`전송 완료: ${result.sent ?? 0}건 성공, ${result.failed ?? 0}건 실패`);
     document.getElementById('send-title').value = '';
     document.getElementById('send-body').value = '';
+    document.getElementById('send-localized-list').innerHTML = '';
   } catch (e) {
     showToast(e.message, 'error');
   } finally {
@@ -896,12 +933,28 @@ window.closeScheduleModal = function() {
   document.getElementById('schedule-modal').style.display = 'none';
 };
 
+const LOCALES = [
+  { value: '', label: '기본 (전체)' },
+  { value: 'ko', label: '한국어' },
+  { value: 'en', label: 'English' },
+  { value: 'es', label: 'Español' },
+];
+
+function localeOptions(selected) {
+  return LOCALES.map(l => `<option value="${l.value}" ${l.value === (selected || '') ? 'selected' : ''}>${l.label}</option>`).join('');
+}
+
 function renderVariants(variants) {
   const container = document.getElementById('variants-container');
   container.innerHTML = variants.map((v, i) => `
     <div class="variant-item" data-idx="${i}">
-      <div class="variant-num">문구 ${i + 1}</div>
-      ${variants.length > 1 ? `<button class="variant-remove" onclick="removeVariant(${i})">×</button>` : ''}
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <div class="variant-num">문구 ${i + 1}</div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <select class="var-locale" style="width:auto; padding:4px 8px; font-size:11px;">${localeOptions(v.locale)}</select>
+          ${variants.length > 1 ? `<button class="variant-remove" onclick="removeVariant(${i})">×</button>` : ''}
+        </div>
+      </div>
       <div class="form-group" style="margin-bottom:8px">
         <input type="text" class="var-title" value="${escapeHtml(v.title)}" placeholder="제목">
       </div>
@@ -914,7 +967,7 @@ function renderVariants(variants) {
 
 window.addVariant = function() {
   const variants = collectVariants();
-  variants.push({ title: '', body: '' });
+  variants.push({ title: '', body: '', locale: '' });
   renderVariants(variants);
 };
 
@@ -929,6 +982,7 @@ function collectVariants() {
   return Array.from(items).map(el => ({
     title: el.querySelector('.var-title').value,
     body: el.querySelector('.var-body').value,
+    locale: el.querySelector('.var-locale').value || null,
   }));
 }
 
