@@ -2220,14 +2220,14 @@ async function handleSession(session) {
   }
 }
 
-supabase.auth.onAuthStateChange(async (event, session) => {
+supabase.auth.onAuthStateChange((event, session) => {
   if (event === 'INITIAL_SESSION') {
     authInitDone = true;
-    await handleSession(session);
+    setTimeout(() => handleSession(session), 0);
     return;
   }
   if (event === 'SIGNED_IN' && session && !currentUser) {
-    await handleSession(session);
+    setTimeout(() => handleSession(session), 0);
     return;
   }
   if (event === 'SIGNED_OUT') {
