@@ -1027,7 +1027,11 @@ async function onLogin(session) {
   document.getElementById('user-display').textContent = `@${username}`;
 
   await loadApps();
-  switchTab('dashboard');
+  const hashTab = location.hash.replace('#','');
+  const validTabs = ['dashboard','send','devices','schedules','events','apps'];
+  const initialTab = validTabs.includes(hashTab) ? hashTab : 'dashboard';
+  activateTab(initialTab);
+  history.replaceState({ tab: initialTab }, '', `#${initialTab}`);
 }
 
 // ─── DATA ─────────────────────────────────────────────
@@ -1080,7 +1084,7 @@ async function apiCall(fnName, method, body, appId) {
 }
 
 // ─── TABS ─────────────────────────────────────────────
-window.switchTab = function(tab) {
+function activateTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
   document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
@@ -1092,7 +1096,17 @@ window.switchTab = function(tab) {
   else if (tab === 'schedules') loadSchedules();
   else if (tab === 'events') loadEvents();
   else if (tab === 'apps') loadAppsTab();
+}
+
+window.switchTab = function(tab) {
+  activateTab(tab);
+  history.pushState({ tab }, '', `#${tab}`);
 };
+
+window.addEventListener('popstate', (e) => {
+  const tab = e.state?.tab || location.hash.replace('#','') || 'dashboard';
+  activateTab(tab);
+});
 
 // ─── DASHBOARD ────────────────────────────────────────
 async function loadDashboard() {
