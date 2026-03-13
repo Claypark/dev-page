@@ -1223,7 +1223,7 @@ async function loadDashboard() {
               <td>${l.schedule_id ? '<span class="badge badge-pending">스케줄</span>' : '<span class="badge badge-cancelled">즉시</span>'}</td>
               <td class="wrap-ok">${l.title || '-'}</td>
               <td>${tok
-                ? `<span class="token-full wrap-ok" onclick="copyToken('${safeTok(tok)}')">${plat === 'ios' ? '🍎' : '🤖'} ${tok}</span>`
+                ? `<span class="token-full wrap-ok" onclick="copyToken('${safeTok(tok)}')">${tok}</span>`
                 : '-'}</td>
               <td>${statusLabel(l)}</td>
             </tr>`;
@@ -1249,7 +1249,7 @@ async function loadDashboard() {
             <span class="list-card-sep"></span>
             <span class="list-card-field">${l.schedule_id ? '<span class="badge badge-pending">스케줄</span>' : '<span class="badge badge-cancelled">즉시</span>'}</span>
           </div>
-          ${tok ? `<div class="list-card-body" style="margin-top:4px;"><span class="list-card-token" onclick="copyToken('${safeTok(tok)}')">${plat === 'ios' ? '🍎' : '🤖'} ${tok}</span></div>` : ''}
+          ${tok ? `<div class="list-card-body" style="margin-top:4px;"><span class="list-card-token" onclick="copyToken('${safeTok(tok)}')">${tok}</span></div>` : ''}
           ${l.error_message ? `<div class="list-card-error">${escapeHtml(l.error_message).substring(0, 80)}</div>` : ''}
         </div>`;
       }).join('')}
@@ -1357,19 +1357,19 @@ async function loadDevices() {
                 <span class="badge ${d.is_active ? 'badge-success' : 'badge-cancelled'}">${d.is_active ? '활성' : '비활성'}</span>
                 ${d.is_subscribed === false ? '<span class="badge badge-pending" style="margin-left:4px;">수신거부</span>' : ''}
               </td>
-              <td><span class="platform-badge platform-${d.platform}">${d.platform === 'ios' ? '🍎 iOS' : '🤖 Android'}</span></td>
+              <td><span class="platform-badge platform-${d.platform}">${d.platform === 'ios' ? 'iOS' : 'Android'}</span></td>
               <td class="token-full wrap-ok" onclick="copyToken('${safeAttr(d.device_token)}')">${d.device_token}</td>
               <td>${getAppName(d.app_id)}</td>
               <td>${d.locale || '-'}</td>
               <td>${tzLabel(d.timezone)}</td>
               <td style="white-space:nowrap;">${timeSince(d.last_active_at || d.created_at)}</td>
               <td style="white-space:nowrap;">
-                <button class="btn btn-ghost btn-sm" style="color:var(--blue);" onclick="sendToDevice('${safeAttr(d.device_token)}')" title="이 디바이스에 전송">📤</button>
+                <button class="btn btn-ghost btn-sm" style="color:var(--blue);font-size:11px;" onclick="sendToDevice('${safeAttr(d.device_token)}')">전송</button>
                 ${d.is_active
-                  ? `<button class="btn btn-ghost btn-sm" style="color:var(--yellow);" onclick="toggleDeviceActive('${d.id}', false)" title="비활성화">⏸</button>`
-                  : `<button class="btn btn-ghost btn-sm" style="color:var(--accent);" onclick="toggleDeviceActive('${d.id}', true)" title="활성화">▶</button>`
+                  ? `<button class="btn btn-ghost btn-sm" style="color:var(--yellow);font-size:11px;" onclick="toggleDeviceActive('${d.id}', false)">중지</button>`
+                  : `<button class="btn btn-ghost btn-sm" style="color:var(--accent);font-size:11px;" onclick="toggleDeviceActive('${d.id}', true)">활성</button>`
                 }
-                <button class="btn btn-ghost btn-sm" style="color:var(--danger-hover);" onclick="deleteDevice('${d.id}')" title="삭제">🗑</button>
+                <button class="btn btn-ghost btn-sm" style="color:var(--danger-hover);font-size:11px;" onclick="deleteDevice('${d.id}')">삭제</button>
               </td>
             </tr>
           `).join('')}
@@ -1381,7 +1381,7 @@ async function loadDevices() {
         <div class="list-card ${d.is_active ? '' : 'inactive'}">
           <div class="list-card-header">
             <span>
-              <span class="platform-badge platform-${d.platform}">${d.platform === 'ios' ? '🍎 iOS' : '🤖 Android'}</span>
+              <span class="platform-badge platform-${d.platform}">${d.platform === 'ios' ? 'iOS' : 'Android'}</span>
               <span class="badge ${d.is_active ? 'badge-success' : 'badge-cancelled'}" style="margin-left:4px;">${d.is_active ? '활성' : '비활성'}</span>
               ${d.is_subscribed === false ? '<span class="badge badge-pending" style="margin-left:4px;">수신 거부</span>' : ''}
             </span>
@@ -1401,12 +1401,12 @@ async function loadDevices() {
           <div class="list-card-footer">
             <span style="font-size:10px;color:var(--text-muted);">토큰 탭하여 복사</span>
             <span class="list-card-actions">
-              <button class="btn btn-ghost btn-sm" style="color:var(--blue);" onclick="sendToDevice('${safeAttr(d.device_token)}')" title="이 디바이스에 전송">📤</button>
+              <button class="btn btn-ghost btn-sm" style="color:var(--blue);font-size:11px;" onclick="sendToDevice('${safeAttr(d.device_token)}')">전송</button>
               ${d.is_active
-                ? `<button class="btn btn-ghost btn-sm" style="color:var(--yellow);" onclick="toggleDeviceActive('${d.id}', false)" title="비활성화">⏸</button>`
-                : `<button class="btn btn-ghost btn-sm" style="color:var(--accent);" onclick="toggleDeviceActive('${d.id}', true)" title="활성화">▶</button>`
+                ? `<button class="btn btn-ghost btn-sm" style="color:var(--yellow);font-size:11px;" onclick="toggleDeviceActive('${d.id}', false)">중지</button>`
+                : `<button class="btn btn-ghost btn-sm" style="color:var(--accent);font-size:11px;" onclick="toggleDeviceActive('${d.id}', true)">활성</button>`
               }
-              <button class="btn btn-ghost btn-sm" style="color:var(--danger-hover);" onclick="deleteDevice('${d.id}')" title="삭제">🗑</button>
+              <button class="btn btn-ghost btn-sm" style="color:var(--danger-hover);font-size:11px;" onclick="deleteDevice('${d.id}')">삭제</button>
             </span>
           </div>
         </div>
