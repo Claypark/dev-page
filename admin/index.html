@@ -2071,31 +2071,32 @@ function showLoginScreen() {
   document.getElementById('login-screen').style.display = 'flex';
 }
 
-let initDone = false;
-
+// Handle sign-in redirect and subsequent auth changes
 supabase.auth.onAuthStateChange(async (event, session) => {
-  try {
-    if (session && !currentUser) {
-      await onLogin(session);
-      initDone = true;
-    }
-    if (event === 'SIGNED_OUT') {
-      currentUser = null;
-      showLoginScreen();
-      initDone = true;
-    }
-    if (!session && !currentUser && !initDone) {
-      showLoginScreen();
-      initDone = true;
-    }
-  } catch (e) {
-    console.error('Auth error:', e);
+  if (event === 'SIGNED_IN' && session && !currentUser) {
+    try { await onLogin(session); } catch (e) { console.error(e); }
+  }
+  if (event === 'SIGNED_OUT') {
+    currentUser = null;
     showLoginScreen();
-    initDone = true;
   }
 });
 
-setTimeout(() => { if (!initDone) showLoginScreen(); }, 5000);
+// Explicit session check on page load
+(async () => {
+  try {
+    const { data: { session }, error } = await supabase.auth.getSession();
+    if (error) throw error;
+    if (session) {
+      await onLogin(session);
+    } else {
+      showLoginScreen();
+    }
+  } catch (e) {
+    console.error('Init error:', e);
+    showLoginScreen();
+  }
+})();
 </script>
 
 </body>
