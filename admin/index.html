@@ -1014,7 +1014,7 @@ async function loadDashboard() {
   const [devicesRes, schedRes, logsRes, allSchedsRes] = await Promise.all([
     supabase.from('devices').select('id, app_id, platform, is_active, is_subscribed'),
     supabase.from('push_schedules').select('id, status').eq('status', 'pending'),
-    supabase.from('push_logs').select('id, app_id, title, body, status, sent_at, schedule_id, error_message')
+    supabase.from('push_logs').select('id, app_id, device_id, title, body, status, sent_at, schedule_id, error_message, devices(device_token, platform)')
       .order('sent_at', { ascending: false }).limit(50),
     supabase.from('push_schedules').select('id, title, variants, repeat_rule'),
   ]);
@@ -1053,20 +1053,28 @@ async function loadDashboard() {
     return `<span class="badge badge-pending" title="${escapeHtml(name)}">${escapeHtml(short)}</span>`;
   };
 
+  const shortTok = t => t ? t.substring(0, 12) + '…' + t.substring(t.length - 6) : '-';
+  const safeTok = t => (t || '').replace(/&/g,'&amp;').replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+
   logsTable.innerHTML = `
     <table>
-      <thead><tr><th>시각</th><th>앱</th><th>구분</th><th>제목</th><th>상태</th><th>에러</th></tr></thead>
+      <thead><tr><th>시각</th><th>구분</th><th>제목</th><th>디바이스</th><th>상태</th><th>에러</th></tr></thead>
       <tbody>
-        ${logs.map(l => `
+        ${logs.map(l => {
+          const tok = l.devices?.device_token;
+          const plat = l.devices?.platform;
+          return `
           <tr>
             <td style="white-space:nowrap;">${new Date(l.sent_at).toLocaleString('ko-KR', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}</td>
-            <td>${getAppName(l.app_id)}</td>
             <td>${l.schedule_id ? getSchedLabel(l.schedule_id) : '<span style="font-size:11px;color:var(--text-muted);">즉시</span>'}</td>
             <td>${l.title || '-'}</td>
+            <td>${tok
+              ? `<span class="token-cell" title="${safeTok(tok)}" onclick="copyToken('${safeTok(tok)}')" style="font-size:11px;">${plat === 'ios' ? '🍎' : '🤖'} ${shortTok(tok)}</span>`
+              : '<span style="font-size:11px;color:var(--text-muted);">-</span>'}</td>
             <td><span class="badge ${badgeClass(l.status)}">${l.status}</span></td>
-            <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:var(--text-muted);" title="${escapeHtml(l.error_message || '')}">${l.error_message ? escapeHtml(l.error_message).substring(0, 40) : '-'}</td>
-          </tr>
-        `).join('')}
+            <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:var(--text-muted);" title="${escapeHtml(l.error_message || '')}">${l.error_message ? escapeHtml(l.error_message).substring(0, 30) : '-'}</td>
+          </tr>`;
+        }).join('')}
       </tbody>
     </table>
   `;
