@@ -1175,16 +1175,10 @@ async function loadDashboard() {
 
   const safeTok = t => (t || '').replace(/&/g,'&amp;').replace(/'/g,'&#39;').replace(/"/g,'&quot;');
 
+  const pad = n => String(n).padStart(2, '0');
   const fmtTime = t => {
     const d = new Date(t);
-    const now = new Date();
-    const isToday = d.toDateString() === now.toDateString();
-    const yesterday = new Date(now); yesterday.setDate(now.getDate() - 1);
-    const isYesterday = d.toDateString() === yesterday.toDateString();
-    const hm = `${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
-    if (isToday) return `오늘 ${hm}`;
-    if (isYesterday) return `어제 ${hm}`;
-    return `${d.getMonth()+1}/${d.getDate()} ${hm}`;
+    return `${pad(d.getMonth()+1)}.${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
   };
 
   const statusLabel = l => {
@@ -1640,14 +1634,8 @@ async function loadSchedules() {
     if (s.status === 'failed') return '발송 실패';
     const next = calcNextRun(s);
     if (!next) return '-';
-    const now = new Date();
-    const isToday = next.toDateString() === now.toDateString();
-    const tmr = new Date(now); tmr.setDate(now.getDate() + 1);
-    const isTomorrow = next.toDateString() === tmr.toDateString();
-    const hm = `${next.getHours()}:${String(next.getMinutes()).padStart(2,'0')}`;
-    if (isToday) return `오늘 ${hm}`;
-    if (isTomorrow) return `내일 ${hm}`;
-    return `${next.getMonth()+1}/${next.getDate()} ${hm}`;
+    const p = n => String(n).padStart(2, '0');
+    return `${p(next.getMonth()+1)}.${p(next.getDate())} ${p(next.getHours())}:${p(next.getMinutes())}`;
   };
 
   const schedActionBtns = s => {
