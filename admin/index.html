@@ -35,9 +35,19 @@
       min-height: 100vh;
     }
 
+    /* Loading Screen */
+    #loading-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
     /* Login Screen */
     #login-screen {
-      display: flex;
+      display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -538,13 +548,47 @@
     .platform-ios { background: rgba(88,166,255,0.15); color: var(--blue); }
     .platform-android { background: rgba(63,185,80,0.15); color: #3fb950; }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .form-row, .form-row-3 { grid-template-columns: 1fr; }
       .stats-grid { grid-template-columns: 1fr 1fr; }
+
+      .topbar { padding: 10px 12px; }
+      .topbar h1 { font-size: 14px; }
+
+      .nav {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 8px 12px;
+        gap: 2px;
+      }
+      .nav::-webkit-scrollbar { display: none; }
+      .nav-btn { white-space: nowrap; padding: 6px 12px; font-size: 12px; }
+
+      .main { padding: 12px; }
+      .card { padding: 14px; }
+
+      .modal { width: 96%; padding: 16px; max-height: 90vh; }
+      .bulk-modal { width: 96%; padding: 16px; }
+
+      table { font-size: 12px; }
+      th, td { padding: 8px 6px; }
+      .token-cell { max-width: 120px; font-size: 10px; }
+
+      .form-actions { flex-direction: column; }
+      .form-actions .btn { width: 100%; justify-content: center; }
+
+      .filter-bar { margin-bottom: 8px; }
+
+      .stat-card { padding: 14px; }
+      .stat-value { font-size: 22px; }
     }
   </style>
 </head>
 <body>
+
+<!-- Loading Screen -->
+<div id="loading-screen">로딩 중...</div>
 
 <!-- Login Screen -->
 <div id="login-screen">
@@ -1030,7 +1074,7 @@ async function loadDevices() {
 
   const { data, error } = await supabase
     .from('devices')
-    .select('id, device_token, platform, is_active, user_id, locale, timezone, subscribed, app_id, created_at, updated_at')
+    .select('id, device_token, platform, is_active, is_subscribed, user_id, locale, timezone, app_id, created_at, updated_at')
     .order('updated_at', { ascending: false });
 
   if (error) {
@@ -1106,7 +1150,7 @@ async function loadDevices() {
           <tr class="${d.is_active ? '' : 'device-row-inactive'}">
             <td>
               <span class="badge ${d.is_active ? 'badge-success' : 'badge-cancelled'}">${d.is_active ? '활성' : '비활성'}</span>
-              ${d.subscribed === false ? '<span class="badge badge-pending" style="margin-left:4px;">수신거부</span>' : ''}
+              ${d.is_subscribed === false ? '<span class="badge badge-pending" style="margin-left:4px;">수신거부</span>' : ''}
             </td>
             <td><span class="platform-badge platform-${d.platform}">${d.platform === 'ios' ? '🍎 iOS' : '🤖 Android'}</span></td>
             <td class="token-cell" title="${safeAttr(d.device_token)}" onclick="copyToken('${safeAttr(d.device_token)}')">${shortToken(d.device_token)}</td>
@@ -1334,13 +1378,16 @@ async function loadSchedules() {
 
       if (s.repeat_rule === 'daily') return next;
       if (s.repeat_rule?.startsWith('weekly:')) {
-        const dayMap = { 'Sun':0,'Mon':1,'Tue':2,'Wed':3,'Thu':4,'Fri':5,'Sat':6 };
-        const targetDay = dayMap[s.repeat_rule.replace('weekly:','')];
-        if (targetDay != null) {
-          let diff = targetDay - next.getDay();
-          if (diff < 0 || (diff === 0 && next <= now)) diff += 7;
-          next.setDate(now.getDate() + diff);
-          next.setHours(s.local_hour, s.local_minute ?? 0, 0, 0);
+        const dayMap = { sun:0,mon:1,tue:2,wed:3,thu:4,fri:5,sat:6 };
+        const targetDays = s.repeat_rule.replace('weekly:','').split(',')
+          .map(d => dayMap[d.trim().toLowerCase()]).filter(d => d != null);
+        if (targetDays.length > 0) {
+          for (let i = 0; i < 8; i++) {
+            const candidate = new Date(now);
+            candidate.setDate(now.getDate() + i);
+            candidate.setHours(s.local_hour, s.local_minute ?? 0, 0, 0);
+            if (candidate > now && targetDays.includes(candidate.getDay())) return candidate;
+          }
         }
         return next;
       }
@@ -1364,6 +1411,8 @@ async function loadSchedules() {
   };
 
   const formatNextRun = s => {
+    if (s.status === 'sent') return '완료';
+    if (s.status === 'failed') return '실패';
     const next = calcNextRun(s);
     if (!next) return '-';
     return next.toLocaleString('ko-KR', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
@@ -2000,22 +2049,30 @@ function escapeHtml(str) {
 }
 
 // ─── INIT ─────────────────────────────────────────────
-// Restore session on page load
+function showLoginScreen() {
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
 (async () => {
   const { data: { session } } = await supabase.auth.getSession();
   if (session) {
+    document.getElementById('loading-screen').style.display = 'none';
     await onLogin(session);
+  } else {
+    showLoginScreen();
   }
 })();
 
 supabase.auth.onAuthStateChange(async (event, session) => {
   if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
+    document.getElementById('loading-screen').style.display = 'none';
     await onLogin(session);
   }
   if (event === 'SIGNED_OUT') {
     currentUser = null;
-    document.getElementById('app').style.display = 'none';
-    document.getElementById('login-screen').style.display = 'flex';
+    showLoginScreen();
   }
 });
 </script>
