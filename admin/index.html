@@ -1107,7 +1107,7 @@ async function loadDashboard() {
   logsTable.innerHTML = `
     <div class="table-wrap">
       <table>
-        <thead><tr><th>시각</th><th>구분</th><th>제목</th><th>디바이스</th><th>상태</th><th>에러</th></tr></thead>
+        <thead><tr><th>시각</th><th>앱</th><th>구분</th><th>제목</th><th>디바이스</th><th>상태</th><th>에러</th></tr></thead>
         <tbody>
           ${logs.map(l => {
             const tok = l.devices?.device_token;
@@ -1115,6 +1115,7 @@ async function loadDashboard() {
             return `
             <tr>
               <td style="white-space:nowrap;">${fmtTime(l.sent_at)}</td>
+              <td style="font-size:11px;">${getAppName(l.app_id)}</td>
               <td>${l.schedule_id ? getSchedLabel(l.schedule_id) : '<span style="font-size:11px;color:var(--text-muted);">즉시</span>'}</td>
               <td>${l.title || '-'}</td>
               <td>${tok
@@ -1140,6 +1141,7 @@ async function loadDashboard() {
           <div class="list-card-row">
             <span class="list-card-meta">
               <span>${fmtTime(l.sent_at)}</span>
+              <span>${getAppName(l.app_id)}</span>
               <span>${l.schedule_id ? '📅 스케줄' : '⚡ 즉시'}</span>
               ${tok ? `<span onclick="copyToken('${safeTok(tok)}')" class="list-card-token">${plat === 'ios' ? '🍎' : '🤖'} ${shortTok(tok)}</span>` : ''}
             </span>
