@@ -863,7 +863,7 @@
     <div class="form-row-3">
       <div class="form-group">
         <label>반복 주기</label>
-        <select id="sched-repeat">
+        <select id="sched-repeat" onchange="toggleRepeatTimeInput()">
           <option value="">1회만</option>
           <option value="daily">매일</option>
           <option value="weekly:mon,tue,wed,thu,fri">평일(월~금)</option>
@@ -874,8 +874,9 @@
         </select>
       </div>
       <div class="form-group" id="sched-time-group">
-        <label>발송 시각</label>
+        <label id="sched-time-label">발송 시각</label>
         <input type="datetime-local" id="sched-time">
+        <input type="time" id="sched-time-only" style="display:none;">
       </div>
       <div class="form-group" id="sched-localtime-group" style="display:none;">
         <label>현지 시각 (HH:MM)</label>
@@ -1720,6 +1721,30 @@ window.toggleLocalTime = function() {
   document.getElementById('sched-localtime-group').style.display = checked ? '' : 'none';
 };
 
+window.toggleRepeatTimeInput = function() {
+  const isRepeat = !!document.getElementById('sched-repeat').value;
+  const dtInput = document.getElementById('sched-time');
+  const tInput = document.getElementById('sched-time-only');
+  const label = document.getElementById('sched-time-label');
+
+  if (isRepeat) {
+    dtInput.style.display = 'none';
+    tInput.style.display = '';
+    label.textContent = '발송 시각';
+    if (dtInput.value) {
+      tInput.value = dtInput.value.slice(11, 16);
+    }
+  } else {
+    dtInput.style.display = '';
+    tInput.style.display = 'none';
+    label.textContent = '발송 날짜·시각';
+    if (tInput.value && !dtInput.value) {
+      const today = new Date().toISOString().slice(0, 10);
+      dtInput.value = today + 'T' + tInput.value;
+    }
+  }
+};
+
 window.openScheduleModal = function(schedule) {
   document.getElementById('schedule-modal').style.display = 'flex';
   document.getElementById('sched-edit-id').value = schedule?.id || '';
@@ -1739,6 +1764,9 @@ window.openScheduleModal = function(schedule) {
     if (schedule.scheduled_at) {
       const d = new Date(schedule.scheduled_at);
       document.getElementById('sched-time').value = d.toISOString().slice(0, 16);
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      document.getElementById('sched-time-only').value = `${hh}:${mm}`;
     }
     if (schedule.repeat_until) {
       document.getElementById('sched-until').value = schedule.repeat_until.slice(0, 10);
@@ -1748,12 +1776,14 @@ window.openScheduleModal = function(schedule) {
     document.getElementById('sched-repeat').value = '';
     document.getElementById('sched-target').value = 'all';
     document.getElementById('sched-time').value = '';
+    document.getElementById('sched-time-only').value = '';
     document.getElementById('sched-local-hour').value = '';
     document.getElementById('sched-until').value = '';
     document.getElementById('sched-local-time').checked = false;
     renderVariants([{ title: '', body: '' }]);
   }
   toggleLocalTime();
+  toggleRepeatTimeInput();
 };
 
 window.closeScheduleModal = function() {
@@ -1984,13 +2014,21 @@ window.saveSchedule = async function() {
   const editId = document.getElementById('sched-edit-id').value;
   const appId = document.getElementById('sched-app').value;
   const repeatRule = document.getElementById('sched-repeat').value || null;
-  const scheduledAt = document.getElementById('sched-time').value;
   const targetVal = document.getElementById('sched-target').value;
   const untilVal = document.getElementById('sched-until').value;
   const useLocalTime = document.getElementById('sched-local-time').checked;
   const variants = collectVariants().filter(v => v.title || v.body);
 
-  if (!useLocalTime && !scheduledAt) { showToast('발송 시각을 입력해 주세요', 'error'); return; }
+  let scheduledAt;
+  if (repeatRule) {
+    const timeOnly = document.getElementById('sched-time-only').value;
+    if (!useLocalTime && !timeOnly) { showToast('발송 시각을 입력해 주세요', 'error'); return; }
+    const today = new Date().toISOString().slice(0, 10);
+    scheduledAt = today + 'T' + timeOnly;
+  } else {
+    scheduledAt = document.getElementById('sched-time').value;
+    if (!useLocalTime && !scheduledAt) { showToast('발송 날짜와 시각을 입력해 주세요', 'error'); return; }
+  }
   if (variants.length === 0) { showToast('메시지를 하나 이상 입력해 주세요', 'error'); return; }
 
   const target = targetVal === 'all'
