@@ -1197,7 +1197,7 @@ async function loadDashboard() {
             <tr>
               <td>${fmtTime(l.sent_at)}</td>
               <td style="font-size:11px;">${getAppName(l.app_id)}</td>
-              <td>${l.schedule_id ? '<span class="badge badge-pending">스케줄</span>' : '<span style="font-size:11px;color:var(--text-muted);">즉시</span>'}</td>
+              <td>${l.schedule_id ? '<span class="badge badge-pending">스케줄</span>' : '<span class="badge badge-cancelled">즉시</span>'}</td>
               <td class="wrap-ok">${l.title || '-'}</td>
               <td>${tok
                 ? `<span class="token-cell" title="${safeTok(tok)}" onclick="copyToken('${safeTok(tok)}')" style="font-size:11px;">${plat === 'ios' ? '🍎' : '🤖'} ${shortTok(tok)}</span>`
@@ -1224,7 +1224,7 @@ async function loadDashboard() {
             <span class="list-card-sep"></span>
             <span class="list-card-field"><span class="list-card-label">앱</span> <span class="list-card-value">${getAppName(l.app_id)}</span></span>
             <span class="list-card-sep"></span>
-            <span class="list-card-field"><span class="list-card-label">유형</span> <span class="list-card-value">${l.schedule_id ? '스케줄' : '즉시'}</span></span>
+            <span class="list-card-field">${l.schedule_id ? '<span class="badge badge-pending">스케줄</span>' : '<span class="badge badge-cancelled">즉시</span>'}</span>
             ${tok ? `<span class="list-card-sep"></span><span class="list-card-field" onclick="copyToken('${safeTok(tok)}')" style="cursor:pointer;"><span class="list-card-label">${plat === 'ios' ? '🍎' : '🤖'}</span> <span class="list-card-token">${shortTok(tok)}</span></span>` : ''}
           </div>
           ${l.error_message ? `<div class="list-card-error">${escapeHtml(l.error_message).substring(0, 80)}</div>` : ''}
