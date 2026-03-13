@@ -928,10 +928,12 @@ async function onLogin(session) {
     document.getElementById('login-error').textContent = `"${username}" 계정은 관리자 권한이 없습니다.`;
     document.getElementById('login-error').style.display = 'block';
     await supabase.auth.signOut();
+    showLoginScreen();
     return;
   }
 
   currentUser = user;
+  document.getElementById('loading-screen').style.display = 'none';
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'block';
   document.getElementById('user-display').textContent = `@${username}`;
@@ -2062,22 +2064,30 @@ function showLoginScreen() {
 }
 
 (async () => {
-  const { data: { session } } = await supabase.auth.getSession();
-  if (session) {
-    document.getElementById('loading-screen').style.display = 'none';
-    await onLogin(session);
-  } else {
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      await onLogin(session);
+    } else {
+      showLoginScreen();
+    }
+  } catch (e) {
+    console.error('Session check failed:', e);
     showLoginScreen();
   }
 })();
 
 supabase.auth.onAuthStateChange(async (event, session) => {
-  if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
-    document.getElementById('loading-screen').style.display = 'none';
-    await onLogin(session);
-  }
-  if (event === 'SIGNED_OUT') {
-    currentUser = null;
+  try {
+    if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
+      await onLogin(session);
+    }
+    if (event === 'SIGNED_OUT') {
+      currentUser = null;
+      showLoginScreen();
+    }
+  } catch (e) {
+    console.error('Auth state change failed:', e);
     showLoginScreen();
   }
 });
