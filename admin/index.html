@@ -2063,34 +2063,31 @@ function showLoginScreen() {
   document.getElementById('login-screen').style.display = 'flex';
 }
 
-(async () => {
-  try {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session) {
-      await onLogin(session);
-    } else {
-      showLoginScreen();
-    }
-  } catch (e) {
-    console.error('Session check failed:', e);
-    showLoginScreen();
-  }
-})();
+let initDone = false;
 
 supabase.auth.onAuthStateChange(async (event, session) => {
   try {
-    if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
+    if (session && !currentUser) {
       await onLogin(session);
+      initDone = true;
     }
     if (event === 'SIGNED_OUT') {
       currentUser = null;
       showLoginScreen();
+      initDone = true;
+    }
+    if (!session && !currentUser && !initDone) {
+      showLoginScreen();
+      initDone = true;
     }
   } catch (e) {
-    console.error('Auth state change failed:', e);
+    console.error('Auth error:', e);
     showLoginScreen();
+    initDone = true;
   }
 });
+
+setTimeout(() => { if (!initDone) showLoginScreen(); }, 5000);
 </script>
 
 </body>
