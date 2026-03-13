@@ -937,13 +937,6 @@ let apps = [];
 let currentTab = 'dashboard';
 
 // ─── AUTH ─────────────────────────────────────────────
-async function checkSession() {
-  const { data: { session } } = await supabase.auth.getSession();
-  if (session) {
-    await onLogin(session);
-  }
-}
-
 window.loginWithGitHub = async function() {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'github',
@@ -966,20 +959,22 @@ window.logout = async function() {
 
 async function onLogin(session) {
   const user = session.user;
-  const username = user.user_metadata?.user_name;
+  const username = user.user_metadata?.user_name || user.email;
 
-  // Check admin whitelist
-  const { data: admin } = await supabase
+  const { data: admin, error: adminErr } = await supabase
     .from('admins')
     .select('id')
     .eq('github_username', username)
     .single();
 
+  if (adminErr) {
+    console.error('Admin check failed:', adminErr);
+  }
+
   if (!admin) {
     document.getElementById('login-error').textContent = `"${username}" 계정은 관리자 권한이 없습니다.`;
     document.getElementById('login-error').style.display = 'block';
     await supabase.auth.signOut();
-    showLoginScreen();
     return;
   }
 
@@ -2204,10 +2199,36 @@ function showLoginScreen() {
   document.getElementById('login-screen').style.display = 'flex';
 }
 
-// Handle sign-in redirect and subsequent auth changes
+function showApp() {
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+
+let authInitDone = false;
+
+async function handleSession(session) {
+  if (session) {
+    try {
+      await onLogin(session);
+    } catch (e) {
+      console.error('onLogin error:', e);
+      showLoginScreen();
+    }
+  } else {
+    showLoginScreen();
+  }
+}
+
 supabase.auth.onAuthStateChange(async (event, session) => {
+  if (event === 'INITIAL_SESSION') {
+    authInitDone = true;
+    await handleSession(session);
+    return;
+  }
   if (event === 'SIGNED_IN' && session && !currentUser) {
-    try { await onLogin(session); } catch (e) { console.error(e); }
+    await handleSession(session);
+    return;
   }
   if (event === 'SIGNED_OUT') {
     currentUser = null;
@@ -2215,21 +2236,18 @@ supabase.auth.onAuthStateChange(async (event, session) => {
   }
 });
 
-// Explicit session check on page load
-(async () => {
+setTimeout(async () => {
+  if (authInitDone) return;
+  authInitDone = true;
+  console.warn('INITIAL_SESSION not fired, falling back to getSession');
   try {
-    const { data: { session }, error } = await supabase.auth.getSession();
-    if (error) throw error;
-    if (session) {
-      await onLogin(session);
-    } else {
-      showLoginScreen();
-    }
+    const { data: { session } } = await supabase.auth.getSession();
+    await handleSession(session);
   } catch (e) {
-    console.error('Init error:', e);
+    console.error('Fallback init error:', e);
     showLoginScreen();
   }
-})();
+}, 4000);
 </script>
 
 </body>
