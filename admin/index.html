@@ -205,20 +205,27 @@
     /* Stats */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
-      margin-bottom: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 8px;
+      margin-bottom: 20px;
     }
 
     .stat-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
+      border-radius: 10px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .stat-card:hover {
+      border-color: var(--border-hover);
+      background: #1c2129;
     }
 
     .stat-value {
-      font-size: 28px;
+      font-size: 22px;
       font-weight: 700;
       color: var(--text-bright);
     }
@@ -580,8 +587,8 @@
 
       .filter-bar { margin-bottom: 8px; }
 
-      .stat-card { padding: 14px; }
-      .stat-value { font-size: 22px; }
+      .stat-card { padding: 10px 12px; }
+      .stat-value { font-size: 18px; }
     }
   </style>
 </head>
@@ -1021,10 +1028,10 @@ async function loadDashboard() {
   const androidCount = subscribedDevices.filter(d => d.platform === 'android').length;
 
   statsGrid.innerHTML = `
-    <div class="stat-card"><div class="stat-value">${subscribedDevices.length}</div><div class="stat-label">전송 가능 디바이스</div></div>
-    <div class="stat-card"><div class="stat-value">${iosCount}</div><div class="stat-label">iOS</div></div>
-    <div class="stat-card"><div class="stat-value">${androidCount}</div><div class="stat-label">Android</div></div>
-    <div class="stat-card"><div class="stat-value">${schedules.length}</div><div class="stat-label">활성 스케줄</div></div>
+    <div class="stat-card" onclick="switchTab('devices')"><div class="stat-value">${subscribedDevices.length}</div><div class="stat-label">전송 가능 디바이스</div></div>
+    <div class="stat-card" onclick="switchTab('devices')"><div class="stat-value">${iosCount} / ${androidCount}</div><div class="stat-label">iOS / Android</div></div>
+    <div class="stat-card" onclick="switchTab('schedules')"><div class="stat-value">${schedules.length}</div><div class="stat-label">활성 스케줄</div></div>
+    <div class="stat-card" onclick="switchTab('send')"><div class="stat-value">→</div><div class="stat-label">즉시 전송</div></div>
   `;
 
   const logsTable = document.getElementById('recent-logs-table');
