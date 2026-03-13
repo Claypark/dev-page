@@ -1306,7 +1306,14 @@ async function loadDevices() {
     return `${dt.getMonth()+1}/${dt.getDate()}`;
   };
 
-  const tzLabel = tz => tz != null ? 'UTC' + (tz >= 0 ? '+' : '') + (tz / 60) : '-';
+  const tzLabel = tz => {
+    if (tz == null) return '-';
+    if (tz === 'UTC' || tz === '0' || tz === 0) return 'UTC+0';
+    const mins = parseInt(tz, 10);
+    if (isNaN(mins)) return String(tz);
+    const h = mins / 60;
+    return 'UTC' + (h >= 0 ? '+' : '') + h;
+  };
 
   container.innerHTML = `
     <div class="table-wrap">
