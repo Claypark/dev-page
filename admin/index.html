@@ -610,7 +610,7 @@
     .list-card-body {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
+      align-items: baseline;
       gap: 6px 10px;
       font-size: 12px;
       line-height: 20px;
@@ -619,7 +619,7 @@
 
     .list-card-field {
       display: inline-flex;
-      align-items: center;
+      align-items: baseline;
       gap: 3px;
       line-height: 20px;
     }
@@ -627,7 +627,7 @@
     .list-card-label {
       color: var(--text-muted);
       opacity: 0.6;
-      font-size: 11px;
+      font-size: 12px;
       line-height: 20px;
     }
 
@@ -638,11 +638,14 @@
     }
 
     .list-card-sep {
+      display: inline-block;
       width: 1px;
       height: 12px;
       background: var(--border);
       flex-shrink: 0;
+      vertical-align: middle;
       align-self: center;
+      margin-top: 4px;
     }
 
     .list-card-footer {
