@@ -555,6 +555,55 @@
     .platform-ios { background: rgba(88,166,255,0.15); color: var(--blue); }
     .platform-android { background: rgba(63,185,80,0.15); color: #3fb950; }
 
+    /* List cards (used on mobile instead of tables) */
+    .list-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+    }
+
+    .list-card-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .list-card-row + .list-card-row { margin-top: 6px; }
+
+    .list-card-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .list-card-title {
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .list-card-actions {
+      display: flex;
+      gap: 4px;
+    }
+
+    .list-card-token {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      cursor: pointer;
+      word-break: break-all;
+    }
+
+    .list-card-token:hover { color: var(--blue); }
+    .list-card.inactive { opacity: 0.45; }
+
     @media (max-width: 768px) {
       .form-row, .form-row-3 { grid-template-columns: 1fr; }
       .stats-grid { grid-template-columns: 1fr 1fr; }
@@ -578,10 +627,6 @@
       .modal { width: 96%; padding: 16px; max-height: 90vh; }
       .bulk-modal { width: 96%; padding: 16px; }
 
-      table { font-size: 12px; }
-      th, td { padding: 8px 6px; }
-      .token-cell { max-width: 120px; font-size: 10px; }
-
       .form-actions { flex-direction: column; }
       .form-actions .btn { width: 100%; justify-content: center; }
 
@@ -589,6 +634,12 @@
 
       .stat-card { padding: 10px 12px; }
       .stat-value { font-size: 18px; }
+
+      .table-wrap table { display: none; }
+    }
+
+    @media (min-width: 769px) {
+      .list-cards-mobile { display: none; }
     }
   </style>
 </head>
@@ -1056,27 +1107,52 @@ async function loadDashboard() {
   const shortTok = t => t ? t.substring(0, 12) + '…' + t.substring(t.length - 6) : '-';
   const safeTok = t => (t || '').replace(/&/g,'&amp;').replace(/'/g,'&#39;').replace(/"/g,'&quot;');
 
+  const fmtTime = t => new Date(t).toLocaleString('ko-KR', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+
   logsTable.innerHTML = `
-    <table>
-      <thead><tr><th>시각</th><th>구분</th><th>제목</th><th>디바이스</th><th>상태</th><th>에러</th></tr></thead>
-      <tbody>
-        ${logs.map(l => {
-          const tok = l.devices?.device_token;
-          const plat = l.devices?.platform;
-          return `
-          <tr>
-            <td style="white-space:nowrap;">${new Date(l.sent_at).toLocaleString('ko-KR', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}</td>
-            <td>${l.schedule_id ? getSchedLabel(l.schedule_id) : '<span style="font-size:11px;color:var(--text-muted);">즉시</span>'}</td>
-            <td>${l.title || '-'}</td>
-            <td>${tok
-              ? `<span class="token-cell" title="${safeTok(tok)}" onclick="copyToken('${safeTok(tok)}')" style="font-size:11px;">${plat === 'ios' ? '🍎' : '🤖'} ${shortTok(tok)}</span>`
-              : '<span style="font-size:11px;color:var(--text-muted);">-</span>'}</td>
-            <td><span class="badge ${badgeClass(l.status)}">${l.status}</span></td>
-            <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:var(--text-muted);" title="${escapeHtml(l.error_message || '')}">${l.error_message ? escapeHtml(l.error_message).substring(0, 30) : '-'}</td>
-          </tr>`;
-        }).join('')}
-      </tbody>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>시각</th><th>구분</th><th>제목</th><th>디바이스</th><th>상태</th><th>에러</th></tr></thead>
+        <tbody>
+          ${logs.map(l => {
+            const tok = l.devices?.device_token;
+            const plat = l.devices?.platform;
+            return `
+            <tr>
+              <td style="white-space:nowrap;">${fmtTime(l.sent_at)}</td>
+              <td>${l.schedule_id ? getSchedLabel(l.schedule_id) : '<span style="font-size:11px;color:var(--text-muted);">즉시</span>'}</td>
+              <td>${l.title || '-'}</td>
+              <td>${tok
+                ? `<span class="token-cell" title="${safeTok(tok)}" onclick="copyToken('${safeTok(tok)}')" style="font-size:11px;">${plat === 'ios' ? '🍎' : '🤖'} ${shortTok(tok)}</span>`
+                : '-'}</td>
+              <td><span class="badge ${badgeClass(l.status)}">${l.status}</span></td>
+              <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:var(--text-muted);" title="${escapeHtml(l.error_message || '')}">${l.error_message ? escapeHtml(l.error_message).substring(0, 30) : '-'}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div class="list-cards-mobile">
+      ${logs.map(l => {
+        const tok = l.devices?.device_token;
+        const plat = l.devices?.platform;
+        return `
+        <div class="list-card">
+          <div class="list-card-row">
+            <span class="list-card-title">${escapeHtml(l.title || '-')}</span>
+            <span class="badge ${badgeClass(l.status)}">${l.status}</span>
+          </div>
+          <div class="list-card-row">
+            <span class="list-card-meta">
+              <span>${fmtTime(l.sent_at)}</span>
+              <span>${l.schedule_id ? '📅 스케줄' : '⚡ 즉시'}</span>
+              ${tok ? `<span onclick="copyToken('${safeTok(tok)}')" class="list-card-token">${plat === 'ios' ? '🍎' : '🤖'} ${shortTok(tok)}</span>` : ''}
+            </span>
+          </div>
+          ${l.error_message ? `<div class="list-card-row"><span class="list-card-meta" style="color:var(--danger);">⚠ ${escapeHtml(l.error_message).substring(0, 60)}</span></div>` : ''}
+        </div>`;
+      }).join('')}
+    </div>
   `;
 }
 
@@ -1091,8 +1167,8 @@ async function loadDevices() {
 
   const { data, error } = await supabase
     .from('devices')
-    .select('id, device_token, platform, is_active, is_subscribed, user_id, locale, timezone, app_id, created_at, updated_at')
-    .order('updated_at', { ascending: false });
+    .select('id, device_token, platform, is_active, is_subscribed, user_id, locale, timezone, app_id, created_at, last_active_at')
+    .order('last_active_at', { ascending: false });
 
   if (error) {
     container.innerHTML = `<div class="empty-state">불러오기 실패: ${error.message}</div>`;
@@ -1148,45 +1224,81 @@ async function loadDevices() {
     return new Date(d).toLocaleDateString('ko-KR');
   };
 
+  const tzLabel = tz => tz != null ? 'UTC' + (tz >= 0 ? '+' : '') + (tz / 60) : '-';
+
   container.innerHTML = `
-    <table>
-      <thead>
-        <tr>
-          <th>상태</th>
-          <th>플랫폼</th>
-          <th>토큰</th>
-          <th>앱</th>
-          <th>언어</th>
-          <th>시간대</th>
-          <th>마지막 등록</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        ${filtered.map(d => `
-          <tr class="${d.is_active ? '' : 'device-row-inactive'}">
-            <td>
-              <span class="badge ${d.is_active ? 'badge-success' : 'badge-cancelled'}">${d.is_active ? '활성' : '비활성'}</span>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>상태</th>
+            <th>플랫폼</th>
+            <th>토큰</th>
+            <th>앱</th>
+            <th>언어</th>
+            <th>시간대</th>
+            <th>마지막 등록</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${filtered.map(d => `
+            <tr class="${d.is_active ? '' : 'device-row-inactive'}">
+              <td>
+                <span class="badge ${d.is_active ? 'badge-success' : 'badge-cancelled'}">${d.is_active ? '활성' : '비활성'}</span>
+                ${d.is_subscribed === false ? '<span class="badge badge-pending" style="margin-left:4px;">수신거부</span>' : ''}
+              </td>
+              <td><span class="platform-badge platform-${d.platform}">${d.platform === 'ios' ? '🍎 iOS' : '🤖 Android'}</span></td>
+              <td class="token-cell" title="${safeAttr(d.device_token)}" onclick="copyToken('${safeAttr(d.device_token)}')">${shortToken(d.device_token)}</td>
+              <td>${getAppName(d.app_id)}</td>
+              <td>${d.locale || '-'}</td>
+              <td>${tzLabel(d.timezone)}</td>
+              <td style="white-space:nowrap;">${timeSince(d.last_active_at || d.created_at)}</td>
+              <td style="white-space:nowrap;">
+                <button class="btn btn-ghost btn-sm" style="color:var(--blue);" onclick="sendToDevice('${safeAttr(d.device_token)}')" title="이 디바이스에 전송">📤</button>
+                ${d.is_active
+                  ? `<button class="btn btn-ghost btn-sm" style="color:var(--yellow);" onclick="toggleDeviceActive('${d.id}', false)" title="비활성화">⏸</button>`
+                  : `<button class="btn btn-ghost btn-sm" style="color:var(--accent);" onclick="toggleDeviceActive('${d.id}', true)" title="활성화">▶</button>`
+                }
+                <button class="btn btn-ghost btn-sm" style="color:var(--danger-hover);" onclick="deleteDevice('${d.id}')" title="삭제">🗑</button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div class="list-cards-mobile">
+      ${filtered.map(d => `
+        <div class="list-card ${d.is_active ? '' : 'inactive'}">
+          <div class="list-card-row">
+            <span>
+              <span class="platform-badge platform-${d.platform}">${d.platform === 'ios' ? '🍎 iOS' : '🤖 Android'}</span>
+              <span class="badge ${d.is_active ? 'badge-success' : 'badge-cancelled'}" style="margin-left:4px;">${d.is_active ? '활성' : '비활성'}</span>
               ${d.is_subscribed === false ? '<span class="badge badge-pending" style="margin-left:4px;">수신거부</span>' : ''}
-            </td>
-            <td><span class="platform-badge platform-${d.platform}">${d.platform === 'ios' ? '🍎 iOS' : '🤖 Android'}</span></td>
-            <td class="token-cell" title="${safeAttr(d.device_token)}" onclick="copyToken('${safeAttr(d.device_token)}')">${shortToken(d.device_token)}</td>
-            <td>${getAppName(d.app_id)}</td>
-            <td>${d.locale || '-'}</td>
-            <td>${d.timezone != null ? 'UTC' + (d.timezone >= 0 ? '+' : '') + (d.timezone / 60) : '-'}</td>
-            <td style="white-space:nowrap;">${timeSince(d.updated_at || d.created_at)}</td>
-            <td style="white-space:nowrap;">
-              <button class="btn btn-ghost btn-sm" style="color:var(--blue);" onclick="sendToDevice('${safeAttr(d.device_token)}')" title="이 디바이스에 전송">📤</button>
+            </span>
+            <span class="list-card-actions">
+              <button class="btn btn-ghost btn-sm" style="color:var(--blue);" onclick="sendToDevice('${safeAttr(d.device_token)}')" title="전송">📤</button>
               ${d.is_active
                 ? `<button class="btn btn-ghost btn-sm" style="color:var(--yellow);" onclick="toggleDeviceActive('${d.id}', false)" title="비활성화">⏸</button>`
                 : `<button class="btn btn-ghost btn-sm" style="color:var(--accent);" onclick="toggleDeviceActive('${d.id}', true)" title="활성화">▶</button>`
               }
               <button class="btn btn-ghost btn-sm" style="color:var(--danger-hover);" onclick="deleteDevice('${d.id}')" title="삭제">🗑</button>
-            </td>
-          </tr>
-        `).join('')}
-      </tbody>
-    </table>
+            </span>
+          </div>
+          <div class="list-card-row">
+            <span class="list-card-token" onclick="copyToken('${safeAttr(d.device_token)}')" title="${safeAttr(d.device_token)}">${shortToken(d.device_token)}</span>
+          </div>
+          <div class="list-card-row">
+            <span class="list-card-meta">
+              <span>${getAppName(d.app_id)}</span>
+              <span>${d.locale || '-'}</span>
+              <span>${tzLabel(d.timezone)}</span>
+              <span>${timeSince(d.last_active_at || d.created_at)}</span>
+            </span>
+          </div>
+        </div>
+      `).join('')}
+    </div>
   `;
 }
 
@@ -1435,31 +1547,52 @@ async function loadSchedules() {
     return next.toLocaleString('ko-KR', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
   };
 
+  const schedActionBtns = s => {
+    let btns = `<button class="btn btn-ghost btn-sm" onclick="editSchedule('${s.id}')">편집</button>`;
+    if (s.status === 'pending') btns += `<button class="btn btn-ghost btn-sm" style="color:var(--yellow)" onclick="toggleSchedule('${s.id}','cancelled')">중지</button>`;
+    else if (s.status === 'cancelled') btns += `<button class="btn btn-ghost btn-sm" style="color:var(--accent)" onclick="toggleSchedule('${s.id}','pending')">재활성</button>`;
+    btns += `<button class="btn btn-ghost btn-sm" style="color:var(--danger-hover)" onclick="deleteSchedule('${s.id}')">삭제</button>`;
+    return btns;
+  };
+
   container.innerHTML = `
-    <table>
-      <thead><tr><th>앱</th><th>문구</th><th>반복</th><th>다음 실행</th><th>상태</th><th></th></tr></thead>
-      <tbody>
-        ${schedules.map(s => `
-          <tr>
-            <td>${getAppName(s.app_id)}</td>
-            <td>${getTitle(s)}</td>
-            <td>${repeatLabel(s.repeat_rule)}</td>
-            <td style="white-space:nowrap;">${formatNextRun(s)}</td>
-            <td>${statusBadge(s.status)}</td>
-            <td style="white-space:nowrap;">
-              <button class="btn btn-ghost btn-sm" onclick="editSchedule('${s.id}')">편집</button>
-              ${s.status === 'pending'
-                ? `<button class="btn btn-ghost btn-sm" style="color:var(--yellow)" onclick="toggleSchedule('${s.id}','cancelled')">중지</button>`
-                : s.status === 'cancelled'
-                ? `<button class="btn btn-ghost btn-sm" style="color:var(--accent)" onclick="toggleSchedule('${s.id}','pending')">재활성</button>`
-                : ''
-              }
-              <button class="btn btn-ghost btn-sm" style="color:var(--danger-hover)" onclick="deleteSchedule('${s.id}')">삭제</button>
-            </td>
-          </tr>
-        `).join('')}
-      </tbody>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>앱</th><th>문구</th><th>반복</th><th>다음 실행</th><th>상태</th><th></th></tr></thead>
+        <tbody>
+          ${schedules.map(s => `
+            <tr>
+              <td>${getAppName(s.app_id)}</td>
+              <td>${getTitle(s)}</td>
+              <td>${repeatLabel(s.repeat_rule)}</td>
+              <td style="white-space:nowrap;">${formatNextRun(s)}</td>
+              <td>${statusBadge(s.status)}</td>
+              <td style="white-space:nowrap;">${schedActionBtns(s)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div class="list-cards-mobile">
+      ${schedules.map(s => `
+        <div class="list-card">
+          <div class="list-card-row">
+            <span class="list-card-title">${escapeHtml(getTitle(s))}</span>
+            ${statusBadge(s.status)}
+          </div>
+          <div class="list-card-row">
+            <span class="list-card-meta">
+              <span>${getAppName(s.app_id)}</span>
+              <span>🔁 ${repeatLabel(s.repeat_rule)}</span>
+              <span>⏰ ${formatNextRun(s)}</span>
+            </span>
+          </div>
+          <div class="list-card-row" style="justify-content:flex-end;">
+            <span class="list-card-actions">${schedActionBtns(s)}</span>
+          </div>
+        </div>
+      `).join('')}
+    </div>
   `;
 }
 
