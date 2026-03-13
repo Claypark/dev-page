@@ -259,8 +259,11 @@
     td {
       padding: 10px 12px;
       border-bottom: 1px solid #21262d;
-      vertical-align: top;
+      vertical-align: middle;
+      white-space: nowrap;
     }
+
+    td.wrap-ok { white-space: normal; }
 
     tr:hover td { background: rgba(255,255,255,0.02); }
 
@@ -1099,30 +1102,36 @@ async function loadDashboard() {
     return `<span class="badge badge-pending" title="${escapeHtml(name)}">${escapeHtml(short)}</span>`;
   };
 
-  const shortTok = t => t ? t.substring(0, 12) + '…' + t.substring(t.length - 6) : '-';
+  const shortTok = t => t ? t.substring(0, 8) + '…' : '-';
   const safeTok = t => (t || '').replace(/&/g,'&amp;').replace(/'/g,'&#39;').replace(/"/g,'&quot;');
 
   const fmtTime = t => new Date(t).toLocaleString('ko-KR', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
 
+  const statusLabel = l => {
+    const cls = badgeClass(l.status);
+    const tip = l.error_message ? ` title="${escapeHtml(l.error_message)}"` : '';
+    const label = l.status === 'success' ? '성공' : l.status === 'invalid_token' ? '토큰만료' : '실패';
+    return `<span class="badge ${cls}"${tip}>${label}</span>`;
+  };
+
   logsTable.innerHTML = `
     <div class="table-wrap">
       <table>
-        <thead><tr><th>시각</th><th>앱</th><th>구분</th><th>제목</th><th>디바이스</th><th>상태</th><th>에러</th></tr></thead>
+        <thead><tr><th>시각</th><th>앱</th><th>구분</th><th>제목</th><th>디바이스</th><th>상태</th></tr></thead>
         <tbody>
           ${logs.map(l => {
             const tok = l.devices?.device_token;
             const plat = l.devices?.platform;
             return `
             <tr>
-              <td style="white-space:nowrap;">${fmtTime(l.sent_at)}</td>
+              <td>${fmtTime(l.sent_at)}</td>
               <td style="font-size:11px;">${getAppName(l.app_id)}</td>
-              <td>${l.schedule_id ? getSchedLabel(l.schedule_id) : '<span style="font-size:11px;color:var(--text-muted);">즉시</span>'}</td>
-              <td>${l.title || '-'}</td>
+              <td>${l.schedule_id ? '<span class="badge badge-pending">스케줄</span>' : '<span style="font-size:11px;color:var(--text-muted);">즉시</span>'}</td>
+              <td class="wrap-ok">${l.title || '-'}</td>
               <td>${tok
                 ? `<span class="token-cell" title="${safeTok(tok)}" onclick="copyToken('${safeTok(tok)}')" style="font-size:11px;">${plat === 'ios' ? '🍎' : '🤖'} ${shortTok(tok)}</span>`
                 : '-'}</td>
-              <td><span class="badge ${badgeClass(l.status)}">${l.status}</span></td>
-              <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:var(--text-muted);" title="${escapeHtml(l.error_message || '')}">${l.error_message ? escapeHtml(l.error_message).substring(0, 30) : '-'}</td>
+              <td>${statusLabel(l)}</td>
             </tr>`;
           }).join('')}
         </tbody>
