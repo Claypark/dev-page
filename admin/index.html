@@ -1793,9 +1793,8 @@ window.toggleSchedule = async function(id, newStatus) {
 
 window.deleteSchedule = async function(id) {
   if (!confirm('이 스케줄을 삭제하시겠습니까?')) return;
-  const schedule = (await supabase.from('push_schedules').select('app_id').eq('id', id).single()).data;
-  if (!schedule) return;
-  await apiCall(`schedule-push?id=${id}`, 'DELETE', null, schedule.app_id);
+  const { error } = await supabase.from('push_schedules').delete().eq('id', id);
+  if (error) { showToast('삭제 실패: ' + error.message, 'error'); return; }
   showToast('스케줄이 삭제되었습니다');
   loadSchedules();
 };
