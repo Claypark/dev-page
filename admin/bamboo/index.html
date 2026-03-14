@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+  <title>대나무숲 관리 - 어드민</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0A0F0D;
+      color: #EAEAEA;
+      min-height: 100vh;
+    }
+
+    /* Loading & Login */
+    #loading-screen {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; color: #9E9E9E; font-size: 14px;
+    }
+    #login-screen {
+      display: none; align-items: center; justify-content: center;
+      min-height: 100vh; flex-direction: column; gap: 24px;
+    }
+    .login-card {
+      background: #141A17; border-radius: 16px; padding: 40px 32px;
+      text-align: center; max-width: 360px; width: 100%;
+    }
+    .login-card h1 { font-size: 20px; margin-bottom: 8px; }
+    .login-card p { font-size: 13px; color: #9E9E9E; margin-bottom: 24px; }
+    .login-card .icon { font-size: 40px; margin-bottom: 16px; }
+    .btn-github {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; color: #000; border: none; border-radius: 10px;
+      padding: 12px 24px; font-size: 14px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+    }
+    .btn-github:hover { background: #e0e0e0; }
+    .login-error {
+      display: none; color: #f85149; font-size: 13px;
+      margin-top: 12px; text-align: center;
+    }
+
+    /* App */
+    #app { display: none; }
+    .container {
+      max-width: 480px; margin: 0 auto; padding: 16px 20px 80px;
+    }
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 0 24px;
+    }
+    header h1 { font-size: 20px; font-weight: 700; }
+    .user-info {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; color: #9E9E9E;
+    }
+    .btn-logout {
+      background: none; border: 1px solid #333; border-radius: 8px;
+      color: #9E9E9E; padding: 4px 10px; font-size: 12px;
+      cursor: pointer; font-family: inherit;
+    }
+    .btn-logout:hover { border-color: #555; color: #ccc; }
+
+    .card {
+      background: #141A17; border-radius: 14px; padding: 20px;
+      margin-bottom: 14px;
+    }
+    .card h2 {
+      font-size: 15px; font-weight: 600; margin-bottom: 16px; color: #EAEAEA;
+    }
+
+    .form-group { margin-bottom: 14px; }
+    .form-group label {
+      display: block; font-size: 13px; color: #9E9E9E;
+      margin-bottom: 6px; font-weight: 500;
+    }
+    select, textarea {
+      width: 100%; background: #0D1210; border: 1px solid #2A3A30;
+      border-radius: 10px; padding: 10px 12px; color: #EAEAEA;
+      font-size: 14px; font-family: inherit; outline: none;
+      transition: border-color 0.15s;
+    }
+    select:focus, textarea:focus { border-color: #4CAF50; }
+    textarea { resize: vertical; line-height: 1.6; }
+    select {
+      cursor: pointer; -webkit-appearance: none; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239E9E9E' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 12px center;
+      padding-right: 32px;
+    }
+    select option { background: #141A17; color: #EAEAEA; }
+
+    .toggle-row {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .toggle-row .toggle-label { font-size: 14px; color: #EAEAEA; }
+    .toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; inset: 0;
+      background: #333; border-radius: 24px; transition: background 0.2s;
+    }
+    .slider::before {
+      content: ''; position: absolute; width: 18px; height: 18px;
+      left: 3px; bottom: 3px; background: #fff; border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    .toggle input:checked + .slider { background: #4CAF50; }
+    .toggle input:checked + .slider::before { transform: translateX(20px); }
+
+    .stats-row {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: #666; margin: 12px 0 16px;
+    }
+
+    .btn {
+      border: none; border-radius: 10px; padding: 11px 18px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s; font-family: inherit;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .btn-primary { background: #4CAF50; color: #0A0F0D; width: 100%; }
+    .btn-secondary {
+      background: #1E2E25; color: #81C784; width: 100%; margin-bottom: 12px;
+    }
+    .char-count {
+      text-align: right; font-size: 12px; color: #666; margin: 4px 0 12px;
+    }
+
+    .post-item { padding: 14px 0; border-bottom: 1px solid #1A2420; }
+    .post-item:last-child { border-bottom: none; }
+    .post-item.expired { opacity: 0.4; }
+    .post-time { font-size: 12px; color: #666; margin-bottom: 6px; }
+    .post-text {
+      font-size: 14px; color: #ccc; line-height: 1.5; word-break: break-word;
+    }
+    .empty {
+      text-align: center; color: #555; font-size: 14px;
+      padding: 20px 0; line-height: 1.6;
+    }
+
+    .toast {
+      position: fixed; top: 20px; left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: #1E2E25; color: #EAEAEA; padding: 12px 20px;
+      border-radius: 12px; font-size: 14px; z-index: 1000;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-width: calc(100% - 40px); text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .toast.error { background: #2E1A1A; border: 1px solid #5E2222; }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="loading-screen">로딩 중...</div>
+
+<!-- Login -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="icon">🌿</div>
+    <h1>대나무숲 관리</h1>
+    <p>GitHub 계정으로 로그인하세요</p>
+    <button class="btn-github" id="loginBtn">
+      <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+      GitHub로 로그인
+    </button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app">
+  <div class="container">
+    <header>
+      <h1>🌿 대나무숲 관리</h1>
+      <div class="user-info">
+        <span id="user-display"></span>
+        <button class="btn-logout" id="logoutBtn">로그아웃</button>
+      </div>
+    </header>
+
+    <!-- Auto Post Config -->
+    <section class="card">
+      <h2>🤖 자동 포스팅</h2>
+      <div class="form-group">
+        <div class="toggle-row">
+          <span class="toggle-label">활성화</span>
+          <label class="toggle">
+            <input type="checkbox" id="autoEnabled">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>포스팅 간격</label>
+        <select id="autoInterval">
+          <option value="10">10분마다</option>
+          <option value="20">20분마다</option>
+          <option value="30">30분마다</option>
+          <option value="60">1시간마다</option>
+          <option value="120">2시간마다</option>
+          <option value="240">4시간마다</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>AI 프롬프트</label>
+        <textarea id="promptTemplate" rows="7"></textarea>
+      </div>
+      <div class="stats-row">
+        <span id="lastPostTime">마지막 포스팅: -</span>
+        <span id="totalGenerated">총 생성: 0개</span>
+      </div>
+      <button class="btn btn-primary" id="saveConfigBtn">설정 저장</button>
+    </section>
+
+    <!-- Manual Post -->
+    <section class="card">
+      <h2>✍️ 수동 글 올리기</h2>
+      <button class="btn btn-secondary" id="generateBtn">🤖 AI로 생성하기</button>
+      <textarea id="postContent" rows="5" maxlength="500" placeholder="글 내용을 입력하거나, AI로 생성해보세요"></textarea>
+      <div class="char-count"><span id="charCount">0</span>/500</div>
+      <button class="btn btn-primary" id="postBtn">올리기</button>
+    </section>
+
+    <!-- Recent Posts -->
+    <section class="card">
+      <h2>📋 최근 관리자 글</h2>
+      <div id="recentPosts"><p class="empty">로딩 중...</p></div>
+    </section>
+  </div>
+</div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+import {
+  getFirestore, doc, getDoc, setDoc,
+  collection, query, where, orderBy, limit,
+  getDocs, addDoc, Timestamp,
+} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+
+// ─── CONFIG ──────────────────────────────────────────
+const SUPABASE_URL = 'https://nhroluokyjwdecsmpbwh.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ocm9sdW9reWp3ZGVjc21wYndoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxMDYyMTAsImV4cCI6MjA4ODY4MjIxMH0.aj200jMjwdK3bHLDBVL0b22AJhWd3rDl9XVcWkAbcYc';
+const FUNCTIONS_URL = `${SUPABASE_URL}/functions/v1`;
+const APP_KEY = 'juk-forest-e227ab71';
+
+const BOT_DEVICE_ID = 'admin_auto_post_bot';
+const POST_EXPIRY_HOURS = 24;
+
+const DEFAULT_PROMPT = `당신은 익명 고민 커뮤니티 '대나무숲'의 사용자입니다.
+실제 사람이 익명으로 남길 법한 이야기를 하나 작성해주세요.
+
+규칙:
+- 50~300자 사이
+- 자연스러운 한국어 구어체 (반말 또는 혼잣말)
+- 주제: 직장, 연애, 가족, 친구, 학교, 일상, 고민, 감정 등 다양하게
+- 감정: 기쁨, 슬픔, 분노, 설렘, 후회, 감사 등 다양하게
+- 이모지 가끔 사용 (과하지 않게)
+- AI가 쓴 것처럼 느껴지지 않게 자연스럽게
+- 매번 다른 주제와 스타일로
+
+글 내용만 출력하세요. 따옴표나 제목 없이 본문만 작성하세요.`;
+
+// ─── SUPABASE ────────────────────────────────────────
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    persistSession: true,
+    detectSessionInUrl: true,
+    autoRefreshToken: true,
+    storageKey: 'bamboo-admin-auth',
+  },
+});
+
+// ─── FIREBASE ────────────────────────────────────────
+const firebaseApp = initializeApp({
+  apiKey: 'AIzaSyAtt15HCgdMK3I1cvClXc2wEnup29RezJk',
+  projectId: 'juk-forest',
+  storageBucket: 'juk-forest.firebasestorage.app',
+  messagingSenderId: '209912216565',
+});
+const db = getFirestore(firebaseApp);
+
+// ─── DOM ─────────────────────────────────────────────
+const $autoEnabled = document.getElementById('autoEnabled');
+const $autoInterval = document.getElementById('autoInterval');
+const $promptTemplate = document.getElementById('promptTemplate');
+const $lastPostTime = document.getElementById('lastPostTime');
+const $totalGenerated = document.getElementById('totalGenerated');
+const $postContent = document.getElementById('postContent');
+const $charCount = document.getElementById('charCount');
+const $recentPosts = document.getElementById('recentPosts');
+const $generateBtn = document.getElementById('generateBtn');
+const $postBtn = document.getElementById('postBtn');
+
+// ─── AUTH ────────────────────────────────────────────
+document.getElementById('loginBtn').addEventListener('click', async () => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'github',
+    options: { redirectTo: window.location.origin + window.location.pathname },
+  });
+  if (error) {
+    document.getElementById('login-error').textContent = error.message;
+    document.getElementById('login-error').style.display = 'block';
+  }
+});
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await supabase.auth.signOut();
+});
+
+async function onLogin(session) {
+  const user = session.user;
+  const username = user.user_metadata?.user_name || user.email;
+
+  const { data: admin } = await supabase
+    .from('admins')
+    .select('id')
+    .eq('github_username', username)
+    .single();
+
+  if (!admin) {
+    document.getElementById('login-error').textContent =
+      `"${username}" 계정은 관리자 권한이 없습니다.`;
+    document.getElementById('login-error').style.display = 'block';
+    await supabase.auth.signOut();
+    return;
+  }
+
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('user-display').textContent = `@${username}`;
+
+  loadConfig();
+  loadRecentPosts();
+}
+
+function showLogin() {
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
+// ─── EDGE FUNCTION CALL ──────────────────────────────
+async function callEdgeFunction(fnName, body, method = 'POST') {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) throw new Error('로그인이 필요합니다');
+
+  const opts = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      'x-app-key': APP_KEY,
+      'Authorization': `Bearer ${session.access_token}`,
+    },
+  };
+  if (body && method !== 'GET') opts.body = JSON.stringify(body);
+
+  const res = await fetch(`${FUNCTIONS_URL}/${fnName}`, opts);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+  return data;
+}
+
+// ─── CONFIG (via Supabase Edge Function) ─────────────
+async function loadConfig() {
+  try {
+    const d = await callEdgeFunction('bamboo-config', null, 'GET');
+    $autoEnabled.checked = d.enabled ?? false;
+    $autoInterval.value = String(d.intervalMinutes ?? 30);
+    $promptTemplate.value = d.promptTemplate ?? DEFAULT_PROMPT;
+    if (d.lastPostAt) {
+      $lastPostTime.textContent = '마지막 포스팅: ' + fmtDate(new Date(d.lastPostAt));
+    }
+    $totalGenerated.textContent = '총 생성: ' + (d.totalGenerated ?? 0) + '개';
+  } catch (e) {
+    console.error('Config load error:', e);
+    $promptTemplate.value = DEFAULT_PROMPT;
+  }
+}
+
+document.getElementById('saveConfigBtn').addEventListener('click', async () => {
+  try {
+    await callEdgeFunction('bamboo-config', {
+      enabled: $autoEnabled.checked,
+      intervalMinutes: parseInt($autoInterval.value),
+      promptTemplate: $promptTemplate.value,
+    });
+    showToast('설정이 저장되었습니다');
+  } catch (e) {
+    showToast('저장 실패: ' + e.message, true);
+  }
+});
+
+// ─── AI GENERATE (Supabase Edge Function) ────────────
+$generateBtn.addEventListener('click', async () => {
+  $generateBtn.disabled = true;
+  $generateBtn.textContent = '⏳ 생성 중...';
+
+  try {
+    const prompt = $promptTemplate.value || DEFAULT_PROMPT;
+    const result = await callEdgeFunction('generate-bamboo-post', { prompt });
+
+    $postContent.value = result.text;
+    updateCharCount();
+    showToast('AI 글이 생성되었습니다');
+  } catch (e) {
+    console.error('AI generation error:', e);
+    showToast('AI 생성 실패: ' + e.message, true);
+  } finally {
+    $generateBtn.disabled = false;
+    $generateBtn.textContent = '🤖 AI로 생성하기';
+  }
+});
+
+// ─── CREATE POST (Firestore) ─────────────────────────
+$postBtn.addEventListener('click', async () => {
+  const content = $postContent.value.trim();
+  if (!content) { showToast('글 내용을 입력해주세요', true); return; }
+  if (content.length > 500) { showToast('500자를 초과했습니다', true); return; }
+
+  $postBtn.disabled = true;
+
+  try {
+    const now = new Date();
+    await addDoc(collection(db, 'posts'), {
+      content,
+      deviceId: BOT_DEVICE_ID,
+      isPublic: true,
+      reactions: {},
+      reports: 0,
+      createdAt: Timestamp.fromDate(now),
+      expiresAt: Timestamp.fromDate(new Date(now.getTime() + POST_EXPIRY_HOURS * 3600000)),
+    });
+
+    $postContent.value = '';
+    updateCharCount();
+    showToast('글이 올라갔습니다 🎋');
+    loadRecentPosts();
+  } catch (e) {
+    showToast('글 올리기 실패: ' + e.message, true);
+  } finally {
+    $postBtn.disabled = false;
+  }
+});
+
+// ─── RECENT POSTS (Firestore) ────────────────────────
+async function loadRecentPosts() {
+  try {
+    const q = query(
+      collection(db, 'posts'),
+      where('isPublic', '==', true),
+      where('deviceId', '==', BOT_DEVICE_ID),
+      orderBy('createdAt', 'desc'),
+      limit(10),
+    );
+    const snap = await getDocs(q);
+
+    if (snap.empty) {
+      $recentPosts.innerHTML = '<p class="empty">아직 올린 글이 없습니다</p>';
+      return;
+    }
+
+    $recentPosts.innerHTML = '';
+    snap.forEach(d => {
+      const data = d.data();
+      const created = data.createdAt?.toDate();
+      const expired = data.expiresAt?.toDate() < new Date();
+      const el = document.createElement('div');
+      el.className = 'post-item' + (expired ? ' expired' : '');
+      el.innerHTML =
+        `<div class="post-time">${created ? fmtDate(created) : '-'}${expired ? ' (만료됨)' : ''}</div>` +
+        `<div class="post-text">${esc(data.content)}</div>`;
+      $recentPosts.appendChild(el);
+    });
+  } catch (e) {
+    console.error('Load posts error:', e);
+    $recentPosts.innerHTML =
+      `<p class="empty">글 목록을 불러올 수 없습니다<br><small style="color:#555">${esc(e.message)}</small></p>`;
+  }
+}
+
+// ─── HELPERS ─────────────────────────────────────────
+function fmtDate(date) {
+  const diff = Date.now() - date.getTime();
+  if (diff < 60000) return '방금 전';
+  if (diff < 3600000) return Math.floor(diff / 60000) + '분 전';
+  if (diff < 86400000) return Math.floor(diff / 3600000) + '시간 전';
+  return date.toLocaleDateString('ko-KR', {
+    month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
+  });
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s ?? '';
+  return d.innerHTML;
+}
+
+function updateCharCount() {
+  $charCount.textContent = $postContent.value.length;
+}
+
+function showToast(msg, isError = false) {
+  const t = document.createElement('div');
+  t.className = 'toast' + (isError ? ' error' : '');
+  t.textContent = msg;
+  document.body.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('show'));
+  setTimeout(() => {
+    t.classList.remove('show');
+    setTimeout(() => t.remove(), 300);
+  }, 2500);
+}
+
+$postContent.addEventListener('input', updateCharCount);
+
+// ─── INIT ────────────────────────────────────────────
+let authInitDone = false;
+
+async function handleSession(session) {
+  if (session) {
+    try { await onLogin(session); }
+    catch (e) { console.error('onLogin error:', e); showLogin(); }
+  } else {
+    showLogin();
+  }
+}
+
+supabase.auth.onAuthStateChange((event, session) => {
+  if (event === 'INITIAL_SESSION') {
+    authInitDone = true;
+    setTimeout(() => handleSession(session), 0);
+    return;
+  }
+  if (event === 'SIGNED_IN' && session) {
+    setTimeout(() => handleSession(session), 0);
+    return;
+  }
+  if (event === 'SIGNED_OUT') showLogin();
+});
+
+setTimeout(async () => {
+  if (authInitDone) return;
+  authInitDone = true;
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    await handleSession(session);
+  } catch (e) {
+    console.error('Fallback init error:', e);
+    showLogin();
+  }
+}, 4000);
+</script>
+</body>
+</html>
