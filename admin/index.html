@@ -7,20 +7,36 @@
   <title>Admin</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0e1117;
+      --bg-card: #161b22;
+      --border: #30363d;
+      --border-hover: #484f58;
+      --text: #c9d1d9;
+      --text-muted: #8b949e;
+      --text-bright: #f0f6fc;
+      --accent: #238636;
+      --danger: #f85149;
+      --radius: 12px;
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0e1117;
-      color: #c9d1d9;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+
     .container {
       max-width: 480px;
       width: 100%;
       padding: 24px 20px;
     }
+
     .header {
       text-align: center;
       margin-bottom: 40px;
@@ -28,80 +44,236 @@
     .header h1 {
       font-size: 22px;
       font-weight: 700;
-      color: #f0f6fc;
+      color: var(--text-bright);
       margin-bottom: 6px;
     }
     .header p {
       font-size: 13px;
-      color: #8b949e;
+      color: var(--text-muted);
     }
-    .card-grid {
-      display: grid;
-      gap: 12px;
+
+    /* ─── Loading ──────────────────────────────── */
+    #loading-screen {
+      color: var(--text-muted);
+      font-size: 14px;
     }
-    a.card {
+
+    /* ─── Login ───────────────────────────────── */
+    #login-screen { display: none; }
+    .login-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px 36px;
+      text-align: center;
+      max-width: 380px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .login-card .icon { font-size: 40px; margin-bottom: 16px; }
+    .login-card h1 { font-size: 20px; color: var(--text-bright); margin-bottom: 8px; }
+    .login-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 28px; }
+    .btn-github {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; color: #000; border: none; border-radius: 10px;
+      padding: 12px 24px; font-size: 14px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+    }
+    .btn-github:hover { background: #e0e0e0; }
+    .login-error {
+      display: none; color: var(--danger); font-size: 13px;
+      margin-top: 16px;
+    }
+
+    /* ─── App ─────────────────────────────────── */
+    #app { display: none; }
+    .user-bar {
       display: flex;
       align-items: center;
-      gap: 16px;
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 12px;
-      padding: 20px;
-      text-decoration: none;
-      color: inherit;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .user-bar span {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .btn-logout {
+      background: none; border: 1px solid var(--border);
+      border-radius: 8px; color: var(--text-muted);
+      padding: 4px 12px; font-size: 12px;
+      cursor: pointer; font-family: inherit;
+    }
+    .btn-logout:hover { border-color: var(--border-hover); color: var(--text); }
+
+    .card-grid { display: grid; gap: 12px; }
+    a.card {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+      text-decoration: none; color: inherit;
       transition: border-color 0.15s, background 0.15s;
     }
-    a.card:hover {
-      border-color: #484f58;
-      background: #1c2129;
-    }
-    .card-icon {
-      font-size: 28px;
-      flex-shrink: 0;
-    }
+    a.card:hover { border-color: var(--border-hover); background: #1c2129; }
+    .card-icon { font-size: 28px; flex-shrink: 0; }
     .card-body { flex: 1; min-width: 0; }
-    .card-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: #f0f6fc;
-      margin-bottom: 4px;
-    }
-    .card-desc {
-      font-size: 12px;
-      color: #8b949e;
-      line-height: 1.5;
-    }
-    .card-arrow {
-      color: #484f58;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
+    .card-title { font-size: 15px; font-weight: 600; color: var(--text-bright); margin-bottom: 4px; }
+    .card-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+    .card-arrow { color: var(--border-hover); font-size: 18px; flex-shrink: 0; }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <h1>Admin</h1>
-      <p>관리 도구</p>
+    <!-- Loading -->
+    <div id="loading-screen">
+      <div class="header">
+        <h1>Admin</h1>
+        <p>로딩 중...</p>
+      </div>
     </div>
-    <div class="card-grid">
-      <a href="bamboo/" class="card">
-        <div class="card-icon">🌿</div>
-        <div class="card-body">
-          <div class="card-title">대나무숲 관리</div>
-          <div class="card-desc">AI 자동 글 생성, 수동 글 올리기, 자동 포스팅 설정</div>
-        </div>
-        <div class="card-arrow">›</div>
-      </a>
-      <a href="push/" class="card">
-        <div class="card-icon">🔔</div>
-        <div class="card-body">
-          <div class="card-title">푸시 알림 관리</div>
-          <div class="card-desc">푸시 알림 발송, 예약, 기기 관리, 앱 설정</div>
-        </div>
-        <div class="card-arrow">›</div>
-      </a>
+
+    <!-- Login -->
+    <div id="login-screen">
+      <div class="login-card">
+        <div class="icon">🔐</div>
+        <h1>Admin</h1>
+        <p>GitHub 계정으로 로그인하세요</p>
+        <button class="btn-github" id="loginBtn">
+          <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          GitHub로 로그인
+        </button>
+        <div class="login-error" id="login-error"></div>
+      </div>
+    </div>
+
+    <!-- App -->
+    <div id="app">
+      <div class="user-bar">
+        <span id="user-display"></span>
+        <button class="btn-logout" id="logoutBtn">로그아웃</button>
+      </div>
+      <div class="header">
+        <h1>Admin</h1>
+        <p>관리 도구</p>
+      </div>
+      <div class="card-grid">
+        <a href="bamboo/" class="card">
+          <div class="card-icon">🌿</div>
+          <div class="card-body">
+            <div class="card-title">대나무숲 관리</div>
+            <div class="card-desc">AI 자동 글 생성, 수동 글 올리기, 자동 포스팅 설정</div>
+          </div>
+          <div class="card-arrow">›</div>
+        </a>
+        <a href="push/" class="card">
+          <div class="card-icon">🔔</div>
+          <div class="card-body">
+            <div class="card-title">푸시 알림 관리</div>
+            <div class="card-desc">푸시 알림 발송, 예약, 기기 관리, 앱 설정</div>
+          </div>
+          <div class="card-arrow">›</div>
+        </a>
+      </div>
     </div>
   </div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const SUPABASE_URL = 'https://nhroluokyjwdecsmpbwh.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ocm9sdW9reWp3ZGVjc21wYndoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxMDYyMTAsImV4cCI6MjA4ODY4MjIxMH0.aj200jMjwdK3bHLDBVL0b22AJhWd3rDl9XVcWkAbcYc';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    persistSession: true,
+    detectSessionInUrl: true,
+    autoRefreshToken: true,
+    storageKey: 'admin-home-auth',
+  },
+});
+
+document.getElementById('loginBtn').addEventListener('click', async () => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'github',
+    options: { redirectTo: window.location.origin + window.location.pathname },
+  });
+  if (error) {
+    document.getElementById('login-error').textContent = error.message;
+    document.getElementById('login-error').style.display = 'block';
+  }
+});
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await supabase.auth.signOut();
+});
+
+async function onLogin(session) {
+  const user = session.user;
+  const username = user.user_metadata?.user_name || user.email;
+
+  const { data: admin } = await supabase
+    .from('admins')
+    .select('id')
+    .eq('github_username', username)
+    .single();
+
+  if (!admin) {
+    document.getElementById('login-error').textContent =
+      `"${username}" 계정은 관리자 권한이 없습니다.`;
+    document.getElementById('login-error').style.display = 'block';
+    await supabase.auth.signOut();
+    return;
+  }
+
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('user-display').textContent = `@${username}`;
+}
+
+function showLogin() {
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
+let authInitDone = false;
+
+async function handleSession(session) {
+  if (session) {
+    try { await onLogin(session); }
+    catch (e) { console.error('onLogin error:', e); showLogin(); }
+  } else {
+    showLogin();
+  }
+}
+
+supabase.auth.onAuthStateChange((event, session) => {
+  if (event === 'INITIAL_SESSION') {
+    authInitDone = true;
+    setTimeout(() => handleSession(session), 0);
+    return;
+  }
+  if (event === 'SIGNED_IN' && session) {
+    setTimeout(() => handleSession(session), 0);
+    return;
+  }
+  if (event === 'SIGNED_OUT') showLogin();
+});
+
+setTimeout(async () => {
+  if (authInitDone) return;
+  authInitDone = true;
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    await handleSession(session);
+  } catch (e) {
+    console.error('Fallback init error:', e);
+    showLogin();
+  }
+}, 4000);
+</script>
 </body>
 </html>
