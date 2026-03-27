@@ -50,12 +50,17 @@
             margin-bottom: 16px;
         }
 
+        /* Detail panels container — fixed below grid */
+        .detail-container {
+            margin-bottom: 16px;
+        }
+
         /* Grid layout — 2 columns on mobile, 3 on desktop */
         .app-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
-            margin-bottom: 32px;
+            margin-bottom: 16px;
         }
 
         @media (min-width: 540px) {
@@ -339,7 +344,8 @@
             </div>
         </div>
 
-        <!-- Detail panels (hidden by default) -->
+        <!-- Detail panels — fixed container below grid -->
+        <div class="detail-container" id="detailContainer">
         <div class="app-detail" id="detail-jukforest">
             <button class="close-btn" onclick="closeDetail('jukforest')">&times;</button>
             <div class="detail-header">
@@ -459,6 +465,7 @@
                 <a href="https://claypark.github.io/dev-page/naru/terms-of-service.html">이용약관</a>
             </div>
         </div>
+        </div><!-- end detail-container -->
 
         <div class="contact">
             <div class="section-title">Contact</div>
@@ -483,12 +490,9 @@
             if (activeDetail) {
                 document.getElementById('detail-' + activeDetail).classList.remove('active');
             }
-            // Open new panel — insert after grid
-            const grid = document.getElementById('appGrid');
-            grid.after(panel);
+            // Show panel in place (no DOM movement = no layout shift)
             panel.classList.add('active');
             activeDetail = id;
-            // Scroll into view
             setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
         }
 
