@@ -50,17 +50,12 @@
             margin-bottom: 16px;
         }
 
-        /* Detail panels container — fixed below grid */
-        .detail-container {
-            margin-bottom: 16px;
-        }
-
         /* Grid layout — 2 columns on mobile, 3 on desktop */
         .app-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
-            margin-bottom: 16px;
+            margin-bottom: 32px;
         }
 
         @media (min-width: 540px) {
@@ -136,22 +131,41 @@
         }
 
         /* Expanded detail panel */
+        /* Overlay backdrop */
+        .overlay-backdrop {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .overlay-backdrop.active {
+            display: flex;
+        }
+
         .app-detail {
             display: none;
             background: #161b22;
             border: 1px solid #30363d;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 24px;
-            margin-bottom: 12px;
-            animation: slideDown 0.2s ease-out;
+            max-width: 480px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: fadeUp 0.2s ease-out;
         }
 
         .app-detail.active {
             display: block;
         }
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-8px); }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -344,9 +358,9 @@
             </div>
         </div>
 
-        <!-- Detail panels — fixed container below grid -->
-        <div class="detail-container" id="detailContainer">
-        <div class="app-detail" id="detail-jukforest">
+        <!-- Detail panels — overlay modal -->
+        <div class="overlay-backdrop" id="overlayBackdrop" onclick="closeAllDetails()">
+        <div class="app-detail" id="detail-jukforest" onclick="event.stopPropagation()">
             <button class="close-btn" onclick="closeDetail('jukforest')">&times;</button>
             <div class="detail-header">
                 <img src="juk-forest-icon.png" alt="" class="detail-icon">
@@ -366,7 +380,7 @@
             </div>
         </div>
 
-        <div class="app-detail" id="detail-ounwan">
+        <div class="app-detail" id="detail-ounwan" onclick="event.stopPropagation()">
             <button class="close-btn" onclick="closeDetail('ounwan')">&times;</button>
             <div class="detail-header">
                 <img src="ounwan-icon.png" alt="" class="detail-icon">
@@ -386,7 +400,7 @@
             </div>
         </div>
 
-        <div class="app-detail" id="detail-amen">
+        <div class="app-detail" id="detail-amen" onclick="event.stopPropagation()">
             <button class="close-btn" onclick="closeDetail('amen')">&times;</button>
             <div class="detail-header">
                 <img src="amen-icon.png" alt="" class="detail-icon">
@@ -406,7 +420,7 @@
             </div>
         </div>
 
-        <div class="app-detail" id="detail-ipsomun">
+        <div class="app-detail" id="detail-ipsomun" onclick="event.stopPropagation()">
             <button class="close-btn" onclick="closeDetail('ipsomun')">&times;</button>
             <div class="detail-header">
                 <img src="ipsomun-icon.png" alt="" class="detail-icon">
@@ -426,7 +440,7 @@
             </div>
         </div>
 
-        <div class="app-detail" id="detail-bagshot">
+        <div class="app-detail" id="detail-bagshot" onclick="event.stopPropagation()">
             <button class="close-btn" onclick="closeDetail('bagshot')">&times;</button>
             <div class="detail-header">
                 <img src="bagshot-icon.png" alt="" class="detail-icon">
@@ -446,7 +460,7 @@
             </div>
         </div>
 
-        <div class="app-detail" id="detail-naru">
+        <div class="app-detail" id="detail-naru" onclick="event.stopPropagation()">
             <button class="close-btn" onclick="closeDetail('naru')">&times;</button>
             <div class="detail-header">
                 <img src="naru-icon.png" alt="" class="detail-icon">
@@ -465,7 +479,7 @@
                 <a href="https://claypark.github.io/dev-page/naru/terms-of-service.html">이용약관</a>
             </div>
         </div>
-        </div><!-- end detail-container -->
+        </div><!-- end overlay -->
 
         <div class="contact">
             <div class="section-title">Contact</div>
@@ -482,22 +496,32 @@
 
         function toggleDetail(id) {
             const panel = document.getElementById('detail-' + id);
+            const backdrop = document.getElementById('overlayBackdrop');
             if (activeDetail === id) {
-                closeDetail(id);
+                closeAllDetails();
                 return;
             }
             // Close any open panel
             if (activeDetail) {
                 document.getElementById('detail-' + activeDetail).classList.remove('active');
             }
-            // Show panel in place (no DOM movement = no layout shift)
+            // Show overlay + panel
+            backdrop.classList.add('active');
             panel.classList.add('active');
             activeDetail = id;
-            setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
         }
 
         function closeDetail(id) {
             document.getElementById('detail-' + id).classList.remove('active');
+            document.getElementById('overlayBackdrop').classList.remove('active');
+            activeDetail = null;
+        }
+
+        function closeAllDetails() {
+            if (activeDetail) {
+                document.getElementById('detail-' + activeDetail).classList.remove('active');
+            }
+            document.getElementById('overlayBackdrop').classList.remove('active');
             activeDetail = null;
         }
     </script>
