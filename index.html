@@ -77,7 +77,6 @@
 
         .app-tile:hover {
             border-color: var(--accent, #4CAF50);
-            transform: translateY(-2px);
         }
 
         .app-tile .tile-icon {
@@ -139,7 +138,6 @@
             border-radius: 12px;
             padding: 24px;
             margin-bottom: 12px;
-            grid-column: 1 / -1;
             animation: slideDown 0.2s ease-out;
         }
 
@@ -320,7 +318,7 @@
             </div>
 
             <div class="app-tile" style="--accent: #C4572A;" onclick="toggleDetail('ipsomun')">
-                <div class="tile-emoji">🔥</div>
+                <img src="ipsomun-icon.png" alt="" class="tile-icon">
                 <div class="tile-name">입소문</div>
                 <div class="tile-tagline">푸드 트렌드 매거진</div>
                 <span class="tile-badge badge-dev">개발중</span>
@@ -405,7 +403,7 @@
         <div class="app-detail" id="detail-ipsomun">
             <button class="close-btn" onclick="closeDetail('ipsomun')">&times;</button>
             <div class="detail-header">
-                <div style="width:56px;height:56px;border-radius:14px;background:#C4572A;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;">🔥</div>
+                <img src="ipsomun-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
                     <h2>입소문</h2>
                     <div class="tagline">지금 뜨는 맛, 매일 새로워집니다</div>
