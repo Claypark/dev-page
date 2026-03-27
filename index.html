@@ -19,92 +19,190 @@
         .container {
             max-width: 720px;
             margin: 0 auto;
-            padding: 60px 24px;
+            padding: 48px 20px;
             flex: 1;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 56px;
+            margin-bottom: 40px;
         }
 
         .header h1 {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
             color: #f0f6fc;
             letter-spacing: -0.5px;
         }
 
         .header p {
-            margin-top: 8px;
-            font-size: 16px;
+            margin-top: 6px;
+            font-size: 14px;
             color: #8b949e;
         }
 
         .section-title {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 600;
             color: #8b949e;
             text-transform: uppercase;
-            letter-spacing: 1.2px;
-            margin-bottom: 20px;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
         }
 
-        .app-card {
-            --hover-color: #4CAF50;
+        /* Grid layout — 2 columns on mobile, 3 on desktop */
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        @media (min-width: 540px) {
+            .app-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Compact card */
+        .app-tile {
             background: #161b22;
             border: 1px solid #30363d;
             border-radius: 12px;
-            padding: 28px;
-            margin-bottom: 16px;
-            transition: border-color 0.2s;
+            padding: 16px;
+            cursor: pointer;
+            transition: border-color 0.2s, transform 0.15s;
+            text-align: center;
         }
 
-        .app-card:hover {
-            border-color: var(--hover-color);
+        .app-tile:hover {
+            border-color: var(--accent, #4CAF50);
+            transform: translateY(-2px);
         }
 
-        .app-card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .app-card-header h2 {
-            font-size: 20px;
-            color: #f0f6fc;
-        }
-
-        .app-icon {
+        .app-tile .tile-icon {
             width: 48px;
             height: 48px;
             border-radius: 12px;
             object-fit: cover;
+            margin: 0 auto 10px;
+            display: block;
         }
 
-        .app-card h2 {
+        .app-tile .tile-emoji {
+            font-size: 36px;
+            margin-bottom: 10px;
+            line-height: 48px;
+        }
+
+        .app-tile .tile-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #f0f6fc;
+            margin-bottom: 4px;
+        }
+
+        .app-tile .tile-tagline {
+            font-size: 11px;
+            color: #8b949e;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .app-tile .tile-badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .badge-live {
+            background: rgba(35, 134, 54, 0.2);
+            color: #3fb950;
+        }
+
+        .badge-dev {
+            background: rgba(139, 148, 158, 0.15);
+            color: #8b949e;
+        }
+
+        /* Expanded detail panel */
+        .app-detail {
+            display: none;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 12px;
+            grid-column: 1 / -1;
+            animation: slideDown 0.2s ease-out;
+        }
+
+        .app-detail.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .app-detail .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .app-detail .detail-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .app-detail .detail-info h2 {
             font-size: 20px;
             color: #f0f6fc;
-            margin-bottom: 8px;
+            margin-bottom: 2px;
         }
 
-        .app-card .tagline {
-            font-size: 14px;
+        .app-detail .detail-info .tagline {
+            font-size: 13px;
             color: #8b949e;
+        }
+
+        .app-detail .description {
+            font-size: 14px;
+            color: #c9d1d9;
+            line-height: 1.6;
             margin-bottom: 16px;
         }
 
-        .app-card .description {
-            font-size: 15px;
-            color: #c9d1d9;
-            line-height: 1.6;
-            margin-bottom: 20px;
+        .app-detail .close-btn {
+            float: right;
+            background: none;
+            border: none;
+            color: #8b949e;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 4px;
+            line-height: 1;
+        }
+
+        .app-detail .close-btn:hover {
+            color: #f0f6fc;
         }
 
         .app-links {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
             align-items: center;
         }
@@ -113,7 +211,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 8px 16px;
+            padding: 7px 14px;
             border-radius: 8px;
             font-size: 13px;
             font-weight: 500;
@@ -130,14 +228,6 @@
             background: #2ea043;
         }
 
-        .link-store.purple {
-            background: #a855f7;
-        }
-
-        .link-store.purple:hover {
-            background: #c084fc;
-        }
-
         .link-secondary {
             background: #21262d;
             color: #c9d1d9;
@@ -151,8 +241,8 @@
         .app-meta-links {
             display: flex;
             gap: 4px;
-            margin-top: 12px;
-            font-size: 12px;
+            margin-top: 10px;
+            font-size: 11px;
         }
 
         .app-meta-links a {
@@ -170,13 +260,13 @@
         }
 
         .contact {
-            margin-top: 48px;
-            padding-top: 32px;
+            margin-top: 32px;
+            padding-top: 24px;
             border-top: 1px solid #21262d;
         }
 
         .contact p {
-            font-size: 14px;
+            font-size: 13px;
             color: #8b949e;
         }
 
@@ -191,8 +281,8 @@
 
         .footer {
             text-align: center;
-            padding: 24px;
-            font-size: 12px;
+            padding: 20px;
+            font-size: 11px;
             color: #484f58;
         }
     </style>
@@ -206,15 +296,62 @@
 
         <div class="section-title">Apps</div>
 
-        <div class="app-card">
-            <div class="app-card-header">
-                <h2>대나무숲</h2>
-                <img src="juk-forest-icon.png" alt="대나무숲 앱 아이콘" class="app-icon">
+        <div class="app-grid" id="appGrid">
+            <!-- Tiles -->
+            <div class="app-tile" style="--accent: #4CAF50;" onclick="toggleDetail('jukforest')">
+                <img src="juk-forest-icon.png" alt="" class="tile-icon">
+                <div class="tile-name">대나무숲</div>
+                <div class="tile-tagline">24시간 후 사라지는 익명 공간</div>
+                <span class="tile-badge badge-live">출시</span>
             </div>
-            <div class="tagline">24시간 후 바람처럼 사라집니다</div>
-            <div class="description">
-                익명으로 마음속 이야기를 나누는 공간. 모든 글은 24시간 뒤 자동으로 사라지며, 비공개 모드로 나만의 감정을 기록할 수도 있습니다.
+
+            <div class="app-tile" style="--accent: #a855f7;" onclick="toggleDetail('ounwan')">
+                <img src="ounwan-icon.png" alt="" class="tile-icon">
+                <div class="tile-name">오운완</div>
+                <div class="tile-tagline">AI 사주 운세</div>
+                <span class="tile-badge badge-live">출시</span>
             </div>
+
+            <div class="app-tile" style="--accent: #c9a96e;" onclick="toggleDetail('amen')">
+                <img src="amen-icon.png" alt="" class="tile-icon">
+                <div class="tile-name">AMEN</div>
+                <div class="tile-tagline">AI 중보기도</div>
+                <span class="tile-badge badge-live">출시</span>
+            </div>
+
+            <div class="app-tile" style="--accent: #C4572A;" onclick="toggleDetail('ipsomun')">
+                <div class="tile-emoji">🔥</div>
+                <div class="tile-name">입소문</div>
+                <div class="tile-tagline">푸드 트렌드 매거진</div>
+                <span class="tile-badge badge-dev">개발중</span>
+            </div>
+
+            <div class="app-tile" style="--accent: #ef4444;" onclick="toggleDetail('bagshot')">
+                <img src="bagshot-icon.png" alt="" class="tile-icon">
+                <div class="tile-name">Bagshot</div>
+                <div class="tile-tagline">스트레스 해소 샌드백</div>
+                <span class="tile-badge badge-dev">개발중</span>
+            </div>
+
+            <div class="app-tile" style="--accent: #6366f1;" onclick="toggleDetail('naru')">
+                <img src="naru-icon.png" alt="" class="tile-icon">
+                <div class="tile-name">나루</div>
+                <div class="tile-tagline">픽셀아트 낚시 게임</div>
+                <span class="tile-badge badge-dev">개발중</span>
+            </div>
+        </div>
+
+        <!-- Detail panels (hidden by default) -->
+        <div class="app-detail" id="detail-jukforest">
+            <button class="close-btn" onclick="closeDetail('jukforest')">&times;</button>
+            <div class="detail-header">
+                <img src="juk-forest-icon.png" alt="" class="detail-icon">
+                <div class="detail-info">
+                    <h2>대나무숲</h2>
+                    <div class="tagline">24시간 후 바람처럼 사라집니다</div>
+                </div>
+            </div>
+            <div class="description">익명으로 마음속 이야기를 나누는 공간. 모든 글은 24시간 뒤 자동으로 사라지며, 비공개 모드로 나만의 감정을 기록할 수도 있습니다.</div>
             <div class="app-links">
                 <a href="https://play.google.com/store/apps/details?id=com.jukforest.juk_forest" class="link-store">Google Play</a>
             </div>
@@ -225,17 +362,18 @@
             </div>
         </div>
 
-        <div class="app-card" style="--hover-color: #a855f7;">
-            <div class="app-card-header">
-                <h2>오운완</h2>
-                <img src="ounwan-icon.png" alt="오운완 앱 아이콘" class="app-icon">
+        <div class="app-detail" id="detail-ounwan">
+            <button class="close-btn" onclick="closeDetail('ounwan')">&times;</button>
+            <div class="detail-header">
+                <img src="ounwan-icon.png" alt="" class="detail-icon">
+                <div class="detail-info">
+                    <h2>오운완</h2>
+                    <div class="tagline">오늘 운세 완료! AI가 분석하는 나만의 사주 운세</div>
+                </div>
             </div>
-            <div class="tagline">오늘 운세 완료! AI가 분석하는 나만의 사주 운세</div>
-            <div class="description">
-                생년월일시를 입력하면 사주팔자를 분석하고, AI 3중 검증으로 오늘의 운세를 생성합니다. 총운, 연애, 금전, 건강, 직장 등 다양한 카테고리의 운세와 궁합 분석을 제공합니다.
-            </div>
+            <div class="description">생년월일시를 입력하면 사주팔자를 분석하고, AI 3중 검증으로 오늘의 운세를 생성합니다. 총운, 연애, 금전, 건강, 직장 등 다양한 카테고리의 운세와 궁합 분석을 제공합니다.</div>
             <div class="app-links">
-                <a href="https://play.google.com/store/apps/details?id=com.myfortune.my_fortune_app" class="link-store purple">Google Play</a>
+                <a href="https://play.google.com/store/apps/details?id=com.myfortune.my_fortune_app" class="link-store" style="background: #a855f7;">Google Play</a>
             </div>
             <div class="app-meta-links">
                 <a href="https://claypark.github.io/ounwan-pages/privacy.html">개인정보처리방침</a>
@@ -244,15 +382,16 @@
             </div>
         </div>
 
-        <div class="app-card" style="--hover-color: #c9a96e;">
-            <div class="app-card-header">
-                <h2>AMEN - 기도 동행</h2>
-                <img src="amen-icon.png" alt="AMEN 앱 아이콘" class="app-icon">
+        <div class="app-detail" id="detail-amen">
+            <button class="close-btn" onclick="closeDetail('amen')">&times;</button>
+            <div class="detail-header">
+                <img src="amen-icon.png" alt="" class="detail-icon">
+                <div class="detail-info">
+                    <h2>AMEN - 기도 동행</h2>
+                    <div class="tagline">걱정과 근심을 나누면, AI가 당신을 위해 중보기도합니다</div>
+                </div>
             </div>
-            <div class="tagline">걱정과 근심을 나누면, AI가 당신을 위해 중보기도합니다</div>
-            <div class="description">
-                마음속 걱정, 근심, 염려를 이야기하면 AI가 당신을 위한 중보기도문을 작성해 드립니다. 무거운 짐을 내려놓고, 기도로 위로받는 경험을 해보세요. 한국어, 영어, 스페인어를 지원합니다.
-            </div>
+            <div class="description">마음속 걱정, 근심, 염려를 이야기하면 AI가 당신을 위한 중보기도문을 작성해 드립니다. 무거운 짐을 내려놓고, 기도로 위로받는 경험을 해보세요. 한국어, 영어, 스페인어를 지원합니다.</div>
             <div class="app-links">
                 <a href="https://play.google.com/store/apps/details?id=com.clpak.selah" class="link-store" style="background: #c9a96e;">Google Play</a>
             </div>
@@ -263,15 +402,36 @@
             </div>
         </div>
 
-        <div class="app-card" style="--hover-color: #ef4444;">
-            <div class="app-card-header">
-                <h2>Bagshot</h2>
-                <img src="bagshot-icon.png" alt="Bagshot 앱 아이콘" class="app-icon">
+        <div class="app-detail" id="detail-ipsomun">
+            <button class="close-btn" onclick="closeDetail('ipsomun')">&times;</button>
+            <div class="detail-header">
+                <div style="width:56px;height:56px;border-radius:14px;background:#C4572A;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;">🔥</div>
+                <div class="detail-info">
+                    <h2>입소문</h2>
+                    <div class="tagline">지금 뜨는 맛, 매일 새로워집니다</div>
+                </div>
             </div>
-            <div class="tagline">사진 한 장이면 샌드백 완성, 스트레스를 날려보세요!</div>
-            <div class="description">
-                얼굴 사진을 올리면 샌드백에 붙여드려요. 권투 글러브, 야구 방망이, 나무 몽둥이로 마음껏 때려보세요. 실감나는 물리 효과와 진동으로 시원한 타격감을 느낄 수 있어요.
+            <div class="description">오늘의 핫한 음식 트렌드를 매일 큐레이션해주는 푸드 매거진. 신메뉴, 핫플 음식점, 편의점 신상부터 컴백 음식까지 궁금한 모든 음식 소식을 매거진과 피드로 만나보세요.</div>
+            <div class="app-links">
+                <a href="#" class="link-secondary" style="cursor: default; opacity: 0.5;">개발중</a>
             </div>
+            <div class="app-meta-links">
+                <a href="https://claypark.github.io/dev-page/ipsomun/privacy-policy.html">개인정보처리방침</a>
+                <span class="separator">·</span>
+                <a href="https://claypark.github.io/dev-page/ipsomun/terms-of-service.html">이용약관</a>
+            </div>
+        </div>
+
+        <div class="app-detail" id="detail-bagshot">
+            <button class="close-btn" onclick="closeDetail('bagshot')">&times;</button>
+            <div class="detail-header">
+                <img src="bagshot-icon.png" alt="" class="detail-icon">
+                <div class="detail-info">
+                    <h2>Bagshot</h2>
+                    <div class="tagline">사진 한 장이면 샌드백 완성, 스트레스를 날려보세요!</div>
+                </div>
+            </div>
+            <div class="description">얼굴 사진을 올리면 샌드백에 붙여드려요. 권투 글러브, 야구 방망이, 나무 몽둥이로 마음껏 때려보세요. 실감나는 물리 효과와 진동으로 시원한 타격감을 느낄 수 있어요.</div>
             <div class="app-links">
                 <a href="#" class="link-secondary" style="cursor: default; opacity: 0.5;">개발중</a>
             </div>
@@ -282,15 +442,16 @@
             </div>
         </div>
 
-        <div class="app-card" style="--hover-color: #6366f1;">
-            <div class="app-card-header">
-                <h2>나루</h2>
-                <img src="naru-icon.png" alt="나루 앱 아이콘" class="app-icon">
+        <div class="app-detail" id="detail-naru">
+            <button class="close-btn" onclick="closeDetail('naru')">&times;</button>
+            <div class="detail-header">
+                <img src="naru-icon.png" alt="" class="detail-icon">
+                <div class="detail-info">
+                    <h2>나루</h2>
+                    <div class="tagline">물멍하는 픽셀아트 낚시 게임</div>
+                </div>
             </div>
-            <div class="tagline">물멍하는 픽셀아트 낚시 게임</div>
-            <div class="description">
-                강가에 앉아 물고기를 기다리는 픽셀아트 낚시 게임. 다양한 물고기를 수집하고, 업적을 달성하며 느긋하게 즐기세요.
-            </div>
+            <div class="description">강가에 앉아 물고기를 기다리는 픽셀아트 낚시 게임. 다양한 물고기를 수집하고, 업적을 달성하며 느긋하게 즐기세요.</div>
             <div class="app-links">
                 <a href="#" class="link-secondary" style="cursor: default; opacity: 0.5;">개발중</a>
             </div>
@@ -298,24 +459,6 @@
                 <a href="https://claypark.github.io/dev-page/naru/privacy-policy.html">개인정보처리방침</a>
                 <span class="separator">·</span>
                 <a href="https://claypark.github.io/dev-page/naru/terms-of-service.html">이용약관</a>
-            </div>
-        </div>
-
-        <div class="app-card" style="--hover-color: #C4572A;">
-            <div class="app-card-header">
-                <h2>입소문</h2>
-            </div>
-            <div class="tagline">지금 뜨는 맛, 매일 새로워집니다</div>
-            <div class="description">
-                오늘의 핫한 음식 트렌드를 매일 큐레이션해주는 푸드 매거진. 신메뉴, 핫플 음식점, 편의점 신상부터 컴백 음식까지 궁금한 모든 음식 소식을 매거진과 피드로 만나보세요.
-            </div>
-            <div class="app-links">
-                <a href="#" class="link-secondary" style="cursor: default; opacity: 0.5;">개발중</a>
-            </div>
-            <div class="app-meta-links">
-                <a href="https://claypark.github.io/dev-page/ipsomun/privacy-policy.html">개인정보처리방침</a>
-                <span class="separator">·</span>
-                <a href="https://claypark.github.io/dev-page/ipsomun/terms-of-service.html">이용약관</a>
             </div>
         </div>
 
@@ -328,5 +471,33 @@
     <div class="footer">
         &copy; 2026 CLPAK
     </div>
+
+    <script>
+        let activeDetail = null;
+
+        function toggleDetail(id) {
+            const panel = document.getElementById('detail-' + id);
+            if (activeDetail === id) {
+                closeDetail(id);
+                return;
+            }
+            // Close any open panel
+            if (activeDetail) {
+                document.getElementById('detail-' + activeDetail).classList.remove('active');
+            }
+            // Open new panel — insert after grid
+            const grid = document.getElementById('appGrid');
+            grid.after(panel);
+            panel.classList.add('active');
+            activeDetail = id;
+            // Scroll into view
+            setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+        }
+
+        function closeDetail(id) {
+            document.getElementById('detail-' + id).classList.remove('active');
+            activeDetail = null;
+        }
+    </script>
 </body>
 </html>
