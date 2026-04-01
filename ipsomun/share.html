@@ -79,11 +79,59 @@
     .score-label { font-size: 13px; color: #8a8580; }
     .score-dots { display: flex; gap: 3px; margin-top: 2px; }
     .score-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .key-info {
+      background: #f5f3f0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+    }
+    .key-info-row {
+      display: flex;
+      padding: 4px 0;
+    }
+    .key-info-label {
+      width: 56px;
+      flex-shrink: 0;
+      font-size: 12px;
+      color: #8a8580;
+      font-weight: 500;
+    }
+    .key-info-value {
+      font-size: 14px;
+      color: #2C2C2B;
+      line-height: 1.4;
+    }
     .description {
       font-size: 15px;
       line-height: 1.7;
       color: #4a4a48;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
+    }
+    .source-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border: 1px solid #e8e4df;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      text-decoration: none;
+      color: #4a4a48;
+      font-size: 13px;
+    }
+    .source-link:hover { background: #f5f3f0; }
+    .source-type {
+      font-size: 9px;
+      background: rgba(92,107,74,0.1);
+      color: #5C6B4A;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .source-title {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
     .tag {
@@ -179,13 +227,15 @@
     function render(item) {
       const title = item.food_name || item.headline || '입소문';
       const headline = item.headline || title;
-      const desc = item.card_description || item.subtitle || 'AI가 매일 수집한 핫한 푸드 트렌드를 입소문에서 확인하세요.';
+      const desc = item.body_text || item.card_description || item.subtitle || '';
       const img = item.image_url || '';
       const cat = CATEGORIES[item.category] || '푸드 트렌드';
       const score = item.trend_score || 0;
       const tags = item.tags || [];
-      const emoji = item.emoji || '🍽️';
-      const brand = item.brand_name;
+      const meta = item.metadata || {};
+      const keyInfo = meta.key_info || [];
+      const sourceUrls = meta.source_urls || [];
+      const brand = item.brand;
 
       // Update page title & OG
       document.getElementById('page-title').textContent = `${title} - 입소문`;
@@ -195,9 +245,24 @@
         `<div class="score-dot" style="background:${i < score ? '#C4572A' : '#e8e4df'}"></div>`
       ).join('');
 
+      // Key info card
+      const keyInfoHtml = keyInfo.length > 0
+        ? `<div class="key-info">${keyInfo.filter(k => k.label && k.value).map(k =>
+            `<div class="key-info-row"><span class="key-info-label">${k.label}</span><span class="key-info-value">${k.value}</span></div>`
+          ).join('')}</div>`
+        : '';
+
+      // Source links
+      const sourcesHtml = sourceUrls.length > 0
+        ? sourceUrls.slice(0, 3).map(s => {
+            const typeLabel = s.type === 'youtube' ? 'YouTube' : s.type === 'google_news' ? '뉴스' : '블로그';
+            return `<a class="source-link" href="${s.url || '#'}" target="_blank"><span class="source-type">${typeLabel}</span><span class="source-title">${s.title || '원문 보기'}</span><span style="color:#C4572A">→</span></a>`;
+          }).join('')
+        : '';
+
       // Tags
       const tagsHtml = tags.length > 0
-        ? `<div class="tags">${tags.map(t => `<span class="tag">#${t}</span>`).join('')}</div>`
+        ? `<div class="tags">${brand ? `<span class="tag" style="background:rgba(196,87,42,0.1);color:#C4572A;font-weight:600">${brand}</span>` : ''}${tags.map(t => `<span class="tag">#${t}</span>`).join('')}</div>`
         : '';
 
       document.getElementById('app').innerHTML = `
@@ -217,8 +282,9 @@
               <div class="score-dots">${dots}</div>
             </div>
           </div>
-          ${brand ? `<div style="font-size:13px;color:#8a8580;margin-bottom:12px;">🏷️ ${brand}</div>` : ''}
-          <p class="description">${desc}</p>
+          ${keyInfoHtml}
+          ${desc ? `<p class="description">${desc}</p>` : ''}
+          ${sourcesHtml}
           ${tagsHtml}
           <a class="cta" href="${PLAY_STORE}">입소문 앱에서 더 보기</a>
         </div>
