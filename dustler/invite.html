@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="Dustler 가족 초대">
+  <meta property="og:description" content="가족이 당신을 Dustler에 초대했어요. 함께 청소를 시작하세요!">
+  <meta property="og:type" content="website">
+  <title>Dustler 가족 초대</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, 'Noto Sans KR', sans-serif; text-align: center; padding: 60px 20px; background: #F7F9FC; color: #333; min-height: 100vh; }
+    .logo { font-size: 32px; font-weight: 800; color: #89B4E8; margin-bottom: 8px; }
+    .subtitle { color: #666; margin-bottom: 32px; font-size: 16px; }
+    .code-box { background: white; border-radius: 16px; padding: 24px; margin: 0 auto 24px; max-width: 300px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .code-label { font-size: 13px; color: #999; margin-bottom: 8px; }
+    .code { font-size: 32px; font-weight: 800; letter-spacing: 6px; color: #89B4E8; }
+    .desc { color: #666; margin-bottom: 24px; font-size: 14px; line-height: 1.6; }
+    .btn { display: inline-block; padding: 14px 40px; background: #89B4E8; color: white; border-radius: 14px; text-decoration: none; font-weight: 600; font-size: 16px; margin-bottom: 12px; }
+    .btn:active { background: #7AA3D7; }
+    .copy-btn { display: inline-block; padding: 10px 24px; background: transparent; color: #89B4E8; border: 1.5px solid #89B4E8; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 14px; cursor: pointer; }
+    .copy-btn:active { background: rgba(137,180,232,0.1); }
+    .footer { margin-top: 32px; font-size: 12px; color: #bbb; }
+    .copied { color: #7ECFB3; font-size: 13px; margin-top: 8px; display: none; }
+  </style>
+</head>
+<body>
+  <div class="logo">Dustler</div>
+  <p class="subtitle">가족이 당신을 초대했어요</p>
+
+  <div class="code-box">
+    <p class="code-label">초대 코드</p>
+    <div class="code" id="invite-code">-</div>
+  </div>
+
+  <p class="desc">앱을 설치하고 초대 코드를 입력하면<br>가족과 함께 청소 일정을 관리할 수 있어요</p>
+
+  <a class="btn" id="open-btn" href="#">앱에서 열기</a>
+  <br><br>
+  <button class="copy-btn" id="copy-btn">코드 복사하기</button>
+  <p class="copied" id="copied-msg">복사되었습니다!</p>
+
+  <p class="footer">앱이 없으면 자동으로 스토어로 이동합니다</p>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code') || '';
+    const APP_PACKAGE = 'com.clpak.dustler';
+    const APP_SCHEME = 'dustler';
+    const PLAY_STORE = 'https://play.google.com/store/apps/details?id=' + APP_PACKAGE;
+
+    document.getElementById('invite-code').textContent = code || '-';
+
+    // Android intent URI
+    const intentUri = 'intent://invite?code=' + code +
+      '#Intent;scheme=' + APP_SCHEME +
+      ';package=' + APP_PACKAGE +
+      ';S.browser_fallback_url=' + encodeURIComponent(PLAY_STORE) + ';end';
+
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const openBtn = document.getElementById('open-btn');
+
+    if (isIOS) {
+      openBtn.href = APP_SCHEME + '://invite?code=' + code;
+    } else {
+      openBtn.href = intentUri;
+    }
+
+    // Copy button
+    document.getElementById('copy-btn').addEventListener('click', function() {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(code).then(function() {
+          document.getElementById('copied-msg').style.display = 'block';
+          setTimeout(function() {
+            document.getElementById('copied-msg').style.display = 'none';
+          }, 2000);
+        });
+      } else {
+        // Fallback
+        var ta = document.createElement('textarea');
+        ta.value = code;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        document.getElementById('copied-msg').style.display = 'block';
+        setTimeout(function() {
+          document.getElementById('copied-msg').style.display = 'none';
+        }, 2000);
+      }
+    });
+  </script>
+</body>
+</html>
