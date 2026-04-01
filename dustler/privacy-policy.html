@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>개인정보처리방침 - Dustler</title>
+  <style>
+    :root {
+      --bg: #F7F9FC;
+      --surface: #FFFFFF;
+      --border: #E2E8F0;
+      --text: #1A202C;
+      --text-muted: #718096;
+      --accent: #89B4E8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 2rem 1.5rem;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .date {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 2.5rem;
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: var(--accent);
+    }
+
+    p, li {
+      color: #4A5568;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    ul {
+      padding-left: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    li { margin-bottom: 0.35rem; }
+
+    .highlight {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>개인정보처리방침</h1>
+    <p class="date">시행일: 2026년 4월 1일</p>
+
+    <p>Dustler(더슬러, 이하 "본 앱")은 이용자의 개인정보를 소중히 여기며, 관련 법령에 따라 개인정보를 보호하고 있습니다. 이 방침은 본 앱이 어떤 정보를 수집하고, 어떻게 이용하며, 어떻게 보호하는지 안내합니다.</p>
+
+    <h2>1. 수집하는 정보</h2>
+    <div class="highlight">
+      <p><strong>계정 정보 (Google 로그인)</strong></p>
+      <p>본 앱은 Google OAuth를 통해 로그인하며, 아래 정보를 수집합니다.</p>
+    </div>
+    <ul>
+      <li>이메일 주소</li>
+      <li>표시 이름 (Google 계정 이름)</li>
+      <li>프로필 사진 URL</li>
+    </ul>
+
+    <div class="highlight">
+      <p><strong>청소 일정 데이터</strong></p>
+      <p>사용자가 등록한 공간, 방, 청소 작업, 일정 완료 기록이 서버에 저장됩니다.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>디바이스 정보 (푸시 알림)</strong></p>
+      <p>푸시 알림을 위해 FCM 디바이스 토큰이 서버에 등록됩니다.</p>
+    </div>
+
+    <h2>2. 정보의 이용 목적</h2>
+    <p>수집된 정보는 아래 목적으로만 사용됩니다.</p>
+    <ul>
+      <li>사용자 인증 및 계정 관리</li>
+      <li>청소 일정 관리 서비스 제공</li>
+      <li>가족 구성원 간 일정 공유</li>
+      <li>푸시 알림 발송 (청소 리마인더, 가족 활동 알림)</li>
+      <li>서비스 개선 및 통계 분석</li>
+    </ul>
+
+    <h2>3. 정보의 저장 및 전송</h2>
+    <div class="highlight">
+      <p><strong>데이터는 Supabase(PostgreSQL) 클라우드 서버에 안전하게 저장됩니다.</strong></p>
+      <p>모든 데이터 전송은 HTTPS를 통해 암호화됩니다. Row Level Security(RLS) 정책을 통해 본인 및 가족 그룹의 데이터에만 접근 가능합니다.</p>
+    </div>
+
+    <h2>4. 제3자 제공</h2>
+    <p>본 앱은 수집한 정보를 제3자에게 판매하거나 제공하지 않습니다. 단, 아래 서비스를 통해 데이터가 처리됩니다.</p>
+    <ul>
+      <li>Google (인증): Google OAuth 로그인</li>
+      <li>Supabase (데이터 저장): 청소 일정 및 계정 데이터</li>
+      <li>Firebase (푸시 알림): FCM을 통한 알림 발송</li>
+    </ul>
+
+    <h2>5. 데이터 보관 기간</h2>
+    <p>사용자 데이터는 계정이 활성화된 동안 보관됩니다. 계정 삭제를 요청하면 모든 관련 데이터가 30일 이내에 완전히 삭제됩니다.</p>
+
+    <h2>6. 이용자의 권리</h2>
+    <ul>
+      <li>언제든지 계정을 삭제하고 모든 데이터를 제거할 수 있습니다.</li>
+      <li>푸시 알림은 앱 설정에서 언제든 비활성화할 수 있습니다.</li>
+      <li>개인정보 열람, 정정, 삭제를 요청할 수 있습니다.</li>
+    </ul>
+
+    <h2>7. 아동의 개인정보</h2>
+    <p>본 앱은 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않습니다. 만약 아동의 정보가 수집된 것을 발견하면 즉시 삭제합니다.</p>
+
+    <h2>8. 방침의 변경</h2>
+    <p>이 방침은 법령 변경이나 서비스 변동에 따라 수정될 수 있습니다. 변경 사항은 이 페이지를 통해 안내합니다.</p>
+
+    <h2>9. 문의</h2>
+    <p>개인정보 관련 문의는 아래로 연락해 주세요.</p>
+    <ul>
+      <li>이메일: claypark12@gmail.com</li>
+    </ul>
+
+    <footer>&copy; 2026 CLPAK. All rights reserved.</footer>
+  </div>
+</body>
+</html>
