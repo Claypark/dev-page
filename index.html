@@ -356,6 +356,13 @@
                 <div class="tile-tagline">푸드 트렌드 매거진</div>
                 <span class="tile-badge badge-dev">개발중</span>
             </div>
+
+            <div class="app-tile" style="--accent: #89B4E8;" onclick="toggleDetail('dustler')">
+                <img src="dustler-icon.png" alt="" class="tile-icon">
+                <div class="tile-name">더슬러</div>
+                <div class="tile-tagline">가족과 함께하는 스마트 청소</div>
+                <span class="tile-badge badge-dev">개발중</span>
+            </div>
         </div>
 
         <!-- Detail panels — overlay modal -->
@@ -479,6 +486,26 @@
                 <a href="https://claypark.github.io/dev-page/naru/terms-of-service.html">이용약관</a>
             </div>
         </div>
+        <div class="app-detail" id="detail-dustler" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeDetail('dustler')">&times;</button>
+            <div class="detail-header">
+                <img src="dustler-icon.png" alt="" class="detail-icon">
+                <div class="detail-info">
+                    <h2>더슬러</h2>
+                    <div class="tagline">우리 가족 청소, 함께 관리하고 함께 완성해요</div>
+                </div>
+            </div>
+            <div class="description">가족 구성원과 청소 구역을 나누고, 일정을 관리하는 스마트 청소 앱. 누가 어디를 청소했는지 한눈에 확인하고, 함께 깨끗한 집을 만들어 가세요.</div>
+            <div class="app-links">
+                <a href="#" class="link-secondary" style="cursor: default; opacity: 0.5;">개발중</a>
+            </div>
+            <div class="app-meta-links">
+                <a href="https://claypark.github.io/dev-page/dustler/privacy-policy.html">개인정보처리방침</a>
+                <span class="separator">·</span>
+                <a href="https://claypark.github.io/dev-page/dustler/terms-of-service.html">이용약관</a>
+            </div>
+        </div>
+
         </div><!-- end overlay -->
 
         <div class="contact">
