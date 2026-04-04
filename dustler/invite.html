@@ -3,46 +3,102 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:title" content="Dustler 가족 초대">
-  <meta property="og:description" content="가족이 당신을 Dustler에 초대했어요. 함께 청소를 시작하세요!">
+  <meta property="og:title" content="더슬러 - 공간 초대">
+  <meta property="og:description" content="더슬러에서 함께 청소해요! 초대 코드로 참여하세요.">
+  <meta property="og:image" content="https://claypark.github.io/dev-page/dustler/dustler-og.png">
   <meta property="og:type" content="website">
-  <title>Dustler 가족 초대</title>
+  <link rel="icon" type="image/png" href="https://claypark.github.io/dev-page/dustler/dustler-og.png">
+  <title id="page-title">더슬러 - 공간 초대</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, 'Noto Sans KR', sans-serif; text-align: center; padding: 60px 20px; background: #F7F9FC; color: #333; min-height: 100vh; }
-    .logo { font-size: 32px; font-weight: 800; color: #89B4E8; margin-bottom: 8px; }
-    .subtitle { color: #666; margin-bottom: 32px; font-size: 16px; }
-    .code-box { background: white; border-radius: 16px; padding: 24px; margin: 0 auto 24px; max-width: 300px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-    .code-label { font-size: 13px; color: #999; margin-bottom: 8px; }
+    body { font-family: -apple-system, 'Noto Sans KR', sans-serif; text-align: center; padding: 48px 20px; background: #F7F9FC; color: #333; min-height: 100vh; }
+    .icon { width: 72px; height: 72px; margin: 0 auto 12px; border-radius: 20px; overflow: hidden; }
+    .icon img { width: 100%; height: 100%; object-fit: cover; }
+    .logo { font-size: 28px; font-weight: 800; color: #89B4E8; margin-bottom: 4px; }
+    .subtitle { color: #888; margin-bottom: 28px; font-size: 15px; line-height: 1.5; }
+    .code-box { background: white; border-radius: 16px; padding: 24px; margin: 0 auto 20px; max-width: 300px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .code-label { font-size: 12px; color: #aaa; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase; }
     .code { font-size: 32px; font-weight: 800; letter-spacing: 6px; color: #89B4E8; }
-    .desc { color: #666; margin-bottom: 24px; font-size: 14px; line-height: 1.6; }
-    .btn { display: inline-block; padding: 14px 40px; background: #89B4E8; color: white; border-radius: 14px; text-decoration: none; font-weight: 600; font-size: 16px; margin-bottom: 12px; }
+    .desc { color: #888; margin-bottom: 24px; font-size: 13px; line-height: 1.6; }
+    .btn { display: inline-block; padding: 14px 40px; background: #89B4E8; color: white; border-radius: 14px; text-decoration: none; font-weight: 600; font-size: 16px; margin-bottom: 12px; transition: background 0.2s; }
     .btn:active { background: #7AA3D7; }
-    .copy-btn { display: inline-block; padding: 10px 24px; background: transparent; color: #89B4E8; border: 1.5px solid #89B4E8; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 14px; cursor: pointer; }
+    .copy-btn { display: inline-block; padding: 10px 24px; background: transparent; color: #89B4E8; border: 1.5px solid #89B4E8; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 14px; cursor: pointer; transition: background 0.2s; }
     .copy-btn:active { background: rgba(137,180,232,0.1); }
-    .footer { margin-top: 32px; font-size: 12px; color: #bbb; }
+    .footer { margin-top: 28px; font-size: 11px; color: #ccc; }
     .copied { color: #7ECFB3; font-size: 13px; margin-top: 8px; display: none; }
   </style>
 </head>
 <body>
-  <div class="logo">Dustler</div>
-  <p class="subtitle">가족이 당신을 초대했어요</p>
+  <div class="icon">
+    <img src="https://claypark.github.io/dev-page/dustler/dustler-og.png" alt="Dustler" onerror="this.parentElement.innerHTML='🏠'">
+  </div>
+  <div class="logo">더슬러</div>
+  <p class="subtitle" id="subtitle"></p>
 
   <div class="code-box">
-    <p class="code-label">초대 코드</p>
+    <p class="code-label" id="code-label"></p>
     <div class="code" id="invite-code">-</div>
   </div>
 
-  <p class="desc">앱을 설치하고 초대 코드를 입력하면<br>가족과 함께 청소 일정을 관리할 수 있어요</p>
+  <p class="desc" id="desc"></p>
 
-  <a class="btn" id="open-btn" href="#">앱에서 열기</a>
+  <a class="btn" id="open-btn" href="#" id="open-text"></a>
   <br><br>
-  <button class="copy-btn" id="copy-btn">코드 복사하기</button>
-  <p class="copied" id="copied-msg">복사되었습니다!</p>
+  <button class="copy-btn" id="copy-btn"></button>
+  <p class="copied" id="copied-msg"></p>
 
-  <p class="footer">앱이 없으면 자동으로 스토어로 이동합니다</p>
+  <p class="footer" id="footer"></p>
 
   <script>
+    // i18n
+    const i18n = {
+      ko: {
+        title: '더슬러 - 공간 초대',
+        subtitle: '함께 청소하는 공간에\n초대받았어요!',
+        codeLabel: '초대 코드',
+        desc: '앱을 설치하고 초대 코드를 입력하면\n함께 청소 일정을 관리할 수 있어요',
+        openBtn: '앱에서 열기',
+        copyBtn: '코드 복사하기',
+        copied: '복사되었습니다!',
+        footer: '앱이 없으면 자동으로 스토어로 이동합니다',
+      },
+      en: {
+        title: 'Dustler - Space Invite',
+        subtitle: "You've been invited to\na shared cleaning space!",
+        codeLabel: 'Invite Code',
+        desc: 'Install the app and enter the invite code\nto manage cleaning schedules together',
+        openBtn: 'Open in App',
+        copyBtn: 'Copy Code',
+        copied: 'Copied!',
+        footer: "If you don't have the app, you'll be redirected to the store",
+      },
+      es: {
+        title: 'Dustler - Invitación',
+        subtitle: '¡Te han invitado a un\nespacio de limpieza compartido!',
+        codeLabel: 'Código de invitación',
+        desc: 'Instala la app e ingresa el código\npara gestionar la limpieza juntos',
+        openBtn: 'Abrir en la app',
+        copyBtn: 'Copiar código',
+        copied: '¡Copiado!',
+        footer: 'Si no tienes la app, serás redirigido a la tienda',
+      },
+    };
+
+    // Detect language
+    const userLang = (navigator.language || navigator.userLanguage || 'ko').substring(0, 2);
+    const t = i18n[userLang] || i18n.ko;
+
+    // Apply translations
+    document.getElementById('page-title').textContent = t.title;
+    document.getElementById('subtitle').textContent = t.subtitle;
+    document.getElementById('code-label').textContent = t.codeLabel;
+    document.getElementById('desc').textContent = t.desc;
+    document.getElementById('open-btn').textContent = t.openBtn;
+    document.getElementById('copy-btn').textContent = t.copyBtn;
+    document.getElementById('copied-msg').textContent = t.copied;
+    document.getElementById('footer').textContent = t.footer;
+
+    // Code & deep link
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code') || '';
     const APP_PACKAGE = 'com.clpak.dustler';
@@ -51,7 +107,6 @@
 
     document.getElementById('invite-code').textContent = code || '-';
 
-    // Android intent URI
     const intentUri = 'intent://invite?code=' + code +
       '#Intent;scheme=' + APP_SCHEME +
       ';package=' + APP_PACKAGE +
@@ -66,17 +121,14 @@
       openBtn.href = intentUri;
     }
 
-    // Copy button
+    // Copy
     document.getElementById('copy-btn').addEventListener('click', function() {
       if (navigator.clipboard) {
         navigator.clipboard.writeText(code).then(function() {
           document.getElementById('copied-msg').style.display = 'block';
-          setTimeout(function() {
-            document.getElementById('copied-msg').style.display = 'none';
-          }, 2000);
+          setTimeout(function() { document.getElementById('copied-msg').style.display = 'none'; }, 2000);
         });
       } else {
-        // Fallback
         var ta = document.createElement('textarea');
         ta.value = code;
         document.body.appendChild(ta);
@@ -84,9 +136,7 @@
         document.execCommand('copy');
         document.body.removeChild(ta);
         document.getElementById('copied-msg').style.display = 'block';
-        setTimeout(function() {
-          document.getElementById('copied-msg').style.display = 'none';
-        }, 2000);
+        setTimeout(function() { document.getElementById('copied-msg').style.display = 'none'; }, 2000);
       }
     });
   </script>
