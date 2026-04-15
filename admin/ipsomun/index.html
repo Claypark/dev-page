@@ -350,8 +350,8 @@
       </div>
 
       <div class="card">
-        <div class="card-title">최근 파이프라인 실행</div>
-        <div id="recentRuns"><div class="empty-state">로딩 중...</div></div>
+        <div class="card-title">최근 파이프라인 지표</div>
+        <div id="recentMetrics"><div class="empty-state">로딩 중...</div></div>
       </div>
     </div>
 
@@ -368,7 +368,12 @@
       </div>
 
       <div class="card">
-        <div class="card-title">파이프라인 실행 기록</div>
+        <div class="card-title">일별 파이프라인 지표</div>
+        <div id="pipelineMetrics"><div class="empty-state">로딩 중...</div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">파이프라인 실행 기록 (3월 이전, orchestrator 사용 시)</div>
         <div id="pipelineList"><div class="empty-state">로딩 중...</div></div>
       </div>
     </div>
@@ -516,7 +521,7 @@ window.switchTab = function(tab) {
   document.querySelector(`.nav-btn[data-tab="${tab}"]`).classList.add('active');
 
   if (tab === 'dashboard') loadDashboard();
-  if (tab === 'pipeline') { loadPipelineHistory(); loadUnprocessedCount(); }
+  if (tab === 'pipeline') { loadPipelineMetrics(); loadUnprocessedCount(); loadPipelineHistory(); }
   if (tab === 'data') { loadFeedList(); }
 };
 
@@ -579,51 +584,30 @@ function showLogin() {
 async function loadDashboard() {
   const today = toKSTDateString(new Date());
 
-  // 오늘 수집 건수
-  const { count: collectedCount } = await ipsomun
-    .from('raw_sources')
-    .select('*', { count: 'exact', head: true })
-    .gte('collected_at', today + 'T00:00:00+09:00')
-    .lt('collected_at', today + 'T23:59:59+09:00');
+  // 오늘 pipeline_metrics
+  const { data: todayMetric } = await ipsomun
+    .from('pipeline_metrics')
+    .select('*')
+    .eq('feed_date', today)
+    .single();
 
-  // 오늘 분류 건수
-  const { count: classifiedCount } = await ipsomun
-    .from('trend_items')
-    .select('*', { count: 'exact', head: true })
-    .gte('created_at', today + 'T00:00:00+09:00')
-    .lt('created_at', today + 'T23:59:59+09:00');
-
-  // 오늘 발행 건수
-  const { count: publishedCount } = await ipsomun
-    .from('trend_items')
-    .select('*', { count: 'exact', head: true })
-    .eq('published_date', today);
-
-  // 오늘 파이프라인
-  const { data: todayRuns } = await ipsomun
-    .from('pipeline_runs')
-    .select('status')
-    .gte('created_at', today + 'T00:00:00+09:00')
-    .order('created_at', { ascending: false })
-    .limit(1);
-
-  document.getElementById('stat-collected').textContent = collectedCount ?? 0;
-  document.getElementById('stat-classified').textContent = classifiedCount ?? 0;
-  document.getElementById('stat-published').textContent = publishedCount ?? 0;
-
-  const pipelineEl = document.getElementById('stat-pipeline');
-  if (todayRuns && todayRuns.length > 0) {
-    const status = todayRuns[0].status;
-    pipelineEl.innerHTML = `<span class="badge badge-${status}">${status}</span>`;
+  if (todayMetric) {
+    document.getElementById('stat-collected').textContent = todayMetric.collected_total ?? 0;
+    document.getElementById('stat-classified').textContent = todayMetric.items_total ?? 0;
+    document.getElementById('stat-published').textContent = todayMetric.feed_items_total ?? 0;
+    const pipelineEl = document.getElementById('stat-pipeline');
+    pipelineEl.innerHTML = todayMetric.feed_published
+      ? '<span class="badge badge-published">발행됨</span>'
+      : '<span class="badge badge-draft">미발행</span>';
   } else {
-    pipelineEl.textContent = '-';
+    document.getElementById('stat-collected').textContent = '-';
+    document.getElementById('stat-classified').textContent = '-';
+    document.getElementById('stat-published').textContent = '-';
+    document.getElementById('stat-pipeline').textContent = '-';
   }
 
-  // 최근 14일 캘린더
   await loadCalendar();
-
-  // 최근 파이프라인 5건
-  await loadRecentRuns();
+  await loadRecentMetrics();
 }
 
 async function loadCalendar() {
@@ -667,30 +651,32 @@ async function loadCalendar() {
   });
 }
 
-async function loadRecentRuns() {
-  const { data: runs } = await ipsomun
-    .from('pipeline_runs')
+async function loadRecentMetrics() {
+  const { data: metrics } = await ipsomun
+    .from('pipeline_metrics')
     .select('*')
-    .order('created_at', { ascending: false })
-    .limit(5);
+    .order('feed_date', { ascending: false })
+    .limit(7);
 
-  const container = document.getElementById('recentRuns');
-  if (!runs || runs.length === 0) {
-    container.innerHTML = '<div class="empty-state">파이프라인 실행 기록이 없습니다</div>';
+  const container = document.getElementById('recentMetrics');
+  if (!metrics || metrics.length === 0) {
+    container.innerHTML = '<div class="empty-state">파이프라인 지표가 없습니다</div>';
     return;
   }
 
   container.innerHTML = `
     <table class="data-table">
       <thead><tr>
-        <th>시각</th><th>상태</th><th>단계</th><th>소요</th>
+        <th>날짜</th><th>수집</th><th>분류</th><th>발행</th><th>테마</th><th>상태</th>
       </tr></thead>
-      <tbody>${runs.map(r => `
+      <tbody>${metrics.map(m => `
         <tr>
-          <td class="mono">${fmtDateTime(r.created_at)}</td>
-          <td><span class="badge badge-${r.status}">${r.status}</span></td>
-          <td>${r.stats ? `${r.stats.steps_success || 0}/${r.stats.steps_total || 0}` : '-'}</td>
-          <td class="mono">${r.stats?.total_duration_ms ? fmtDuration(r.stats.total_duration_ms) : '-'}</td>
+          <td class="mono">${m.feed_date}</td>
+          <td>${m.collected_total ?? 0}</td>
+          <td>${m.items_total ?? 0}</td>
+          <td>${m.feed_items_total ?? 0}</td>
+          <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(m.feed_theme || '-')}</td>
+          <td><span class="badge ${m.feed_published ? 'badge-published' : 'badge-draft'}">${m.feed_published ? '발행' : '미발행'}</span></td>
         </tr>
       `).join('')}</tbody>
     </table>`;
@@ -742,6 +728,39 @@ async function deleteUnprocessed() {
       }
     }
   );
+}
+
+async function loadPipelineMetrics() {
+  const { data: metrics } = await ipsomun
+    .from('pipeline_metrics')
+    .select('*')
+    .order('feed_date', { ascending: false })
+    .limit(14);
+
+  const container = document.getElementById('pipelineMetrics');
+  if (!metrics || metrics.length === 0) {
+    container.innerHTML = '<div class="empty-state">지표가 없습니다</div>';
+    return;
+  }
+
+  container.innerHTML = `
+    <table class="data-table">
+      <thead><tr>
+        <th>날짜</th><th>수집</th><th>처리</th><th>미처리</th><th>아이템</th><th>발행</th><th>섹션</th><th>테마</th>
+      </tr></thead>
+      <tbody>${metrics.map(m => `
+        <tr>
+          <td class="mono">${m.feed_date}</td>
+          <td>${m.collected_total ?? 0}</td>
+          <td>${m.processed_total ?? 0}</td>
+          <td>${m.unprocessed_total ? `<span style="color:var(--orange);">${m.unprocessed_total}</span>` : '0'}</td>
+          <td>${m.items_total ?? 0} <span style="color:var(--text-muted);font-size:11px;">(${m.items_rejected ?? 0}rej)</span></td>
+          <td>${m.feed_items_total ?? '-'}</td>
+          <td>${m.feed_sections ?? '-'}</td>
+          <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(m.feed_theme || '-')}</td>
+        </tr>
+      `).join('')}</tbody>
+    </table>`;
 }
 
 const STEP_FN_MAP = {
@@ -804,6 +823,21 @@ async function loadPipelineHistory() {
 }
 
 // ─── DATA BROWSER ───────────────────────────────────
+// sections JSONB에서 섹션 배열 추출 (object 형태: { theme, sub_theme, editor_comment, section_0, section_1, ... })
+function parseSections(sectionsObj) {
+  if (!sectionsObj || typeof sectionsObj !== 'object') return { theme: '', subTheme: '', editorComment: '', sections: [] };
+  const theme = sectionsObj.theme || '';
+  const subTheme = sectionsObj.sub_theme || '';
+  const editorComment = sectionsObj.editor_comment || '';
+  const sectionList = [];
+  for (let i = 0; i < 20; i++) {
+    const s = sectionsObj[`section_${i}`];
+    if (s) sectionList.push(s);
+    else break;
+  }
+  return { theme, subTheme, editorComment, sections: sectionList };
+}
+
 async function loadFeedList() {
   const container = document.getElementById('feedList');
   container.innerHTML = '<div class="empty-state">로딩 중...</div>';
@@ -811,7 +845,7 @@ async function loadFeedList() {
 
   const { data: feeds } = await ipsomun
     .from('daily_feeds')
-    .select('feed_date, theme, sub_theme, subtheme, published, sections')
+    .select('feed_date, published, total_items, sections')
     .order('feed_date', { ascending: false })
     .limit(30);
 
@@ -822,15 +856,14 @@ async function loadFeedList() {
 
   container.innerHTML = `
     <table class="data-table">
-      <thead><tr><th>날짜</th><th>테마</th><th>섹션</th><th>발행</th></tr></thead>
+      <thead><tr><th>날짜</th><th>테마</th><th>아이템</th><th>발행</th></tr></thead>
       <tbody>${feeds.map(f => {
-        const sections = Array.isArray(f.sections) ? f.sections : [];
-        const itemCount = sections.reduce((sum, s) => sum + (s.item_ids?.length || 0), 0);
+        const parsed = parseSections(f.sections);
         return `
         <tr class="feed-row" data-date="${f.feed_date}" style="cursor:pointer;">
           <td class="mono">${f.feed_date}</td>
-          <td>${esc(f.theme || '-')}</td>
-          <td>${sections.length}개 / ${itemCount}건</td>
+          <td>${esc(parsed.theme || '-')}</td>
+          <td>${parsed.sections.length}섹션 / ${f.total_items || 0}건</td>
           <td><span class="badge ${f.published ? 'badge-published' : 'badge-draft'}">${f.published ? 'Yes' : 'No'}</span></td>
         </tr>`;
       }).join('')}</tbody>
@@ -857,20 +890,20 @@ async function showFeedDetail(date) {
     return;
   }
 
-  const sections = Array.isArray(feed.sections) ? feed.sections : [];
+  const parsed = parseSections(feed.sections);
   container.innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-      <div style="font-size:15px;font-weight:600;color:var(--text-bright);">${esc(feed.feed_date)} - ${esc(feed.theme || '-')}</div>
+      <div style="font-size:15px;font-weight:600;color:var(--text-bright);">${esc(feed.feed_date)} - ${esc(parsed.theme || '-')}</div>
       <button class="btn btn-ghost btn-sm" id="closeFeedDetail" style="font-size:16px;">x</button>
     </div>
-    <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">${esc(feed.subtheme || feed.sub_theme || '')}</div>
-    <div style="font-size:12px;color:var(--text-muted);font-style:italic;margin-bottom:12px;">${esc(feed.editor_comment || feed.editorComment || '')}</div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">${esc(parsed.subTheme)}</div>
+    <div style="font-size:12px;color:var(--text-muted);font-style:italic;margin-bottom:12px;">${esc(parsed.editorComment)}</div>
     <table class="data-table">
       <thead><tr><th>섹션</th><th>레이아웃</th><th>아이템수</th></tr></thead>
-      <tbody>${sections.map(s => `
+      <tbody>${parsed.sections.map(s => `
         <tr>
-          <td>${esc(s.title)}</td>
-          <td class="mono">${s.layout_type || s.layout || '-'}</td>
+          <td>${esc(s.title || '-')}</td>
+          <td class="mono">${s.layout_type || '-'}</td>
           <td>${s.item_ids?.length || 0}</td>
         </tr>
       `).join('')}</tbody>
