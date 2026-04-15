@@ -558,8 +558,10 @@ async function onLogin(session) {
 
   // 오늘 날짜 기본값 설정
   const today = toKSTDateString(new Date());
-  document.getElementById('feedDate').value = today;
-  document.getElementById('republishDate').value = today;
+  const republishDateEl = document.getElementById('republishDate');
+  if (republishDateEl) republishDateEl.value = today;
+  const itemDateEl = document.getElementById('itemDate');
+  if (itemDateEl) itemDateEl.value = today;
 
   loadDashboard();
 }
