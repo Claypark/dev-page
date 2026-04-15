@@ -193,8 +193,9 @@
     }
     select:focus, input:focus { outline: none; border-color: var(--blue); }
 
-    .form-row { display: flex; gap: 12px; align-items: flex-end; }
-    .form-row .form-group { flex: 1; margin-bottom: 0; }
+    .form-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+    .form-row .form-group { flex: 1; min-width: 120px; margin-bottom: 0; }
+    .form-row .btn { flex-shrink: 0; align-self: flex-end; }
     .form-actions { display: flex; gap: 8px; margin-top: 20px; }
 
     /* Calendar heatmap */
@@ -261,7 +262,8 @@
       .main { padding: 14px; }
       .card { padding: 16px; }
       .stat-grid { grid-template-columns: repeat(2, 1fr); }
-      .form-row { flex-direction: column; }
+      .form-row { flex-direction: column; align-items: stretch; }
+      .form-row .btn { align-self: flex-start; }
       .form-actions { flex-direction: column; }
       .form-actions .btn { width: 100%; justify-content: center; }
       .data-table { font-size: 12px; }
@@ -354,6 +356,16 @@
     <!-- 파이프라인 Tab -->
     <div id="tab-pipeline" class="tab-content" style="display:none;">
       <div class="card">
+        <div class="card-title">미처리 데이터</div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <span style="font-size:14px;">미처리 raw_sources: <strong id="unprocessedCount">-</strong>건</span>
+          <button class="btn btn-secondary btn-sm" id="processUnprocessedBtn">process-ai 실행</button>
+          <button class="btn btn-danger btn-sm" id="deleteUnprocessedBtn">미처리 데이터 삭제</button>
+        </div>
+        <div id="unprocessedDetail" style="font-size:12px;color:var(--text-muted);"></div>
+      </div>
+
+      <div class="card">
         <div class="card-title">파이프라인 실행 기록</div>
         <div id="pipelineList"><div class="empty-state">로딩 중...</div></div>
       </div>
@@ -368,7 +380,7 @@
             <label>날짜 선택</label>
             <input type="date" id="feedDate">
           </div>
-          <button class="btn btn-secondary btn-sm" onclick="loadFeedByDate()">조회</button>
+          <button class="btn btn-secondary btn-sm" id="feedSearchBtn">조회</button>
         </div>
         <div id="feedDetail"><div class="empty-state">날짜를 선택하세요</div></div>
       </div>
@@ -399,7 +411,7 @@
               <option value="food_news">뉴스</option>
             </select>
           </div>
-          <button class="btn btn-secondary btn-sm" onclick="loadTrendItems()">조회</button>
+          <button class="btn btn-secondary btn-sm" id="itemSearchBtn">조회</button>
         </div>
         <div id="itemList"><div class="empty-state">조건을 선택하고 조회하세요</div></div>
       </div>
@@ -413,13 +425,13 @@
           개별 단계를 수동으로 실행합니다. 기존 cron 스케줄에 영향을 주지 않습니다.
         </p>
         <div style="display:grid;gap:8px;" id="stepButtons">
-          <button class="btn btn-secondary" onclick="runStep('collect-trends', this)">1. 수집 (collect-trends)</button>
-          <button class="btn btn-secondary" onclick="runStep('process-ai', this)">2. AI 분류 (process-ai)</button>
-          <button class="btn btn-secondary" onclick="runStep('validate-items', this)">3. AI 검수 (validate-items)</button>
-          <button class="btn btn-secondary" onclick="runStep('update-scores', this)">4. 검색량 점수 (update-scores)</button>
-          <button class="btn btn-secondary" onclick="runStep('match-products', this)">5. 상품 매칭 (match-products)</button>
-          <button class="btn btn-secondary" onclick="runStep('publish-daily', this)">6. 피드 발행 (publish-daily)</button>
-          <button class="btn btn-secondary" onclick="runStep('send-daily-push', this)">7. 푸시 발송 (send-daily-push)</button>
+          <button class="btn btn-secondary" data-fn="collect-trends">1. 수집 (collect-trends)</button>
+          <button class="btn btn-secondary" data-fn="process-ai">2. AI 분류 (process-ai)</button>
+          <button class="btn btn-secondary" data-fn="validate-items">3. AI 검수 (validate-items)</button>
+          <button class="btn btn-secondary" data-fn="update-scores">4. 검색량 점수 (update-scores)</button>
+          <button class="btn btn-secondary" data-fn="match-products">5. 상품 매칭 (match-products)</button>
+          <button class="btn btn-secondary" data-fn="publish-daily">6. 피드 발행 (publish-daily)</button>
+          <button class="btn btn-secondary" data-fn="send-daily-push">7. 푸시 발송 (send-daily-push)</button>
         </div>
         <div id="stepResult" style="margin-top:16px;display:none;">
           <pre style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px;font-size:12px;color:var(--text);overflow-x:auto;max-height:300px;overflow-y:auto;"></pre>
@@ -431,7 +443,7 @@
         <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">
           수집부터 발행까지 전체 파이프라인을 순차 실행합니다. (약 5~10분 소요)
         </p>
-        <button class="btn btn-primary" id="runFullPipeline" onclick="runStep('pipeline-orchestrator', this)">전체 파이프라인 실행</button>
+        <button class="btn btn-primary" id="runFullPipeline" data-fn="pipeline-orchestrator">전체 파이프라인 실행</button>
       </div>
 
       <div class="card">
@@ -439,7 +451,7 @@
         <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">
           오늘 발행된 피드를 삭제하고, 아이템을 draft로 되돌린 뒤 publish-daily를 다시 실행합니다.
         </p>
-        <button class="btn btn-danger" id="republishBtn" onclick="republishToday()">오늘 피드 재발행</button>
+        <button class="btn btn-danger" id="republishBtn">오늘 피드 재발행</button>
       </div>
 
       <div class="card">
@@ -452,7 +464,7 @@
             <label>대상 날짜</label>
             <input type="date" id="republishDate">
           </div>
-          <button class="btn btn-danger btn-sm" onclick="republishByDate()">재발행 준비</button>
+          <button class="btn btn-danger btn-sm" id="republishByDateBtn">재발행 준비</button>
         </div>
         <div id="republishResult" style="display:none;font-size:13px;color:var(--text-muted);margin-top:8px;"></div>
       </div>
@@ -498,7 +510,7 @@ window.switchTab = function(tab) {
   document.querySelector(`.nav-btn[data-tab="${tab}"]`).classList.add('active');
 
   if (tab === 'dashboard') loadDashboard();
-  if (tab === 'pipeline') loadPipelineHistory();
+  if (tab === 'pipeline') { loadPipelineHistory(); loadUnprocessedCount(); }
 };
 
 // ─── AUTH ────────────────────────────────────────────
@@ -676,6 +688,63 @@ async function loadRecentRuns() {
 }
 
 // ─── PIPELINE ───────────────────────────────────────
+async function loadUnprocessedCount() {
+  const { count } = await ipsomun
+    .from('raw_sources')
+    .select('*', { count: 'exact', head: true })
+    .eq('processed', false);
+
+  document.getElementById('unprocessedCount').textContent = count ?? 0;
+
+  // 소스 타입별 분포
+  if (count > 0) {
+    const { data: sources } = await ipsomun
+      .from('raw_sources')
+      .select('source_type')
+      .eq('processed', false);
+
+    if (sources) {
+      const byType = {};
+      sources.forEach(s => { byType[s.source_type] = (byType[s.source_type] || 0) + 1; });
+      document.getElementById('unprocessedDetail').textContent =
+        Object.entries(byType).map(([k, v]) => `${k}: ${v}건`).join(' | ');
+    }
+  } else {
+    document.getElementById('unprocessedDetail').textContent = '';
+  }
+}
+
+async function deleteUnprocessed() {
+  confirmAction(
+    '미처리 데이터 삭제',
+    '처리되지 않은 raw_sources를 모두 삭제합니다. 이 작업은 되돌릴 수 없습니다.',
+    async () => {
+      const { data, error } = await ipsomun
+        .from('raw_sources')
+        .delete()
+        .eq('processed', false)
+        .select('id');
+
+      if (error) {
+        showToast(`삭제 실패: ${error.message}`, 'error');
+      } else {
+        showToast(`${data?.length || 0}건 삭제 완료`);
+        loadUnprocessedCount();
+      }
+    }
+  );
+}
+
+const STEP_FN_MAP = {
+  '1_수집': 'collect-trends',
+  '2_AI분류': 'process-ai',
+  '3_AI검수': 'validate-items',
+  '4_검색량점수': 'update-scores',
+  '5_상품매칭': 'match-products',
+  '6_피드발행': 'publish-daily',
+  '7_푸시발송': 'send-daily-push',
+};
+
 async function loadPipelineHistory() {
   const { data: runs } = await ipsomun
     .from('pipeline_runs')
@@ -691,6 +760,7 @@ async function loadPipelineHistory() {
 
   container.innerHTML = runs.map(r => {
     const steps = Array.isArray(r.steps) ? r.steps : [];
+    const hasFailed = steps.some(s => s.status === 'failed');
     return `
       <div style="padding:16px 0;border-bottom:1px solid #21262d;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
@@ -704,20 +774,28 @@ async function loadPipelineHistory() {
         </div>
         ${r.error ? `<div style="font-size:12px;color:var(--danger);margin-bottom:8px;">${esc(r.error)}</div>` : ''}
         <div style="display:grid;gap:2px;">
-          ${steps.map(s => `
+          ${steps.map(s => {
+            const fnName = STEP_FN_MAP[s.step] || '';
+            return `
             <div class="step-row">
               <div class="step-dot ${s.status}"></div>
               <span class="step-name">${esc(s.step)}</span>
               <span class="step-duration">${fmtDuration(s.duration_ms)}</span>
-            </div>
-          `).join('')}
+              ${s.status === 'failed' && fnName ? `<button class="btn btn-danger btn-sm pipeline-retry" data-fn="${fnName}" style="padding:2px 8px;font-size:11px;">재실행</button>` : ''}
+            </div>`;
+          }).join('')}
         </div>
       </div>`;
   }).join('');
+
+  // 재실행 버튼 바인딩
+  container.querySelectorAll('.pipeline-retry').forEach(btn => {
+    btn.addEventListener('click', function() { runStep(this.dataset.fn, this); });
+  });
 }
 
 // ─── DATA BROWSER ───────────────────────────────────
-window.loadFeedByDate = async function() {
+async function loadFeedByDate() {
   const date = document.getElementById('feedDate').value;
   if (!date) return;
 
@@ -759,7 +837,7 @@ window.loadFeedByDate = async function() {
     </table>`;
 };
 
-window.loadTrendItems = async function() {
+async function loadTrendItems() {
   const status = document.getElementById('itemStatus').value;
   const category = document.getElementById('itemCategory').value;
   const container = document.getElementById('itemList');
@@ -807,7 +885,7 @@ window.loadTrendItems = async function() {
 };
 
 // ─── MANUAL TOOLS ───────────────────────────────────
-window.runStep = async function(fnName, btnEl) {
+async function runStep(fnName, btnEl) {
   btnEl.disabled = true;
   const originalText = btnEl.textContent;
   btnEl.textContent = '실행 중...';
@@ -844,7 +922,7 @@ window.runStep = async function(fnName, btnEl) {
   }
 };
 
-window.republishToday = function() {
+function republishToday() {
   const today = toKSTDateString(new Date());
   confirmAction(
     '오늘 피드 재발행',
@@ -882,7 +960,7 @@ window.republishToday = function() {
   );
 };
 
-window.republishByDate = function() {
+function republishByDate() {
   const date = document.getElementById('republishDate').value;
   if (!date) { showToast('날짜를 선택하세요', 'error'); return; }
 
@@ -992,6 +1070,19 @@ function showToast(msg, type = 'success') {
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 4000);
 }
+
+// ─── EVENT BINDINGS ─────────────────────────────────
+document.getElementById('feedSearchBtn').addEventListener('click', loadFeedByDate);
+document.getElementById('itemSearchBtn').addEventListener('click', loadTrendItems);
+document.getElementById('republishBtn').addEventListener('click', republishToday);
+document.getElementById('republishByDateBtn').addEventListener('click', republishByDate);
+document.getElementById('runFullPipeline').addEventListener('click', function() { runStep('pipeline-orchestrator', this); });
+document.getElementById('processUnprocessedBtn').addEventListener('click', function() { runStep('process-ai', this); });
+document.getElementById('deleteUnprocessedBtn').addEventListener('click', deleteUnprocessed);
+
+document.querySelectorAll('#stepButtons [data-fn]').forEach(btn => {
+  btn.addEventListener('click', function() { runStep(this.dataset.fn, this); });
+});
 
 // ─── INIT ───────────────────────────────────────────
 let authInitDone = false;
