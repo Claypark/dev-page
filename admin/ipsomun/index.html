@@ -523,7 +523,7 @@ window.switchTab = function(tab) {
 document.getElementById('loginBtn').addEventListener('click', async () => {
   const { error } = await authClient.auth.signInWithOAuth({
     provider: 'github',
-    options: { redirectTo: window.location.origin + window.location.pathname },
+    options: { redirectTo: window.location.origin + '/dev-page/admin/' },
   });
   if (error) {
     document.getElementById('login-error').textContent = error.message;
