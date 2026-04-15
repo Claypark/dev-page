@@ -150,6 +150,8 @@
     .badge-partial { background: #d2992220; color: #d29922; border: 1px solid #d2992240; }
     .badge-draft { background: #30363d; color: var(--text-muted); border: 1px solid var(--border); }
     .badge-published { background: #23863620; color: #3fb950; border: 1px solid #23863640; }
+    .badge-rejected { background: #da363320; color: #f85149; border: 1px solid #da363340; }
+    .badge-archived { background: #30363d; color: var(--text-muted); border: 1px solid var(--border); }
 
     /* Table */
     .data-table {
@@ -398,6 +400,7 @@
               <option value="all">전체</option>
               <option value="draft">Draft</option>
               <option value="published">Published</option>
+              <option value="rejected">Rejected</option>
               <option value="archived">Archived</option>
             </select>
           </div>
@@ -931,7 +934,7 @@ async function loadTrendItems(page = 0) {
       <tbody>${items.map(item => `
         <tr title="${esc(item.headline || '')}">
           <td>
-            ${item.image_url ? `<img src="${esc(item.image_url)}" style="width:24px;height:24px;border-radius:4px;object-fit:cover;vertical-align:middle;margin-right:6px;" loading="lazy">` : ''}
+            ${item.image_url ? `<img src="${item.image_url}" style="width:36px;height:36px;border-radius:4px;object-fit:cover;vertical-align:middle;margin-right:8px;" loading="lazy" onerror="this.style.display='none'">` : ''}
             ${esc(item.food_name)}
           </td>
           <td class="mono">${item.category}</td>
