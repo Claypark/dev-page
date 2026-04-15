@@ -375,18 +375,22 @@
     <div id="tab-data" class="tab-content" style="display:none;">
       <div class="card">
         <div class="card-title">일일 피드</div>
-        <div class="form-row" style="margin-bottom:16px;">
-          <div class="form-group">
-            <label>날짜 선택</label>
-            <input type="date" id="feedDate">
-          </div>
-          <button class="btn btn-secondary btn-sm" id="feedSearchBtn">조회</button>
-        </div>
-        <div id="feedDetail"><div class="empty-state">날짜를 선택하세요</div></div>
+        <div id="feedList"><div class="empty-state">로딩 중...</div></div>
+        <div id="feedDetail" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);"></div>
       </div>
 
       <div class="card">
         <div class="card-title">트렌드 아이템</div>
+        <div class="form-row" style="margin-bottom:12px;">
+          <div class="form-group">
+            <label>검색</label>
+            <input type="text" id="itemSearch" placeholder="음식명 검색...">
+          </div>
+          <div class="form-group">
+            <label>날짜</label>
+            <input type="date" id="itemDate">
+          </div>
+        </div>
         <div class="form-row" style="margin-bottom:16px;">
           <div class="form-group">
             <label>상태</label>
@@ -414,6 +418,7 @@
           <button class="btn btn-secondary btn-sm" id="itemSearchBtn">조회</button>
         </div>
         <div id="itemList"><div class="empty-state">조건을 선택하고 조회하세요</div></div>
+        <div id="itemPaging" style="display:none;margin-top:12px;display:flex;gap:8px;justify-content:center;align-items:center;"></div>
       </div>
     </div>
 
@@ -511,6 +516,7 @@ window.switchTab = function(tab) {
 
   if (tab === 'dashboard') loadDashboard();
   if (tab === 'pipeline') { loadPipelineHistory(); loadUnprocessedCount(); }
+  if (tab === 'data') { loadFeedList(); }
 };
 
 // ─── AUTH ────────────────────────────────────────────
@@ -795,11 +801,46 @@ async function loadPipelineHistory() {
 }
 
 // ─── DATA BROWSER ───────────────────────────────────
-async function loadFeedByDate() {
-  const date = document.getElementById('feedDate').value;
-  if (!date) return;
+async function loadFeedList() {
+  const container = document.getElementById('feedList');
+  container.innerHTML = '<div class="empty-state">로딩 중...</div>';
+  document.getElementById('feedDetail').style.display = 'none';
 
+  const { data: feeds } = await ipsomun
+    .from('daily_feeds')
+    .select('feed_date, theme, sub_theme, subtheme, published, sections')
+    .order('feed_date', { ascending: false })
+    .limit(30);
+
+  if (!feeds || feeds.length === 0) {
+    container.innerHTML = '<div class="empty-state">피드가 없습니다</div>';
+    return;
+  }
+
+  container.innerHTML = `
+    <table class="data-table">
+      <thead><tr><th>날짜</th><th>테마</th><th>섹션</th><th>발행</th></tr></thead>
+      <tbody>${feeds.map(f => {
+        const sections = Array.isArray(f.sections) ? f.sections : [];
+        const itemCount = sections.reduce((sum, s) => sum + (s.item_ids?.length || 0), 0);
+        return `
+        <tr class="feed-row" data-date="${f.feed_date}" style="cursor:pointer;">
+          <td class="mono">${f.feed_date}</td>
+          <td>${esc(f.theme || '-')}</td>
+          <td>${sections.length}개 / ${itemCount}건</td>
+          <td><span class="badge ${f.published ? 'badge-published' : 'badge-draft'}">${f.published ? 'Yes' : 'No'}</span></td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table>`;
+
+  container.querySelectorAll('.feed-row').forEach(row => {
+    row.addEventListener('click', () => showFeedDetail(row.dataset.date));
+  });
+}
+
+async function showFeedDetail(date) {
   const container = document.getElementById('feedDetail');
+  container.style.display = 'block';
   container.innerHTML = '<div class="empty-state">로딩 중...</div>';
 
   const { data: feed } = await ipsomun
@@ -815,16 +856,12 @@ async function loadFeedByDate() {
 
   const sections = Array.isArray(feed.sections) ? feed.sections : [];
   container.innerHTML = `
-    <div style="margin-bottom:16px;">
-      <div style="font-size:15px;font-weight:600;color:var(--text-bright);margin-bottom:4px;">${esc(feed.theme || '-')}</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">${esc(feed.subtheme || feed.sub_theme || '')}</div>
-      <div style="font-size:12px;color:var(--text-muted);font-style:italic;">${esc(feed.editor_comment || feed.editorComment || '')}</div>
-      <div style="font-size:12px;color:var(--text-muted);margin-top:8px;">
-        발행: <span class="badge ${feed.published ? 'badge-published' : 'badge-draft'}">${feed.published ? 'Yes' : 'No'}</span>
-        | 섹션: ${sections.length}개
-        | 아이템: ${sections.reduce((sum, s) => sum + (s.item_ids?.length || 0), 0)}개
-      </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div style="font-size:15px;font-weight:600;color:var(--text-bright);">${esc(feed.feed_date)} - ${esc(feed.theme || '-')}</div>
+      <button class="btn btn-ghost btn-sm" id="closeFeedDetail" style="font-size:16px;">x</button>
     </div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">${esc(feed.subtheme || feed.sub_theme || '')}</div>
+    <div style="font-size:12px;color:var(--text-muted);font-style:italic;margin-bottom:12px;">${esc(feed.editor_comment || feed.editorComment || '')}</div>
     <table class="data-table">
       <thead><tr><th>섹션</th><th>레이아웃</th><th>아이템수</th></tr></thead>
       <tbody>${sections.map(s => `
@@ -835,53 +872,89 @@ async function loadFeedByDate() {
         </tr>
       `).join('')}</tbody>
     </table>`;
+
+  document.getElementById('closeFeedDetail').addEventListener('click', () => {
+    container.style.display = 'none';
+  });
 };
 
-async function loadTrendItems() {
+let itemPage = 0;
+const PAGE_SIZE = 30;
+
+async function loadTrendItems(page = 0) {
+  itemPage = page;
   const status = document.getElementById('itemStatus').value;
   const category = document.getElementById('itemCategory').value;
+  const search = document.getElementById('itemSearch').value.trim();
+  const date = document.getElementById('itemDate').value;
   const container = document.getElementById('itemList');
+  const pagingEl = document.getElementById('itemPaging');
   container.innerHTML = '<div class="empty-state">로딩 중...</div>';
 
   let query = ipsomun
     .from('trend_items')
-    .select('id, food_name, category, status, trend_score, published_date, image_url, created_at')
+    .select('id, food_name, category, status, trend_score, published_date, image_url, created_at, headline', { count: 'exact' })
     .order('created_at', { ascending: false })
-    .limit(50);
+    .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
 
   if (status !== 'all') query = query.eq('status', status);
   if (category !== 'all') query = query.eq('category', category);
+  if (search) query = query.ilike('food_name', `%${search}%`);
+  if (date) {
+    query = query.gte('created_at', date + 'T00:00:00+09:00')
+                 .lt('created_at', date + 'T23:59:59+09:00');
+  }
 
-  const { data: items, error } = await query;
+  const { data: items, error, count } = await query;
 
   if (error) {
     container.innerHTML = `<div class="empty-state">오류: ${esc(error.message)}</div>`;
+    pagingEl.style.display = 'none';
     return;
   }
   if (!items || items.length === 0) {
     container.innerHTML = '<div class="empty-state">결과가 없습니다</div>';
+    pagingEl.style.display = 'none';
     return;
   }
 
+  const totalPages = Math.ceil((count || 0) / PAGE_SIZE);
+
   container.innerHTML = `
-    <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">${items.length}건 (최대 50건)</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">
+      총 ${count}건 | 페이지 ${page + 1}/${totalPages}
+    </div>
     <table class="data-table">
       <thead><tr>
-        <th>음식명</th><th>카테고리</th><th>상태</th><th>점수</th><th>발행일</th>
+        <th>음식명</th><th>카테고리</th><th>상태</th><th>점수</th><th>날짜</th>
       </tr></thead>
       <tbody>${items.map(item => `
-        <tr>
+        <tr title="${esc(item.headline || '')}">
           <td>
-            ${item.image_url ? `<img src="${esc(item.image_url)}" style="width:24px;height:24px;border-radius:4px;object-fit:cover;vertical-align:middle;margin-right:6px;">` : ''}
+            ${item.image_url ? `<img src="${esc(item.image_url)}" style="width:24px;height:24px;border-radius:4px;object-fit:cover;vertical-align:middle;margin-right:6px;" loading="lazy">` : ''}
             ${esc(item.food_name)}
           </td>
           <td class="mono">${item.category}</td>
           <td><span class="badge badge-${item.status}">${item.status}</span></td>
           <td>${item.trend_score ?? '-'}</td>
-          <td class="mono">${item.published_date || '-'}</td>
+          <td class="mono">${item.published_date || item.created_at?.split('T')[0] || '-'}</td>
         </tr>
       `).join('')}</tbody>
     </table>`;
+
+  // 페이징
+  if (totalPages > 1) {
+    pagingEl.style.display = 'flex';
+    pagingEl.innerHTML = `
+      <button class="btn btn-secondary btn-sm" id="prevPage" ${page === 0 ? 'disabled' : ''}>이전</button>
+      <span style="font-size:13px;color:var(--text-muted);">${page + 1} / ${totalPages}</span>
+      <button class="btn btn-secondary btn-sm" id="nextPage" ${page >= totalPages - 1 ? 'disabled' : ''}>다음</button>
+    `;
+    document.getElementById('prevPage').addEventListener('click', () => loadTrendItems(page - 1));
+    document.getElementById('nextPage').addEventListener('click', () => loadTrendItems(page + 1));
+  } else {
+    pagingEl.style.display = 'none';
+  }
 };
 
 // ─── MANUAL TOOLS ───────────────────────────────────
@@ -1072,8 +1145,8 @@ function showToast(msg, type = 'success') {
 }
 
 // ─── EVENT BINDINGS ─────────────────────────────────
-document.getElementById('feedSearchBtn').addEventListener('click', loadFeedByDate);
-document.getElementById('itemSearchBtn').addEventListener('click', loadTrendItems);
+document.getElementById('itemSearchBtn').addEventListener('click', () => loadTrendItems(0));
+document.getElementById('itemSearch').addEventListener('keydown', (e) => { if (e.key === 'Enter') loadTrendItems(0); });
 document.getElementById('republishBtn').addEventListener('click', republishToday);
 document.getElementById('republishByDateBtn').addEventListener('click', republishByDate);
 document.getElementById('runFullPipeline').addEventListener('click', function() { runStep('pipeline-orchestrator', this); });
