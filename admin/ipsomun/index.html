@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+  <title>입소문 관리 - Admin</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0e1117;
+      --bg-card: #161b22;
+      --bg-input: #0d1117;
+      --border: #30363d;
+      --border-hover: #484f58;
+      --text: #c9d1d9;
+      --text-muted: #8b949e;
+      --text-bright: #f0f6fc;
+      --accent: #238636;
+      --accent-hover: #2ea043;
+      --danger: #da3633;
+      --danger-hover: #f85149;
+      --blue: #58a6ff;
+      --orange: #d29922;
+      --radius: 8px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* Loading & Login */
+    #loading-screen {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; color: var(--text-muted); font-size: 14px;
+    }
+    #login-screen {
+      display: none; align-items: center; justify-content: center;
+      min-height: 100vh; flex-direction: column;
+    }
+    .login-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 48px 36px; text-align: center;
+      max-width: 380px; width: 100%;
+    }
+    .login-card .icon { font-size: 40px; margin-bottom: 16px; }
+    .login-card h1 { font-size: 20px; color: var(--text-bright); margin-bottom: 8px; }
+    .login-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 28px; }
+    .btn-github {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; color: #000; border: none; border-radius: 10px;
+      padding: 12px 24px; font-size: 14px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+    }
+    .btn-github:hover { background: #e0e0e0; }
+    .login-error {
+      display: none; color: #f85149; font-size: 13px;
+      margin-top: 16px; text-align: center;
+    }
+
+    /* App Layout */
+    #app { display: none; }
+
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 24px; border-bottom: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .topbar-left a {
+      color: var(--text-muted); text-decoration: none; font-size: 13px;
+    }
+    .topbar-left a:hover { color: var(--text); }
+    .topbar h1 { font-size: 16px; color: var(--text-bright); font-weight: 600; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .topbar-user { font-size: 13px; color: var(--text-muted); }
+
+    .nav {
+      display: flex; gap: 4px; padding: 12px 24px;
+      border-bottom: 1px solid var(--border); background: var(--bg);
+      overflow-x: auto;
+    }
+    .nav-btn {
+      padding: 8px 16px; border-radius: var(--radius);
+      font-size: 13px; font-weight: 500; background: none;
+      color: var(--text-muted); border: none; cursor: pointer;
+      transition: all 0.15s; white-space: nowrap;
+    }
+    .nav-btn:hover { color: var(--text); background: #21262d; }
+    .nav-btn.active { color: var(--text-bright); background: #21262d; }
+
+    .main { max-width: 960px; margin: 0 auto; padding: 24px; }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 20px; border-radius: var(--radius);
+      font-size: 14px; font-weight: 500; border: none;
+      cursor: pointer; transition: background 0.15s, opacity 0.15s;
+      font-family: inherit;
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+    .btn-secondary { background: #21262d; color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover:not(:disabled) { background: #30363d; }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-danger:hover:not(:disabled) { background: var(--danger-hover); }
+    .btn-ghost { background: none; color: var(--text-muted); padding: 6px 10px; }
+    .btn-ghost:hover { color: var(--text); }
+    .btn-sm { padding: 6px 12px; font-size: 12px; }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px; margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 16px; font-weight: 600; color: var(--text-bright);
+      margin-bottom: 20px;
+    }
+
+    /* Stat Grid */
+    .stat-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px; margin-bottom: 20px;
+    }
+    .stat-box {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px; text-align: center;
+    }
+    .stat-value {
+      font-size: 28px; font-weight: 700; color: var(--text-bright);
+      margin-bottom: 4px;
+    }
+    .stat-label { font-size: 12px; color: var(--text-muted); }
+
+    /* Status badges */
+    .badge {
+      display: inline-block; padding: 2px 8px; border-radius: 12px;
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+    }
+    .badge-success { background: #23863620; color: #3fb950; border: 1px solid #23863640; }
+    .badge-failed { background: #da363320; color: #f85149; border: 1px solid #da363340; }
+    .badge-running { background: #1f6feb20; color: #58a6ff; border: 1px solid #1f6feb40; }
+    .badge-partial { background: #d2992220; color: #d29922; border: 1px solid #d2992240; }
+    .badge-draft { background: #30363d; color: var(--text-muted); border: 1px solid var(--border); }
+    .badge-published { background: #23863620; color: #3fb950; border: 1px solid #23863640; }
+
+    /* Table */
+    .data-table {
+      width: 100%; border-collapse: collapse; font-size: 13px;
+    }
+    .data-table th {
+      text-align: left; padding: 8px 12px; font-size: 11px;
+      color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 0.5px; border-bottom: 1px solid var(--border);
+      font-weight: 600;
+    }
+    .data-table td {
+      padding: 10px 12px; border-bottom: 1px solid #21262d;
+      color: var(--text); vertical-align: middle;
+    }
+    .data-table tr:hover td { background: #1c212940; }
+    .data-table td.mono { font-family: 'SF Mono', monospace; font-size: 12px; }
+
+    /* Steps detail */
+    .step-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; }
+    .step-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .step-dot.success { background: #3fb950; }
+    .step-dot.failed { background: #f85149; }
+    .step-dot.skipped { background: var(--text-muted); }
+    .step-name { font-size: 13px; flex: 1; }
+    .step-duration { font-size: 12px; color: var(--text-muted); font-family: 'SF Mono', monospace; }
+
+    /* Forms */
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block; font-size: 12px; font-weight: 600;
+      color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 0.5px; margin-bottom: 6px;
+    }
+    select, input[type="date"], input[type="text"] {
+      width: 100%; padding: 8px 12px; background: var(--bg-input);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      color: var(--text); font-size: 14px; font-family: inherit;
+    }
+    select:focus, input:focus { outline: none; border-color: var(--blue); }
+
+    .form-row { display: flex; gap: 12px; align-items: flex-end; }
+    .form-row .form-group { flex: 1; margin-bottom: 0; }
+    .form-actions { display: flex; gap: 8px; margin-top: 20px; }
+
+    /* Calendar heatmap */
+    .calendar-row {
+      display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 12px;
+    }
+    .cal-day {
+      width: 32px; height: 32px; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; cursor: default; position: relative;
+    }
+    .cal-day.empty { background: #21262d; color: var(--text-muted); }
+    .cal-day.has-data { background: #23863640; color: #3fb950; }
+    .cal-day.missing { background: #da363320; color: #f85149; }
+    .cal-day.today { border: 2px solid var(--blue); }
+    .cal-day[title]:hover::after {
+      content: attr(title); position: absolute; bottom: 100%;
+      left: 50%; transform: translateX(-50%); padding: 4px 8px;
+      background: #1c2129; border: 1px solid var(--border);
+      border-radius: 4px; font-size: 11px; white-space: nowrap;
+      color: var(--text); z-index: 10;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center; padding: 40px 16px; color: var(--text-muted);
+      font-size: 14px; line-height: 1.6;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      padding: 12px 20px; border-radius: var(--radius);
+      font-size: 14px; z-index: 1000; animation: slideIn 0.3s ease;
+    }
+    .toast-success { background: var(--accent); color: #fff; }
+    .toast-error { background: var(--danger); color: #fff; }
+
+    @keyframes slideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Confirm dialog */
+    .overlay {
+      display: none; position: fixed; inset: 0; background: #00000080;
+      z-index: 100; align-items: center; justify-content: center;
+    }
+    .overlay.active { display: flex; }
+    .dialog {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px; max-width: 400px; width: 90%;
+    }
+    .dialog h3 { font-size: 16px; color: var(--text-bright); margin-bottom: 12px; }
+    .dialog p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6; }
+    .dialog-actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .topbar { padding: 10px 14px; }
+      .topbar h1 { font-size: 14px; }
+      .nav { padding: 8px 14px; gap: 2px; }
+      .nav-btn { padding: 6px 12px; font-size: 12px; }
+      .main { padding: 14px; }
+      .card { padding: 16px; }
+      .stat-grid { grid-template-columns: repeat(2, 1fr); }
+      .form-row { flex-direction: column; }
+      .form-actions { flex-direction: column; }
+      .form-actions .btn { width: 100%; justify-content: center; }
+      .data-table { font-size: 12px; }
+      .data-table th, .data-table td { padding: 6px 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="loading-screen">로딩 중...</div>
+
+<!-- Login -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="icon">📰</div>
+    <h1>입소문 관리</h1>
+    <p>GitHub 계정으로 로그인하세요</p>
+    <button class="btn-github" id="loginBtn">
+      <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+      GitHub로 로그인
+    </button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<!-- Confirm Dialog -->
+<div class="overlay" id="confirmOverlay">
+  <div class="dialog">
+    <h3 id="confirmTitle">확인</h3>
+    <p id="confirmMsg"></p>
+    <div class="dialog-actions">
+      <button class="btn btn-secondary btn-sm" id="confirmCancel">취소</button>
+      <button class="btn btn-danger btn-sm" id="confirmOk">실행</button>
+    </div>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-left">
+      <a href="../">← 어드민 홈</a>
+      <h1>📰 입소문 관리</h1>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-user" id="user-display"></span>
+      <button class="btn btn-ghost btn-sm" id="logoutBtn">로그아웃</button>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="nav-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">대시보드</button>
+    <button class="nav-btn" data-tab="pipeline" onclick="switchTab('pipeline')">파이프라인</button>
+    <button class="nav-btn" data-tab="data" onclick="switchTab('data')">데이터 브라우저</button>
+    <button class="nav-btn" data-tab="tools" onclick="switchTab('tools')">수동 실행</button>
+  </div>
+
+  <div class="main">
+    <!-- 대시보드 Tab -->
+    <div id="tab-dashboard" class="tab-content">
+      <div class="card">
+        <div class="card-title">오늘 현황</div>
+        <div class="stat-grid" id="todayStats">
+          <div class="stat-box"><div class="stat-value" id="stat-collected">-</div><div class="stat-label">수집</div></div>
+          <div class="stat-box"><div class="stat-value" id="stat-classified">-</div><div class="stat-label">분류</div></div>
+          <div class="stat-box"><div class="stat-value" id="stat-published">-</div><div class="stat-label">발행</div></div>
+          <div class="stat-box"><div class="stat-value" id="stat-pipeline">-</div><div class="stat-label">파이프라인</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">최근 14일 발행 현황</div>
+        <div class="calendar-row" id="calendarRow"></div>
+        <div style="font-size:12px; color:var(--text-muted);">
+          <span style="display:inline-flex;align-items:center;gap:4px;margin-right:12px;"><span style="width:10px;height:10px;background:#23863640;border-radius:2px;display:inline-block;"></span> 발행됨</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;margin-right:12px;"><span style="width:10px;height:10px;background:#da363320;border-radius:2px;display:inline-block;"></span> 누락</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:#21262d;border-radius:2px;display:inline-block;"></span> 미래</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">최근 파이프라인 실행</div>
+        <div id="recentRuns"><div class="empty-state">로딩 중...</div></div>
+      </div>
+    </div>
+
+    <!-- 파이프라인 Tab -->
+    <div id="tab-pipeline" class="tab-content" style="display:none;">
+      <div class="card">
+        <div class="card-title">파이프라인 실행 기록</div>
+        <div id="pipelineList"><div class="empty-state">로딩 중...</div></div>
+      </div>
+    </div>
+
+    <!-- 데이터 브라우저 Tab -->
+    <div id="tab-data" class="tab-content" style="display:none;">
+      <div class="card">
+        <div class="card-title">일일 피드</div>
+        <div class="form-row" style="margin-bottom:16px;">
+          <div class="form-group">
+            <label>날짜 선택</label>
+            <input type="date" id="feedDate">
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="loadFeedByDate()">조회</button>
+        </div>
+        <div id="feedDetail"><div class="empty-state">날짜를 선택하세요</div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">트렌드 아이템</div>
+        <div class="form-row" style="margin-bottom:16px;">
+          <div class="form-group">
+            <label>상태</label>
+            <select id="itemStatus">
+              <option value="all">전체</option>
+              <option value="draft">Draft</option>
+              <option value="published">Published</option>
+              <option value="archived">Archived</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>카테고리</label>
+            <select id="itemCategory">
+              <option value="all">전체</option>
+              <option value="trending">요즘 핫한</option>
+              <option value="new_menu">신메뉴</option>
+              <option value="seasonal">제철</option>
+              <option value="cvs_new">편의점</option>
+              <option value="retro">레트로</option>
+              <option value="hotplace">핫플</option>
+              <option value="recipe">레시피</option>
+              <option value="food_news">뉴스</option>
+            </select>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="loadTrendItems()">조회</button>
+        </div>
+        <div id="itemList"><div class="empty-state">조건을 선택하고 조회하세요</div></div>
+      </div>
+    </div>
+
+    <!-- 수동 실행 Tab -->
+    <div id="tab-tools" class="tab-content" style="display:none;">
+      <div class="card">
+        <div class="card-title">파이프라인 단계별 실행</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">
+          개별 단계를 수동으로 실행합니다. 기존 cron 스케줄에 영향을 주지 않습니다.
+        </p>
+        <div style="display:grid;gap:8px;" id="stepButtons">
+          <button class="btn btn-secondary" onclick="runStep('collect-trends', this)">1. 수집 (collect-trends)</button>
+          <button class="btn btn-secondary" onclick="runStep('process-ai', this)">2. AI 분류 (process-ai)</button>
+          <button class="btn btn-secondary" onclick="runStep('validate-items', this)">3. AI 검수 (validate-items)</button>
+          <button class="btn btn-secondary" onclick="runStep('update-scores', this)">4. 검색량 점수 (update-scores)</button>
+          <button class="btn btn-secondary" onclick="runStep('match-products', this)">5. 상품 매칭 (match-products)</button>
+          <button class="btn btn-secondary" onclick="runStep('publish-daily', this)">6. 피드 발행 (publish-daily)</button>
+          <button class="btn btn-secondary" onclick="runStep('send-daily-push', this)">7. 푸시 발송 (send-daily-push)</button>
+        </div>
+        <div id="stepResult" style="margin-top:16px;display:none;">
+          <pre style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px;font-size:12px;color:var(--text);overflow-x:auto;max-height:300px;overflow-y:auto;"></pre>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">전체 파이프라인 실행</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">
+          수집부터 발행까지 전체 파이프라인을 순차 실행합니다. (약 5~10분 소요)
+        </p>
+        <button class="btn btn-primary" id="runFullPipeline" onclick="runStep('pipeline-orchestrator', this)">전체 파이프라인 실행</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">오늘 피드 재발행</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">
+          오늘 발행된 피드를 삭제하고, 아이템을 draft로 되돌린 뒤 publish-daily를 다시 실행합니다.
+        </p>
+        <button class="btn btn-danger" id="republishBtn" onclick="republishToday()">오늘 피드 재발행</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">특정 날짜 재발행</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">
+          특정 날짜의 피드를 삭제하고 아이템을 draft로 되돌립니다. 이후 수동으로 publish-daily를 실행하세요.
+        </p>
+        <div class="form-row" style="margin-bottom:12px;">
+          <div class="form-group">
+            <label>대상 날짜</label>
+            <input type="date" id="republishDate">
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="republishByDate()">재발행 준비</button>
+        </div>
+        <div id="republishResult" style="display:none;font-size:13px;color:var(--text-muted);margin-top:8px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+// ─── CONFIG ──────────────────────────────────────────
+// Push Service (인증용)
+const AUTH_URL = 'https://nhroluokyjwdecsmpbwh.supabase.co';
+const AUTH_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ocm9sdW9reWp3ZGVjc21wYndoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxMDYyMTAsImV4cCI6MjA4ODY4MjIxMH0.aj200jMjwdK3bHLDBVL0b22AJhWd3rDl9XVcWkAbcYc';
+
+// Ipsomun (데이터용)
+const IPSOMUN_URL = 'https://zdvyzauugrpjqttsicve.supabase.co';
+const IPSOMUN_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpkdnl6YXV1Z3JwanF0dHNpY3ZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MTQ5MjAsImV4cCI6MjA5MDA5MDkyMH0.GDLhEvb8Nsf4n0-rrB1dM-EIsdUOWPOXAmY7azko2Zc';
+const IPSOMUN_FUNCTIONS = `${IPSOMUN_URL}/functions/v1`;
+
+// ─── SUPABASE CLIENTS ───────────────────────────────
+const authClient = createClient(AUTH_URL, AUTH_ANON_KEY, {
+  auth: {
+    persistSession: true,
+    detectSessionInUrl: true,
+    autoRefreshToken: true,
+    storageKey: 'admin-auth',
+  },
+});
+
+const ipsomun = createClient(IPSOMUN_URL, IPSOMUN_ANON_KEY, {
+  auth: { persistSession: false, autoRefreshToken: false },
+});
+
+// ─── TABS ────────────────────────────────────────────
+let currentTab = 'dashboard';
+
+window.switchTab = function(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).style.display = 'block';
+  document.querySelector(`.nav-btn[data-tab="${tab}"]`).classList.add('active');
+
+  if (tab === 'dashboard') loadDashboard();
+  if (tab === 'pipeline') loadPipelineHistory();
+};
+
+// ─── AUTH ────────────────────────────────────────────
+document.getElementById('loginBtn').addEventListener('click', async () => {
+  const { error } = await authClient.auth.signInWithOAuth({
+    provider: 'github',
+    options: { redirectTo: window.location.origin + window.location.pathname },
+  });
+  if (error) {
+    document.getElementById('login-error').textContent = error.message;
+    document.getElementById('login-error').style.display = 'block';
+  }
+});
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await authClient.auth.signOut();
+});
+
+async function onLogin(session) {
+  const user = session.user;
+  const username = user.user_metadata?.user_name || user.email;
+
+  const { data: admin } = await authClient
+    .from('admins')
+    .select('id')
+    .eq('github_username', username)
+    .single();
+
+  if (!admin) {
+    document.getElementById('login-error').textContent =
+      `"${username}" 계정은 관리자 권한이 없습니다.`;
+    document.getElementById('login-error').style.display = 'block';
+    await authClient.auth.signOut();
+    return;
+  }
+
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('user-display').textContent = `@${username}`;
+
+  // 오늘 날짜 기본값 설정
+  const today = toKSTDateString(new Date());
+  document.getElementById('feedDate').value = today;
+  document.getElementById('republishDate').value = today;
+
+  loadDashboard();
+}
+
+function showLogin() {
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
+// ─── DASHBOARD ──────────────────────────────────────
+async function loadDashboard() {
+  const today = toKSTDateString(new Date());
+
+  // 오늘 수집 건수
+  const { count: collectedCount } = await ipsomun
+    .from('raw_sources')
+    .select('*', { count: 'exact', head: true })
+    .gte('collected_at', today + 'T00:00:00+09:00')
+    .lt('collected_at', today + 'T23:59:59+09:00');
+
+  // 오늘 분류 건수
+  const { count: classifiedCount } = await ipsomun
+    .from('trend_items')
+    .select('*', { count: 'exact', head: true })
+    .gte('created_at', today + 'T00:00:00+09:00')
+    .lt('created_at', today + 'T23:59:59+09:00');
+
+  // 오늘 발행 건수
+  const { count: publishedCount } = await ipsomun
+    .from('trend_items')
+    .select('*', { count: 'exact', head: true })
+    .eq('published_date', today);
+
+  // 오늘 파이프라인
+  const { data: todayRuns } = await ipsomun
+    .from('pipeline_runs')
+    .select('status')
+    .gte('created_at', today + 'T00:00:00+09:00')
+    .order('created_at', { ascending: false })
+    .limit(1);
+
+  document.getElementById('stat-collected').textContent = collectedCount ?? 0;
+  document.getElementById('stat-classified').textContent = classifiedCount ?? 0;
+  document.getElementById('stat-published').textContent = publishedCount ?? 0;
+
+  const pipelineEl = document.getElementById('stat-pipeline');
+  if (todayRuns && todayRuns.length > 0) {
+    const status = todayRuns[0].status;
+    pipelineEl.innerHTML = `<span class="badge badge-${status}">${status}</span>`;
+  } else {
+    pipelineEl.textContent = '-';
+  }
+
+  // 최근 14일 캘린더
+  await loadCalendar();
+
+  // 최근 파이프라인 5건
+  await loadRecentRuns();
+}
+
+async function loadCalendar() {
+  const dates = [];
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    dates.push(toKSTDateString(d));
+  }
+
+  const { data: feeds } = await ipsomun
+    .from('daily_feeds')
+    .select('feed_date, published')
+    .gte('feed_date', dates[0])
+    .lte('feed_date', dates[dates.length - 1]);
+
+  const feedMap = {};
+  (feeds || []).forEach(f => { feedMap[f.feed_date] = f.published; });
+
+  const today = toKSTDateString(new Date());
+  const container = document.getElementById('calendarRow');
+  container.innerHTML = '';
+
+  dates.forEach(date => {
+    const el = document.createElement('div');
+    const dayNum = parseInt(date.split('-')[2]);
+    const isFuture = date > today;
+    const isToday = date === today;
+    const hasFeed = feedMap[date] !== undefined;
+
+    let cls = 'cal-day';
+    if (isToday) cls += ' today';
+    if (isFuture) cls += ' empty';
+    else if (hasFeed) cls += ' has-data';
+    else cls += ' missing';
+
+    el.className = cls;
+    el.textContent = dayNum;
+    el.title = date + (hasFeed ? ' (발행됨)' : isFuture ? '' : ' (누락)');
+    container.appendChild(el);
+  });
+}
+
+async function loadRecentRuns() {
+  const { data: runs } = await ipsomun
+    .from('pipeline_runs')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(5);
+
+  const container = document.getElementById('recentRuns');
+  if (!runs || runs.length === 0) {
+    container.innerHTML = '<div class="empty-state">파이프라인 실행 기록이 없습니다</div>';
+    return;
+  }
+
+  container.innerHTML = `
+    <table class="data-table">
+      <thead><tr>
+        <th>시각</th><th>상태</th><th>단계</th><th>소요</th>
+      </tr></thead>
+      <tbody>${runs.map(r => `
+        <tr>
+          <td class="mono">${fmtDateTime(r.created_at)}</td>
+          <td><span class="badge badge-${r.status}">${r.status}</span></td>
+          <td>${r.stats ? `${r.stats.steps_success || 0}/${r.stats.steps_total || 0}` : '-'}</td>
+          <td class="mono">${r.stats?.total_duration_ms ? fmtDuration(r.stats.total_duration_ms) : '-'}</td>
+        </tr>
+      `).join('')}</tbody>
+    </table>`;
+}
+
+// ─── PIPELINE ───────────────────────────────────────
+async function loadPipelineHistory() {
+  const { data: runs } = await ipsomun
+    .from('pipeline_runs')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(20);
+
+  const container = document.getElementById('pipelineList');
+  if (!runs || runs.length === 0) {
+    container.innerHTML = '<div class="empty-state">파이프라인 실행 기록이 없습니다</div>';
+    return;
+  }
+
+  container.innerHTML = runs.map(r => {
+    const steps = Array.isArray(r.steps) ? r.steps : [];
+    return `
+      <div style="padding:16px 0;border-bottom:1px solid #21262d;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <div>
+            <span class="badge badge-${r.status}">${r.status}</span>
+            <span style="font-size:13px;color:var(--text-muted);margin-left:8px;">${fmtDateTime(r.created_at)}</span>
+          </div>
+          <span style="font-size:12px;color:var(--text-muted);font-family:'SF Mono',monospace;">
+            ${r.stats?.total_duration_ms ? fmtDuration(r.stats.total_duration_ms) : ''}
+          </span>
+        </div>
+        ${r.error ? `<div style="font-size:12px;color:var(--danger);margin-bottom:8px;">${esc(r.error)}</div>` : ''}
+        <div style="display:grid;gap:2px;">
+          ${steps.map(s => `
+            <div class="step-row">
+              <div class="step-dot ${s.status}"></div>
+              <span class="step-name">${esc(s.step)}</span>
+              <span class="step-duration">${fmtDuration(s.duration_ms)}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ─── DATA BROWSER ───────────────────────────────────
+window.loadFeedByDate = async function() {
+  const date = document.getElementById('feedDate').value;
+  if (!date) return;
+
+  const container = document.getElementById('feedDetail');
+  container.innerHTML = '<div class="empty-state">로딩 중...</div>';
+
+  const { data: feed } = await ipsomun
+    .from('daily_feeds')
+    .select('*')
+    .eq('feed_date', date)
+    .single();
+
+  if (!feed) {
+    container.innerHTML = `<div class="empty-state">${date}에 발행된 피드가 없습니다</div>`;
+    return;
+  }
+
+  const sections = Array.isArray(feed.sections) ? feed.sections : [];
+  container.innerHTML = `
+    <div style="margin-bottom:16px;">
+      <div style="font-size:15px;font-weight:600;color:var(--text-bright);margin-bottom:4px;">${esc(feed.theme || '-')}</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">${esc(feed.subtheme || feed.sub_theme || '')}</div>
+      <div style="font-size:12px;color:var(--text-muted);font-style:italic;">${esc(feed.editor_comment || feed.editorComment || '')}</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:8px;">
+        발행: <span class="badge ${feed.published ? 'badge-published' : 'badge-draft'}">${feed.published ? 'Yes' : 'No'}</span>
+        | 섹션: ${sections.length}개
+        | 아이템: ${sections.reduce((sum, s) => sum + (s.item_ids?.length || 0), 0)}개
+      </div>
+    </div>
+    <table class="data-table">
+      <thead><tr><th>섹션</th><th>레이아웃</th><th>아이템수</th></tr></thead>
+      <tbody>${sections.map(s => `
+        <tr>
+          <td>${esc(s.title)}</td>
+          <td class="mono">${s.layout_type || s.layout || '-'}</td>
+          <td>${s.item_ids?.length || 0}</td>
+        </tr>
+      `).join('')}</tbody>
+    </table>`;
+};
+
+window.loadTrendItems = async function() {
+  const status = document.getElementById('itemStatus').value;
+  const category = document.getElementById('itemCategory').value;
+  const container = document.getElementById('itemList');
+  container.innerHTML = '<div class="empty-state">로딩 중...</div>';
+
+  let query = ipsomun
+    .from('trend_items')
+    .select('id, food_name, category, status, trend_score, published_date, image_url, created_at')
+    .order('created_at', { ascending: false })
+    .limit(50);
+
+  if (status !== 'all') query = query.eq('status', status);
+  if (category !== 'all') query = query.eq('category', category);
+
+  const { data: items, error } = await query;
+
+  if (error) {
+    container.innerHTML = `<div class="empty-state">오류: ${esc(error.message)}</div>`;
+    return;
+  }
+  if (!items || items.length === 0) {
+    container.innerHTML = '<div class="empty-state">결과가 없습니다</div>';
+    return;
+  }
+
+  container.innerHTML = `
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">${items.length}건 (최대 50건)</div>
+    <table class="data-table">
+      <thead><tr>
+        <th>음식명</th><th>카테고리</th><th>상태</th><th>점수</th><th>발행일</th>
+      </tr></thead>
+      <tbody>${items.map(item => `
+        <tr>
+          <td>
+            ${item.image_url ? `<img src="${esc(item.image_url)}" style="width:24px;height:24px;border-radius:4px;object-fit:cover;vertical-align:middle;margin-right:6px;">` : ''}
+            ${esc(item.food_name)}
+          </td>
+          <td class="mono">${item.category}</td>
+          <td><span class="badge badge-${item.status}">${item.status}</span></td>
+          <td>${item.trend_score ?? '-'}</td>
+          <td class="mono">${item.published_date || '-'}</td>
+        </tr>
+      `).join('')}</tbody>
+    </table>`;
+};
+
+// ─── MANUAL TOOLS ───────────────────────────────────
+window.runStep = async function(fnName, btnEl) {
+  btnEl.disabled = true;
+  const originalText = btnEl.textContent;
+  btnEl.textContent = '실행 중...';
+
+  const resultDiv = document.getElementById('stepResult');
+  const pre = resultDiv.querySelector('pre');
+
+  try {
+    const res = await fetch(`${IPSOMUN_FUNCTIONS}/${fnName}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${IPSOMUN_ANON_KEY}`,
+      },
+      body: JSON.stringify({}),
+    });
+
+    const data = await res.json();
+    resultDiv.style.display = 'block';
+    pre.textContent = `[${fnName}] ${res.status}\n${JSON.stringify(data, null, 2)}`;
+
+    if (res.ok) {
+      showToast(`${fnName} 실행 완료`);
+    } else {
+      showToast(`${fnName} 실패: ${data.error || res.status}`, 'error');
+    }
+  } catch (e) {
+    resultDiv.style.display = 'block';
+    pre.textContent = `[${fnName}] Error: ${e.message}`;
+    showToast(`${fnName} 오류: ${e.message}`, 'error');
+  } finally {
+    btnEl.disabled = false;
+    btnEl.textContent = originalText;
+  }
+};
+
+window.republishToday = function() {
+  const today = toKSTDateString(new Date());
+  confirmAction(
+    '오늘 피드 재발행',
+    `${today} 피드를 삭제하고 아이템을 draft로 되돌린 뒤, publish-daily를 다시 실행합니다. 계속하시겠습니까?`,
+    async () => {
+      const btn = document.getElementById('republishBtn');
+      btn.disabled = true;
+      btn.textContent = '처리 중...';
+      try {
+        await resetDateFeed(today);
+        showToast('피드 초기화 완료, publish-daily 실행 중...');
+
+        const res = await fetch(`${IPSOMUN_FUNCTIONS}/publish-daily`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${IPSOMUN_ANON_KEY}`,
+          },
+          body: JSON.stringify({}),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          showToast('재발행 완료!');
+        } else {
+          showToast(`publish-daily 실패: ${data.error || res.status}`, 'error');
+        }
+      } catch (e) {
+        showToast(`오류: ${e.message}`, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '오늘 피드 재발행';
+        if (currentTab === 'dashboard') loadDashboard();
+      }
+    }
+  );
+};
+
+window.republishByDate = function() {
+  const date = document.getElementById('republishDate').value;
+  if (!date) { showToast('날짜를 선택하세요', 'error'); return; }
+
+  confirmAction(
+    '특정 날짜 재발행 준비',
+    `${date} 피드를 삭제하고 해당 날짜 아이템을 draft로 되돌립니다. 이후 수동으로 publish-daily를 실행해야 합니다.`,
+    async () => {
+      const resultDiv = document.getElementById('republishResult');
+      resultDiv.style.display = 'block';
+      resultDiv.textContent = '처리 중...';
+      try {
+        const result = await resetDateFeed(date);
+        resultDiv.innerHTML = `
+          완료! 삭제된 피드: ${result.deletedFeeds}건, draft로 변경된 아이템: ${result.resetItems}건<br>
+          <span style="color:var(--blue);">이제 "수동 실행" 탭에서 publish-daily를 실행하세요.</span>`;
+        showToast(`${date} 재발행 준비 완료`);
+      } catch (e) {
+        resultDiv.textContent = `오류: ${e.message}`;
+        showToast(`오류: ${e.message}`, 'error');
+      }
+    }
+  );
+};
+
+async function resetDateFeed(date) {
+  // 1. 해당 날짜 daily_feeds 삭제
+  const { data: deletedFeeds, error: feedErr } = await ipsomun
+    .from('daily_feeds')
+    .delete()
+    .eq('feed_date', date)
+    .select('id');
+
+  if (feedErr) throw new Error(`피드 삭제 실패: ${feedErr.message}`);
+
+  // 2. 해당 날짜 아이템 draft로 변경
+  const { data: resetItems, error: itemErr } = await ipsomun
+    .from('trend_items')
+    .update({ status: 'draft', published_date: null })
+    .eq('published_date', date)
+    .select('id');
+
+  if (itemErr) throw new Error(`아이템 리셋 실패: ${itemErr.message}`);
+
+  return {
+    deletedFeeds: deletedFeeds?.length || 0,
+    resetItems: resetItems?.length || 0,
+  };
+}
+
+// ─── CONFIRM DIALOG ─────────────────────────────────
+function confirmAction(title, msg, onConfirm) {
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmMsg').textContent = msg;
+  document.getElementById('confirmOverlay').classList.add('active');
+
+  const okBtn = document.getElementById('confirmOk');
+  const cancelBtn = document.getElementById('confirmCancel');
+
+  const cleanup = () => {
+    document.getElementById('confirmOverlay').classList.remove('active');
+    okBtn.replaceWith(okBtn.cloneNode(true));
+    cancelBtn.replaceWith(cancelBtn.cloneNode(true));
+  };
+
+  document.getElementById('confirmOk').addEventListener('click', () => {
+    cleanup();
+    onConfirm();
+  });
+  document.getElementById('confirmCancel').addEventListener('click', cleanup);
+}
+
+// ─── HELPERS ────────────────────────────────────────
+function toKSTDateString(date) {
+  const kst = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+  return kst.toISOString().split('T')[0];
+}
+
+function fmtDateTime(iso) {
+  if (!iso) return '-';
+  const d = new Date(iso);
+  return d.toLocaleString('ko-KR', {
+    month: 'short', day: 'numeric',
+    hour: '2-digit', minute: '2-digit',
+    timeZone: 'Asia/Seoul',
+  });
+}
+
+function fmtDuration(ms) {
+  if (!ms && ms !== 0) return '-';
+  if (ms < 1000) return ms + 'ms';
+  if (ms < 60000) return (ms / 1000).toFixed(1) + 's';
+  return Math.floor(ms / 60000) + 'm ' + Math.round((ms % 60000) / 1000) + 's';
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s ?? '';
+  return d.innerHTML;
+}
+
+function showToast(msg, type = 'success') {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const el = document.createElement('div');
+  el.className = `toast toast-${type}`;
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 4000);
+}
+
+// ─── INIT ───────────────────────────────────────────
+let authInitDone = false;
+
+async function handleSession(session) {
+  if (session) {
+    try { await onLogin(session); }
+    catch (e) { console.error('onLogin error:', e); showLogin(); }
+  } else {
+    showLogin();
+  }
+}
+
+authClient.auth.onAuthStateChange((event, session) => {
+  if (event === 'INITIAL_SESSION') {
+    authInitDone = true;
+    setTimeout(() => handleSession(session), 0);
+    return;
+  }
+  if (event === 'SIGNED_IN' && session) {
+    setTimeout(() => handleSession(session), 0);
+    return;
+  }
+  if (event === 'SIGNED_OUT') showLogin();
+});
+
+setTimeout(async () => {
+  if (authInitDone) return;
+  authInitDone = true;
+  try {
+    const { data: { session } } = await authClient.auth.getSession();
+    await handleSession(session);
+  } catch (e) {
+    console.error('Fallback init error:', e);
+    showLogin();
+  }
+}, 4000);
+</script>
+</body>
+</html>
