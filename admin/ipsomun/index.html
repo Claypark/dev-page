@@ -281,8 +281,13 @@
   <div class="login-card">
     <div class="icon">📰</div>
     <h1>입소문 관리</h1>
-    <p>어드민 홈에서 먼저 로그인하세요</p>
-    <a href="../" class="btn-github" style="text-decoration:none;">어드민 홈으로 이동</a>
+    <p>GitHub 계정으로 로그인하세요</p>
+    <button class="btn-github" id="loginBtn">
+      <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+      GitHub로 로그인
+    </button>
     <div class="login-error" id="login-error"></div>
   </div>
 </div>
@@ -476,17 +481,15 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 // ─── CONFIG ──────────────────────────────────────────
-// Push Service (인증용)
-const AUTH_URL = 'https://nhroluokyjwdecsmpbwh.supabase.co';
-const AUTH_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ocm9sdW9reWp3ZGVjc21wYndoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxMDYyMTAsImV4cCI6MjA4ODY4MjIxMH0.aj200jMjwdK3bHLDBVL0b22AJhWd3rDl9XVcWkAbcYc';
+const SUPABASE_URL = 'https://nhroluokyjwdecsmpbwh.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ocm9sdW9reWp3ZGVjc21wYndoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxMDYyMTAsImV4cCI6MjA4ODY4MjIxMH0.aj200jMjwdK3bHLDBVL0b22AJhWd3rDl9XVcWkAbcYc';
 
-// Ipsomun (데이터용)
 const IPSOMUN_URL = 'https://zdvyzauugrpjqttsicve.supabase.co';
 const IPSOMUN_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpkdnl6YXV1Z3JwanF0dHNpY3ZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MTQ5MjAsImV4cCI6MjA5MDA5MDkyMH0.GDLhEvb8Nsf4n0-rrB1dM-EIsdUOWPOXAmY7azko2Zc';
 const IPSOMUN_FUNCTIONS = `${IPSOMUN_URL}/functions/v1`;
 
-// ─── SUPABASE CLIENTS ───────────────────────────────
-const authClient = createClient(AUTH_URL, AUTH_ANON_KEY, {
+// ─── SUPABASE (bamboo 패턴과 동일) ──────────────────
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
     persistSession: true,
     detectSessionInUrl: true,
@@ -514,16 +517,27 @@ window.switchTab = function(tab) {
   if (tab === 'data') { loadFeedList(); }
 };
 
-// ─── AUTH ────────────────────────────────────────────
+// ─── AUTH (bamboo와 동일) ────────────────────────────
+document.getElementById('loginBtn').addEventListener('click', async () => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'github',
+    options: { redirectTo: window.location.origin + window.location.pathname },
+  });
+  if (error) {
+    document.getElementById('login-error').textContent = error.message;
+    document.getElementById('login-error').style.display = 'block';
+  }
+});
+
 document.getElementById('logoutBtn').addEventListener('click', async () => {
-  await authClient.auth.signOut();
+  await supabase.auth.signOut();
 });
 
 async function onLogin(session) {
   const user = session.user;
   const username = user.user_metadata?.user_name || user.email;
 
-  const { data: admin } = await authClient
+  const { data: admin } = await supabase
     .from('admins')
     .select('id')
     .eq('github_username', username)
@@ -533,7 +547,7 @@ async function onLogin(session) {
     document.getElementById('login-error').textContent =
       `"${username}" 계정은 관리자 권한이 없습니다.`;
     document.getElementById('login-error').style.display = 'block';
-    await authClient.auth.signOut();
+    await supabase.auth.signOut();
     return;
   }
 
@@ -1153,7 +1167,7 @@ async function handleSession(session) {
   }
 }
 
-authClient.auth.onAuthStateChange((event, session) => {
+supabase.auth.onAuthStateChange((event, session) => {
   if (event === 'INITIAL_SESSION') {
     authInitDone = true;
     setTimeout(() => handleSession(session), 0);
@@ -1170,7 +1184,7 @@ setTimeout(async () => {
   if (authInitDone) return;
   authInitDone = true;
   try {
-    const { data: { session } } = await authClient.auth.getSession();
+    const { data: { session } } = await supabase.auth.getSession();
     await handleSession(session);
   } catch (e) {
     console.error('Fallback init error:', e);
