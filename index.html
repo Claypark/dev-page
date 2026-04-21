@@ -304,22 +304,33 @@
         }
 
         .app-links .link-badge img {
-            height: 56px;
+            height: 36px;
             display: block;
         }
 
         .link-badge-dev {
             display: inline-flex;
             align-items: center;
-            padding: 16px 20px;
+            padding: 8px 14px;
             background: #21262d;
             border: 1px solid #30363d;
             border-radius: 8px;
             color: #8b949e;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 500;
             cursor: default;
             user-select: none;
+        }
+
+        @media (min-width: 540px) {
+            .app-links .link-badge img {
+                height: 44px;
+            }
+
+            .link-badge-dev {
+                padding: 11px 18px;
+                font-size: 12px;
+            }
         }
 
         .app-meta-links {
