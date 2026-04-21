@@ -408,6 +408,14 @@
                 <span class="tile-badge badge-live">출시</span>
                 <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg></div>
             </div>
+
+            <div class="app-tile" style="--accent: #ff6b35;" onclick="toggleDetail('sogak')">
+                <img src="sogak-icon.png" alt="" class="tile-icon">
+                <div class="tile-name">소각</div>
+                <div class="tile-tagline">남김없이, 오늘을</div>
+                <span class="tile-badge badge-dev">개발중</span>
+                <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg></div>
+            </div>
         </div>
 
         <!-- Detail panels — overlay modal -->
@@ -548,6 +556,23 @@
                 <a href="https://claypark.github.io/dev-page/dustler/privacy-policy.html">개인정보처리방침</a>
                 <span class="separator">·</span>
                 <a href="https://claypark.github.io/dev-page/dustler/terms-of-service.html">이용약관</a>
+            </div>
+        </div>
+
+        <div class="app-detail" id="detail-sogak" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeDetail('sogak')">&times;</button>
+            <div class="detail-header">
+                <img src="sogak-icon.png" alt="" class="detail-icon">
+                <div class="detail-info">
+                    <h2>소각</h2>
+                    <div class="tagline">유한한 시간을 연료 삼아, 오늘을 태우다</div>
+                </div>
+            </div>
+            <div class="description">인생에 남은 주말과 시간을 시각화해주는 동기부여 카운트다운 앱. 아침·저녁 체크인으로 오늘 하루를 기록하고, 소중한 사람과 함께할 수 있는 시간을 확인하세요. 모든 데이터는 기기 안에만 저장됩니다.</div>
+            <div class="app-meta-links">
+                <a href="https://claypark.github.io/dev-page/sogak/privacy-policy.html">개인정보처리방침</a>
+                <span class="separator">·</span>
+                <a href="https://claypark.github.io/dev-page/sogak/terms-of-service.html">이용약관</a>
             </div>
         </div>
 
