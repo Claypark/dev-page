@@ -28,6 +28,40 @@
             margin: 0 auto;
             padding: 48px 20px;
             flex: 1;
+            position: relative;
+        }
+
+        .lang-switcher {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            display: flex;
+            gap: 4px;
+            z-index: 10;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid #30363d;
+            color: #8b949e;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .lang-btn:hover {
+            color: #c9d1d9;
+            border-color: #484f58;
+        }
+
+        .lang-btn.active {
+            background: #30363d;
+            color: #f0f6fc;
+            border-color: #484f58;
         }
 
         .header {
@@ -384,78 +418,84 @@
 </head>
 <body>
     <div class="container">
+        <div class="lang-switcher" role="group" aria-label="Language">
+            <button type="button" class="lang-btn" data-lang="ko">한국어</button>
+            <button type="button" class="lang-btn" data-lang="en">English</button>
+            <button type="button" class="lang-btn" data-lang="es">Español</button>
+        </div>
+
         <div class="header">
             <img src="clpak-icon.png" alt="CLPAK" class="brand-icon">
             <h1>CLPAK</h1>
-            <p>Mobile App Developer</p>
-            <p class="intro">혼자 기획하고, 만들고, 운영합니다.<br>일상에 스며드는 작은 앱들을 만들어요.</p>
+            <p data-i18n="role">Mobile App Developer</p>
+            <p class="intro" data-i18n-html="intro">혼자 기획하고, 만들고, 운영합니다.<br>일상에 스며드는 작은 앱들을 만들어요.</p>
         </div>
 
-        <div class="section-title">Apps</div>
+        <div class="section-title" data-i18n="apps_title">Apps</div>
 
         <div class="app-grid" id="appGrid">
             <!-- Tiles -->
             <div class="app-tile" style="--accent: #4CAF50;" onclick="toggleDetail('jukforest')">
                 <img src="juk-forest-icon.png" alt="" class="tile-icon">
-                <div class="tile-name">대나무숲</div>
-                <div class="tile-tagline">24시간 후 사라지는 익명 공간</div>
-                <span class="tile-badge badge-live">출시</span>
+                <div class="tile-name" data-i18n="apps.jukforest.name">대나무숲</div>
+                <div class="tile-tagline" data-i18n="apps.jukforest.tagline">24시간 후 사라지는 익명 공간</div>
+                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
                 <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg></div>
             </div>
 
             <div class="app-tile" style="--accent: #a855f7;" onclick="toggleDetail('ounwan')">
                 <img src="ounwan-icon.png" alt="" class="tile-icon">
-                <div class="tile-name">오운완</div>
-                <div class="tile-tagline">AI 사주 운세</div>
-                <span class="tile-badge badge-live">출시</span>
+                <div class="tile-name" data-i18n="apps.ounwan.name">오운완</div>
+                <div class="tile-tagline" data-i18n="apps.ounwan.tagline">AI 사주 운세</div>
+                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
                 <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg></div>
             </div>
 
             <div class="app-tile" style="--accent: #c9a96e;" onclick="toggleDetail('amen')">
                 <img src="amen-icon.png" alt="" class="tile-icon">
-                <div class="tile-name">AMEN</div>
-                <div class="tile-tagline">AI 중보기도</div>
-                <span class="tile-badge badge-live">출시</span>
+                <div class="tile-name" data-i18n="apps.amen.name">AMEN</div>
+                <div class="tile-tagline" data-i18n="apps.amen.tagline">AI 중보기도</div>
+                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
                 <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg></div>
             </div>
 
             <div class="app-tile" style="--accent: #ef4444;" onclick="toggleDetail('bagshot')">
                 <img src="bagshot-icon.png" alt="" class="tile-icon">
-                <div class="tile-name">Bagshot</div>
-                <div class="tile-tagline">스트레스 해소 샌드백</div>
-                <span class="tile-badge badge-live">출시</span>
+                <div class="tile-name" data-i18n="apps.bagshot.name">Bagshot</div>
+                <div class="tile-tagline" data-i18n="apps.bagshot.tagline">스트레스 해소 샌드백</div>
+                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
                 <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg></div>
             </div>
 
             <div class="app-tile" style="--accent: #6366f1;" onclick="toggleDetail('naru')">
                 <img src="naru-icon.png" alt="" class="tile-icon">
-                <div class="tile-name">나루</div>
-                <div class="tile-tagline">픽셀아트 낚시 게임</div>
-                <span class="tile-badge badge-live">출시</span>
+                <div class="tile-name" data-i18n="apps.naru.name">나루</div>
+                <div class="tile-tagline" data-i18n="apps.naru.tagline">픽셀아트 낚시 게임</div>
+                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
                 <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg></div>
             </div>
 
             <div class="app-tile" style="--accent: #C4572A;" onclick="toggleDetail('ipsomun')">
                 <img src="ipsomun-icon.png" alt="" class="tile-icon">
-                <div class="tile-name">입소문</div>
-                <div class="tile-tagline">푸드 트렌드 매거진</div>
-                <span class="tile-badge badge-live">출시</span>
+                <div class="tile-name" data-i18n="apps.ipsomun.name">입소문</div>
+                <div class="tile-tagline" data-i18n="apps.ipsomun.tagline">푸드 트렌드 매거진</div>
+                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
                 <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg></div>
             </div>
 
             <div class="app-tile" style="--accent: #89B4E8;" onclick="toggleDetail('dustler')">
                 <img src="dustler-icon.png" alt="" class="tile-icon">
-                <div class="tile-name">더슬러</div>
-                <div class="tile-tagline">우리 집 전담 청소 집사</div>
-                <span class="tile-badge badge-live">출시</span>
+                <div class="tile-name" data-i18n="apps.dustler.name">더슬러</div>
+                <div class="tile-tagline" data-i18n="apps.dustler.tagline">우리 집 전담 청소 집사</div>
+                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
                 <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg></div>
             </div>
 
             <div class="app-tile" style="--accent: #f43f5e;" onclick="toggleDetail('sogak')">
                 <img src="sogak-icon.png" alt="" class="tile-icon">
-                <div class="tile-name">소각</div>
-                <div class="tile-tagline">남김없이, 오늘을</div>
-                <span class="tile-badge badge-dev">개발중</span>
+                <div class="tile-name" data-i18n="apps.sogak.name">소각</div>
+                <div class="tile-tagline" data-i18n="apps.sogak.tagline">남김없이, 오늘을</div>
+                <span class="tile-badge badge-dev" data-i18n="badge_dev">개발중</span>
                 <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg></div>
             </div>
         </div>
@@ -467,18 +507,18 @@
             <div class="detail-header">
                 <img src="juk-forest-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
-                    <h2>대나무숲</h2>
-                    <div class="tagline">24시간 후 바람처럼 사라집니다</div>
+                    <h2 data-i18n="apps.jukforest.name">대나무숲</h2>
+                    <div class="tagline" data-i18n="apps.jukforest.detail_tagline">24시간 후 바람처럼 사라집니다</div>
                 </div>
             </div>
-            <div class="description">익명으로 마음속 이야기를 나누는 공간. 모든 글은 24시간 뒤 자동으로 사라지며, 비공개 모드로 나만의 감정을 기록할 수도 있습니다.</div>
+            <div class="description" data-i18n="apps.jukforest.detail_desc">익명으로 마음속 이야기를 나누는 공간. 모든 글은 24시간 뒤 자동으로 사라지며, 비공개 모드로 나만의 감정을 기록할 수도 있습니다.</div>
             <div class="app-links">
                 <a href="https://play.google.com/store/apps/details?id=com.jukforest.juk_forest" class="link-badge"><img src="google-play-badge.svg" alt="Get it on Google Play"></a>
             </div>
             <div class="app-meta-links">
-                <a href="https://claypark.github.io/juk-forest-pages/privacy.html">개인정보처리방침</a>
+                <a href="https://claypark.github.io/juk-forest-pages/privacy.html" data-i18n="privacy">개인정보처리방침</a>
                 <span class="separator">·</span>
-                <a href="https://claypark.github.io/juk-forest-pages/terms.html">이용약관</a>
+                <a href="https://claypark.github.io/juk-forest-pages/terms.html" data-i18n="terms">이용약관</a>
             </div>
         </div>
 
@@ -487,18 +527,18 @@
             <div class="detail-header">
                 <img src="ounwan-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
-                    <h2>오운완</h2>
-                    <div class="tagline">오늘 운세 완료! AI가 분석하는 나만의 사주 운세</div>
+                    <h2 data-i18n="apps.ounwan.name">오운완</h2>
+                    <div class="tagline" data-i18n="apps.ounwan.detail_tagline">오늘 운세 완료! AI가 분석하는 나만의 사주 운세</div>
                 </div>
             </div>
-            <div class="description">생년월일시를 입력하면 사주팔자를 분석하고, AI 3중 검증으로 오늘의 운세를 생성합니다. 총운, 연애, 금전, 건강, 직장 등 다양한 카테고리의 운세와 궁합 분석을 제공합니다.</div>
+            <div class="description" data-i18n="apps.ounwan.detail_desc">생년월일시를 입력하면 사주팔자를 분석하고, AI 3중 검증으로 오늘의 운세를 생성합니다. 총운, 연애, 금전, 건강, 직장 등 다양한 카테고리의 운세와 궁합 분석을 제공합니다.</div>
             <div class="app-links">
                 <a href="https://play.google.com/store/apps/details?id=com.myfortune.my_fortune_app" class="link-badge"><img src="google-play-badge.svg" alt="Get it on Google Play"></a>
             </div>
             <div class="app-meta-links">
-                <a href="https://claypark.github.io/ounwan-pages/privacy.html">개인정보처리방침</a>
+                <a href="https://claypark.github.io/ounwan-pages/privacy.html" data-i18n="privacy">개인정보처리방침</a>
                 <span class="separator">·</span>
-                <a href="https://claypark.github.io/ounwan-pages/terms.html">이용약관</a>
+                <a href="https://claypark.github.io/ounwan-pages/terms.html" data-i18n="terms">이용약관</a>
             </div>
         </div>
 
@@ -507,18 +547,18 @@
             <div class="detail-header">
                 <img src="amen-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
-                    <h2>AMEN - 기도 동행</h2>
-                    <div class="tagline">걱정과 근심을 나누면, AI가 당신을 위해 중보기도합니다</div>
+                    <h2 data-i18n="apps.amen.detail_name">AMEN - 기도 동행</h2>
+                    <div class="tagline" data-i18n="apps.amen.detail_tagline">걱정과 근심을 나누면, AI가 당신을 위해 중보기도합니다</div>
                 </div>
             </div>
-            <div class="description">마음속 걱정, 근심, 염려를 이야기하면 AI가 당신을 위한 중보기도문을 작성해 드립니다. 무거운 짐을 내려놓고, 기도로 위로받는 경험을 해보세요. 한국어, 영어, 스페인어를 지원합니다.</div>
+            <div class="description" data-i18n="apps.amen.detail_desc">마음속 걱정, 근심, 염려를 이야기하면 AI가 당신을 위한 중보기도문을 작성해 드립니다. 무거운 짐을 내려놓고, 기도로 위로받는 경험을 해보세요. 한국어, 영어, 스페인어를 지원합니다.</div>
             <div class="app-links">
                 <a href="https://play.google.com/store/apps/details?id=com.clpak.selah" class="link-badge"><img src="google-play-badge.svg" alt="Get it on Google Play"></a>
             </div>
             <div class="app-meta-links">
-                <a href="https://claypark.github.io/selah-pages/privacy-policy.html">개인정보처리방침</a>
+                <a href="https://claypark.github.io/selah-pages/privacy-policy.html" data-i18n="privacy">개인정보처리방침</a>
                 <span class="separator">·</span>
-                <a href="https://claypark.github.io/selah-pages/terms-of-service.html">이용약관</a>
+                <a href="https://claypark.github.io/selah-pages/terms-of-service.html" data-i18n="terms">이용약관</a>
             </div>
         </div>
 
@@ -527,18 +567,18 @@
             <div class="detail-header">
                 <img src="ipsomun-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
-                    <h2>입소문</h2>
-                    <div class="tagline">지금 뜨는 맛, 매일 새로워집니다</div>
+                    <h2 data-i18n="apps.ipsomun.name">입소문</h2>
+                    <div class="tagline" data-i18n="apps.ipsomun.detail_tagline">지금 뜨는 맛, 매일 새로워집니다</div>
                 </div>
             </div>
-            <div class="description">오늘의 핫한 음식 트렌드를 매일 큐레이션해주는 푸드 매거진. 신메뉴, 핫플 음식점, 편의점 신상부터 컴백 음식까지 궁금한 모든 음식 소식을 매거진과 피드로 만나보세요.</div>
+            <div class="description" data-i18n="apps.ipsomun.detail_desc">오늘의 핫한 음식 트렌드를 매일 큐레이션해주는 푸드 매거진. 신메뉴, 핫플 음식점, 편의점 신상부터 컴백 음식까지 궁금한 모든 음식 소식을 매거진과 피드로 만나보세요.</div>
             <div class="app-links">
                 <a href="https://play.google.com/store/apps/details?id=com.clpak.ipsomun" class="link-badge"><img src="google-play-badge.svg" alt="Get it on Google Play"></a>
             </div>
             <div class="app-meta-links">
-                <a href="https://claypark.github.io/dev-page/ipsomun/privacy-policy.html">개인정보처리방침</a>
+                <a href="https://claypark.github.io/dev-page/ipsomun/privacy-policy.html" data-i18n="privacy">개인정보처리방침</a>
                 <span class="separator">·</span>
-                <a href="https://claypark.github.io/dev-page/ipsomun/terms-of-service.html">이용약관</a>
+                <a href="https://claypark.github.io/dev-page/ipsomun/terms-of-service.html" data-i18n="terms">이용약관</a>
             </div>
         </div>
 
@@ -547,18 +587,18 @@
             <div class="detail-header">
                 <img src="bagshot-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
-                    <h2>Bagshot</h2>
-                    <div class="tagline">사진 한 장이면 샌드백 완성, 스트레스를 날려보세요!</div>
+                    <h2 data-i18n="apps.bagshot.name">Bagshot</h2>
+                    <div class="tagline" data-i18n="apps.bagshot.detail_tagline">사진 한 장이면 샌드백 완성, 스트레스를 날려보세요!</div>
                 </div>
             </div>
-            <div class="description">얼굴 사진을 올리면 샌드백에 붙여드려요. 권투 글러브, 야구 방망이, 나무 몽둥이로 마음껏 때려보세요. 실감나는 물리 효과와 진동으로 시원한 타격감을 느낄 수 있어요.</div>
+            <div class="description" data-i18n="apps.bagshot.detail_desc">얼굴 사진을 올리면 샌드백에 붙여드려요. 권투 글러브, 야구 방망이, 나무 몽둥이로 마음껏 때려보세요. 실감나는 물리 효과와 진동으로 시원한 타격감을 느낄 수 있어요.</div>
             <div class="app-links">
                 <a href="https://play.google.com/store/apps/details?id=com.clpak.bagshot" class="link-badge"><img src="google-play-badge.svg" alt="Get it on Google Play"></a>
             </div>
             <div class="app-meta-links">
-                <a href="https://claypark.github.io/dev-page/bagshot/privacy-policy.html">개인정보처리방침</a>
+                <a href="https://claypark.github.io/dev-page/bagshot/privacy-policy.html" data-i18n="privacy">개인정보처리방침</a>
                 <span class="separator">·</span>
-                <a href="https://claypark.github.io/dev-page/bagshot/terms-of-service.html">이용약관</a>
+                <a href="https://claypark.github.io/dev-page/bagshot/terms-of-service.html" data-i18n="terms">이용약관</a>
             </div>
         </div>
 
@@ -567,18 +607,18 @@
             <div class="detail-header">
                 <img src="naru-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
-                    <h2>나루</h2>
-                    <div class="tagline">물멍하는 픽셀아트 낚시 게임</div>
+                    <h2 data-i18n="apps.naru.name">나루</h2>
+                    <div class="tagline" data-i18n="apps.naru.detail_tagline">물멍하는 픽셀아트 낚시 게임</div>
                 </div>
             </div>
-            <div class="description">강가에 앉아 물고기를 기다리는 픽셀아트 낚시 게임. 다양한 물고기를 수집하고, 업적을 달성하며 느긋하게 즐기세요.</div>
+            <div class="description" data-i18n="apps.naru.detail_desc">강가에 앉아 물고기를 기다리는 픽셀아트 낚시 게임. 다양한 물고기를 수집하고, 업적을 달성하며 느긋하게 즐기세요.</div>
             <div class="app-links">
                 <a href="https://play.google.com/store/apps/details?id=com.clpak.naru" class="link-badge"><img src="google-play-badge.svg" alt="Get it on Google Play"></a>
             </div>
             <div class="app-meta-links">
-                <a href="https://claypark.github.io/dev-page/naru/privacy-policy.html">개인정보처리방침</a>
+                <a href="https://claypark.github.io/dev-page/naru/privacy-policy.html" data-i18n="privacy">개인정보처리방침</a>
                 <span class="separator">·</span>
-                <a href="https://claypark.github.io/dev-page/naru/terms-of-service.html">이용약관</a>
+                <a href="https://claypark.github.io/dev-page/naru/terms-of-service.html" data-i18n="terms">이용약관</a>
             </div>
         </div>
         <div class="app-detail" id="detail-dustler" onclick="event.stopPropagation()">
@@ -586,18 +626,18 @@
             <div class="detail-header">
                 <img src="dustler-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
-                    <h2>더슬러</h2>
-                    <div class="tagline">집사가 관리하는 우리 집 청소 스케줄</div>
+                    <h2 data-i18n="apps.dustler.name">더슬러</h2>
+                    <div class="tagline" data-i18n="apps.dustler.detail_tagline">집사가 관리하는 우리 집 청소 스케줄</div>
                 </div>
             </div>
-            <div class="description">더슬러 집사가 가족의 청소를 책임집니다. 구역별 담당을 나누고, 청소 일정을 관리하고, 누가 어디를 청소했는지 한눈에 확인하세요. 깨끗한 집, 집사에게 맡기세요.</div>
+            <div class="description" data-i18n="apps.dustler.detail_desc">더슬러 집사가 가족의 청소를 책임집니다. 구역별 담당을 나누고, 청소 일정을 관리하고, 누가 어디를 청소했는지 한눈에 확인하세요. 깨끗한 집, 집사에게 맡기세요.</div>
             <div class="app-links">
                 <a href="https://play.google.com/store/apps/details?id=com.clpak.dustler" class="link-badge"><img src="google-play-badge.svg" alt="Get it on Google Play"></a>
             </div>
             <div class="app-meta-links">
-                <a href="https://claypark.github.io/dev-page/dustler/privacy-policy.html">개인정보처리방침</a>
+                <a href="https://claypark.github.io/dev-page/dustler/privacy-policy.html" data-i18n="privacy">개인정보처리방침</a>
                 <span class="separator">·</span>
-                <a href="https://claypark.github.io/dev-page/dustler/terms-of-service.html">이용약관</a>
+                <a href="https://claypark.github.io/dev-page/dustler/terms-of-service.html" data-i18n="terms">이용약관</a>
             </div>
         </div>
 
@@ -606,26 +646,26 @@
             <div class="detail-header">
                 <img src="sogak-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
-                    <h2>소각</h2>
-                    <div class="tagline">유한한 시간을 연료 삼아, 오늘을 태우다</div>
+                    <h2 data-i18n="apps.sogak.name">소각</h2>
+                    <div class="tagline" data-i18n="apps.sogak.detail_tagline">유한한 시간을 연료 삼아, 오늘을 태우다</div>
                 </div>
             </div>
-            <div class="description">인생에 남은 주말과 시간을 시각화해주는 동기부여 카운트다운 앱. 아침·저녁 체크인으로 오늘 하루를 기록하고, 소중한 사람과 함께할 수 있는 시간을 확인하세요. 모든 데이터는 기기 안에만 저장됩니다.</div>
+            <div class="description" data-i18n="apps.sogak.detail_desc">인생에 남은 주말과 시간을 시각화해주는 동기부여 카운트다운 앱. 아침·저녁 체크인으로 오늘 하루를 기록하고, 소중한 사람과 함께할 수 있는 시간을 확인하세요. 모든 데이터는 기기 안에만 저장됩니다.</div>
             <div class="app-links">
-                <span class="link-badge-dev">개발중 · 곧 출시 예정</span>
+                <span class="link-badge-dev" data-i18n="dev_coming">개발중 · 곧 출시 예정</span>
             </div>
             <div class="app-meta-links">
-                <a href="https://claypark.github.io/dev-page/sogak/privacy-policy.html">개인정보처리방침</a>
+                <a href="https://claypark.github.io/dev-page/sogak/privacy-policy.html" data-i18n="privacy">개인정보처리방침</a>
                 <span class="separator">·</span>
-                <a href="https://claypark.github.io/dev-page/sogak/terms-of-service.html">이용약관</a>
+                <a href="https://claypark.github.io/dev-page/sogak/terms-of-service.html" data-i18n="terms">이용약관</a>
             </div>
         </div>
 
         </div><!-- end overlay -->
 
         <div class="contact">
-            <div class="section-title">Contact</div>
-            <p>문의: <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a></p>
+            <div class="section-title" data-i18n="contact_title">Contact</div>
+            <p><span data-i18n="email_label">문의:</span> <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a></p>
         </div>
     </div>
 
@@ -634,6 +674,260 @@
     </div>
 
     <script>
+        // ---------- i18n dictionary ----------
+        const I18N = {
+            ko: {
+                role: 'Mobile App Developer',
+                intro: '혼자 기획하고, 만들고, 운영합니다.<br>일상에 스며드는 작은 앱들을 만들어요.',
+                apps_title: 'Apps',
+                contact_title: 'Contact',
+                email_label: '문의:',
+                badge_live: '출시',
+                badge_dev: '개발중',
+                privacy: '개인정보처리방침',
+                terms: '이용약관',
+                dev_coming: '개발중 · 곧 출시 예정',
+                apps: {
+                    jukforest: {
+                        name: '대나무숲',
+                        tagline: '24시간 후 사라지는 익명 공간',
+                        detail_tagline: '24시간 후 바람처럼 사라집니다',
+                        detail_desc: '익명으로 마음속 이야기를 나누는 공간. 모든 글은 24시간 뒤 자동으로 사라지며, 비공개 모드로 나만의 감정을 기록할 수도 있습니다.',
+                    },
+                    ounwan: {
+                        name: '오운완',
+                        tagline: 'AI 사주 운세',
+                        detail_tagline: '오늘 운세 완료! AI가 분석하는 나만의 사주 운세',
+                        detail_desc: '생년월일시를 입력하면 사주팔자를 분석하고, AI 3중 검증으로 오늘의 운세를 생성합니다. 총운, 연애, 금전, 건강, 직장 등 다양한 카테고리의 운세와 궁합 분석을 제공합니다.',
+                    },
+                    amen: {
+                        name: 'AMEN',
+                        tagline: 'AI 중보기도',
+                        detail_name: 'AMEN - 기도 동행',
+                        detail_tagline: '걱정과 근심을 나누면, AI가 당신을 위해 중보기도합니다',
+                        detail_desc: '마음속 걱정, 근심, 염려를 이야기하면 AI가 당신을 위한 중보기도문을 작성해 드립니다. 무거운 짐을 내려놓고, 기도로 위로받는 경험을 해보세요. 한국어, 영어, 스페인어를 지원합니다.',
+                    },
+                    bagshot: {
+                        name: 'Bagshot',
+                        tagline: '스트레스 해소 샌드백',
+                        detail_tagline: '사진 한 장이면 샌드백 완성, 스트레스를 날려보세요!',
+                        detail_desc: '얼굴 사진을 올리면 샌드백에 붙여드려요. 권투 글러브, 야구 방망이, 나무 몽둥이로 마음껏 때려보세요. 실감나는 물리 효과와 진동으로 시원한 타격감을 느낄 수 있어요.',
+                    },
+                    naru: {
+                        name: '나루',
+                        tagline: '픽셀아트 낚시 게임',
+                        detail_tagline: '물멍하는 픽셀아트 낚시 게임',
+                        detail_desc: '강가에 앉아 물고기를 기다리는 픽셀아트 낚시 게임. 다양한 물고기를 수집하고, 업적을 달성하며 느긋하게 즐기세요.',
+                    },
+                    ipsomun: {
+                        name: '입소문',
+                        tagline: '푸드 트렌드 매거진',
+                        detail_tagline: '지금 뜨는 맛, 매일 새로워집니다',
+                        detail_desc: '오늘의 핫한 음식 트렌드를 매일 큐레이션해주는 푸드 매거진. 신메뉴, 핫플 음식점, 편의점 신상부터 컴백 음식까지 궁금한 모든 음식 소식을 매거진과 피드로 만나보세요.',
+                    },
+                    dustler: {
+                        name: '더슬러',
+                        tagline: '우리 집 전담 청소 집사',
+                        detail_tagline: '집사가 관리하는 우리 집 청소 스케줄',
+                        detail_desc: '더슬러 집사가 가족의 청소를 책임집니다. 구역별 담당을 나누고, 청소 일정을 관리하고, 누가 어디를 청소했는지 한눈에 확인하세요. 깨끗한 집, 집사에게 맡기세요.',
+                    },
+                    sogak: {
+                        name: '소각',
+                        tagline: '남김없이, 오늘을',
+                        detail_tagline: '유한한 시간을 연료 삼아, 오늘을 태우다',
+                        detail_desc: '인생에 남은 주말과 시간을 시각화해주는 동기부여 카운트다운 앱. 아침·저녁 체크인으로 오늘 하루를 기록하고, 소중한 사람과 함께할 수 있는 시간을 확인하세요. 모든 데이터는 기기 안에만 저장됩니다.',
+                    },
+                },
+            },
+            en: {
+                role: 'Mobile App Developer',
+                intro: 'I design, build, and run them — solo.<br>Small apps that quietly fit into everyday life.',
+                apps_title: 'Apps',
+                contact_title: 'Contact',
+                email_label: 'Email:',
+                badge_live: 'Live',
+                badge_dev: 'Soon',
+                privacy: 'Privacy Policy',
+                terms: 'Terms of Service',
+                dev_coming: 'In development · Launching soon',
+                apps: {
+                    jukforest: {
+                        name: 'Bamboo Forest',
+                        tagline: 'Anonymous thoughts. Gone in 24h.',
+                        detail_tagline: 'Every word drifts away in 24 hours',
+                        detail_desc: 'A quiet, anonymous space to share what\'s on your mind. Every post fades in 24 hours — or keep it private, just for yourself, like a diary only you can read.',
+                    },
+                    ounwan: {
+                        name: 'Ounwan',
+                        tagline: 'AI-powered daily fortune',
+                        detail_tagline: 'Your day, read by AI — through the lens of Saju',
+                        detail_desc: 'Enter your birth date and time, and Ounwan reads your Saju (Korean astrology) through a triple AI check. Get today\'s outlook across love, money, health, work, and compatibility — all in one tap.',
+                    },
+                    amen: {
+                        name: 'AMEN',
+                        tagline: 'AI prayer companion',
+                        detail_name: 'AMEN — Prayer Companion',
+                        detail_tagline: 'Share your worries. Let AI pray with you.',
+                        detail_desc: 'Tell AMEN what\'s weighing on your heart, and it will write a personal intercessory prayer for you. Lay down the burden, and find comfort in prayer. Available in English, Korean, and Spanish.',
+                    },
+                    bagshot: {
+                        name: 'Bagshot',
+                        tagline: 'Punch the stress away',
+                        detail_tagline: 'One photo. One punching bag. Zero stress.',
+                        detail_desc: 'Upload a face photo and we\'ll stick it on a punching bag. Swing with boxing gloves, a baseball bat, or a wooden club. Real physics, satisfying haptics — every hit feels just right.',
+                    },
+                    naru: {
+                        name: 'Naru',
+                        tagline: 'A cozy pixel fishing game',
+                        detail_tagline: 'A slow, cozy pixel fishing game',
+                        detail_desc: 'Sit by the river. Watch the water. Wait for a bite. Collect fish, unlock achievements, and take it slow in this calm, pixel-art fishing escape.',
+                    },
+                    ipsomun: {
+                        name: 'Ipsomun',
+                        tagline: 'Daily food trends, curated',
+                        detail_tagline: 'What\'s hot to eat — refreshed every day',
+                        detail_desc: 'A daily food magazine curating today\'s hottest bites. From new menu drops and buzzing restaurants to convenience-store launches and comeback classics — every food story, delivered in a clean feed.',
+                    },
+                    dustler: {
+                        name: 'Dustler',
+                        tagline: 'Your home\'s cleaning butler',
+                        detail_tagline: 'A butler to keep your home on schedule',
+                        detail_desc: 'Let Dustler take care of the chores. Split zones between family members, manage the cleaning schedule, and see who cleaned what at a glance. A tidy home — handled by your butler.',
+                    },
+                    sogak: {
+                        name: 'Sogak',
+                        tagline: 'Burn the day. Leave nothing behind.',
+                        detail_tagline: 'Fuel today with the time you have left',
+                        detail_desc: 'A motivational countdown app that visualizes the weekends and hours you have left. Check in morning and night to mark the day, and see the time you still have with the people who matter. All your data stays on your device.',
+                    },
+                },
+            },
+            es: {
+                role: 'Desarrollador de Apps Móviles',
+                intro: 'Diseño, programo y opero, todo yo solo.<br>Creo pequeñas apps que se integran en tu día a día.',
+                apps_title: 'Apps',
+                contact_title: 'Contacto',
+                email_label: 'Correo:',
+                badge_live: 'Disponible',
+                badge_dev: 'En desarrollo',
+                privacy: 'Política de Privacidad',
+                terms: 'Términos de Servicio',
+                dev_coming: 'En desarrollo · Próximamente',
+                apps: {
+                    jukforest: {
+                        name: 'Bosque de Bambú',
+                        tagline: 'Anónimo. Desaparece en 24 h.',
+                        detail_tagline: 'A las 24 horas, se lo lleva el viento',
+                        detail_desc: 'Un espacio anónimo para desahogar lo que llevas dentro. Cada mensaje se borra solo a las 24 horas, y en modo privado puedes escribir únicamente para ti.',
+                    },
+                    ounwan: {
+                        name: 'Ounwan',
+                        tagline: 'Tu Saju diario con IA',
+                        detail_tagline: 'Tu día, completo. Saju personalizado con IA.',
+                        detail_desc: 'Introduce tu fecha y hora de nacimiento y la IA analiza tu Saju (astrología tradicional coreana) con triple verificación para darte el horóscopo del día. Suerte general, amor, dinero, salud, trabajo y compatibilidad, todo en un solo lugar.',
+                    },
+                    amen: {
+                        name: 'AMEN',
+                        tagline: 'Oración intercesora con IA',
+                        detail_name: 'AMEN · Compañero de oración',
+                        detail_tagline: 'Comparte tus cargas y la IA intercede por ti',
+                        detail_desc: 'Cuenta tus preocupaciones, miedos o angustias y la IA redacta una oración intercesora hecha para ti. Suelta el peso y déjate consolar por la oración. Disponible en español, inglés y coreano.',
+                    },
+                    bagshot: {
+                        name: 'Bagshot',
+                        tagline: 'Saco de boxeo antiestrés',
+                        detail_tagline: 'Una foto, un saco. Descarga el estrés ya.',
+                        detail_desc: 'Sube una foto y la ponemos en el saco. Golpea a gusto con guantes de boxeo, bate de béisbol o garrote. Física realista y vibración para un impacto que se siente de verdad.',
+                    },
+                    naru: {
+                        name: 'Naru',
+                        tagline: 'Pesca pixel art para relajarte',
+                        detail_tagline: 'Pesca pixel art para desconectar',
+                        detail_desc: 'Siéntate a la orilla del río y espera a que pique. Un juego de pesca pixel art para coleccionar peces, desbloquear logros y dejarte llevar por la calma del agua.',
+                    },
+                    ipsomun: {
+                        name: 'Ipsomun',
+                        tagline: 'La revista de tendencias foodie',
+                        detail_tagline: 'Lo que se come hoy, renovado cada día',
+                        detail_desc: 'Una revista diaria con las tendencias gastronómicas del momento en Corea. Nuevos menús, locales virales, novedades de tienda y clásicos que vuelven: todo lo que se cuece, en formato revista y feed.',
+                    },
+                    dustler: {
+                        name: 'Dustler',
+                        tagline: 'El mayordomo de la limpieza',
+                        detail_tagline: 'Un mayordomo que organiza la limpieza del hogar',
+                        detail_desc: 'Dustler se encarga de la limpieza en familia. Reparte zonas, organiza el calendario y te muestra de un vistazo quién ha limpiado qué. La casa limpia, déjasela al mayordomo.',
+                    },
+                    sogak: {
+                        name: 'Sogak',
+                        tagline: 'Vive hoy, sin reservas',
+                        detail_tagline: 'Usa tu tiempo como combustible y arde hoy',
+                        detail_desc: 'Una app de cuenta atrás que visualiza los fines de semana y el tiempo que te quedan. Registra tu día con un check-in de mañana y noche, y descubre cuánto tiempo puedes compartir con quienes más quieres. Todos tus datos se guardan solo en tu dispositivo.',
+                    },
+                },
+            },
+        };
+
+        const SUPPORTED_LANGS = ['ko', 'en', 'es'];
+        const STORAGE_KEY = 'clpak_lang';
+
+        function detectLang() {
+            // 1) URL query param
+            const params = new URLSearchParams(window.location.search);
+            const q = (params.get('lang') || '').toLowerCase();
+            if (SUPPORTED_LANGS.includes(q)) return q;
+            // 2) localStorage
+            try {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (stored && SUPPORTED_LANGS.includes(stored)) return stored;
+            } catch (e) {}
+            // 3) navigator.language
+            const navLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+            const prefix = navLang.split('-')[0];
+            if (SUPPORTED_LANGS.includes(prefix)) return prefix;
+            // 4) default
+            return 'ko';
+        }
+
+        function resolvePath(obj, path) {
+            return path.split('.').reduce((acc, key) => (acc && acc[key] != null ? acc[key] : undefined), obj);
+        }
+
+        function applyLang(lang) {
+            const dict = I18N[lang] || I18N.ko;
+            document.documentElement.lang = lang;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const val = resolvePath(dict, key);
+                if (val != null) el.textContent = val;
+            });
+            document.querySelectorAll('[data-i18n-html]').forEach(el => {
+                const key = el.getAttribute('data-i18n-html');
+                const val = resolvePath(dict, key);
+                if (val != null) el.innerHTML = val;
+            });
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+            });
+        }
+
+        function setLang(lang, opts = {}) {
+            if (!SUPPORTED_LANGS.includes(lang)) lang = 'ko';
+            if (opts.persist !== false) {
+                try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+            }
+            applyLang(lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setLang(detectLang(), { persist: false });
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => setLang(btn.getAttribute('data-lang')));
+            });
+        });
+
+        // ---------- Detail modal ----------
         let activeDetail = null;
 
         function toggleDetail(id) {
@@ -643,11 +937,9 @@
                 closeAllDetails();
                 return;
             }
-            // Close any open panel
             if (activeDetail) {
                 document.getElementById('detail-' + activeDetail).classList.remove('active');
             }
-            // Show overlay + panel
             backdrop.classList.add('active');
             panel.classList.add('active');
             activeDetail = id;
