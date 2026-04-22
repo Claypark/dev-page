@@ -26,9 +26,15 @@
         .container {
             max-width: 720px;
             margin: 0 auto;
-            padding: 48px 20px;
+            padding: 72px 20px 48px;
             flex: 1;
             position: relative;
+        }
+
+        @media (min-width: 540px) {
+            .container {
+                padding-top: 48px;
+            }
         }
 
         .lang-switcher {
