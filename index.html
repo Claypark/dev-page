@@ -986,6 +986,8 @@
         }
 
         // ---------- Play Store click tracking ----------
+        // Capture phase: the modal calls event.stopPropagation() during bubble,
+        // so a bubble-phase document listener never sees Play Store clicks.
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a.link-badge[data-app-id]');
             if (!link) return;
@@ -1008,7 +1010,7 @@
                 store: 'google_play',
                 transport_type: 'beacon',
             });
-        });
+        }, true);
     </script>
 </body>
 </html>
