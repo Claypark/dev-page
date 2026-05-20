@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>SRT 앱 열기</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,"Pretendard",sans-serif;
+         text-align:center;padding:60px 24px;color:#1a1a1a;background:#fafafa}
+    h1{font-size:20px;margin:0 0 12px}
+    p{color:#666;font-size:14px;margin:8px 0}
+    a.btn{display:inline-block;margin-top:24px;padding:14px 28px;
+          background:#1f6feb;color:#fff;text-decoration:none;border-radius:8px;
+          font-weight:600;font-size:15px}
+  </style>
+</head>
+<body>
+  <h1>📱 SRT 앱 여는 중...</h1>
+  <p>잠시 후 자동으로 SRT 앱이 열립니다.</p>
+  <p>안 열리면 아래 버튼을 눌러주세요.</p>
+  <a class="btn" href="srapp://main">SRT 앱 열기</a>
+  <script>
+    // 페이지 로드 즉시 SRT 앱 호출
+    location.replace('srapp://main');
+    // 백업: 일부 브라우저는 replace 안 먹음 → 0.5초 후 a 태그 시뮬레이션
+    setTimeout(function(){ location.href = 'srapp://main'; }, 500);
+  </script>
+</body>
+</html>
