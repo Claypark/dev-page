@@ -1619,12 +1619,21 @@ async function loadSchedules() {
     const now = new Date();
     let next = new Date(base);
 
-    if (!s.repeat_rule) return next > now ? next : null;
+    if (!s.repeat_rule && !(s.use_local_time && s.local_hour != null)) {
+      return next > now ? next : null;
+    }
 
     if (s.use_local_time && s.local_hour != null) {
       next = new Date(now);
       next.setHours(s.local_hour, s.local_minute ?? 0, 0, 0);
       if (next <= now) next.setDate(next.getDate() + 1);
+
+      if (!s.repeat_rule) {
+        // 1회성 현지시간: scheduled_at+26h 스윕 창 안에서 타임존별 순차 발송.
+        // 관리자(현재 브라우저) 기준 다음 로컬 발송 시각을 보여준다.
+        const sweepEnd = new Date(new Date(s.scheduled_at).getTime() + 26 * 3600 * 1000);
+        return next <= sweepEnd ? next : null;
+      }
 
       if (s.repeat_rule === 'daily') return next;
       if (s.repeat_rule?.startsWith('weekly:')) {
@@ -1666,7 +1675,8 @@ async function loadSchedules() {
     const next = calcNextRun(s);
     if (!next) return '-';
     const p = n => String(n).padStart(2, '0');
-    return `${p(next.getMonth()+1)}.${p(next.getDate())} ${p(next.getHours())}:${p(next.getMinutes())}`;
+    const suffix = s.use_local_time ? ' (현지)' : '';
+    return `${p(next.getMonth()+1)}.${p(next.getDate())} ${p(next.getHours())}:${p(next.getMinutes())}${suffix}`;
   };
 
   const schedActionBtns = s => {
