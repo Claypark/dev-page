@@ -322,6 +322,14 @@
 
         <hr class="divider">
 
+        <div class="form-group">
+          <div class="checkbox-row">
+            <input type="checkbox" id="field-push-enabled" class="form-checkbox">
+            <label for="field-push-enabled" class="checkbox-label">골든타임 시작 시 푸시 발송</label>
+          </div>
+          <div class="form-hint">활성화 시 골든타임 시작 시각에 유저 로컬 시각 기준으로 매일 푸시를 발송합니다.<br>푸시는 골든타임 활성과 별개로 동작합니다.</div>
+        </div>
+
         <div class="form-actions">
           <button class="btn-save" id="saveBtn">저장</button>
           <span class="status-text" id="status-text"></span>
@@ -346,14 +354,19 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 });
 
 // ─── DOM refs ──────────────────────────────────
-const elActive    = document.getElementById('field-active');
-const elStart     = document.getElementById('field-start');
-const elDuration  = document.getElementById('field-duration');
-const elRare      = document.getElementById('field-rare');
-const elLegendary = document.getElementById('field-legendary');
-const elMythic    = document.getElementById('field-mythic');
-const elSaveBtn   = document.getElementById('saveBtn');
-const elStatus    = document.getElementById('status-text');
+const elActive      = document.getElementById('field-active');
+const elStart       = document.getElementById('field-start');
+const elDuration    = document.getElementById('field-duration');
+const elRare        = document.getElementById('field-rare');
+const elLegendary   = document.getElementById('field-legendary');
+const elMythic      = document.getElementById('field-mythic');
+const elPushEnabled = document.getElementById('field-push-enabled');
+const elSaveBtn     = document.getElementById('saveBtn');
+const elStatus      = document.getElementById('status-text');
+
+// ─── State ─────────────────────────────────────
+let naruAppId = null;           // apps.id for name='Naru'
+let existingPushScheduleId = null;  // push_schedules id for golden_time marker
 
 // ─── Default values ────────────────────────────
 const DEFAULTS = {
@@ -375,13 +388,45 @@ function fillForm(data) {
   elMythic.value         = data.mythicBoost ?? DEFAULTS.mythicBoost;
 }
 
-async function loadGoldenTime() {
+async function loadNaruAppId() {
+  if (naruAppId) return naruAppId;
   const { data, error } = await supabase
-    .from('common_app_config')
-    .select('value')
-    .eq('app_id', 'naru')
-    .eq('key', 'golden_time')
+    .from('apps')
+    .select('id')
+    .eq('name', 'Naru')
     .maybeSingle();
+  if (error) { console.error('loadNaruAppId error:', error); return null; }
+  naruAppId = data?.id ?? null;
+  return naruAppId;
+}
+
+async function loadGoldenTimePushSchedule(appId) {
+  if (!appId) return;
+  const { data, error } = await supabase
+    .from('push_schedules')
+    .select('id,status')
+    .eq('app_id', appId)
+    .eq('data->>type', 'golden_time')
+    .maybeSingle();
+  if (error) { console.error('loadGoldenTimePushSchedule error:', error); return; }
+  existingPushScheduleId = data?.id ?? null;
+  elPushEnabled.checked = !!(data && data.status !== 'cancelled');
+}
+
+async function loadGoldenTime() {
+  const appId = await loadNaruAppId();
+
+  const [configResult] = await Promise.all([
+    supabase
+      .from('common_app_config')
+      .select('value')
+      .eq('app_id', 'naru')
+      .eq('key', 'golden_time')
+      .maybeSingle(),
+    loadGoldenTimePushSchedule(appId),
+  ]);
+
+  const { data, error } = configResult;
 
   if (error) {
     console.error('loadGoldenTime error:', error);
@@ -415,6 +460,7 @@ elSaveBtn.addEventListener('click', async () => {
   const rareBoost  = Number(elRare.value);
   const legendaryBoost = Number(elLegendary.value);
   const mythicBoost    = Number(elMythic.value);
+  const pushEnabled    = elPushEnabled.checked;
 
   // Validation
   if (!start) {
@@ -443,6 +489,7 @@ elSaveBtn.addEventListener('click', async () => {
   elSaveBtn.disabled = true;
   setStatus('저장 중...', '');
 
+  // 1) golden_time upsert (기존 로직 유지)
   const { error } = await supabase
     .from('common_app_config')
     .upsert(
@@ -450,15 +497,89 @@ elSaveBtn.addEventListener('click', async () => {
       { onConflict: 'app_id,key' }
     );
 
-  elSaveBtn.disabled = false;
-
   if (error) {
+    elSaveBtn.disabled = false;
     console.error('upsert error:', error);
     setStatus('저장 실패: ' + error.message, 'error');
-  } else {
-    setStatus('저장되었습니다.', 'success');
-    setTimeout(() => setStatus('', ''), 3000);
+    return;
   }
+
+  // 2) push_schedules 동기화
+  const appId = await loadNaruAppId();
+  if (appId) {
+    // 최신 스케줄 id를 재조회 (로드 후 다른 탭이 변경했을 수 있음)
+    const { data: schedRow } = await supabase
+      .from('push_schedules')
+      .select('id,status')
+      .eq('app_id', appId)
+      .eq('data->>type', 'golden_time')
+      .maybeSingle();
+    const schedId = schedRow?.id ?? null;
+    existingPushScheduleId = schedId;
+
+    if (pushEnabled) {
+      const [startHour, startMin] = start.split(':').map(Number);
+      const pushPayload = {
+        app_id: appId,
+        target_type: 'all',
+        variants: [
+          { locale: 'ko', title: '🎣 골든타임 시작!', body: '지금 희귀 어종이 더 잘 잡혀요' },
+          { locale: 'en', title: '🎣 Golden Time!', body: 'Rare fish bite more right now' },
+          { locale: 'es', title: '🎣 ¡Hora dorada!', body: 'Los peces raros pican más ahora' },
+        ],
+        data: { type: 'golden_time' },
+        use_local_time: true,
+        local_hour: startHour,
+        local_minute: startMin || 0,
+        repeat_rule: 'daily',
+        repeat_until: '2099-12-31T23:59:59Z',
+        scheduled_at: new Date().toISOString(),
+        status: 'pending',
+      };
+
+      let pushErr;
+      if (schedId) {
+        ({ error: pushErr } = await supabase
+          .from('push_schedules')
+          .update(pushPayload)
+          .eq('id', schedId));
+      } else {
+        const { data: inserted, error: insertErr } = await supabase
+          .from('push_schedules')
+          .insert(pushPayload)
+          .select('id')
+          .single();
+        pushErr = insertErr;
+        if (inserted) existingPushScheduleId = inserted.id;
+      }
+
+      if (pushErr) {
+        elSaveBtn.disabled = false;
+        console.error('push_schedules sync error:', pushErr);
+        setStatus('골든타임 저장됨, 푸시 동기화 실패: ' + pushErr.message, 'error');
+        return;
+      }
+    } else {
+      // 푸시 토글 OFF: 기존 스케줄 있으면 cancelled로 update (삭제 아님)
+      if (schedId) {
+        const { error: cancelErr } = await supabase
+          .from('push_schedules')
+          .update({ status: 'cancelled' })
+          .eq('id', schedId);
+        if (cancelErr) {
+          elSaveBtn.disabled = false;
+          console.error('push_schedules cancel error:', cancelErr);
+          setStatus('골든타임 저장됨, 푸시 취소 실패: ' + cancelErr.message, 'error');
+          return;
+        }
+        existingPushScheduleId = schedId;
+      }
+    }
+  }
+
+  elSaveBtn.disabled = false;
+  setStatus('저장되었습니다.', 'success');
+  setTimeout(() => setStatus('', ''), 3000);
 });
 
 // ─── Auth ──────────────────────────────────────
