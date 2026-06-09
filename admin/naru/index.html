@@ -184,7 +184,7 @@
     }
     .form-input:focus { border-color: var(--accent); }
     .form-input[type="number"] { width: 160px; }
-    .form-input[type="time"] { width: 160px; }
+    .form-input[type="datetime-local"] { width: 220px; }
 
     .checkbox-row {
       display: flex;
@@ -274,7 +274,7 @@
     <div class="main">
       <div class="section-title">골든타임 설정</div>
       <div class="section-desc">
-        시작 시각은 각 유저의 로컬 시각 기준입니다 (예: 20:00 = 유저 현지 저녁 8시).
+        시작 일시는 운영자 현지 시각으로 입력 → 전세계 동시 발동(절대 시각).
       </div>
 
       <div class="form-card">
@@ -291,8 +291,9 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="field-start">시작 시각 (HH:MM)</label>
-          <input type="time" id="field-start" class="form-input" value="20:00">
+          <label class="form-label" for="field-starts-at">시작 일시 (운영자 현지 시각)</label>
+          <input type="datetime-local" id="field-starts-at" class="form-input">
+          <div class="form-hint">입력한 현지 시각이 UTC로 변환되어 전세계 동시 발동됩니다.</div>
         </div>
 
         <div class="form-group">
@@ -327,7 +328,7 @@
             <input type="checkbox" id="field-push-enabled" class="form-checkbox">
             <label for="field-push-enabled" class="checkbox-label">골든타임 시작 시 푸시 발송</label>
           </div>
-          <div class="form-hint">활성화 시 골든타임 시작 시각에 유저 로컬 시각 기준으로 매일 푸시를 발송합니다.<br>푸시는 골든타임 활성과 별개로 동작합니다.</div>
+          <div class="form-hint">활성화 시 골든타임 시작 일시에 1회성 푸시를 발송합니다.<br>푸시는 골든타임 활성과 별개로 동작합니다.</div>
         </div>
 
         <div class="form-actions">
@@ -355,7 +356,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 
 // ─── DOM refs ──────────────────────────────────
 const elActive      = document.getElementById('field-active');
-const elStart       = document.getElementById('field-start');
+const elStartsAt    = document.getElementById('field-starts-at');
 const elDuration    = document.getElementById('field-duration');
 const elRare        = document.getElementById('field-rare');
 const elLegendary   = document.getElementById('field-legendary');
@@ -364,6 +365,38 @@ const elPushEnabled = document.getElementById('field-push-enabled');
 const elSaveBtn     = document.getElementById('saveBtn');
 const elStatus      = document.getElementById('status-text');
 
+// ─── datetime-local ↔ UTC 변환 헬퍼 ────────────
+// UTC ISO → datetime-local 표시값(YYYY-MM-DDTHH:MM, 운영자 로컬 시각)
+function isoUtcToLocalInput(isoUtc) {
+  if (!isoUtc) return '';
+  try {
+    const d = new Date(isoUtc);
+    if (isNaN(d.getTime())) return '';
+    const pad = (n) => String(n).padStart(2, '0');
+    return (
+      d.getFullYear() + '-' +
+      pad(d.getMonth() + 1) + '-' +
+      pad(d.getDate()) + 'T' +
+      pad(d.getHours()) + ':' +
+      pad(d.getMinutes())
+    );
+  } catch (e) {
+    return '';
+  }
+}
+
+// datetime-local value('YYYY-MM-DDTHH:MM', 운영자 로컬) → UTC ISO
+function localInputToIsoUtc(localValue) {
+  if (!localValue) return '';
+  try {
+    const d = new Date(localValue); // 브라우저 로컬 기준 파싱
+    if (isNaN(d.getTime())) return '';
+    return d.toISOString();
+  } catch (e) {
+    return '';
+  }
+}
+
 // ─── State ─────────────────────────────────────
 let naruAppId = null;           // apps.id for name='Naru'
 let existingPushScheduleId = null;  // push_schedules id for golden_time marker
@@ -371,17 +404,16 @@ let existingPushScheduleId = null;  // push_schedules id for golden_time marker
 // ─── Default values ────────────────────────────
 const DEFAULTS = {
   active: false,
-  start: '20:00',
+  startsAt: '',
   durationMin: 60,
   rareBoost: 2.0,
   legendaryBoost: 1.5,
   mythicBoost: 1.2,
-  tzMode: 'local',
 };
 
 function fillForm(data) {
   elActive.checked       = !!data.active;
-  elStart.value          = data.start ?? DEFAULTS.start;
+  elStartsAt.value       = isoUtcToLocalInput(data.startsAt ?? DEFAULTS.startsAt);
   elDuration.value       = data.durationMin ?? DEFAULTS.durationMin;
   elRare.value           = data.rareBoost ?? DEFAULTS.rareBoost;
   elLegendary.value      = data.legendaryBoost ?? DEFAULTS.legendaryBoost;
@@ -455,7 +487,7 @@ function setStatus(msg, type) {
 
 elSaveBtn.addEventListener('click', async () => {
   const active     = elActive.checked;
-  const start      = elStart.value;
+  const startsAt   = localInputToIsoUtc(elStartsAt.value);
   const durationMin = parseInt(elDuration.value, 10);
   const rareBoost  = Number(elRare.value);
   const legendaryBoost = Number(elLegendary.value);
@@ -463,8 +495,8 @@ elSaveBtn.addEventListener('click', async () => {
   const pushEnabled    = elPushEnabled.checked;
 
   // Validation
-  if (!start) {
-    setStatus('시작 시각을 입력해주세요.', 'error');
+  if (!startsAt) {
+    setStatus('시작 일시를 입력해주세요.', 'error');
     return;
   }
   if (isNaN(durationMin) || durationMin < 1) {
@@ -484,7 +516,7 @@ elSaveBtn.addEventListener('click', async () => {
     return;
   }
 
-  const payload = { active, start, durationMin, rareBoost, legendaryBoost, mythicBoost, tzMode: 'local' };
+  const payload = { active, startsAt, durationMin, rareBoost, legendaryBoost, mythicBoost };
 
   elSaveBtn.disabled = true;
   setStatus('저장 중...', '');
@@ -518,7 +550,6 @@ elSaveBtn.addEventListener('click', async () => {
     existingPushScheduleId = schedId;
 
     if (pushEnabled) {
-      const [startHour, startMin] = start.split(':').map(Number);
       const pushPayload = {
         app_id: appId,
         target_type: 'all',
@@ -528,12 +559,9 @@ elSaveBtn.addEventListener('click', async () => {
           { locale: 'es', title: '🎣 ¡Hora dorada!', body: 'Los peces raros pican más ahora' },
         ],
         data: { type: 'golden_time' },
-        use_local_time: true,
-        local_hour: startHour,
-        local_minute: startMin || 0,
-        repeat_rule: 'daily',
-        repeat_until: '2099-12-31T23:59:59Z',
-        scheduled_at: new Date().toISOString(),
+        scheduled_at: startsAt,        // 절대 시각(UTC ISO) = golden_time startsAt
+        use_local_time: false,
+        repeat_rule: null,
         status: 'pending',
       };
 
