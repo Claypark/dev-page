@@ -1014,9 +1014,11 @@
                 link.href = url.toString();
             } catch (_) {}
 
-            // Event name kept as 'play_store_click' for GA4 continuity; the
-            // `store` dimension distinguishes google_play vs app_store.
-            trackEvent('play_store_click', {
+            // Distinct event names per store so both show up in GA4's event
+            // list without registering `store` as a custom dimension.
+            // 'play_store_click' is kept as-is for GA4 continuity.
+            const eventName = store === 'app_store' ? 'app_store_click' : 'play_store_click';
+            trackEvent(eventName, {
                 app_id: appId,
                 language: currentLang,
                 store: store,
