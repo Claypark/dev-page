@@ -278,10 +278,6 @@
       </div>
 
       <div class="form-card">
-        <div class="form-note">
-          현재 골든타임은 나루 앱 클라이언트 연동 전이라 저장만 되고 게임 반영은 다음 릴리즈부터 적용됩니다.
-        </div>
-
         <div class="form-group">
           <div class="checkbox-row">
             <input type="checkbox" id="field-active" class="form-checkbox">
@@ -485,6 +481,27 @@ function setStatus(msg, type) {
   elStatus.className = 'status-text' + (type ? ' ' + type : '');
 }
 
+// 골든타임 지속시간(분)을 로케일별 사람이 읽는 표현으로 변환 (푸시 문구용)
+function formatDuration(min, locale) {
+  const h = Math.floor(min / 60);
+  const m = min % 60;
+  if (locale === 'ko') {
+    if (h > 0 && m > 0) return `${h}시간 ${m}분`;
+    if (h > 0) return `${h}시간`;
+    return `${m}분`;
+  }
+  if (locale === 'es') {
+    const hu = h === 1 ? 'hora' : 'horas';
+    if (h > 0 && m > 0) return `${h} ${hu} ${m} min`;
+    if (h > 0) return `${h} ${hu}`;
+    return `${m} min`;
+  }
+  const hu = h === 1 ? 'hour' : 'hours';
+  if (h > 0 && m > 0) return `${h} ${hu} ${m} min`;
+  if (h > 0) return `${h} ${hu}`;
+  return `${m} min`;
+}
+
 elSaveBtn.addEventListener('click', async () => {
   const active     = elActive.checked;
   const startsAt   = localInputToIsoUtc(elStartsAt.value);
@@ -550,16 +567,18 @@ elSaveBtn.addEventListener('click', async () => {
     existingPushScheduleId = schedId;
 
     if (pushEnabled) {
+      const dur = (loc) => formatDuration(durationMin, loc);
       const pushPayload = {
         app_id: appId,
         target_type: 'all',
         variants: [
-          { locale: 'ko', title: '🎣 골든타임 시작!', body: '지금 희귀 어종이 더 잘 잡혀요' },
-          { locale: 'en', title: '🎣 Golden Time!', body: 'Rare fish bite more right now' },
-          { locale: 'es', title: '🎣 ¡Hora dorada!', body: 'Los peces raros pican más ahora' },
+          { locale: 'ko', title: '🎣 지금부터 골든 타임!', body: `${dur('ko')} 동안 희귀 어종이 더 잘 잡혀요!` },
+          { locale: 'en', title: '🎣 Golden Time is on!', body: `Rare fish bite more for ${dur('en')}!` },
+          { locale: 'es', title: '🎣 ¡Empieza la Hora Dorada!', body: `¡Los peces raros pican más durante ${dur('es')}!` },
         ],
         data: { type: 'golden_time' },
         scheduled_at: startsAt,        // 절대 시각(UTC ISO) = golden_time startsAt
+        next_run_at: startsAt,         // ★필수: 누락 시 process-scheduled의 .lte("next_run_at")에서 제외되어 영영 미발송
         use_local_time: false,
         repeat_rule: null,
         status: 'pending',
