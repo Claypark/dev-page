@@ -512,6 +512,13 @@
                 <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
                 <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg></div>
             </div>
+
+            <div class="app-tile" style="--accent: #d98a3d;" onclick="toggleDetail('doughlab')">
+                <img src="doughlab-icon.png" alt="" class="tile-icon">
+                <div class="tile-name" data-i18n="apps.doughlab.name">도우랩</div>
+                <div class="tile-tagline" data-i18n="apps.doughlab.tagline">제빵 레시피 실험실</div>
+                <span class="tile-badge badge-dev" data-i18n="badge_dev">개발중</span>
+            </div>
         </div>
 
         <!-- Detail panels — overlay modal -->
@@ -680,6 +687,24 @@
             </div>
         </div>
 
+        <div class="app-detail" id="detail-doughlab" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeDetail('doughlab')">&times;</button>
+            <div class="detail-header">
+                <img src="doughlab-icon.png" alt="" class="detail-icon">
+                <div class="detail-info">
+                    <h2 data-i18n="apps.doughlab.detail_name">도우랩 — 제빵 레시피 랩</h2>
+                    <div class="tagline" data-i18n="apps.doughlab.detail_tagline">반죽을 숫자로, 레시피를 실험으로</div>
+                </div>
+            </div>
+            <div class="description" data-i18n="apps.doughlab.detail_desc">제빵 레시피를 베이커스 퍼센트로 기록하고 실험하는 앱. 밀가루를 기준으로 수분율과 재료 비율을 한눈에 잡고, 굽기마다 결과를 남겨 나만의 레시피를 완성해 가세요. 모든 데이터는 기기 안에만 저장됩니다. 현재 개발 중입니다.</div>
+            <div class="app-links">
+                <span class="link-badge-dev" data-i18n="dev_coming">개발중 · 곧 출시 예정</span>
+            </div>
+            <div class="app-meta-links">
+                <a href="https://claypark.github.io/dev-page/doughlab/privacy-policy.html" data-i18n="privacy">개인정보처리방침</a>
+            </div>
+        </div>
+
         </div><!-- end overlay -->
 
         <div class="contact">
@@ -756,6 +781,13 @@
                         detail_tagline: '유한한 시간을 연료 삼아, 오늘을 태우다',
                         detail_desc: '인생에 남은 주말과 시간을 시각화해주는 동기부여 카운트다운 앱. 아침·저녁 체크인으로 오늘 하루를 기록하고, 소중한 사람과 함께할 수 있는 시간을 확인하세요. 모든 데이터는 기기 안에만 저장됩니다.',
                     },
+                    doughlab: {
+                        name: '도우랩',
+                        tagline: '제빵 레시피 실험실',
+                        detail_name: '도우랩 — 제빵 레시피 랩',
+                        detail_tagline: '반죽을 숫자로, 레시피를 실험으로',
+                        detail_desc: '제빵 레시피를 베이커스 퍼센트로 기록하고 실험하는 앱. 밀가루를 기준으로 수분율과 재료 비율을 한눈에 잡고, 굽기마다 결과를 남겨 나만의 레시피를 완성해 가세요. 모든 데이터는 기기 안에만 저장됩니다. 현재 개발 중입니다.',
+                    },
                 },
             },
             en: {
@@ -819,6 +851,13 @@
                         detail_tagline: 'Fuel today with the time you have left',
                         detail_desc: 'A motivational countdown app that visualizes the weekends and hours you have left. Check in morning and night to mark the day, and see the time you still have with the people who matter. All your data stays on your device.',
                     },
+                    doughlab: {
+                        name: 'DoughLab',
+                        tagline: 'A lab for baking recipes',
+                        detail_name: 'DoughLab — Baking Recipe Lab',
+                        detail_tagline: 'Turn dough into numbers, recipes into experiments',
+                        detail_desc: 'An app to record and experiment with baking recipes using baker\'s percentages. Anchor every ingredient to the flour weight, dial in hydration at a glance, and log the result of each bake to perfect your own recipes. All your data stays on your device. Currently in development.',
+                    },
                 },
             },
             es: {
@@ -881,6 +920,13 @@
                         tagline: 'Vive hoy, sin reservas',
                         detail_tagline: 'Usa tu tiempo como combustible y arde hoy',
                         detail_desc: 'Una app de cuenta atrás que visualiza los fines de semana y el tiempo que te quedan. Registra tu día con un check-in de mañana y noche, y descubre cuánto tiempo puedes compartir con quienes más quieres. Todos tus datos se guardan solo en tu dispositivo.',
+                    },
+                    doughlab: {
+                        name: 'DoughLab',
+                        tagline: 'Un laboratorio de recetas de panadería',
+                        detail_name: 'DoughLab — Laboratorio de recetas',
+                        detail_tagline: 'Convierte la masa en números y las recetas en experimentos',
+                        detail_desc: 'Una app para registrar y experimentar con recetas de panadería usando los porcentajes del panadero. Toma la harina como referencia, ajusta la hidratación y las proporciones de un vistazo, y anota el resultado de cada horneada para perfeccionar tus propias recetas. Todos tus datos se guardan solo en tu dispositivo. Actualmente en desarrollo.',
                     },
                 },
             },
