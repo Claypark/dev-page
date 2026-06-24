@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이용약관 - 도우랩</title>
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --text: #e8e8e8;
+      --text-muted: #999;
+      --accent: #d98a3d;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 2rem 1.5rem;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .date {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    .dev-note {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 2.5rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: var(--accent);
+    }
+
+    .lang-divider {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    p, li {
+      color: #ccc;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    ul {
+      padding-left: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    li { margin-bottom: 0.35rem; }
+
+    .highlight {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .lang-nav {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .lang-nav a {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .lang-nav a:hover {
+      color: var(--accent);
+      text-decoration: none;
+      border-color: var(--accent);
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>이용약관</h1>
+    <p class="date">시행일: 2026년 6월 17일</p>
+    <div class="dev-note">도우랩은 현재 개발 중인 앱이며, 본 약관은 정식 출시에 앞서 안내 목적으로 제공됩니다.</div>
+
+    <nav class="lang-nav">
+      <a href="#ko">한국어</a>
+      <a href="#en">English</a>
+      <a href="#es">Español</a>
+    </nav>
+
+    <section id="ko">
+      <p>본 약관은 도우랩(DoughLab, 이하 "본 앱")의 이용 조건을 정해요. 본 앱을 설치·사용하면 본 약관에 동의한 것으로 봐요.</p>
+
+      <h2>1. 서비스 내용</h2>
+      <p>본 앱은 제빵 레시피를 베이커스 퍼센트로 기록·실험하고, 공정과 재료 재고를 관리하는 도구를 제공해요. 모든 데이터는 기기 내부(로컬)에만 저장되며, 계정·로그인이 필요 없어요.</p>
+
+      <h2>2. 이용 조건</h2>
+      <p>누구나 무료로 본 앱을 이용할 수 있어요(일부 인앱 결제 항목 제외). 본 앱을 불법적인 목적이나 타인의 권리를 침해하는 방식으로 사용하면 안 돼요.</p>
+
+      <h2>3. 인앱 결제 및 환불</h2>
+      <p>후원·광고 제거 등 인앱 결제는 Google Play 또는 Apple App Store를 통해 처리돼요. 결제·환불은 각 스토어의 정책을 따르며, 본 앱은 카드 번호 등 결제 정보를 수집·저장하지 않아요.</p>
+
+      <h2>4. 데이터 및 백업</h2>
+      <div class="highlight">
+        <p>레시피·실험 기록·사진 등 모든 데이터는 기기에만 저장돼요. 앱을 삭제하거나 기기를 분실하면 데이터가 사라질 수 있으니, 중요한 기록은 별도로 백업해 주세요. 데이터 손실에 대한 책임은 이용자에게 있어요.</p>
+      </div>
+
+      <h2>5. 면책</h2>
+      <p>본 앱은 "있는 그대로(as is)" 제공돼요. 레시피·베이커스 퍼센트 계산 결과의 정확성이나 특정 목적 적합성을 보증하지 않으며, 본 앱 이용으로 발생한 결과(예: 제빵 실패)에 대해 책임지지 않아요.</p>
+
+      <h2>6. 지식재산권</h2>
+      <p>본 앱과 기본 제공 콘텐츠(큐레이션 레시피·공정 등)의 권리는 개발자에게 있어요. 이용자가 직접 입력한 레시피·기록은 이용자의 것이에요.</p>
+
+      <h2>7. 약관 변경</h2>
+      <p>본 약관은 변경될 수 있으며, 변경 시 앱 또는 본 페이지를 통해 안내해 드려요.</p>
+
+      <h2>8. 문의</h2>
+      <ul>
+        <li>이메일: <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a></li>
+      </ul>
+    </section>
+
+    <section id="en" class="lang-divider">
+      <h1>Terms of Service</h1>
+      <p class="date">Effective: June 17, 2026</p>
+      <div class="dev-note">DoughLab is currently in development. These terms are provided for reference ahead of the app's official launch.</div>
+
+      <p>These terms govern your use of DoughLab (hereinafter "the App"). By installing or using the App, you agree to these terms.</p>
+
+      <h2>1. Service</h2>
+      <p>The App is a tool for recording and experimenting with baking recipes using baker's percentages, and for managing processes and ingredient stock. All data is stored only on your device (locally); no account or login is required.</p>
+
+      <h2>2. Use</h2>
+      <p>Anyone may use the App free of charge (except certain in-app purchases). You must not use the App for unlawful purposes or in ways that infringe others' rights.</p>
+
+      <h2>3. In-App Purchases &amp; Refunds</h2>
+      <p>In-app purchases such as tips and ad removal are processed through Google Play or the Apple App Store. Payments and refunds follow each store's policies; the App does not collect or store payment information such as card numbers.</p>
+
+      <h2>4. Data &amp; Backup</h2>
+      <div class="highlight">
+        <p>All data — recipes, experiment logs, photos — is stored only on your device. Deleting the App or losing your device may erase your data, so please back up important records separately. You are responsible for any data loss.</p>
+      </div>
+
+      <h2>5. Disclaimer</h2>
+      <p>The App is provided "as is." We do not warrant the accuracy or fitness for a particular purpose of recipes or baker's percentage calculations, and are not liable for outcomes (e.g. failed bakes) arising from use of the App.</p>
+
+      <h2>6. Intellectual Property</h2>
+      <p>Rights to the App and its built-in content (curated recipes, processes, etc.) belong to the developer. Recipes and records you enter are yours.</p>
+
+      <h2>7. Changes to These Terms</h2>
+      <p>These terms may be updated; changes will be announced via the app or this page.</p>
+
+      <h2>8. Contact</h2>
+      <ul>
+        <li>Email: <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a></li>
+      </ul>
+    </section>
+
+    <section id="es" class="lang-divider">
+      <h1>Términos de Servicio</h1>
+      <p class="date">Vigente: 17 de junio de 2026</p>
+      <div class="dev-note">DoughLab está actualmente en desarrollo. Estos términos se ofrecen a título informativo antes del lanzamiento oficial de la app.</div>
+
+      <p>Estos términos rigen el uso de DoughLab (en adelante, "la App"). Al instalar o usar la App, aceptas estos términos.</p>
+
+      <h2>1. Servicio</h2>
+      <p>La App es una herramienta para registrar y experimentar con recetas de panadería usando porcentajes del panadero, y para gestionar procesos e inventario de ingredientes. Todos los datos se almacenan solo en tu dispositivo (localmente); no se requiere cuenta ni inicio de sesión.</p>
+
+      <h2>2. Uso</h2>
+      <p>Cualquiera puede usar la App de forma gratuita (salvo ciertas compras dentro de la app). No debes usar la App con fines ilícitos ni de forma que infrinja los derechos de terceros.</p>
+
+      <h2>3. Compras dentro de la app y reembolsos</h2>
+      <p>Las compras dentro de la app, como propinas y eliminación de anuncios, se procesan a través de Google Play o la App Store de Apple. Los pagos y reembolsos siguen las políticas de cada tienda; la App no recopila ni almacena información de pago como números de tarjeta.</p>
+
+      <h2>4. Datos y copias de seguridad</h2>
+      <div class="highlight">
+        <p>Todos los datos — recetas, registros de experimentos, fotos — se almacenan solo en tu dispositivo. Desinstalar la App o perder tu dispositivo puede borrar tus datos, así que haz copias de seguridad de los registros importantes. Eres responsable de cualquier pérdida de datos.</p>
+      </div>
+
+      <h2>5. Exención de responsabilidad</h2>
+      <p>La App se ofrece "tal cual". No garantizamos la exactitud ni la idoneidad para un fin concreto de las recetas o los cálculos de porcentaje del panadero, y no nos responsabilizamos de los resultados (p. ej., panes fallidos) derivados del uso de la App.</p>
+
+      <h2>6. Propiedad intelectual</h2>
+      <p>Los derechos de la App y su contenido integrado (recetas curadas, procesos, etc.) pertenecen al desarrollador. Las recetas y registros que introduces son tuyos.</p>
+
+      <h2>7. Cambios en estos términos</h2>
+      <p>Estos términos pueden actualizarse; los cambios se anunciarán a través de la app o esta página.</p>
+
+      <h2>8. Contacto</h2>
+      <ul>
+        <li>Correo: <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a></li>
+      </ul>
+    </section>
+
+    <footer>&copy; 2026 CLPAK. All rights reserved.</footer>
+  </div>
+</body>
+</html>
