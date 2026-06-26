@@ -125,7 +125,6 @@
   <div class="container">
     <h1>개인정보처리방침</h1>
     <p class="date">시행일: 2026년 6월 17일</p>
-    <div class="dev-note">도우랩은 현재 개발 중인 앱이며, 본 방침은 정식 출시에 앞서 안내 목적으로 제공됩니다.</div>
 
     <nav class="lang-nav">
       <a href="#ko">한국어</a>
@@ -148,22 +147,40 @@
         <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">https://policies.google.com/privacy</a></li>
       </ul>
 
-      <h2>3. 인앱 결제</h2>
+      <h2>3. 앱 분석 (Firebase Analytics)</h2>
+      <p>본 앱은 서비스 품질 향상을 위해 Firebase Analytics를 사용해요. 이용자를 식별하지 않는 집계 이벤트(화면 조회, 기능 사용 횟수 등)를 수집하며, 개인을 특정하는 정보는 전송되지 않아요. 자세한 내용은 Google Firebase 개인정보처리방침을 참고해 주세요.</p>
+      <ul>
+        <li><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">https://firebase.google.com/support/privacy</a></li>
+      </ul>
+
+      <h2>4. 오류 진단 (Firebase Crashlytics)</h2>
+      <p>앱 안정성 개선을 위해 Firebase Crashlytics를 사용해요. 앱이 비정상 종료될 경우 기기 모델, OS 버전, 스택 트레이스 등 오류 진단에 필요한 최소 정보가 자동으로 전송돼요. 개발(디버그) 빌드에서는 수집이 비활성화돼 있어요.</p>
+      <ul>
+        <li><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">https://firebase.google.com/support/privacy</a></li>
+      </ul>
+
+      <h2>5. 푸시 알림 (FCM)</h2>
+      <p>본 앱은 공지 등 알림 전달을 위해 Firebase Cloud Messaging(FCM)을 사용해요. 알림 수신을 위해 FCM 디바이스 토큰이 서버에 등록돼요. 토큰은 알림 발송 목적으로만 사용되며, 이용자를 식별하는 다른 정보와 결합되지 않아요. 기기 설정 또는 앱 내 설정에서 알림을 언제든 끌 수 있어요.</p>
+
+      <h2>6. 교차 프로모션</h2>
+      <p>본 앱은 개발자의 다른 앱을 추천하기 위해 공용 서버(Supabase)에서 앱 목록을 조회해요. 이 과정에서 이용자 개인정보는 전송되지 않으며, 앱 목록 조회 요청에는 식별 정보가 포함되지 않아요.</p>
+
+      <h2>7. 인앱 결제</h2>
       <p>본 앱은 후원 및 광고 제거 등을 위한 인앱 결제를 제공할 수 있어요. 결제 처리는 전적으로 Google Play 또는 Apple App Store가 담당하며, 본 앱은 카드 번호 등 결제 정보를 수집하거나 저장하지 않아요.</p>
 
-      <h2>4. 로그인 및 계정</h2>
+      <h2>8. 로그인 및 계정</h2>
       <p>본 앱은 로그인, 회원가입, 계정 생성 기능이 없어요.</p>
 
-      <h2>5. 데이터 삭제</h2>
+      <h2>9. 데이터 삭제</h2>
       <p>앱을 기기에서 삭제하면 모든 로컬 데이터가 함께 삭제돼요.</p>
 
-      <h2>6. 아동 개인정보 보호</h2>
+      <h2>10. 아동 개인정보 보호</h2>
       <p>본 앱은 만 12세 미만 아동을 대상으로 하지 않으며, 아동으로부터 의도적으로 개인정보를 수집하지 않아요.</p>
 
-      <h2>7. 개인정보처리방침 변경</h2>
+      <h2>11. 개인정보처리방침 변경</h2>
       <p>본 방침은 변경될 수 있으며, 변경 시 앱 스토어 업데이트 설명에 안내해 드려요.</p>
 
-      <h2>8. 문의</h2>
+      <h2>12. 문의</h2>
       <ul>
         <li>이메일: <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a></li>
       </ul>
@@ -172,7 +189,6 @@
     <section id="en" class="lang-divider">
       <h1>Privacy Policy</h1>
       <p class="date">Last updated: June 17, 2026</p>
-      <div class="dev-note">DoughLab is currently in development. This policy is provided for reference ahead of the app's official launch.</div>
 
       <p>DoughLab (hereinafter "the App") is an app for recording and experimenting with baking recipes using baker's percentages. The App values your privacy and protects personal information in accordance with applicable laws. This policy explains what information the App handles and how.</p>
 
@@ -188,22 +204,40 @@
         <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">https://policies.google.com/privacy</a></li>
       </ul>
 
-      <h2>3. In-App Purchases</h2>
+      <h2>3. App Analytics (Firebase Analytics)</h2>
+      <p>The App uses Firebase Analytics to help improve service quality. Only aggregate, non-identifying events are collected (such as screen views and feature usage counts); no personally identifiable information is transmitted. Please refer to the Google Firebase Privacy Policy for details.</p>
+      <ul>
+        <li><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">https://firebase.google.com/support/privacy</a></li>
+      </ul>
+
+      <h2>4. Crash Diagnostics (Firebase Crashlytics)</h2>
+      <p>The App uses Firebase Crashlytics to improve stability. If the App crashes, minimal diagnostic information — such as device model, OS version, and stack trace — is automatically sent to help identify and fix the issue. Collection is disabled in debug builds.</p>
+      <ul>
+        <li><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">https://firebase.google.com/support/privacy</a></li>
+      </ul>
+
+      <h2>5. Push Notifications (FCM)</h2>
+      <p>The App uses Firebase Cloud Messaging (FCM) to deliver announcements and notices. An FCM device token is registered with the server solely for sending notifications. The token is not combined with any other identifying information. You can disable notifications at any time in your device or in-app settings.</p>
+
+      <h2>6. Cross-Promotion</h2>
+      <p>The App fetches an app recommendation list from a shared server (Supabase) to suggest the developer's other apps. No personal information is included in this request, and no user data is transmitted in this process.</p>
+
+      <h2>7. In-App Purchases</h2>
       <p>The App may offer in-app purchases, such as tips to support the developer or removing ads. All payments are handled entirely by Google Play or the Apple App Store. The App does not collect or store any payment information, such as card numbers.</p>
 
-      <h2>4. Login and Accounts</h2>
+      <h2>8. Login and Accounts</h2>
       <p>The App has no login, registration, or account creation features.</p>
 
-      <h2>5. Data Deletion</h2>
+      <h2>9. Data Deletion</h2>
       <p>Uninstalling the App from your device will delete all locally stored data.</p>
 
-      <h2>6. Children's Privacy</h2>
+      <h2>10. Children's Privacy</h2>
       <p>The App is not directed at children under the age of 12, and we do not knowingly collect personal information from children.</p>
 
-      <h2>7. Changes to This Policy</h2>
+      <h2>11. Changes to This Policy</h2>
       <p>This policy may be updated. Any changes will be noted in the app store update description.</p>
 
-      <h2>8. Contact</h2>
+      <h2>12. Contact</h2>
       <ul>
         <li>Email: <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a></li>
       </ul>
@@ -212,7 +246,6 @@
     <section id="es" class="lang-divider">
       <h1>Política de Privacidad</h1>
       <p class="date">Última actualización: 17 de junio de 2026</p>
-      <div class="dev-note">DoughLab está actualmente en desarrollo. Esta política se ofrece a título informativo antes del lanzamiento oficial de la app.</div>
 
       <p>DoughLab (en adelante, "la App") es una app para registrar y experimentar con recetas de panadería usando porcentajes del panadero. La App valora tu privacidad y protege la información personal de acuerdo con la legislación aplicable. Esta política explica qué información maneja la App y cómo lo hace.</p>
 
@@ -228,22 +261,40 @@
         <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">https://policies.google.com/privacy</a></li>
       </ul>
 
-      <h2>3. Compras dentro de la app</h2>
+      <h2>3. Analítica de la app (Firebase Analytics)</h2>
+      <p>La App usa Firebase Analytics para mejorar la calidad del servicio. Solo se recopilan eventos agregados que no identifican al usuario (como visualizaciones de pantalla y frecuencia de uso de funciones); no se transmite ninguna información de identificación personal. Consulta la Política de Privacidad de Google Firebase para más detalles.</p>
+      <ul>
+        <li><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">https://firebase.google.com/support/privacy</a></li>
+      </ul>
+
+      <h2>4. Diagnóstico de errores (Firebase Crashlytics)</h2>
+      <p>La App usa Firebase Crashlytics para mejorar la estabilidad. Si la App se cierra de forma inesperada, se envía automáticamente información diagnóstica mínima — como modelo de dispositivo, versión del sistema operativo y traza de pila — para identificar y corregir el problema. La recopilación está desactivada en compilaciones de depuración.</p>
+      <ul>
+        <li><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">https://firebase.google.com/support/privacy</a></li>
+      </ul>
+
+      <h2>5. Notificaciones push (FCM)</h2>
+      <p>La App usa Firebase Cloud Messaging (FCM) para enviar avisos y notificaciones. Se registra un token de dispositivo FCM en el servidor únicamente con el fin de enviar notificaciones. El token no se combina con ninguna otra información identificativa. Puedes desactivar las notificaciones en cualquier momento desde los ajustes del dispositivo o de la propia App.</p>
+
+      <h2>6. Promoción cruzada</h2>
+      <p>La App consulta una lista de recomendaciones de apps en un servidor compartido (Supabase) para sugerir otras apps del desarrollador. Esta solicitud no incluye información personal ni se transmite ningún dato del usuario en el proceso.</p>
+
+      <h2>7. Compras dentro de la app</h2>
       <p>La App puede ofrecer compras dentro de la app, como propinas para apoyar al desarrollador o eliminar la publicidad. Todos los pagos los gestionan íntegramente Google Play o la App Store de Apple. La App no recopila ni almacena información de pago, como números de tarjeta.</p>
 
-      <h2>4. Inicio de sesión y cuentas</h2>
+      <h2>8. Inicio de sesión y cuentas</h2>
       <p>La App no tiene funciones de inicio de sesión, registro ni creación de cuenta.</p>
 
-      <h2>5. Eliminación de datos</h2>
+      <h2>9. Eliminación de datos</h2>
       <p>Desinstalar la App de tu dispositivo eliminará todos los datos almacenados localmente.</p>
 
-      <h2>6. Privacidad de menores</h2>
+      <h2>10. Privacidad de menores</h2>
       <p>La App no está dirigida a menores de 12 años y no recopila intencionadamente información personal de menores.</p>
 
-      <h2>7. Cambios en esta política</h2>
+      <h2>11. Cambios en esta política</h2>
       <p>Esta política puede actualizarse. Cualquier cambio se indicará en la descripción de la actualización en la tienda de aplicaciones.</p>
 
-      <h2>8. Contacto</h2>
+      <h2>12. Contacto</h2>
       <ul>
         <li>Correo: <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a></li>
       </ul>
