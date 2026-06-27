@@ -1776,10 +1776,13 @@ window.openScheduleModal = function(schedule) {
     }
     if (schedule.scheduled_at) {
       const d = new Date(schedule.scheduled_at);
-      document.getElementById('sched-time').value = d.toISOString().slice(0, 16);
-      const hh = String(d.getHours()).padStart(2, '0');
-      const mm = String(d.getMinutes()).padStart(2, '0');
-      document.getElementById('sched-time-only').value = `${hh}:${mm}`;
+      const pad = n => String(n).padStart(2, '0');
+      // datetime-local 입력칸은 운영자 로컬 시각으로 표시한다.
+      // toISOString()은 UTC라서 KST 기준 +9h 밀려 보임(예: 21:00 KST가 12:00으로 표시)되고,
+      // 저장 시 new Date(value)가 그 값을 로컬로 재해석해 -9h씩 어긋나므로 로컬 포맷으로 채운다.
+      document.getElementById('sched-time').value =
+        `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      document.getElementById('sched-time-only').value = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
     }
     if (schedule.repeat_until) {
       document.getElementById('sched-until').value = schedule.repeat_until.slice(0, 10);
