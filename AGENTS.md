@@ -37,4 +37,4 @@
 ### 파일
 
 - `/dev-page/index.html` — 메인 랜딩, I18N 딕셔너리 포함
-- 서브 경로(`dev-page/ipsomun/`, `dev-page/dustler/` 등)의 privacy/terms는 아직 i18n 미적용 — 필요 시 별도 작업
+- 서브 경로 privacy/terms 중 **naru는 ko/en/es i18n 적용**(단일 파일 내 언어별 `<article class="lang">` 3개 + 우상단 전환 버튼, 감지 우선순위 index.html과 동일). 나머지(ipsomun/dustler 등)는 미적용 — 작업 시 naru 구조를 따를 것. 내용 변경 시 3개 언어 모두 갱신.
