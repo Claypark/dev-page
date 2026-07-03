@@ -29,6 +29,28 @@
       margin: 0 auto;
     }
 
+    .lang-switch {
+      display: flex;
+      gap: 0.4rem;
+      justify-content: flex-end;
+      margin-bottom: 1.5rem;
+    }
+
+    .lang-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 6px;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .lang-btn.active {
+      color: var(--text);
+      border-color: var(--accent);
+    }
+
     h1 {
       font-size: 1.75rem;
       font-weight: 700;
@@ -62,6 +84,8 @@
 
     li { margin-bottom: 0.35rem; }
 
+    a { color: var(--accent); }
+
     .highlight {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -81,36 +105,246 @@
 </head>
 <body>
   <div class="container">
-    <h1>개인정보처리방침</h1>
-    <p class="date">시행일: 2026년 3월 20일</p>
-
-    <p>나루(이하 "본 앱")는 이용자의 개인정보를 소중히 여기며, 관련 법령에 따라 개인정보를 보호하고 있어요. 이 방침은 본 앱이 어떤 정보를 수집하고, 어떻게 이용하며, 어떻게 보호하는지 알려드려요.</p>
-
-    <h2>1. 수집하는 정보</h2>
-    <div class="highlight">
-      <p><strong>본 앱은 개인정보를 수집하지 않아요.</strong></p>
-      <p>게임 진행 데이터(수집한 물고기, 업적, 설정 등)는 모두 기기 내에 저장되며, 외부로 전송되지 않아요.</p>
+    <div class="lang-switch">
+      <button class="lang-btn" data-lang="ko">한국어</button>
+      <button class="lang-btn" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="es">Español</button>
     </div>
 
-    <h2>2. 정보의 저장</h2>
-    <p>게임 데이터는 이용자의 기기 내부에만 저장돼요. 앱을 삭제하면 모든 데이터가 함께 삭제돼요.</p>
+    <!-- ═══════════ 한국어 ═══════════ -->
+    <article class="lang" id="lang-ko">
+      <h1>개인정보처리방침</h1>
+      <p class="date">시행일: 2026년 7월 3일 (제정: 2026년 3월 20일)</p>
 
-    <h2>3. 제3자 제공</h2>
-    <p>본 앱은 어떠한 정보도 제3자에게 제공하지 않아요.</p>
+      <p>나루(이하 "본 앱")는 이용자의 개인정보를 소중히 여기며, 관련 법령에 따라 보호하고 있어요. 이 방침은 본 앱이 어떤 정보를 다루고, 어떻게 이용하며, 이용자가 어떤 권리를 갖는지 알려드려요.</p>
 
-    <h2>4. 아동의 개인정보</h2>
-    <p>본 앱은 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않아요. 만약 아동의 정보가 수집된 것을 발견하면 즉시 삭제할게요.</p>
+      <h2>1. 수집·이용하는 정보</h2>
+      <p>본 앱은 회원가입 없이 이용할 수 있으며, 이름·전화번호 같은 정보를 직접 수집하지 않아요. 다만 서비스 제공을 위해 아래 정보가 처리돼요.</p>
+      <ul>
+        <li><strong>게임 데이터</strong> — 수집한 물고기, 업적, 설정 등은 기본적으로 기기 안에 저장돼요. Google Play 게임즈 / Apple Game Center로 로그인하면 진행 데이터가 클라우드에 동기화돼요 (기기 변경·복구용).</li>
+        <li><strong>리더보드</strong> — 참여 시 닉네임, 점수, 지역 정보가 서버에 저장되고 다른 이용자에게 공개적으로 표시돼요.</li>
+        <li><strong>광고 관련 정보</strong> — 광고 식별자, IP 기반의 대략적 위치, 기기 정보, 광고 상호작용 기록이 광고 파트너에 의해 처리돼요 (아래 2항 참고).</li>
+        <li><strong>사용 통계·오류 로그</strong> — 서비스 개선을 위해 익명화된 사용 통계(Google Analytics for Firebase)와 앱 오류 로그(Firebase Crashlytics)가 수집돼요.</li>
+        <li><strong>푸시 알림</strong> — 알림 수신에 동의하면 기기 토큰과 시간대 정보가 저장돼요. 앱 설정에서 언제든 끌 수 있어요.</li>
+        <li><strong>인앱 결제</strong> — 결제는 Google Play / App Store가 처리하며, 본 앱은 카드번호 등 결제 정보를 수집하지 않아요. 구매 상태(광고 제거 여부 등)만 확인해요.</li>
+      </ul>
 
-    <h2>5. 방침의 변경</h2>
-    <p>이 방침은 법령 변경이나 서비스 변동에 따라 수정될 수 있어요. 변경 사항은 이 페이지를 통해 안내해 드릴게요.</p>
+      <h2>2. 광고와 개인정보</h2>
+      <p>본 앱은 광고로 운영돼요. 광고는 Google AdMob을 통해 게재되며, 미디에이션을 통해 아래 광고 파트너가 함께 참여할 수 있어요.</p>
+      <div class="highlight">
+        <ul>
+          <li>Google AdMob — <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">개인정보처리방침</a></li>
+          <li>Unity Ads — <a href="https://unity.com/legal/game-player-and-app-user-privacy-policy" target="_blank" rel="noopener">개인정보처리방침</a></li>
+        </ul>
+      </div>
+      <ul>
+        <li>iOS에서는 앱 추적 투명성(ATT) 권한에 따라 광고 식별자 사용 여부를 이용자가 결정해요. 기기 설정 &gt; 개인정보 보호에서 언제든 변경할 수 있어요.</li>
+        <li>유럽경제지역(EEA)·영국 이용자는 앱 최초 실행 시 표시되는 동의 화면(Google CMP)에서 맞춤 광고 여부를 선택할 수 있고, 앱 설정 &gt; "광고 개인정보 설정"에서 언제든 변경할 수 있어요.</li>
+        <li>동의하지 않아도 앱은 정상적으로 이용할 수 있으며, 비맞춤 광고가 표시되거나 광고가 제한될 수 있어요.</li>
+      </ul>
 
-    <h2>6. 문의</h2>
-    <p>개인정보 관련 문의는 아래로 연락해 주세요.</p>
-    <ul>
-      <li>이메일: claypark12@gmail.com</li>
-    </ul>
+      <h2>3. 처리 위탁 및 제3자</h2>
+      <p>본 앱은 아래 서비스에 데이터 처리를 위탁하고 있어요.</p>
+      <ul>
+        <li>Google (AdMob 광고, Firebase 분석·오류 수집·푸시)</li>
+        <li>Unity Technologies (광고 미디에이션 파트너)</li>
+        <li>Supabase (클라우드 저장·리더보드 서버 호스팅)</li>
+      </ul>
+      <p>이들 서버는 해외에 위치할 수 있어, 데이터가 국외에서 처리될 수 있어요.</p>
+
+      <h2>4. 보관 및 파기</h2>
+      <ul>
+        <li>기기 내 게임 데이터는 앱을 삭제하면 함께 삭제돼요.</li>
+        <li>클라우드 저장 데이터와 리더보드 기록은 삭제를 요청하면 지체 없이 삭제해 드려요 (아래 문의처).</li>
+        <li>광고·분석 데이터의 보관 기간은 각 파트너의 정책을 따라요.</li>
+      </ul>
+
+      <h2>5. 이용자의 권리</h2>
+      <ul>
+        <li>광고 추적 동의는 iOS 기기 설정(ATT) 또는 앱 내 광고 개인정보 설정(EEA)에서 변경할 수 있어요.</li>
+        <li>클라우드 데이터·리더보드 기록의 열람이나 삭제는 이메일로 요청할 수 있어요.</li>
+        <li>푸시 알림은 앱 설정에서 끌 수 있어요.</li>
+      </ul>
+
+      <h2>6. 아동의 개인정보</h2>
+      <p>본 앱은 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않아요. 아동의 정보가 수집된 것을 발견하면 즉시 삭제할게요.</p>
+
+      <h2>7. 방침의 변경</h2>
+      <p>이 방침은 법령 변경이나 서비스 변동(예: 광고 파트너 추가)에 따라 수정될 수 있어요. 변경 사항은 이 페이지를 통해 안내해 드려요.</p>
+
+      <h2>8. 문의</h2>
+      <ul>
+        <li>이메일: claypark12@gmail.com</li>
+      </ul>
+    </article>
+
+    <!-- ═══════════ English ═══════════ -->
+    <article class="lang" id="lang-en" hidden>
+      <h1>Privacy Policy</h1>
+      <p class="date">Effective: July 3, 2026 (First published: March 20, 2026)</p>
+
+      <p>Naru ("the App") values your privacy and protects your data in accordance with applicable laws. This policy explains what information the App handles, how it is used, and what rights you have.</p>
+
+      <h2>1. Information We Process</h2>
+      <p>The App can be used without creating an account, and we do not directly collect information such as your name or phone number. The following data is processed to provide the service:</p>
+      <ul>
+        <li><strong>Game data</strong> — Your fish collection, achievements and settings are stored on your device by default. If you sign in with Google Play Games / Apple Game Center, your progress is synced to the cloud (for device transfer and recovery).</li>
+        <li><strong>Leaderboards</strong> — If you participate, your nickname, score and region are stored on our server and displayed publicly to other users.</li>
+        <li><strong>Advertising data</strong> — Advertising identifiers, approximate location based on IP, device information and ad interaction data are processed by our advertising partners (see Section 2).</li>
+        <li><strong>Usage statistics &amp; crash logs</strong> — Anonymized usage statistics (Google Analytics for Firebase) and crash logs (Firebase Crashlytics) are collected to improve the service.</li>
+        <li><strong>Push notifications</strong> — If you opt in, a device token and timezone are stored. You can turn notifications off anytime in the app settings.</li>
+        <li><strong>In-app purchases</strong> — Payments are processed by Google Play / the App Store. The App never collects payment details such as card numbers; it only checks purchase status (e.g., ad removal).</li>
+      </ul>
+
+      <h2>2. Advertising and Your Privacy</h2>
+      <p>The App is ad-supported. Ads are served through Google AdMob, and the following partners may also participate via mediation:</p>
+      <div class="highlight">
+        <ul>
+          <li>Google AdMob — <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></li>
+          <li>Unity Ads — <a href="https://unity.com/legal/game-player-and-app-user-privacy-policy" target="_blank" rel="noopener">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <ul>
+        <li>On iOS, App Tracking Transparency (ATT) lets you decide whether the advertising identifier may be used. You can change this anytime in Device Settings &gt; Privacy.</li>
+        <li>Users in the European Economic Area (EEA) and the UK can choose whether to receive personalized ads via the consent screen (Google CMP) shown at first launch, and can change their choice anytime in App Settings &gt; "Ad Privacy Settings".</li>
+        <li>You can use the App without consenting; in that case non-personalized ads may be shown or ads may be limited.</li>
+      </ul>
+
+      <h2>3. Processors and Third Parties</h2>
+      <p>The App relies on the following services to process data:</p>
+      <ul>
+        <li>Google (AdMob ads; Firebase analytics, crash reporting and push messaging)</li>
+        <li>Unity Technologies (ad mediation partner)</li>
+        <li>Supabase (cloud save and leaderboard hosting)</li>
+      </ul>
+      <p>These servers may be located abroad, so data may be processed outside your country.</p>
+
+      <h2>4. Retention and Deletion</h2>
+      <ul>
+        <li>Game data on your device is deleted when you uninstall the App.</li>
+        <li>Cloud saves and leaderboard records are deleted without undue delay upon request (contact below).</li>
+        <li>Retention of advertising and analytics data follows each partner's policy.</li>
+      </ul>
+
+      <h2>5. Your Rights</h2>
+      <ul>
+        <li>You can change ad tracking consent in iOS Device Settings (ATT) or, in the EEA, in the in-app Ad Privacy Settings.</li>
+        <li>You can request access to or deletion of your cloud data and leaderboard records by email.</li>
+        <li>You can turn off push notifications in the app settings.</li>
+      </ul>
+
+      <h2>6. Children's Privacy</h2>
+      <p>The App does not knowingly collect personal information from children under 13 (or the equivalent minimum age in your jurisdiction). If we discover such data has been collected, we will delete it immediately.</p>
+
+      <h2>7. Changes to This Policy</h2>
+      <p>This policy may be updated due to legal changes or service changes (e.g., adding an advertising partner). Updates will be announced on this page.</p>
+
+      <h2>8. Contact</h2>
+      <ul>
+        <li>Email: claypark12@gmail.com</li>
+      </ul>
+    </article>
+
+    <!-- ═══════════ Español ═══════════ -->
+    <article class="lang" id="lang-es" hidden>
+      <h1>Política de Privacidad</h1>
+      <p class="date">Vigente desde: 3 de julio de 2026 (Primera publicación: 20 de marzo de 2026)</p>
+
+      <p>Naru ("la App") valora tu privacidad y protege tus datos conforme a la legislación aplicable. Esta política explica qué información maneja la App, cómo se utiliza y qué derechos tienes.</p>
+
+      <h2>1. Información que procesamos</h2>
+      <p>La App puede usarse sin crear una cuenta y no recopilamos directamente datos como tu nombre o número de teléfono. Para prestar el servicio se procesa la siguiente información:</p>
+      <ul>
+        <li><strong>Datos del juego</strong> — Tu colección de peces, logros y ajustes se guardan en tu dispositivo de forma predeterminada. Si inicias sesión con Google Play Juegos / Apple Game Center, tu progreso se sincroniza en la nube (para cambio de dispositivo y recuperación).</li>
+        <li><strong>Clasificaciones</strong> — Si participas, tu apodo, puntuación y región se almacenan en nuestro servidor y se muestran públicamente a otros usuarios.</li>
+        <li><strong>Datos publicitarios</strong> — Los identificadores de publicidad, la ubicación aproximada según la IP, la información del dispositivo y las interacciones con anuncios son procesados por nuestros socios publicitarios (ver sección 2).</li>
+        <li><strong>Estadísticas de uso y registros de errores</strong> — Se recopilan estadísticas de uso anonimizadas (Google Analytics para Firebase) y registros de fallos (Firebase Crashlytics) para mejorar el servicio.</li>
+        <li><strong>Notificaciones push</strong> — Si las aceptas, se almacena un token del dispositivo y tu zona horaria. Puedes desactivarlas en cualquier momento desde los ajustes de la App.</li>
+        <li><strong>Compras dentro de la app</strong> — Los pagos los procesan Google Play / App Store. La App nunca recopila datos de pago como números de tarjeta; solo comprueba el estado de la compra (p. ej., eliminación de anuncios).</li>
+      </ul>
+
+      <h2>2. Publicidad y tu privacidad</h2>
+      <p>La App se financia con publicidad. Los anuncios se sirven a través de Google AdMob, y mediante mediación pueden participar también los siguientes socios:</p>
+      <div class="highlight">
+        <ul>
+          <li>Google AdMob — <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de privacidad</a></li>
+          <li>Unity Ads — <a href="https://unity.com/legal/game-player-and-app-user-privacy-policy" target="_blank" rel="noopener">Política de privacidad</a></li>
+        </ul>
+      </div>
+      <ul>
+        <li>En iOS, la Transparencia de Seguimiento de Apps (ATT) te permite decidir si se puede usar el identificador de publicidad. Puedes cambiarlo en Ajustes &gt; Privacidad.</li>
+        <li>Los usuarios del Espacio Económico Europeo (EEE) y del Reino Unido pueden elegir si reciben anuncios personalizados mediante la pantalla de consentimiento (Google CMP) mostrada en el primer inicio, y cambiar su elección en Ajustes de la App &gt; "Configuración de privacidad de anuncios".</li>
+        <li>Puedes usar la App sin dar tu consentimiento; en ese caso se mostrarán anuncios no personalizados o la publicidad podría limitarse.</li>
+      </ul>
+
+      <h2>3. Encargados y terceros</h2>
+      <p>La App utiliza los siguientes servicios para procesar datos:</p>
+      <ul>
+        <li>Google (anuncios AdMob; analítica, informes de fallos y mensajería push de Firebase)</li>
+        <li>Unity Technologies (socio de mediación publicitaria)</li>
+        <li>Supabase (alojamiento del guardado en la nube y las clasificaciones)</li>
+      </ul>
+      <p>Estos servidores pueden estar ubicados en el extranjero, por lo que los datos pueden procesarse fuera de tu país.</p>
+
+      <h2>4. Conservación y eliminación</h2>
+      <ul>
+        <li>Los datos del juego en tu dispositivo se eliminan al desinstalar la App.</li>
+        <li>Los guardados en la nube y los registros de clasificación se eliminan sin demora indebida previa solicitud (contacto abajo).</li>
+        <li>La conservación de los datos publicitarios y analíticos sigue la política de cada socio.</li>
+      </ul>
+
+      <h2>5. Tus derechos</h2>
+      <ul>
+        <li>Puedes cambiar el consentimiento de seguimiento publicitario en los Ajustes de iOS (ATT) o, en el EEE, en la Configuración de privacidad de anuncios dentro de la App.</li>
+        <li>Puedes solicitar por correo electrónico el acceso o la eliminación de tus datos en la nube y registros de clasificación.</li>
+        <li>Puedes desactivar las notificaciones push en los ajustes de la App.</li>
+      </ul>
+
+      <h2>6. Privacidad de los menores</h2>
+      <p>La App no recopila deliberadamente información personal de menores de 13 años (o la edad mínima equivalente en tu jurisdicción). Si descubrimos que se han recopilado tales datos, los eliminaremos de inmediato.</p>
+
+      <h2>7. Cambios en esta política</h2>
+      <p>Esta política puede actualizarse por cambios legales o del servicio (p. ej., la incorporación de un socio publicitario). Los cambios se anunciarán en esta página.</p>
+
+      <h2>8. Contacto</h2>
+      <ul>
+        <li>Correo electrónico: claypark12@gmail.com</li>
+      </ul>
+    </article>
 
     <footer>&copy; 2026 CLPAK. All rights reserved.</footer>
   </div>
+
+  <script>
+    (function () {
+      var SUPPORTED = ['ko', 'en', 'es'];
+      var params = new URLSearchParams(location.search);
+      var lang = params.get('lang')
+        || localStorage.getItem('clpak_lang')
+        || (navigator.language || 'ko').slice(0, 2);
+      if (SUPPORTED.indexOf(lang) === -1) lang = 'ko';
+
+      function setLang(l) {
+        SUPPORTED.forEach(function (s) {
+          document.getElementById('lang-' + s).hidden = (s !== l);
+        });
+        document.querySelectorAll('.lang-btn').forEach(function (b) {
+          b.classList.toggle('active', b.dataset.lang === l);
+        });
+        document.documentElement.lang = l;
+        var titles = { ko: '개인정보처리방침 - 나루', en: 'Privacy Policy - Naru', es: 'Política de Privacidad - Naru' };
+        document.title = titles[l];
+      }
+
+      document.querySelectorAll('.lang-btn').forEach(function (b) {
+        b.addEventListener('click', function () {
+          localStorage.setItem('clpak_lang', b.dataset.lang);
+          setLang(b.dataset.lang);
+        });
+      });
+
+      setLang(lang);
+    })();
+  </script>
 </body>
 </html>

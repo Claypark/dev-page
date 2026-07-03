@@ -29,6 +29,28 @@
       margin: 0 auto;
     }
 
+    .lang-switch {
+      display: flex;
+      gap: 0.4rem;
+      justify-content: flex-end;
+      margin-bottom: 1.5rem;
+    }
+
+    .lang-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 6px;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .lang-btn.active {
+      color: var(--text);
+      border-color: var(--accent);
+    }
+
     h1 {
       font-size: 1.75rem;
       font-weight: 700;
@@ -55,12 +77,14 @@
       margin-bottom: 0.5rem;
     }
 
-    ul, ol {
+    ul {
       padding-left: 1.25rem;
       margin-bottom: 0.75rem;
     }
 
     li { margin-bottom: 0.35rem; }
+
+    a { color: var(--accent); }
 
     .highlight {
       background: var(--surface);
@@ -81,59 +105,291 @@
 </head>
 <body>
   <div class="container">
-    <h1>이용약관</h1>
-    <p class="date">시행일: 2026년 3월 20일</p>
-
-    <p>이 약관은 나루(이하 "본 앱")의 이용 조건을 안내해요. 앱을 설치하거나 이용하면 이 약관에 동의한 것으로 봐요.</p>
-
-    <h2>제1조 (목적)</h2>
-    <p>이 약관은 본 앱이 제공하는 서비스의 이용 조건과 절차, 이용자와 운영자의 권리와 의무를 정하는 것을 목적으로 해요.</p>
-
-    <h2>제2조 (서비스의 내용)</h2>
-    <p>본 앱은 아래 서비스를 제공해요.</p>
-    <ul>
-      <li>픽셀아트 낚시 게임</li>
-      <li>물고기 수집 및 도감</li>
-      <li>업적 시스템</li>
-    </ul>
-
-    <h2>제3조 (서비스 이용)</h2>
-    <ul>
-      <li>본 앱은 무료로 제공돼요.</li>
-      <li>서비스 내용은 사전 공지 없이 변경되거나 중단될 수 있어요.</li>
-    </ul>
-
-    <h2>제4조 (이용자의 의무)</h2>
-    <p>이용자는 아래 사항을 지켜 주세요.</p>
-    <ul>
-      <li>앱을 역설계, 수정, 재배포하지 않아요.</li>
-      <li>앱을 불법적인 목적으로 사용하지 않아요.</li>
-    </ul>
-
-    <h2>제5조 (지적재산권)</h2>
-    <p>본 앱에 포함된 디자인, 코드, 이미지, 사운드 등 모든 콘텐츠에 대한 지적재산권은 운영자에게 있어요.</p>
-
-    <h2>제6조 (면책사항)</h2>
-    <div class="highlight">
-      <ul>
-        <li>본 앱은 "있는 그대로" 제공되며, 특정 목적에 대한 적합성을 보장하지 않아요.</li>
-        <li>앱 이용 과정에서 발생한 기기 문제나 데이터 손실에 대해 운영자는 책임지지 않아요.</li>
-      </ul>
+    <div class="lang-switch">
+      <button class="lang-btn" data-lang="ko">한국어</button>
+      <button class="lang-btn" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="es">Español</button>
     </div>
 
-    <h2>제7조 (약관의 변경)</h2>
-    <p>이 약관은 필요에 따라 변경될 수 있으며, 변경된 약관은 이 페이지를 통해 공지해요. 변경 후에도 앱을 계속 이용하면 변경된 약관에 동의한 것으로 봐요.</p>
+    <!-- ═══════════ 한국어 ═══════════ -->
+    <article class="lang" id="lang-ko">
+      <h1>이용약관</h1>
+      <p class="date">시행일: 2026년 7월 3일 (제정: 2026년 3월 20일)</p>
 
-    <h2>제8조 (분쟁 해결)</h2>
-    <p>이 약관과 관련된 분쟁은 대한민국 법률에 따르며, 관할 법원은 운영자의 소재지를 관할하는 법원으로 해요.</p>
+      <p>이 약관은 나루(이하 "본 앱")의 이용 조건을 안내해요. 앱을 설치하거나 이용하면 이 약관에 동의한 것으로 봐요.</p>
 
-    <h2>제9조 (문의)</h2>
-    <p>서비스 이용 관련 문의는 아래로 연락해 주세요.</p>
-    <ul>
-      <li>이메일: claypark12@gmail.com</li>
-    </ul>
+      <h2>제1조 (목적)</h2>
+      <p>이 약관은 본 앱이 제공하는 서비스의 이용 조건과 절차, 이용자와 운영자의 권리와 의무를 정하는 것을 목적으로 해요.</p>
+
+      <h2>제2조 (서비스의 내용)</h2>
+      <p>본 앱은 아래 서비스를 제공해요.</p>
+      <ul>
+        <li>픽셀아트 낚시 게임 (여러 지역·계절·날씨)</li>
+        <li>물고기 수집 및 도감, 업적 시스템</li>
+        <li>리더보드 (닉네임·점수 공개 표시)</li>
+        <li>클라우드 저장 (Google Play 게임즈 / Apple Game Center 로그인 시)</li>
+        <li>감상 모드, 소식, 푸시 알림 등 부가 기능</li>
+      </ul>
+
+      <h2>제3조 (광고)</h2>
+      <ul>
+        <li>본 앱은 무료로 제공되며, 광고 수익으로 운영돼요. 앱 이용 중 배너 외 전면·보상형 등 다양한 형태의 광고가 표시될 수 있어요.</li>
+        <li>보상형 광고는 이용자가 원할 때만 시청하며, 시청 시 게임 내 혜택이 제공돼요.</li>
+        <li>광고 게재와 개인정보에 관한 내용은 <a href="privacy-policy.html">개인정보처리방침</a>을 참고해 주세요.</li>
+      </ul>
+
+      <h2>제4조 (인앱 결제)</h2>
+      <ul>
+        <li>본 앱은 선택적 인앱 상품(광고 제거, 후원)을 제공해요. 게임 진행에 필수가 아니에요.</li>
+        <li>결제와 환불은 Google Play / App Store의 정책을 따라요.</li>
+        <li>"광고 제거"는 1회 구매 상품으로, 기기 변경 시 같은 스토어 계정에서 복원할 수 있어요.</li>
+        <li>후원(커피) 상품은 소비성 상품으로, 사용 후 환불이 제한될 수 있어요.</li>
+      </ul>
+
+      <h2>제5조 (계정과 클라우드 저장)</h2>
+      <ul>
+        <li>로그인은 선택 사항이며, 로그인 없이도 게임을 이용할 수 있어요.</li>
+        <li>Google Play 게임즈 / Apple Game Center로 로그인하면 진행 데이터가 클라우드에 동기화돼요.</li>
+        <li>로그인하지 않고 앱을 삭제하면 기기 내 데이터는 복구할 수 없어요.</li>
+      </ul>
+
+      <h2>제6조 (리더보드와 닉네임)</h2>
+      <ul>
+        <li>리더보드 참여 시 닉네임과 점수가 다른 이용자에게 공개돼요.</li>
+        <li>욕설·차별·혐오 표현 등 부적절한 닉네임은 필터링되거나 운영자에 의해 변경·제한될 수 있어요.</li>
+      </ul>
+
+      <h2>제7조 (이용자의 의무)</h2>
+      <ul>
+        <li>앱을 역설계, 수정, 재배포하지 않아요.</li>
+        <li>비정상적인 방법(치트, 자동화 등)으로 리더보드 점수를 조작하지 않아요.</li>
+        <li>앱을 불법적인 목적으로 사용하지 않아요.</li>
+      </ul>
+
+      <h2>제8조 (지적재산권)</h2>
+      <p>본 앱에 포함된 디자인, 코드, 이미지, 사운드 등 모든 콘텐츠에 대한 지적재산권은 운영자에게 있어요.</p>
+
+      <h2>제9조 (서비스의 변경·중단)</h2>
+      <p>서비스 내용(광고 파트너, 기능, 리더보드 시즌 등)은 사전 공지 없이 변경되거나 중단될 수 있어요. 유료 상품에 중대한 영향이 있는 변경은 앱 내 소식 등으로 안내해요.</p>
+
+      <h2>제10조 (면책사항)</h2>
+      <div class="highlight">
+        <ul>
+          <li>본 앱은 "있는 그대로" 제공되며, 특정 목적에 대한 적합성을 보장하지 않아요.</li>
+          <li>앱 이용 과정에서 발생한 기기 문제나 데이터 손실에 대해 운영자는 책임지지 않아요.</li>
+          <li>광고에 표시되는 제3자 콘텐츠·상품에 대한 책임은 해당 광고주에게 있어요.</li>
+        </ul>
+      </div>
+
+      <h2>제11조 (약관의 변경)</h2>
+      <p>이 약관은 필요에 따라 변경될 수 있으며, 변경된 약관은 이 페이지를 통해 공지해요. 변경 후에도 앱을 계속 이용하면 변경된 약관에 동의한 것으로 봐요.</p>
+
+      <h2>제12조 (준거법·분쟁 해결)</h2>
+      <p>이 약관과 관련된 분쟁은 대한민국 법률에 따르며, 관할 법원은 운영자의 소재지를 관할하는 법원으로 해요.</p>
+
+      <h2>제13조 (문의)</h2>
+      <ul>
+        <li>이메일: claypark12@gmail.com</li>
+      </ul>
+    </article>
+
+    <!-- ═══════════ English ═══════════ -->
+    <article class="lang" id="lang-en" hidden>
+      <h1>Terms of Service</h1>
+      <p class="date">Effective: July 3, 2026 (First published: March 20, 2026)</p>
+
+      <p>These terms govern your use of Naru ("the App"). By installing or using the App, you agree to these terms.</p>
+
+      <h2>1. Purpose</h2>
+      <p>These terms define the conditions and procedures for using the services provided by the App, and the rights and obligations of users and the operator.</p>
+
+      <h2>2. Services</h2>
+      <p>The App provides the following services:</p>
+      <ul>
+        <li>A pixel-art fishing game (multiple regions, seasons and weather)</li>
+        <li>Fish collection, encyclopedia and achievements</li>
+        <li>Leaderboards (nickname and score displayed publicly)</li>
+        <li>Cloud save (when signed in with Google Play Games / Apple Game Center)</li>
+        <li>Extras such as spectator mode, news and push notifications</li>
+      </ul>
+
+      <h2>3. Advertising</h2>
+      <ul>
+        <li>The App is free and ad-supported. Various ad formats (interstitial, rewarded, etc.) may be shown during use.</li>
+        <li>Rewarded ads are watched only when you choose to, in exchange for in-game benefits.</li>
+        <li>See the <a href="privacy-policy.html">Privacy Policy</a> for details on advertising and personal data.</li>
+      </ul>
+
+      <h2>4. In-App Purchases</h2>
+      <ul>
+        <li>The App offers optional in-app products (ad removal, tips). They are not required to play.</li>
+        <li>Payments and refunds follow Google Play / App Store policies.</li>
+        <li>"Remove Ads" is a one-time purchase and can be restored on a new device with the same store account.</li>
+        <li>Tip (coffee) products are consumable and may not be refundable once used.</li>
+      </ul>
+
+      <h2>5. Accounts and Cloud Save</h2>
+      <ul>
+        <li>Signing in is optional; the game can be played without it.</li>
+        <li>When signed in with Google Play Games / Apple Game Center, your progress is synced to the cloud.</li>
+        <li>If you uninstall the App without signing in, on-device data cannot be recovered.</li>
+      </ul>
+
+      <h2>6. Leaderboards and Nicknames</h2>
+      <ul>
+        <li>When you participate in leaderboards, your nickname and score are visible to other users.</li>
+        <li>Inappropriate nicknames (profanity, discrimination, hate speech, etc.) may be filtered, changed or restricted by the operator.</li>
+      </ul>
+
+      <h2>7. User Obligations</h2>
+      <ul>
+        <li>Do not reverse-engineer, modify or redistribute the App.</li>
+        <li>Do not manipulate leaderboard scores by abnormal means (cheats, automation, etc.).</li>
+        <li>Do not use the App for unlawful purposes.</li>
+      </ul>
+
+      <h2>8. Intellectual Property</h2>
+      <p>All content in the App — designs, code, images, sounds and more — is the intellectual property of the operator.</p>
+
+      <h2>9. Changes to or Suspension of the Service</h2>
+      <p>Service contents (advertising partners, features, leaderboard seasons, etc.) may change or be discontinued without prior notice. Changes materially affecting paid products will be announced via in-app news or similar.</p>
+
+      <h2>10. Disclaimer</h2>
+      <div class="highlight">
+        <ul>
+          <li>The App is provided "as is" without warranty of fitness for a particular purpose.</li>
+          <li>The operator is not liable for device issues or data loss arising from use of the App.</li>
+          <li>Third-party content and products shown in ads are the responsibility of the respective advertisers.</li>
+        </ul>
+      </div>
+
+      <h2>11. Changes to These Terms</h2>
+      <p>These terms may be updated as needed, and changes will be announced on this page. Continued use of the App after changes constitutes acceptance of the updated terms.</p>
+
+      <h2>12. Governing Law and Disputes</h2>
+      <p>Disputes related to these terms are governed by the laws of the Republic of Korea, with jurisdiction in the courts of the operator's place of business.</p>
+
+      <h2>13. Contact</h2>
+      <ul>
+        <li>Email: claypark12@gmail.com</li>
+      </ul>
+    </article>
+
+    <!-- ═══════════ Español ═══════════ -->
+    <article class="lang" id="lang-es" hidden>
+      <h1>Términos de Servicio</h1>
+      <p class="date">Vigente desde: 3 de julio de 2026 (Primera publicación: 20 de marzo de 2026)</p>
+
+      <p>Estos términos regulan el uso de Naru ("la App"). Al instalar o usar la App, aceptas estos términos.</p>
+
+      <h2>1. Objeto</h2>
+      <p>Estos términos definen las condiciones y procedimientos de uso de los servicios que ofrece la App, así como los derechos y obligaciones de los usuarios y del operador.</p>
+
+      <h2>2. Servicios</h2>
+      <p>La App ofrece los siguientes servicios:</p>
+      <ul>
+        <li>Un juego de pesca en pixel art (varias regiones, estaciones y climas)</li>
+        <li>Colección de peces, enciclopedia y logros</li>
+        <li>Clasificaciones (apodo y puntuación visibles públicamente)</li>
+        <li>Guardado en la nube (al iniciar sesión con Google Play Juegos / Apple Game Center)</li>
+        <li>Extras como el modo contemplación, noticias y notificaciones push</li>
+      </ul>
+
+      <h2>3. Publicidad</h2>
+      <ul>
+        <li>La App es gratuita y se financia con publicidad. Durante el uso pueden mostrarse distintos formatos de anuncios (intersticiales, con recompensa, etc.).</li>
+        <li>Los anuncios con recompensa solo se ven cuando tú lo decides, a cambio de beneficios en el juego.</li>
+        <li>Consulta la <a href="privacy-policy.html">Política de Privacidad</a> para más detalles sobre publicidad y datos personales.</li>
+      </ul>
+
+      <h2>4. Compras dentro de la App</h2>
+      <ul>
+        <li>La App ofrece productos opcionales (eliminación de anuncios, propinas). No son necesarios para jugar.</li>
+        <li>Los pagos y reembolsos siguen las políticas de Google Play / App Store.</li>
+        <li>"Eliminar anuncios" es una compra única y puede restaurarse en un nuevo dispositivo con la misma cuenta de la tienda.</li>
+        <li>Los productos de propina (café) son consumibles y pueden no ser reembolsables una vez usados.</li>
+      </ul>
+
+      <h2>5. Cuentas y guardado en la nube</h2>
+      <ul>
+        <li>Iniciar sesión es opcional; puedes jugar sin hacerlo.</li>
+        <li>Al iniciar sesión con Google Play Juegos / Apple Game Center, tu progreso se sincroniza en la nube.</li>
+        <li>Si desinstalas la App sin haber iniciado sesión, los datos del dispositivo no podrán recuperarse.</li>
+      </ul>
+
+      <h2>6. Clasificaciones y apodos</h2>
+      <ul>
+        <li>Al participar en las clasificaciones, tu apodo y puntuación serán visibles para otros usuarios.</li>
+        <li>Los apodos inapropiados (groserías, discriminación, lenguaje de odio, etc.) pueden ser filtrados, modificados o restringidos por el operador.</li>
+      </ul>
+
+      <h2>7. Obligaciones del usuario</h2>
+      <ul>
+        <li>No realizar ingeniería inversa, modificar ni redistribuir la App.</li>
+        <li>No manipular las puntuaciones de las clasificaciones por medios anormales (trampas, automatización, etc.).</li>
+        <li>No usar la App con fines ilícitos.</li>
+      </ul>
+
+      <h2>8. Propiedad intelectual</h2>
+      <p>Todo el contenido de la App — diseños, código, imágenes, sonidos y demás — es propiedad intelectual del operador.</p>
+
+      <h2>9. Cambios o suspensión del servicio</h2>
+      <p>El contenido del servicio (socios publicitarios, funciones, temporadas de clasificación, etc.) puede cambiar o suspenderse sin previo aviso. Los cambios que afecten de forma sustancial a los productos de pago se anunciarán mediante las noticias de la App u otros medios.</p>
+
+      <h2>10. Exención de responsabilidad</h2>
+      <div class="highlight">
+        <ul>
+          <li>La App se ofrece "tal cual", sin garantía de idoneidad para un fin determinado.</li>
+          <li>El operador no se hace responsable de problemas del dispositivo ni de pérdidas de datos derivados del uso de la App.</li>
+          <li>El contenido y los productos de terceros mostrados en los anuncios son responsabilidad de los anunciantes correspondientes.</li>
+        </ul>
+      </div>
+
+      <h2>11. Cambios en estos términos</h2>
+      <p>Estos términos pueden actualizarse cuando sea necesario, y los cambios se anunciarán en esta página. El uso continuado de la App tras los cambios implica la aceptación de los términos actualizados.</p>
+
+      <h2>12. Ley aplicable y resolución de disputas</h2>
+      <p>Las disputas relacionadas con estos términos se rigen por las leyes de la República de Corea, siendo competentes los tribunales del domicilio del operador.</p>
+
+      <h2>13. Contacto</h2>
+      <ul>
+        <li>Correo electrónico: claypark12@gmail.com</li>
+      </ul>
+    </article>
 
     <footer>&copy; 2026 CLPAK. All rights reserved.</footer>
   </div>
+
+  <script>
+    (function () {
+      var SUPPORTED = ['ko', 'en', 'es'];
+      var params = new URLSearchParams(location.search);
+      var lang = params.get('lang')
+        || localStorage.getItem('clpak_lang')
+        || (navigator.language || 'ko').slice(0, 2);
+      if (SUPPORTED.indexOf(lang) === -1) lang = 'ko';
+
+      function setLang(l) {
+        SUPPORTED.forEach(function (s) {
+          document.getElementById('lang-' + s).hidden = (s !== l);
+        });
+        document.querySelectorAll('.lang-btn').forEach(function (b) {
+          b.classList.toggle('active', b.dataset.lang === l);
+        });
+        document.documentElement.lang = l;
+        var titles = { ko: '이용약관 - 나루', en: 'Terms of Service - Naru', es: 'Términos de Servicio - Naru' };
+        document.title = titles[l];
+      }
+
+      document.querySelectorAll('.lang-btn').forEach(function (b) {
+        b.addEventListener('click', function () {
+          localStorage.setItem('clpak_lang', b.dataset.lang);
+          setLang(b.dataset.lang);
+        });
+      });
+
+      setLang(lang);
+    })();
+  </script>
 </body>
 </html>
