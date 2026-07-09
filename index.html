@@ -214,6 +214,23 @@
             color: #8b949e;
         }
 
+        .badge-new {
+            background: rgba(240, 136, 62, 0.2);
+            color: #f0883e;
+            font-weight: 700;
+        }
+
+        .tile-badges {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            margin-top: 8px;
+        }
+
+        .tile-badges .tile-badge {
+            margin-top: 0;
+        }
+
         /* Expanded detail panel */
         /* Overlay backdrop */
         .overlay-backdrop {
@@ -449,35 +466,11 @@
 
         <div class="app-grid" id="appGrid">
             <!-- Tiles -->
-            <div class="app-tile" style="--accent: #4CAF50;" onclick="toggleDetail('jukforest')">
-                <img src="juk-forest-icon.png" alt="" class="tile-icon">
-                <div class="tile-name" data-i18n="apps.jukforest.name">대나무숲</div>
-                <div class="tile-tagline" data-i18n="apps.jukforest.tagline">24시간 후 사라지는 익명 공간</div>
-                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
-                <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.04.28.04.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></div>
-            </div>
-
-            <div class="app-tile" style="--accent: #a855f7;" onclick="toggleDetail('ounwan')">
-                <img src="ounwan-icon.png" alt="" class="tile-icon">
-                <div class="tile-name" data-i18n="apps.ounwan.name">오운완</div>
-                <div class="tile-tagline" data-i18n="apps.ounwan.tagline">AI 사주 운세</div>
-                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
-                <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg></div>
-            </div>
-
-            <div class="app-tile" style="--accent: #c9a96e;" onclick="toggleDetail('amen')">
-                <img src="amen-icon.png" alt="" class="tile-icon">
-                <div class="tile-name" data-i18n="apps.amen.name">AMEN</div>
-                <div class="tile-tagline" data-i18n="apps.amen.tagline">AI 중보기도</div>
-                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
-                <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.04.28.04.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></div>
-            </div>
-
-            <div class="app-tile" style="--accent: #ef4444;" onclick="toggleDetail('bagshot')">
-                <img src="bagshot-icon.png" alt="" class="tile-icon">
-                <div class="tile-name" data-i18n="apps.bagshot.name">Bagshot</div>
-                <div class="tile-tagline" data-i18n="apps.bagshot.tagline">스트레스 해소 샌드백</div>
-                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
+            <div class="app-tile" style="--accent: #d98a3d;" onclick="toggleDetail('doughlab')">
+                <img src="doughlab-icon.png" alt="" class="tile-icon">
+                <div class="tile-name" data-i18n="apps.doughlab.name">도우랩</div>
+                <div class="tile-tagline" data-i18n="apps.doughlab.tagline">제빵 레시피 실험실</div>
+                <div class="tile-badges"><span class="tile-badge badge-new" data-i18n="badge_new">NEW</span><span class="tile-badge badge-live" data-i18n="badge_live">출시</span></div>
                 <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.04.28.04.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></div>
             </div>
 
@@ -485,14 +478,6 @@
                 <img src="naru-icon.png" alt="" class="tile-icon">
                 <div class="tile-name" data-i18n="apps.naru.name">나루</div>
                 <div class="tile-tagline" data-i18n="apps.naru.tagline">픽셀아트 낚시 게임</div>
-                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
-                <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.04.28.04.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></div>
-            </div>
-
-            <div class="app-tile" style="--accent: #C4572A;" onclick="toggleDetail('ipsomun')">
-                <img src="ipsomun-icon.png" alt="" class="tile-icon">
-                <div class="tile-name" data-i18n="apps.ipsomun.name">입소문</div>
-                <div class="tile-tagline" data-i18n="apps.ipsomun.tagline">푸드 트렌드 매거진</div>
                 <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
                 <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.04.28.04.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></div>
             </div>
@@ -513,10 +498,42 @@
                 <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.04.28.04.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></div>
             </div>
 
-            <div class="app-tile" style="--accent: #d98a3d;" onclick="toggleDetail('doughlab')">
-                <img src="doughlab-icon.png" alt="" class="tile-icon">
-                <div class="tile-name" data-i18n="apps.doughlab.name">도우랩</div>
-                <div class="tile-tagline" data-i18n="apps.doughlab.tagline">제빵 레시피 실험실</div>
+            <div class="app-tile" style="--accent: #C4572A;" onclick="toggleDetail('ipsomun')">
+                <img src="ipsomun-icon.png" alt="" class="tile-icon">
+                <div class="tile-name" data-i18n="apps.ipsomun.name">입소문</div>
+                <div class="tile-tagline" data-i18n="apps.ipsomun.tagline">푸드 트렌드 매거진</div>
+                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
+                <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.04.28.04.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></div>
+            </div>
+
+            <div class="app-tile" style="--accent: #c9a96e;" onclick="toggleDetail('amen')">
+                <img src="amen-icon.png" alt="" class="tile-icon">
+                <div class="tile-name" data-i18n="apps.amen.name">AMEN</div>
+                <div class="tile-tagline" data-i18n="apps.amen.tagline">AI 중보기도</div>
+                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
+                <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.04.28.04.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></div>
+            </div>
+
+            <div class="app-tile" style="--accent: #4CAF50;" onclick="toggleDetail('jukforest')">
+                <img src="juk-forest-icon.png" alt="" class="tile-icon">
+                <div class="tile-name" data-i18n="apps.jukforest.name">대나무숲</div>
+                <div class="tile-tagline" data-i18n="apps.jukforest.tagline">24시간 후 사라지는 익명 공간</div>
+                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
+                <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.04.28.04.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></div>
+            </div>
+
+            <div class="app-tile" style="--accent: #a855f7;" onclick="toggleDetail('ounwan')">
+                <img src="ounwan-icon.png" alt="" class="tile-icon">
+                <div class="tile-name" data-i18n="apps.ounwan.name">오운완</div>
+                <div class="tile-tagline" data-i18n="apps.ounwan.tagline">AI 사주 운세</div>
+                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
+                <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg></div>
+            </div>
+
+            <div class="app-tile" style="--accent: #ef4444;" onclick="toggleDetail('bagshot')">
+                <img src="bagshot-icon.png" alt="" class="tile-icon">
+                <div class="tile-name" data-i18n="apps.bagshot.name">Bagshot</div>
+                <div class="tile-tagline" data-i18n="apps.bagshot.tagline">스트레스 해소 샌드백</div>
                 <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
                 <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.04.28.04.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></div>
             </div>
@@ -734,6 +751,7 @@
                 email_label: '문의:',
                 badge_live: '출시',
                 badge_dev: '개발중',
+                badge_new: 'NEW',
                 privacy: '개인정보처리방침',
                 terms: '이용약관',
                 dev_coming: '개발중 · 곧 출시 예정',
@@ -804,6 +822,7 @@
                 email_label: 'Email:',
                 badge_live: 'Live',
                 badge_dev: 'Soon',
+                badge_new: 'NEW',
                 privacy: 'Privacy Policy',
                 terms: 'Terms of Service',
                 dev_coming: 'In development · Launching soon',
@@ -874,6 +893,7 @@
                 email_label: 'Correo:',
                 badge_live: 'Disponible',
                 badge_dev: 'En desarrollo',
+                badge_new: 'NUEVO',
                 privacy: 'Política de Privacidad',
                 terms: 'Términos de Servicio',
                 dev_coming: 'En desarrollo · Próximamente',
@@ -1043,6 +1063,22 @@
         }
 
         // ---------- Store badge click tracking ----------
+        // Forward the inbound campaign source (e.g. Instagram → dev-page) into the
+        // store install referrer / App Store campaign token, so GA4 (Android) and
+        // App Store Connect (iOS) attribute the install to the TRUE origin instead
+        // of collapsing everything to "dev-page". Tag the inbound links like:
+        //   https://<dev-page>/?utm_source=instagram&utm_medium=social&utm_campaign=bio
+        // With no inbound params (organic dev-page visit) it falls back to the
+        // previous behavior (dev-page / web / landing), so nothing regresses.
+        const _q = new URLSearchParams(location.search);
+        const _clean = (v) => (v || '').replace(/[^a-zA-Z0-9_.-]/g, '').slice(0, 40);
+        const _inSrc = _clean(_q.get('utm_source') || _q.get('s'));
+        const _inMed = _clean(_q.get('utm_medium'));
+        const _inCmp = _clean(_q.get('utm_campaign'));
+        const utmSource   = _inSrc || 'dev-page';
+        const utmMedium   = _inMed || (_inSrc ? 'social' : 'web');
+        const utmCampaign = _inCmp || (_inSrc ? 'referral' : 'landing');
+
         // Capture phase: the modal calls event.stopPropagation() during bubble,
         // so a bubble-phase document listener never sees store badge clicks.
         document.addEventListener('click', (e) => {
@@ -1053,18 +1089,20 @@
             let store = 'google_play';
             try {
                 const url = new URL(link.href);
+                const enc = encodeURIComponent;
                 if (url.hostname.includes('apps.apple.com')) {
-                    // App Store Connect campaign token (App Analytics)
+                    // App Store Connect campaign token (App Analytics).
+                    // Carries the upstream source: e.g. Instagram → ct=instagram-ko.
                     store = 'app_store';
-                    url.searchParams.set('ct', 'dev-page-' + currentLang);
+                    url.searchParams.set('ct', utmSource + '-' + currentLang);
                 } else {
-                    // Google Play install referrer
+                    // Google Play install referrer (utm_source = true origin).
                     store = 'google_play';
-                    const referrer = 'utm_source=dev-page'
-                        + '&utm_medium=web'
-                        + '&utm_campaign=landing'
-                        + '&utm_content=' + currentLang
-                        + '&utm_term=' + appId;
+                    const referrer = 'utm_source=' + enc(utmSource)
+                        + '&utm_medium=' + enc(utmMedium)
+                        + '&utm_campaign=' + enc(utmCampaign)
+                        + '&utm_content=' + enc(currentLang)
+                        + '&utm_term=' + enc(appId);
                     url.searchParams.set('referrer', referrer);
                 }
                 link.href = url.toString();
@@ -1078,6 +1116,7 @@
                 app_id: appId,
                 language: currentLang,
                 store: store,
+                source: utmSource,
                 transport_type: 'beacon',
             });
         }, true);
