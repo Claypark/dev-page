@@ -49,16 +49,15 @@
             position: absolute;
             top: 16px;
             right: 16px;
-            display: flex;
-            gap: 4px;
             z-index: 10;
         }
 
-        .lang-btn {
+        /* 언어 수가 늘어(ko/en/es/ja) 버튼 나열 → 클릭 드롭다운으로 전환 */
+        .lang-current {
             background: transparent;
             border: 1px solid #30363d;
             color: #8b949e;
-            padding: 4px 10px;
+            padding: 4px 12px;
             border-radius: 12px;
             font-size: 11px;
             font-weight: 500;
@@ -67,15 +66,45 @@
             font-family: inherit;
         }
 
-        .lang-btn:hover {
+        .lang-current:hover {
             color: #c9d1d9;
             border-color: #484f58;
         }
 
-        .lang-btn.active {
+        .lang-menu {
+            position: absolute;
+            top: calc(100% + 6px);
+            right: 0;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            padding: 4px;
+            min-width: 110px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .lang-item {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: transparent;
+            border: none;
+            color: #8b949e;
+            padding: 6px 10px;
+            border-radius: 7px;
+            font-size: 12px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .lang-item:hover {
+            background: #21262d;
+            color: #c9d1d9;
+        }
+
+        .lang-item.active {
             background: #30363d;
             color: #f0f6fc;
-            border-color: #484f58;
         }
 
         .header {
@@ -449,10 +478,15 @@
 </head>
 <body>
     <div class="container">
-        <div class="lang-switcher" role="group" aria-label="Language">
-            <button type="button" class="lang-btn" data-lang="ko">한국어</button>
-            <button type="button" class="lang-btn" data-lang="en">English</button>
-            <button type="button" class="lang-btn" data-lang="es">Español</button>
+        <div class="lang-switcher">
+            <button type="button" class="lang-current" id="langCurrent"
+                    aria-haspopup="listbox" aria-expanded="false">한국어 ▾</button>
+            <div class="lang-menu" id="langMenu" role="listbox" aria-label="Language" hidden>
+                <button type="button" class="lang-item" role="option" data-lang="ko">한국어</button>
+                <button type="button" class="lang-item" role="option" data-lang="en">English</button>
+                <button type="button" class="lang-item" role="option" data-lang="es">Español</button>
+                <button type="button" class="lang-item" role="option" data-lang="ja">日本語</button>
+            </div>
         </div>
 
         <div class="header">
@@ -956,9 +990,81 @@
                     },
                 },
             },
+            ja: {
+                role: 'Mobile App Developer',
+                intro: 'ひとりで企画し、作り、運営しています。<br>日常に寄り添う小さなアプリを作っています。',
+                apps_title: 'Apps',
+                contact_title: 'Contact',
+                email_label: 'お問い合わせ:',
+                badge_live: 'リリース',
+                badge_dev: '開発中',
+                badge_new: 'NEW',
+                privacy: 'プライバシーポリシー',
+                terms: '利用規約',
+                dev_coming: '開発中 · 近日リリース予定',
+                apps: {
+                    jukforest: {
+                        name: '竹林',
+                        tagline: '24時間後に消える匿名スペース',
+                        detail_tagline: '24時間後、風のように消えます',
+                        detail_desc: '匿名で心の中の話を分かち合うスペース。すべての投稿は24時間後に自動で消え、非公開モードで自分だけの気持ちを記録することもできます。',
+                    },
+                    ounwan: {
+                        name: 'オウンワン',
+                        tagline: 'AI四柱推命占い',
+                        detail_tagline: '今日の運勢チェック完了！AIが分析するあなただけの四柱推命',
+                        detail_desc: '生年月日時を入力すると四柱推命を分析し、AIの三重検証で今日の運勢を生成します。総合運、恋愛、金運、健康、仕事など多彩なカテゴリーの運勢と相性分析を提供します。',
+                    },
+                    amen: {
+                        name: 'AMEN',
+                        tagline: 'AIとりなしの祈り',
+                        detail_name: 'AMEN - 祈りの同行',
+                        detail_tagline: '心配や悩みを打ち明ければ、AIがあなたのために祈ります',
+                        detail_desc: '心の中の心配、悩み、不安を話すと、AIがあなたのためのとりなしの祈りを書いてくれます。重い荷物を下ろし、祈りに慰められる体験をしてみてください。韓国語、英語、スペイン語に対応しています。',
+                    },
+                    bagshot: {
+                        name: 'Bagshot',
+                        tagline: 'ストレス解消サンドバッグ',
+                        detail_tagline: '写真一枚でサンドバッグ完成、ストレスを吹き飛ばそう！',
+                        detail_desc: '顔写真をアップするとサンドバッグに貼り付けます。ボクシンググローブ、バット、木の棒で思いっきり殴ってみてください。リアルな物理エフェクトと振動で爽快な打撃感を味わえます。',
+                    },
+                    naru: {
+                        name: 'ナル',
+                        tagline: 'ピクセルアート釣りゲーム',
+                        detail_tagline: '水辺をぼんやり眺めるピクセルアート釣りゲーム',
+                        detail_desc: '川辺に座って魚を待つピクセルアート釣りゲーム。多彩な魚を集め、実績を達成しながら、のんびり楽しんでください。',
+                    },
+                    ipsomun: {
+                        name: 'イプソムン',
+                        tagline: 'フードトレンドマガジン',
+                        detail_tagline: '今バズっている味、毎日新しく',
+                        detail_desc: '今日のホットなフードトレンドを毎日キュレーションするフードマガジン。新メニュー、話題のレストラン、コンビニ新商品からカムバックグルメまで、気になるフードニュースをマガジンとフィードでチェックしてください。',
+                    },
+                    dustler: {
+                        name: 'ダスラー',
+                        tagline: 'わが家専属のお掃除執事',
+                        detail_tagline: '執事が管理するわが家の掃除スケジュール',
+                        detail_desc: 'ダスラー執事が家族の掃除を引き受けます。エリアごとに担当を分け、掃除スケジュールを管理し、誰がどこを掃除したかひと目で確認。きれいな家は、執事におまかせ。',
+                    },
+                    sogak: {
+                        name: 'ソガク',
+                        tagline: '残さず、今日を',
+                        detail_tagline: '限りある時間を燃料に、今日を燃やす',
+                        detail_desc: '人生に残された週末と時間を可視化するモチベーションカウントダウンアプリ。朝・夜のチェックインで一日を記録し、大切な人と過ごせる時間を確認してください。すべてのデータは端末内にのみ保存されます。',
+                    },
+                    doughlab: {
+                        name: 'DoughLab',
+                        tagline: 'パン作りレシピの実験室',
+                        detail_name: 'DoughLab — パンレシピラボ',
+                        detail_tagline: '生地を数字に、レシピを実験に',
+                        detail_desc: 'すべての材料を小麦粉基準のパーセント（ベーカーズ%）で扱うパン作りレシピアプリ。加水率と配合をひと目で計算し、焼くたびに条件と結果を記録して、試行錯誤をデータとして積み重ねながら自分だけのレシピを完成させましょう。すべての記録は端末内に安全に保存されます。',
+                    },
+                },
+            },
         };
 
-        const SUPPORTED_LANGS = ['ko', 'en', 'es'];
+        const SUPPORTED_LANGS = ['ko', 'en', 'es', 'ja'];
+        const LANG_LABELS = { ko: '한국어', en: 'English', es: 'Español', ja: '日本語' };
         const STORAGE_KEY = 'clpak_lang';
         let currentLang = 'ko';
 
@@ -1004,9 +1110,11 @@
                 if (val != null) el.innerHTML = val;
             });
 
-            document.querySelectorAll('.lang-btn').forEach(btn => {
+            document.querySelectorAll('.lang-item').forEach(btn => {
                 btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
             });
+            const cur = document.getElementById('langCurrent');
+            if (cur) cur.textContent = (LANG_LABELS[lang] || lang) + ' ▾';
         }
 
         function setLang(lang, opts = {}) {
@@ -1024,8 +1132,22 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             setLang(detectLang(), { persist: false });
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.addEventListener('click', () => setLang(btn.getAttribute('data-lang')));
+            const cur = document.getElementById('langCurrent');
+            const menu = document.getElementById('langMenu');
+            const closeMenu = () => { menu.hidden = true; cur.setAttribute('aria-expanded', 'false'); };
+            cur.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menu.hidden = !menu.hidden;
+                cur.setAttribute('aria-expanded', String(!menu.hidden));
+            });
+            document.querySelectorAll('.lang-item').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setLang(btn.getAttribute('data-lang'));
+                    closeMenu();
+                });
+            });
+            document.addEventListener('click', (e) => {
+                if (!menu.hidden && !menu.contains(e.target)) closeMenu();
             });
         });
 
