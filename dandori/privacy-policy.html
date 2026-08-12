@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>개인정보처리방침 - 단도리</title>
+  <style>
+    :root {
+      --bg: #F7F9FC;
+      --surface: #FFFFFF;
+      --border: #E2E8F0;
+      --text: #1A202C;
+      --text-muted: #718096;
+      --accent: #D97B00;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 2rem 1.5rem;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .date {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 2.5rem;
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: var(--accent);
+    }
+
+    p, li {
+      color: #4A5568;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    ul {
+      padding-left: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    li { margin-bottom: 0.35rem; }
+
+    .highlight {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>개인정보처리방침</h1>
+    <p class="date">시행일: 2026년 8월 12일</p>
+
+    <p>단도리(Dandori, 이하 "본 앱")은 이용자의 개인정보를 소중히 여기며, 관련 법령에 따라 개인정보를 보호하고 있습니다. 이 방침은 본 앱이 어떤 정보를 수집하고, 어떻게 이용하며, 어떻게 보호하는지 안내합니다.</p>
+
+    <h2>1. 수집하는 정보</h2>
+    <div class="highlight">
+      <p><strong>계정 정보 (Google · Apple 로그인)</strong></p>
+      <p>본 앱은 Google 또는 Apple 소셜 로그인을 통해 인증하며, 아래 정보를 수집합니다.</p>
+    </div>
+    <ul>
+      <li>이메일 주소</li>
+      <li>소셜 프로필 이름</li>
+    </ul>
+
+    <div class="highlight">
+      <p><strong>매장 운영 데이터</strong></p>
+      <p>사용자가 등록한 매장 정보(매장명, 업종), 오픈·마감 체크리스트 항목, 완료 기록(항목명·완료 시각), 근무표, 초대 코드가 서버에 저장됩니다.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>디바이스 정보 (푸시 알림)</strong></p>
+      <p>리마인드 알림을 위해 Firebase Cloud Messaging(FCM) 디바이스 토큰이 서버에 등록됩니다.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>앱 사용 분석</strong></p>
+      <p>서비스 개선을 위해 Firebase Analytics를 통해 기기 식별자 및 앱 사용 이벤트가 수집됩니다.</p>
+    </div>
+
+    <h2>2. 정보의 이용 목적</h2>
+    <p>수집된 정보는 아래 목적으로만 사용됩니다.</p>
+    <ul>
+      <li>사용자 인증 및 계정 관리</li>
+      <li>매장 오픈·마감 체크리스트 및 근무표 서비스 제공</li>
+      <li>초대 코드를 통한 공동 관리 기능 제공</li>
+      <li>리마인드 푸시 알림 발송</li>
+      <li>서비스 개선 및 통계 분석</li>
+    </ul>
+
+    <h2>3. 정보의 저장 및 전송</h2>
+    <div class="highlight">
+      <p><strong>데이터는 Supabase(PostgreSQL) 해외 클라우드 서버에 안전하게 저장됩니다.</strong></p>
+      <p>모든 데이터 전송은 HTTPS를 통해 암호화됩니다. Row Level Security(RLS) 정책을 통해 본인 및 허가된 구성원의 데이터에만 접근 가능합니다.</p>
+    </div>
+
+    <h2>4. 제3자 제공</h2>
+    <p>본 앱은 수집한 정보를 제3자에게 판매하거나 제공하지 않습니다. 단, 아래 서비스를 통해 데이터가 처리됩니다.</p>
+    <ul>
+      <li>Google (인증): Google OAuth 로그인</li>
+      <li>Apple (인증): Apple Sign In 로그인</li>
+      <li>Supabase (데이터 저장): 매장 운영 데이터 및 계정 데이터</li>
+      <li>Firebase (푸시 알림 및 분석): FCM 알림 발송, 앱 사용 통계</li>
+    </ul>
+    <p>본 앱에는 광고가 없으며, 광고 SDK를 사용하지 않습니다.</p>
+
+    <h2>5. 데이터 보관 기간</h2>
+    <p>사용자 데이터는 계정이 활성화된 동안 보관됩니다. 계정 삭제를 요청하면 모든 관련 데이터가 30일 이내에 완전히 삭제됩니다.</p>
+
+    <h2>6. 이용자의 권리</h2>
+    <ul>
+      <li>언제든지 계정을 삭제하고 모든 데이터를 제거할 수 있습니다.</li>
+      <li>푸시 알림은 기기 설정에서 언제든 비활성화할 수 있습니다.</li>
+      <li>개인정보 열람, 정정, 삭제를 요청할 수 있습니다.</li>
+    </ul>
+
+    <h2>7. 아동의 개인정보</h2>
+    <p>본 앱은 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않습니다. 만약 아동의 정보가 수집된 것을 발견하면 즉시 삭제합니다.</p>
+
+    <h2>8. 방침의 변경</h2>
+    <p>이 방침은 법령 변경이나 서비스 변동에 따라 수정될 수 있습니다. 변경 사항은 이 페이지를 통해 안내합니다.</p>
+
+    <h2>9. 문의</h2>
+    <p>개인정보 관련 문의는 아래로 연락해 주세요.</p>
+    <ul>
+      <li>이메일: claypark12@gmail.com</li>
+    </ul>
+
+    <footer>&copy; 2026 CLPAK. All rights reserved.</footer>
+  </div>
+</body>
+</html>
