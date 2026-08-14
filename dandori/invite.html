@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="단도리 - 매장 초대">
+  <meta property="og:description" content="단도리에서 함께 일해요! 초대 코드로 참여하세요.">
+  <meta property="og:type" content="website">
+  <title id="page-title">단도리 - 매장 초대</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, 'Noto Sans KR', sans-serif; text-align: center; padding: 48px 20px; background: #FFFFFF; color: #1A1A1A; min-height: 100vh; }
+    .icon { font-size: 64px; margin: 0 auto 12px; line-height: 1; }
+    .logo { font-size: 28px; font-weight: 800; color: #1A1A1A; margin-bottom: 4px; }
+    .subtitle { color: #666; margin-bottom: 28px; font-size: 15px; line-height: 1.6; white-space: pre-line; }
+    .code-box { background: #F5F5F5; border-radius: 16px; padding: 24px; margin: 0 auto 20px; max-width: 300px; }
+    .code-label { font-size: 11px; color: #999; margin-bottom: 8px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; }
+    .code { font-size: 32px; font-weight: 800; letter-spacing: 6px; color: #1A1A1A; }
+    .desc { color: #666; margin-bottom: 28px; font-size: 13px; line-height: 1.6; white-space: pre-line; }
+    .btn { display: inline-block; padding: 14px 40px; background: #1A1A1A; color: #FFFFFF; border-radius: 14px; text-decoration: none; font-weight: 600; font-size: 16px; margin-bottom: 12px; transition: background 0.15s; }
+    .btn:active { background: #333; }
+    .copy-btn { display: inline-block; padding: 10px 24px; background: transparent; color: #1A1A1A; border: 1.5px solid #D0D0D0; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 14px; cursor: pointer; transition: background 0.15s; }
+    .copy-btn:active { background: #F0F0F0; }
+    .footer { margin-top: 32px; font-size: 11px; color: #C0C0C0; }
+    .copied { color: #1A1A1A; font-size: 13px; margin-top: 8px; display: none; }
+  </style>
+</head>
+<body>
+  <div class="icon">📋</div>
+  <div class="logo">단도리</div>
+  <p class="subtitle" id="subtitle"></p>
+
+  <div class="code-box">
+    <p class="code-label" id="code-label"></p>
+    <div class="code" id="invite-code">-</div>
+  </div>
+
+  <p class="desc" id="desc"></p>
+
+  <a class="btn" id="open-btn" href="#"></a>
+  <br><br>
+  <button class="copy-btn" id="copy-btn"></button>
+  <p class="copied" id="copied-msg"></p>
+
+  <p class="footer" id="footer"></p>
+
+  <script>
+    // i18n
+    const i18n = {
+      ko: {
+        title: '단도리 - 매장 초대',
+        subtitle: '매장에 초대받았어요!\n아래 코드로 참여해 보세요.',
+        codeLabel: '초대 코드',
+        desc: '앱을 설치하고 초대 코드를 입력하면\n팀 체크리스트와 근무표를 함께 관리할 수 있어요',
+        openBtn: '앱에서 열기',
+        copyBtn: '코드 복사하기',
+        copied: '복사되었습니다!',
+        footer: '앱이 없으면 자동으로 스토어로 이동합니다',
+      },
+      en: {
+        title: 'Dandori - Store Invite',
+        subtitle: "You've been invited to a store!\nJoin with the code below.",
+        codeLabel: 'Invite Code',
+        desc: 'Install the app and enter the invite code\nto manage checklists and shifts together',
+        openBtn: 'Open in App',
+        copyBtn: 'Copy Code',
+        copied: 'Copied!',
+        footer: "If you don't have the app, you'll be redirected to the store",
+      },
+      es: {
+        title: 'Dandori - Invitación',
+        subtitle: '¡Te han invitado a una tienda!\nÚnete con el código de abajo.',
+        codeLabel: 'Código de invitación',
+        desc: 'Instala la app e ingresa el código\npara gestionar listas y turnos juntos',
+        openBtn: 'Abrir en la app',
+        copyBtn: 'Copiar código',
+        copied: '¡Copiado!',
+        footer: 'Si no tienes la app, serás redirigido a la tienda',
+      },
+      ja: {
+        title: 'Dandori - 店舗招待',
+        subtitle: '店舗に招待されました！\n下のコードで参加してください。',
+        codeLabel: '招待コード',
+        desc: 'アプリをインストールして招待コードを入力すると\nチームでチェックリストとシフトを管理できます',
+        openBtn: 'アプリで開く',
+        copyBtn: 'コードをコピー',
+        copied: 'コピーしました！',
+        footer: 'アプリがない場合は自動的にストアに移動します',
+      },
+    };
+
+    // Detect language
+    const userLang = (navigator.language || navigator.userLanguage || 'ko').substring(0, 2);
+    const t = i18n[userLang] || i18n.ko;
+
+    // Apply translations
+    document.getElementById('page-title').textContent = t.title;
+    document.getElementById('subtitle').textContent = t.subtitle;
+    document.getElementById('code-label').textContent = t.codeLabel;
+    document.getElementById('desc').textContent = t.desc;
+    document.getElementById('open-btn').textContent = t.openBtn;
+    document.getElementById('copy-btn').textContent = t.copyBtn;
+    document.getElementById('copied-msg').textContent = t.copied;
+    document.getElementById('footer').textContent = t.footer;
+
+    // Code & deep link
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code') || '';
+    const APP_PACKAGE = 'com.clpak.dandori';
+    const APP_SCHEME = 'dandori';
+    const PLAY_STORE = 'https://play.google.com/store/apps/details?id=' + APP_PACKAGE;
+
+    document.getElementById('invite-code').textContent = code || '-';
+
+    const intentUri = 'intent://invite?code=' + code +
+      '#Intent;scheme=' + APP_SCHEME +
+      ';package=' + APP_PACKAGE +
+      ';S.browser_fallback_url=' + encodeURIComponent(PLAY_STORE) + ';end';
+
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const openBtn = document.getElementById('open-btn');
+
+    if (isIOS) {
+      openBtn.href = APP_SCHEME + '://invite?code=' + code;
+    } else {
+      openBtn.href = intentUri;
+    }
+
+    // Copy
+    document.getElementById('copy-btn').addEventListener('click', function() {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(code).then(function() {
+          document.getElementById('copied-msg').style.display = 'block';
+          setTimeout(function() { document.getElementById('copied-msg').style.display = 'none'; }, 2000);
+        });
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = code;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        document.getElementById('copied-msg').style.display = 'block';
+        setTimeout(function() { document.getElementById('copied-msg').style.display = 'none'; }, 2000);
+      }
+    });
+  </script>
+</body>
+</html>
