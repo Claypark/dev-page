@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사용설명서 - 단도리</title>
+<meta name="description" content="단도리 사용설명서 — 매장 만들기부터 체크리스트, 근무표, 출퇴근, 시급 정산, 재고·발주까지 기능별 사용법을 안내합니다.">
+<style>
+  :root{
+    --bg:#FAFAFB; --surface:#FFFFFF; --line:#E8EAED;
+    --ink1:#1A1C20; --ink2:#5A5F66; --ink3:#757B84;
+    --accent:#189E5A; --accent-bg:#E9F6EF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Apple SD Gothic Neo',sans-serif;
+    background:var(--bg); color:var(--ink1); line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 1.25rem 5rem;}
+
+  header{padding:3.5rem 0 2rem;}
+  .brand{display:flex;align-items:center;gap:.7rem;margin-bottom:1.5rem;}
+  .brand img{width:40px;height:40px;border-radius:10px;}
+  .brand span{font-weight:700;font-size:1rem;color:var(--ink2);}
+  h1{font-size:2rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.6rem;}
+  .lede{color:var(--ink2);font-size:1rem;}
+
+  nav{
+    position:sticky;top:0;z-index:10;background:rgba(250,250,251,.92);
+    backdrop-filter:saturate(180%) blur(10px);
+    border-bottom:1px solid var(--line);margin-bottom:2.5rem;
+  }
+  nav ol{list-style:none;display:flex;gap:.4rem;overflow-x:auto;padding:.7rem 0;
+    scrollbar-width:none;}
+  nav ol::-webkit-scrollbar{display:none;}
+  nav a{
+    display:block;white-space:nowrap;font-size:.82rem;font-weight:600;
+    color:var(--ink2);text-decoration:none;padding:.3rem .7rem;border-radius:99px;
+    background:var(--surface);
+  }
+  nav a:hover{color:var(--accent);}
+
+  section{margin-bottom:3.5rem;scroll-margin-top:4.5rem;}
+  h2{font-size:1.35rem;font-weight:800;letter-spacing:-.01em;margin-bottom:.4rem;}
+  h2 .num{color:var(--accent);margin-right:.45rem;}
+  .sub{color:var(--ink3);font-size:.92rem;margin-bottom:1.4rem;}
+  h3{font-size:1rem;font-weight:700;margin:1.6rem 0 .5rem;}
+  p{color:var(--ink2);font-size:.95rem;margin-bottom:.7rem;}
+  ul,ol.steps{padding-left:1.15rem;margin-bottom:.9rem;}
+  li{color:var(--ink2);font-size:.95rem;margin-bottom:.35rem;}
+  strong{color:var(--ink1);font-weight:700;}
+  code{background:var(--accent-bg);color:#0F7A43;padding:.1rem .38rem;
+    border-radius:5px;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;}
+
+  figure{margin:1.2rem 0;}
+  figure img{width:100%;max-width:300px;display:block;border-radius:14px;
+    border:1px solid var(--line);}
+  figcaption{color:var(--ink3);font-size:.82rem;margin-top:.5rem;}
+
+  .tip{
+    background:var(--surface);border-left:3px solid var(--accent);
+    border-radius:0 10px 10px 0;padding:.9rem 1.1rem;margin:1.1rem 0;
+  }
+  .tip b{color:var(--accent);font-size:.82rem;display:block;margin-bottom:.2rem;
+    letter-spacing:.02em;}
+  .tip p{margin:0;font-size:.9rem;}
+
+  .faq{background:var(--surface);border-radius:12px;padding:1.1rem 1.2rem;
+    margin-bottom:.7rem;}
+  .faq b{display:block;margin-bottom:.35rem;font-size:.95rem;}
+  .faq p{margin:0;font-size:.92rem;}
+
+  footer{border-top:1px solid var(--line);padding-top:1.8rem;color:var(--ink3);
+    font-size:.85rem;}
+  footer a{color:var(--accent);text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="brand">
+    <img src="icon.png" alt="단도리" onerror="this.style.display='none'">
+    <span>단도리</span>
+  </div>
+  <h1>사용설명서</h1>
+  <p class="lede">매장 만들기부터 체크리스트·근무표·출퇴근·정산·재고까지, 기능별로 어떻게 쓰는지 정리했습니다.</p>
+</header>
+
+<nav>
+  <ol>
+    <li><a href="#start">1 시작하기</a></li>
+    <li><a href="#checklist">2 체크리스트</a></li>
+    <li><a href="#schedule">3 근무표</a></li>
+    <li><a href="#attendance">4 출퇴근</a></li>
+    <li><a href="#wage">5 근태·정산</a></li>
+    <li><a href="#inventory">6 재고·발주</a></li>
+    <li><a href="#notice">7 소식·알림</a></li>
+    <li><a href="#members">8 직원·권한</a></li>
+    <li><a href="#plan">9 요금제</a></li>
+    <li><a href="#faq">10 자주 묻는 질문</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section id="start">
+  <h2><span class="num">1</span>시작하기</h2>
+  <p class="sub">매장을 만들고 직원을 부르기까지 5분이면 됩니다.</p>
+
+  <h3>사장님이 처음 할 일</h3>
+  <ol class="steps">
+    <li>앱을 설치하고 <strong>구글 또는 애플 계정으로 로그인</strong>합니다.</li>
+    <li><strong>매장 만들기</strong>를 고르고 매장 이름과 업종을 입력합니다.</li>
+    <li><strong>영업시간</strong>을 요일별로 지정합니다. 이 시간을 기준으로 근무표 화면이 그려집니다.</li>
+    <li><strong>시간대</strong>(오픈·미들·마감처럼 하루를 나누는 구간)를 정합니다. 업종을 고르면 기본값이 채워지니 이름과 시간만 손보면 됩니다.</li>
+  </ol>
+
+  <h3>직원 초대하기</h3>
+  <p>매장 탭 → <strong>직원</strong>에서 초대 코드나 QR을 만듭니다. 직원은 앱을 설치한 뒤 코드를 입력하거나 QR을 찍으면 바로 합류합니다. 매니저로 들어올 사람에게는 매니저용 코드를 따로 발급하세요.</p>
+
+  <figure>
+    <img src="guide-img/storehub.png" alt="매장 탭 화면">
+    <figcaption>매장 탭 — 직원·소식·재고·매장 설정으로 들어가는 입구입니다. 매장 이름 아래에 내 이름과 직책이 보입니다.</figcaption>
+  </figure>
+
+  <div class="tip">
+    <b>알아두면 좋아요</b>
+    <p>매장이 여러 곳이면 홈 화면 위쪽 매장 이름을 눌러 전환합니다. 직원으로 참여하는 매장은 개수 제한이 없습니다.</p>
+  </div>
+</section>
+
+<!-- 2 -->
+<section id="checklist">
+  <h2><span class="num">2</span>오픈·마감 체크리스트</h2>
+  <p class="sub">할 일을 한 번 등록해두면 매일 그날 근무자에게 자동으로 배정됩니다.</p>
+
+  <h3>할 일 등록</h3>
+  <p>할일 탭 오른쪽 위 설정 아이콘 → <strong>할 일 관리</strong>에서 항목을 추가합니다. 항목마다 이렇게 정할 수 있습니다.</p>
+  <ul>
+    <li><strong>시간대</strong> — 오픈에 할 일인지 마감에 할 일인지</li>
+    <li><strong>파트</strong> — 주방·홀처럼 담당이 나뉘면 지정 (안 정하면 전원에게 보입니다)</li>
+    <li><strong>요일</strong> — 매일이 아니라 특정 요일만 하는 일이면 지정</li>
+    <li><strong>사진 인증</strong> — 켜면 완료할 때 사진을 반드시 찍어야 합니다</li>
+    <li><strong>더블체크</strong> — 켜면 직원이 완료한 뒤 관리자가 한 번 더 확인합니다</li>
+  </ul>
+
+  <figure>
+    <img src="guide-img/tasks.png" alt="오늘 할 일 화면">
+    <figcaption>할일 탭 — 완료한 항목에는 <strong>누가 몇 시에</strong> 했는지가 남습니다. 인수인계 다툼이 사라지는 지점입니다.</figcaption>
+  </figure>
+
+  <h3>기록 확인</h3>
+  <p>홈의 <strong>활동 기록</strong>에서 그날 있었던 일을 시간순 장부로 볼 수 있습니다. 완료·취소·출퇴근·재고 기입이 한 줄씩 쌓이고, 분류나 직원으로 걸러서 볼 수 있습니다.</p>
+
+  <div class="tip">
+    <b>주의</b>
+    <p>취소된 완료도 기록에 남습니다. 되돌려도 흔적이 사라지지 않으니 안심하고 쓰셔도 됩니다.</p>
+  </div>
+</section>
+
+<!-- 3 -->
+<section id="schedule">
+  <h2><span class="num">3</span>근무표</h2>
+  <p class="sub">패턴을 한 번 짜두면 매주 반복됩니다. 바뀌는 날만 손대면 됩니다.</p>
+
+  <h3>근무 패턴 짜기</h3>
+  <p>근무표 탭 → <strong>근무 패턴 편집</strong>에서 요일 × 시간대 격자에 직원을 체크합니다. 여기서 저장한 내용이 매주 되풀이됩니다.</p>
+  <p>2주씩 번갈아 도는 매장이라면 <strong>1주차 / 2주차</strong> 탭을 각각 채우면 됩니다.</p>
+
+  <h3>특정 날짜만 바꾸기</h3>
+  <p>주간 화면에서 날짜 칸을 눌러 그날만 사람을 넣거나 뺄 수 있습니다. 패턴은 그대로 두고 그날만 예외로 처리됩니다.</p>
+
+  <figure>
+    <img src="guide-img/schedule.png" alt="주간 근무표 화면">
+    <figcaption>주간 근무표 — 영업시간 밖은 흐리게 표시됩니다. 월간 보기로 넘기면 한 달 배치를 한눈에 볼 수 있습니다.</figcaption>
+  </figure>
+
+  <h3>직원의 근무 변경·휴가 요청</h3>
+  <p>직원이 근무표에서 본인 근무를 눌러 <strong>휴무·휴가를 신청</strong>하거나 <strong>추가 근무를 요청</strong>할 수 있습니다. 요청이 오면 매장 탭 맨 위 <strong>요청</strong>에 뱃지가 뜨고, 승인하면 근무표에 바로 반영됩니다.</p>
+</section>
+
+<!-- 4 -->
+<section id="attendance">
+  <h2><span class="num">4</span>출퇴근</h2>
+  <p class="sub">버튼 한 번으로 찍고, 정말 매장에서 찍었는지는 앱이 확인합니다.</p>
+
+  <h3>찍는 방법</h3>
+  <p>홈 화면 내 근무 카드에서 <strong>출근하기 / 퇴근하기</strong>를 누릅니다. 확인 창이 한 번 뜨니 실수로 눌러도 괜찮습니다.</p>
+
+  <figure>
+    <img src="guide-img/home_staff.png" alt="직원 홈 화면">
+    <figcaption>직원 홈 — 오늘 근무 시간과 출퇴근 상태가 한 카드에 모여 있습니다.</figcaption>
+  </figure>
+
+  <h3>현장 확인 설정 (사장님)</h3>
+  <p>매장 설정 → <strong>출퇴근 인증</strong>에서 켜고, 확인 방법을 고릅니다.</p>
+  <ul>
+    <li><strong>Wi-Fi + 위치</strong> (권장) — 매장 Wi-Fi를 먼저 확인하고, 안 되면 위치로 확인합니다</li>
+    <li><strong>위치만</strong> — 지도에 찍은 매장 위치에서 정해진 반경 안인지로만 확인합니다</li>
+    <li><strong>Wi-Fi만</strong> — 매장 Wi-Fi 연결로만 확인합니다</li>
+  </ul>
+  <p>고른 방법에 필요한 설정(지도 위치 / Wi-Fi 등록)만 화면에 나타납니다.</p>
+
+  <div class="tip">
+    <b>밖에서 찍으면 어떻게 되나요?</b>
+    <p>막지 않습니다. 대신 <strong>사유를 적어야</strong> 기록되고, 활동 기록과 근태 화면에 <strong>‘외부’</strong> 표시와 사유가 함께 남습니다. 외근이나 대타처럼 정당한 경우를 막지 않으면서, 사장님은 무슨 일이 있었는지 알 수 있습니다.</p>
+  </div>
+
+  <h3>시간이 잘못 찍혔다면</h3>
+  <p>직원이 <strong>정정 요청</strong>을 보내면 매장 탭 → 요청에서 승인할 수 있습니다. 원래 기록은 지워지지 않고, 승인된 정정이 반영된 시간으로 계산됩니다.</p>
+</section>
+
+<!-- 5 -->
+<section id="wage">
+  <h2><span class="num">5</span>근태·시급 정산</h2>
+  <p class="sub">시급만 넣어두면 연장·주휴까지 계산해 드립니다.</p>
+
+  <h3>시급 넣기</h3>
+  <p>매장 탭 → 직원 → 직원을 고르면 <strong>시급·정산</strong> 항목이 있습니다. 시급은 사장님과 본인만 볼 수 있습니다.</p>
+
+  <h3>무엇을 기준으로 계산하나요</h3>
+  <ul>
+    <li><strong>출근·퇴근이 모두 찍힌 날</strong> — 실제 찍힌 시간으로 계산합니다</li>
+    <li><strong>안 찍었거나 퇴근을 안 찍은 날</strong> — 근무표에 배정된 시간으로 계산합니다</li>
+    <li><strong>아직 오지 않은 날</strong> — 계산에 넣지 않습니다</li>
+  </ul>
+  <p>여기에 주 40시간을 넘는 <strong>연장</strong>과 <strong>주휴 발생</strong> 여부까지 자동으로 잡힙니다.</p>
+
+  <figure>
+    <img src="guide-img/wage_total.png" alt="시급 정산 상세 화면">
+    <figcaption>시급·정산 항목을 누르면 날짜별 명세가 열립니다. 아래에 이 달 합계가 나옵니다.</figcaption>
+  </figure>
+
+  <h3>분 단위 반올림</h3>
+  <p>매장 설정 → <strong>정산</strong>에서 반올림 단위를 고를 수 있습니다. 10분으로 두면 54분 근무는 50분으로, 55분 근무는 1시간으로 계산됩니다. 기본은 ‘없음’(기록된 그대로)입니다.</p>
+
+  <h3>내보내기</h3>
+  <p>매장 탭 → <strong>CSV 내보내기</strong>로 이번 달 직원별 정산표를 받을 수 있습니다. 카톡이나 메일로 바로 보낼 수 있습니다.</p>
+</section>
+
+<!-- 6 -->
+<section id="inventory">
+  <h2><span class="num">6</span>재고·발주</h2>
+  <p class="sub">종이 카운트 시트를 그대로 앱으로 옮겼습니다.</p>
+
+  <h3>준비하기</h3>
+  <p>매장 설정에서 <strong>재고 관리</strong>를 켜면 할일 탭과 매장 탭에서 들어갈 수 있습니다. 구성은 이렇습니다.</p>
+  <ul>
+    <li><strong>리스트</strong> — 일일 재고, 주간 발주처럼 세는 묶음</li>
+    <li><strong>섹션</strong> — 셀프바·주방·조미료처럼 <strong>매장 동선 순서</strong>로 두면 세기 편합니다</li>
+    <li><strong>품목</strong> — 이름과 단위(kg·팩·박스)를 넣습니다</li>
+  </ul>
+
+  <h3>기입하기</h3>
+  <p>왼쪽에 품목, 위에 날짜가 있는 표입니다. 칸을 눌러 수량을 넣습니다. <strong>[재고]</strong>와 <strong>[발주]</strong>를 오가며 쓸 수 있고, 지난 날짜도 채워 넣을 수 있습니다.</p>
+
+  <figure>
+    <img src="guide-img/inventory.png" alt="재고 매트릭스 화면">
+    <figcaption>재고·발주 표 — 품목 아래에 현재 수량과 단위가 함께 보입니다.</figcaption>
+  </figure>
+
+  <h3>한 품목을 나눠 세기</h3>
+  <p>같은 품목이 여러 상태로 나뉘어 있을 때 씁니다. 예를 들어 족발을 <strong>삶은 것과 중탕한 것</strong>으로 따로 세고 싶다면, 품목 편집에서 <strong>나눠서 세기</strong>를 켜고 칸 이름을 넣으세요.</p>
+  <p>기입할 때는 칸마다 따로 넣고, <strong>재고는 합계로 계산</strong>됩니다. 5와 5를 넣으면 10으로 잡히니 더하실 필요가 없습니다.</p>
+  <div class="tip">
+    <b>알아두면 좋아요</b>
+    <p>칸은 3~4개까지가 적당합니다. 발주는 나누지 않고 총량으로 넣습니다.</p>
+  </div>
+
+  <h3>입고 예정</h3>
+  <p>마지막으로 재고를 센 뒤에 넣은 발주는 <strong>들어올 예정</strong>으로 잡힙니다. 다음에 재고를 세면 자동으로 사라집니다.</p>
+</section>
+
+<!-- 7 -->
+<section id="notice">
+  <h2><span class="num">7</span>소식·알림</h2>
+  <p class="sub">단톡방에 묻히던 공지를 확실하게 전달합니다.</p>
+
+  <h3>소식 올리기</h3>
+  <p>매장 탭 → <strong>소식</strong>에서 글을 씁니다. 올리면 직원들에게 알림이 가고, 직원 홈 맨 위에 카드로 뜹니다. 중요한 글은 위로 고정할 수 있습니다.</p>
+
+  <figure>
+    <img src="guide-img/notices.png" alt="소식 화면">
+    <figcaption>소식 — 쓴 사람과 날짜가 함께 남습니다. 수정은 쓴 사람만, 삭제는 관리자도 할 수 있습니다.</figcaption>
+  </figure>
+
+  <h3>알림 설정</h3>
+  <p>설정 탭 → <strong>알림 설정</strong>에서 받고 싶은 알림만 켜둘 수 있습니다. 매장마다 따로 설정됩니다.</p>
+  <div class="tip">
+    <b>알림이 안 온다면</b>
+    <p>휴대폰 설정에서 단도리 알림이 꺼져 있을 수 있습니다. 앱의 알림 설정에서 토글을 켜면 안내에 따라 휴대폰 설정으로 이동할 수 있습니다.</p>
+  </div>
+</section>
+
+<!-- 8 -->
+<section id="members">
+  <h2><span class="num">8</span>직원·권한</h2>
+  <p class="sub">누구에게 무엇까지 맡길지 정할 수 있습니다.</p>
+
+  <h3>직책</h3>
+  <ul>
+    <li><strong>사장</strong> — 매장을 만든 사람. 모든 권한을 가집니다</li>
+    <li><strong>매니저</strong> — 매장 설정에서 관리 권한을 켜면 체크리스트·직원·근무표를 관리할 수 있습니다</li>
+    <li><strong>직원</strong> — 본인 근무와 할 일 중심</li>
+  </ul>
+  <p>직급 변경, 멤버 제거, 매장 설정, 구독은 언제나 사장님만 할 수 있습니다.</p>
+
+  <h3>직원별 세부 권한</h3>
+  <p>직원 상세에서 발주 기입, 재고 실사, 근무표 편집처럼 항목별로 따로 열어줄 수 있습니다.</p>
+
+  <h3>보건증</h3>
+  <p>직원이 본인 프로필에서 사진과 만료일을 등록합니다. 만료가 다가오면 홈에 알림 카드가 뜨고, 사장님과 매니저는 직원 상세에서 열람할 수 있습니다. <strong>등록과 갱신은 본인만</strong> 할 수 있습니다.</p>
+</section>
+
+<!-- 9 -->
+<section id="plan">
+  <h2><span class="num">9</span>요금제</h2>
+  <p class="sub">작게 시작하고, 필요할 때 늘리세요.</p>
+  <ul>
+    <li><strong>무료</strong> — 사장님 포함 <strong>3명까지</strong>, 매장 1곳. 기능은 전부 씁니다</li>
+    <li><strong>프리미엄</strong> — 인원 제한 없이, 매장도 여러 곳. 월 9,900원 또는 연 99,000원</li>
+  </ul>
+  <p>구독은 <strong>매장 단위</strong>입니다. 직원이 늘어도 요금은 그대로입니다.</p>
+  <div class="tip">
+    <b>매장을 하나 더 만들려는데 막힌다면</b>
+    <p>매장 수 한도는 <strong>내가 직접 만든 매장</strong>을 기준으로 봅니다. 직원으로 참여 중인 매장에 프리미엄이 걸려 있어도 내 매장 한도와는 무관합니다.</p>
+  </div>
+</section>
+
+<!-- 10 -->
+<section id="faq">
+  <h2><span class="num">10</span>자주 묻는 질문</h2>
+
+  <div class="faq"><b>직원도 요금을 내야 하나요?</b>
+    <p>아니요. 구독은 매장 단위라 사장님 한 분만 결제하면 그 매장 구성원 모두가 프리미엄 기능을 씁니다.</p></div>
+
+  <div class="faq"><b>실근무 시간이 근태 화면과 달라 보입니다.</b>
+    <p>‘실근무’는 <strong>출근·퇴근이 모두 찍힌 날</strong>만 더한 값입니다. 퇴근을 안 찍은 날은 빠지기 때문에 근태 목록과 달라 보일 수 있습니다. 정산액은 그런 날을 배정 시간으로 채워 계산합니다.</p></div>
+
+  <div class="faq"><b>아이폰에서도 Wi-Fi로 출퇴근이 확인되나요?</b>
+    <p>됩니다. 다만 <strong>위치 권한(정확한 위치)</strong>이 허용돼 있어야 아이폰이 Wi-Fi 정보를 알려줍니다. 허용돼 있지 않으면 위치로 확인합니다.</p></div>
+
+  <div class="faq"><b>발주를 미리 넣어두면 그날 재고에 잡히나요?</b>
+    <p>아니요. 발주는 넣은 날짜가 아니라 <strong>받을 날짜</strong> 기준으로 기록됩니다. 활동 기록에는 실제로 기입한 날에 남고, 대상 날짜가 다르면 함께 표시됩니다.</p></div>
+
+  <div class="faq"><b>직원이 그만두면 어떻게 하나요?</b>
+    <p>직원 상세에서 내보내면 됩니다. 그동안의 근무·출퇴근 기록은 그대로 남습니다.</p></div>
+
+  <div class="faq"><b>계정이나 매장을 지우고 싶어요.</b>
+    <p>설정 → 계정 관리에서 계정을 삭제할 수 있고, 매장은 매장 설정에서 삭제합니다. 되돌릴 수 없으니 확인 절차를 거칩니다.</p></div>
+</section>
+
+<footer>
+  <p>궁금한 점은 <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a>으로 알려주세요.</p>
+  <p style="margin-top:.4rem;"><a href="privacy-policy.html">개인정보 처리방침</a> · <a href="terms-of-service.html">이용약관</a></p>
+</footer>
+
+</div>
+</body>
+</html>
