@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>사용설명서 - 단도리</title>
 <meta name="description" content="단도리 사용설명서 — 매장 만들기부터 체크리스트, 근무표, 출퇴근, 시급 정산, 재고·발주까지 기능별 사용법을 안내합니다.">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<!-- 공유 미리보기. og:image는 절대 URL이어야 하고(상대경로는 크롤러가 못 읽는다),
+     아이콘을 바꾸면 og.html도 다시 렌더해야 한다(./capture_og.sh). -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CLPAK">
+<meta property="og:title" content="단도리 사용설명서">
+<meta property="og:description" content="오픈·마감 체크리스트부터 근무표, 출퇴근, 시급 정산, 재고·발주까지 기능별 사용법.">
+<meta property="og:url" content="https://claypark.github.io/dev-page/dandori/guide.html">
+<meta property="og:image" content="https://claypark.github.io/dev-page/dandori/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="단도리 사용설명서">
+<meta name="twitter:description" content="오픈·마감 체크리스트부터 근무표, 출퇴근, 시급 정산, 재고·발주까지 기능별 사용법.">
+<meta name="twitter:image" content="https://claypark.github.io/dev-page/dandori/og.png">
 <style>
   :root{
     --bg:#FAFAFB; --surface:#FFFFFF; --line:#E8EAED;
@@ -40,6 +56,9 @@
     background:var(--surface);
   }
   nav a:hover{color:var(--accent);}
+  /* 스크롤 위치에 따라 현재 섹션을 표시한다. 목차가 가로로 길어 화면 밖으로
+     나가므로, 활성 항목은 색만 바꾸지 말고 보이는 위치로 스크롤해 온다. */
+  nav a.on{background:var(--accent);color:#fff;}
 
   section{margin-bottom:3.5rem;scroll-margin-top:4.5rem;}
   h2{font-size:1.35rem;font-weight:800;letter-spacing:-.01em;margin-bottom:.4rem;}
@@ -357,5 +376,54 @@
 </footer>
 
 </div>
+
+<script>
+// 목차 스크롤 스파이 — 현재 읽고 있는 섹션을 상단 목차에 표시한다.
+//
+// ★IntersectionObserver의 "보이는 첫 섹션"만으로는 부정확하다. 섹션이 길면
+//   화면에 여러 개가 동시에 걸치고, 마지막 섹션은 짧아서 화면 상단까지 못 올라와
+//   영영 활성이 되지 않는다. 그래서 스크롤 위치로 직접 판정한다:
+//   상단 고정 목차 높이만큼 내려온 지점(anchor)을 지난 마지막 섹션이 현재 섹션.
+(function () {
+  var nav = document.querySelector('nav');
+  if (!nav) return;
+  var links = Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]'));
+  var sections = links
+    .map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); })
+    .filter(Boolean);
+  if (!sections.length) return;
+
+  var current = -1;
+  function sync() {
+    var anchor = nav.getBoundingClientRect().bottom + 8;
+    var idx = 0;
+    for (var i = 0; i < sections.length; i++) {
+      if (sections[i].getBoundingClientRect().top <= anchor) idx = i;
+    }
+    // 문서 끝에 닿으면 마지막 항목 — 짧은 섹션이 활성화되지 못하는 것을 막는다.
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
+      idx = sections.length - 1;
+    }
+    if (idx === current) return;      // 바뀔 때만 DOM을 건드린다
+    current = idx;
+    links.forEach(function (a, i) { a.classList.toggle('on', i === idx); });
+    // 활성 항목이 가로 스크롤 밖이면 보이는 곳으로 데려온다.
+    var a = links[idx], r = a.getBoundingClientRect(), nr = nav.getBoundingClientRect();
+    if (r.left < nr.left + 8 || r.right > nr.right - 8) {
+      a.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+    }
+  }
+
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;              // 스크롤마다 계산하면 저사양 기기에서 버벅인다
+    ticking = true;
+    requestAnimationFrame(function () { sync(); ticking = false; });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  sync();
+})();
+</script>
 </body>
 </html>

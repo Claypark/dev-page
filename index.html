@@ -526,11 +526,19 @@
 
         <div class="app-grid" id="appGrid">
             <!-- Tiles -->
+            <div class="app-tile" style="--accent: #189E5A;" onclick="toggleDetail('dandori')">
+                <img src="dandori-icon.png" alt="" class="tile-icon">
+                <div class="tile-name" data-i18n="apps.dandori.name">단도리</div>
+                <div class="tile-tagline" data-i18n="apps.dandori.tagline">매장 체크리스트·근무표</div>
+                <span class="tile-badge badge-dev" data-i18n="badge_dev">개발중</span>
+                <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.04.28.04.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></div>
+            </div>
+
             <div class="app-tile" style="--accent: #d98a3d;" onclick="toggleDetail('doughlab')">
                 <img src="doughlab-icon.png" alt="" class="tile-icon">
                 <div class="tile-name" data-i18n="apps.doughlab.name">도우랩</div>
                 <div class="tile-tagline" data-i18n="apps.doughlab.tagline">제빵 레시피 실험실</div>
-                <div class="tile-badges"><span class="tile-badge badge-new" data-i18n="badge_new">NEW</span><span class="tile-badge badge-live" data-i18n="badge_live">출시</span></div>
+                <span class="tile-badge badge-live" data-i18n="badge_live">출시</span>
                 <div class="tile-platforms"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.86 8.32 13.47 8 12 8s-2.86.32-4.47.91L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg><svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.04.28.04.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg></div>
             </div>
 
@@ -799,6 +807,32 @@
             </div>
         </div>
 
+        <div class="app-detail" id="detail-dandori" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeDetail('dandori')">&times;</button>
+            <div class="detail-header">
+                <img src="dandori-icon.png" alt="" class="detail-icon">
+                <div class="detail-info">
+                    <h2 data-i18n="apps.dandori.detail_name">단도리 — 매장 체크리스트·근무표</h2>
+                    <div class="tagline" data-i18n="apps.dandori.detail_tagline">매장의 하루를 단단히</div>
+                </div>
+            </div>
+            <div class="description" data-i18n="apps.dandori.detail_desc">오픈·마감 체크부터 근무표, 출퇴근, 재고·발주까지 매장의 하루를 한 앱에 담았습니다. 사장님은 매장이 돌아가는 걸 한눈에 보고, 직원은 오늘 할 일을 명확하게 압니다.</div>
+            <div class="app-langs">
+                <span class="langs-label" data-i18n="langs_label">지원 언어</span>
+                <span class="langs-list">한국어</span>
+            </div>
+            <div class="app-links">
+                <span class="link-badge-dev" data-i18n="dev_coming">개발중 · 곧 출시 예정</span>
+            </div>
+            <div class="app-meta-links">
+                <a href="https://claypark.github.io/dev-page/dandori/guide.html" data-i18n="guide">사용설명서</a>
+                <span class="separator">·</span>
+                <a href="https://claypark.github.io/dev-page/dandori/privacy-policy.html" data-i18n="privacy">개인정보처리방침</a>
+                <span class="separator">·</span>
+                <a href="https://claypark.github.io/dev-page/dandori/terms-of-service.html" data-i18n="terms">이용약관</a>
+            </div>
+        </div>
+
         <div class="app-detail" id="detail-doughlab" onclick="event.stopPropagation()">
             <button class="close-btn" onclick="closeDetail('doughlab')">&times;</button>
             <div class="detail-header">
@@ -850,6 +884,7 @@
                 badge_new: 'NEW',
                 privacy: '개인정보처리방침',
                 terms: '이용약관',
+                guide: '사용설명서',
                 langs_label: '지원 언어',
                 dev_coming: '개발중 · 곧 출시 예정',
                 apps: {
@@ -902,6 +937,13 @@
                         detail_tagline: '유한한 시간을 연료 삼아, 오늘을 태우다',
                         detail_desc: '인생에 남은 주말과 시간을 시각화해주는 동기부여 카운트다운 앱. 아침·저녁 체크인으로 오늘 하루를 기록하고, 소중한 사람과 함께할 수 있는 시간을 확인하세요. 모든 데이터는 기기 안에만 저장됩니다.',
                     },
+                    dandori: {
+                        name: '단도리',
+                        tagline: '매장 체크리스트·근무표',
+                        detail_name: '단도리 — 매장 체크리스트·근무표',
+                        detail_tagline: '매장의 하루를 단단히',
+                        detail_desc: '오픈·마감 체크부터 근무표, 출퇴근, 재고·발주까지 매장의 하루를 한 앱에 담았습니다. 사장님은 매장이 돌아가는 걸 한눈에 보고, 직원은 오늘 할 일을 명확하게 압니다. 카페·식당·베이커리처럼 교대로 일하는 매장을 위해 만들었어요.',
+                    },
                     doughlab: {
                         name: '도우랩',
                         tagline: '제빵 레시피 실험실',
@@ -922,6 +964,7 @@
                 badge_new: 'NEW',
                 privacy: 'Privacy Policy',
                 terms: 'Terms of Service',
+                guide: 'User Guide',
                 langs_label: 'Languages',
                 dev_coming: 'In development · Launching soon',
                 apps: {
@@ -974,6 +1017,13 @@
                         detail_tagline: 'Fuel today with the time you have left',
                         detail_desc: 'A motivational countdown app that visualizes the weekends and hours you have left. Check in morning and night to mark the day, and see the time you still have with the people who matter. All your data stays on your device.',
                     },
+                    dandori: {
+                        name: 'Dandori',
+                        tagline: 'Store checklists & shift schedules',
+                        detail_name: 'Dandori — Store Checklists & Shifts',
+                        detail_tagline: 'Keep the day tight',
+                        detail_desc: 'Opening and closing checklists, shift schedules, clock-in/out and inventory — the whole day of a small store in one app. Owners see how the store is running at a glance; staff know exactly what to do today. Built for cafes, restaurants and bakeries where people work in shifts.',
+                    },
                     doughlab: {
                         name: 'DoughLab',
                         tagline: 'A lab for baking recipes',
@@ -994,6 +1044,7 @@
                 badge_new: 'NUEVO',
                 privacy: 'Política de Privacidad',
                 terms: 'Términos de Servicio',
+                guide: 'Guía de uso',
                 langs_label: 'Idiomas',
                 dev_coming: 'En desarrollo · Próximamente',
                 apps: {
@@ -1046,6 +1097,13 @@
                         detail_tagline: 'Usa tu tiempo como combustible y arde hoy',
                         detail_desc: 'Una app de cuenta atrás que visualiza los fines de semana y el tiempo que te quedan. Registra tu día con un check-in de mañana y noche, y descubre cuánto tiempo puedes compartir con quienes más quieres. Todos tus datos se guardan solo en tu dispositivo.',
                     },
+                    dandori: {
+                        name: 'Dandori',
+                        tagline: 'Checklists y turnos para tu local',
+                        detail_name: 'Dandori — Checklists y turnos',
+                        detail_tagline: 'Que el día del local salga redondo',
+                        detail_desc: 'Checklists de apertura y cierre, cuadrantes de turnos, fichaje de entrada y salida e inventario: todo el día de un local en una sola app. El dueño ve de un vistazo cómo va el negocio y el equipo sabe exactamente qué hacer hoy. Pensada para cafeterías, restaurantes y panaderías que trabajan por turnos.',
+                    },
                     doughlab: {
                         name: 'DoughLab',
                         tagline: 'Un laboratorio de recetas de panadería',
@@ -1066,6 +1124,7 @@
                 badge_new: 'NEW',
                 privacy: 'プライバシーポリシー',
                 terms: '利用規約',
+                guide: '使い方ガイド',
                 langs_label: '対応言語',
                 dev_coming: '開発中 · 近日リリース予定',
                 apps: {
@@ -1117,6 +1176,13 @@
                         tagline: '残さず、今日を',
                         detail_tagline: '限りある時間を燃料に、今日を燃やす',
                         detail_desc: '人生に残された週末と時間を可視化するモチベーションカウントダウンアプリ。朝・夜のチェックインで一日を記録し、大切な人と過ごせる時間を確認してください。すべてのデータは端末内にのみ保存されます。',
+                    },
+                    dandori: {
+                        name: 'ダンドリ',
+                        tagline: '店舗のチェックリスト・シフト表',
+                        detail_name: 'ダンドリ — 店舗チェックリスト・シフト表',
+                        detail_tagline: 'お店の一日を、きちんと',
+                        detail_desc: 'オープン・クローズのチェックからシフト表、出退勤、在庫・発注まで、お店の一日をひとつのアプリに。オーナーは店の状況をひと目で把握でき、スタッフは今日やることが明確になります。カフェ・飲食店・ベーカリーなど、交代で働くお店のために作りました。',
                     },
                     doughlab: {
                         name: 'DoughLab',
