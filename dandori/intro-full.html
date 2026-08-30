@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>서비스 소개 (상세) - 단도리</title>
+<meta name="description" content="단도리 서비스 소개 — 오픈·마감 체크리스트부터 근무표, 출퇴근, 재고·발주까지 매장의 하루를 한 앱에서.">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CLPAK">
+<meta property="og:title" content="단도리 서비스 소개 (상세)">
+<meta property="og:description" content="오픈·마감 체크리스트부터 근무표, 출퇴근, 재고·발주까지 매장의 하루를 한 앱에서.">
+<meta property="og:url" content="https://claypark.github.io/dev-page/dandori/intro-full.html">
+<meta property="og:image" content="https://claypark.github.io/dev-page/dandori/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://claypark.github.io/dev-page/dandori/og.png">
+<style>
+
+
+/* 단도리 서비스 소개서 — 16:9 (1280x720 CSS px = 13.333in x 7.5in, PPT 표준).
+   렌더: capture_deck.sh (Chrome --print-to-pdf).
+   ★샤플 덱에서 가져온 것: 규격화된 기능 페이지(좌 카피+불릿 / 우 실제 화면),
+     색으로 구분한 섹션 표지, 요금제 중간 배치, 도입 안내·FAQ·백커버.
+   ★버린 것: 대기업 로고·인용(레퍼런스 없음), 엔터프라이즈 챕터, 부서별 유스케이스,
+     36장 분량 — 타깃이 동네 매장 사장님이라 무게를 덜어냈다. */
+
+:root{
+  --ac:#189E5A; --acbg:#E9F6EF;
+  --ink1:#1A1C20; --ink2:#5A5F66; --ink3:#757B84; --ink4:#A9AFB7;
+  --bg:#F7F8F9; --surface:#FFFFFF; --line:#E8EAED;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#C9CCD0;}
+
+.slide{
+  width:1280px;height:720px;position:relative;overflow:hidden;
+  background:var(--bg);page-break-after:always;
+  /* 콘텐츠를 세로 중앙으로 — 카드/스텝 슬라이드가 위로 쏠리지 않게.
+     .split은 flex:1이라 이 정렬의 영향을 받지 않는다. */
+  display:flex;flex-direction:column;justify-content:center;
+}
+.slide:last-child{page-break-after:auto;}
+
+/* 상단 러닝헤드 */
+/* ★z-index 필수 — .split>.right(연회색 판)도 position:relative라 DOM 순서상
+   나중에 칠해진다. 그냥 두면 좌우 분할 슬라이드에서 페이지 번호가 판 밑에
+   깔려 사라진다(6·7·9·11·13·14 실측). */
+.rh{position:absolute;top:34px;left:56px;font-size:13px;color:var(--ink4);font-weight:500;letter-spacing:.02em;z-index:2;}
+.pg{position:absolute;top:34px;right:56px;font-size:13px;color:var(--ink4);font-weight:600;z-index:2;}
+
+/* 제목 */
+.head{padding:0 56px;}
+/* 러닝헤드(absolute top:34)가 시각적으로 상단을 차지해, 기하학적 중앙에 두면
+   아래가 비어 보인다. 제목형 슬라이드만 살짝 내려 균형을 맞춘다.
+   .split 슬라이드는 .head가 없어 영향받지 않는다(우측 패널 블리드 보존). */
+.slide:has(> .head){padding-top:72px;}
+.head h2{font-size:38px;font-weight:800;color:var(--ink1);line-height:1.28;letter-spacing:-.02em;}
+.head h2 .ac{color:var(--ac);}
+.head .sub{margin-top:12px;font-size:16px;color:var(--ink2);font-weight:500;}
+
+/* 표지 / 백커버 */
+.cover{justify-content:center;padding:0 90px;}
+.cover .brand{display:flex;align-items:center;gap:16px;margin-bottom:40px;}
+.cover .brand img{width:64px;height:64px;border-radius:16px;}
+.cover .brand b{font-size:22px;font-weight:800;color:var(--ink2);}
+.cover h1{font-size:60px;font-weight:800;color:var(--ink1);line-height:1.2;letter-spacing:-.03em;}
+.cover h1 .ac{color:var(--ac);}
+.cover .tag{margin-top:22px;font-size:19px;color:var(--ink2);font-weight:500;}
+.cover .meta{position:absolute;bottom:64px;left:90px;font-size:14px;color:var(--ink3);line-height:1.8;}
+
+/* 섹션 표지 */
+.divider{justify-content:center;padding:0 90px;}
+.divider h2{font-size:46px;font-weight:800;line-height:1.3;letter-spacing:-.02em;}
+.divider .chips{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap;}
+.divider .chips span{font-size:15px;font-weight:600;padding:8px 18px;border-radius:99px;}
+.dv-green{background:var(--acbg);} .dv-green h2{color:#0F5C35;} .dv-green .chips span{background:#fff;color:#0F7A43;}
+.dv-ink{background:#2A2D33;} .dv-ink h2{color:#F5F6F7;} .dv-ink .chips span{background:#3A3E45;color:#D5D8DC;}
+.dv-warm{background:#EEF0F2;} .dv-warm h2{color:var(--ink1);} .dv-warm .chips span{background:#fff;color:var(--ink2);}
+
+/* 카드 그리드 */
+.grid{display:grid;gap:16px;padding:34px 56px 0;}
+.g3{grid-template-columns:repeat(3,1fr);}
+.card{background:var(--surface);border-radius:14px;padding:22px 24px;}
+.card b{display:block;font-size:17px;font-weight:700;color:var(--ink1);margin-bottom:8px;}
+.card p{font-size:14px;color:var(--ink2);line-height:1.6;}
+
+/* 기능 그리드(아이콘 대신 잉크 라벨) */
+.fcols{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding:40px 56px 0;}
+.fcol h3{font-size:15px;font-weight:800;color:var(--ac);margin-bottom:14px;letter-spacing:.01em;}
+.fcol ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;}
+.fcol li{background:var(--surface);border-radius:10px;padding:11px 14px;font-size:14px;
+  font-weight:600;color:var(--ink1);}
+
+/* 기능 페이지 — 좌 카피 / 우 화면 */
+.split{display:flex;flex:1;min-height:0;}
+.left{width:47%;padding:78px 20px 56px 56px;display:flex;flex-direction:column;justify-content:center;}
+.kicker{display:inline-block;font-size:13px;font-weight:800;color:var(--ac);
+  background:var(--acbg);padding:5px 12px;border-radius:99px;margin-bottom:16px;align-self:flex-start;}
+.left h2{font-size:34px;font-weight:800;color:var(--ink1);line-height:1.3;letter-spacing:-.02em;}
+.left h2 .ac{color:var(--ac);}
+.left ul{margin-top:22px;list-style:none;}
+.left li{font-size:15px;color:var(--ink2);line-height:1.55;margin-bottom:11px;padding-left:16px;position:relative;}
+.left li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--ac);}
+.left li b{color:var(--ink1);font-weight:700;}
+.right{width:53%;background:#EDEFF1;position:relative;display:flex;align-items:center;
+  justify-content:center;gap:40px;}
+
+/* 폰 목업 */
+/* ★그림자는 아래로만 — 좌우로 번지면 폰 두 대 사이 통로(20px)를 양쪽
+   그림자가 메워 배경색으로 못 돌아오고 회색 띠가 된다(2·9페이지 실측).
+   음수 spread(-12)로 blur(22) 절반을 상쇄해 가로 번짐을 0으로 만든다.
+   번짐 폭만 줄이는 건 답이 아니다 — 통로보다 좁아지지 않으면 그대로 겹친다. */
+/* ★기기 베젤도 그림자도 두지 않는다.
+   - 베젤(검은 테두리): 화면 둘레에 진한 띠가 생겨 판 위에 얹힌 사진처럼 보인다.
+   - box-shadow: **PDF 뷰어마다 다르게 렌더된다.** 블러 그림자는 투명도 그룹으로
+     기록되는데, 이를 평탄화하지 못하는 뷰어(macOS 미리보기 등)는 그림자의
+     경계 사각형을 통짜 회색으로 칠해버린다 — HTML에선 안 보이고 PDF에서만
+     각진 회색 박스가 보이던 원인이다. poppler로는 재현되지 않아 측정으로
+     잡히지도 않는다.
+   화면 대비(흰 화면 vs #EDEFF1 판)만으로 충분히 떠 보이므로 둘 다 버린다. */
+.phone{border-radius:22px;}
+/* 화면 아래 라벨 — 두 화면을 나란히 둘 때 무엇인지 알린다. */
+.shot{text-align:center;}
+.cap{margin-top:14px;font-size:14px;font-weight:700;color:var(--ink2);}
+.phone .scr{width:196px;aspect-ratio:1206/2622;border-radius:22px;overflow:hidden;
+  background:#fff center top/cover no-repeat;}
+.phone.lg .scr{width:236px;}
+.phone.sm .scr{width:170px;}
+
+/* 4-Step 카드 */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:44px 56px 0;}
+.step{background:var(--surface);border-radius:14px;padding:20px 20px 22px;}
+.step .n{font-size:12px;font-weight:800;color:var(--ac);background:var(--acbg);
+  padding:4px 10px;border-radius:99px;display:inline-block;margin-bottom:12px;}
+.step b{display:block;font-size:16px;font-weight:700;color:var(--ink1);margin-bottom:7px;}
+.step p{font-size:13px;color:var(--ink2);line-height:1.55;}
+
+/* 요금제 */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:38px 56px 0;}
+.plan{background:var(--surface);border-radius:16px;padding:28px 30px;}
+.plan.hi{background:#1A1C20;}
+.plan .nm{font-size:15px;font-weight:700;color:var(--ink3);margin-bottom:10px;}
+.plan.hi .nm{color:#A9AFB7;}
+.plan .pr{font-size:34px;font-weight:800;color:var(--ink1);letter-spacing:-.02em;}
+.plan.hi .pr{color:#fff;}
+.plan .pr small{font-size:15px;font-weight:600;color:var(--ink3);margin-left:6px;}
+.plan.hi .pr small{color:#A9AFB7;}
+.plan ul{list-style:none;margin-top:18px;}
+.plan li{font-size:14px;color:var(--ink2);margin-bottom:8px;padding-left:15px;position:relative;}
+.plan.hi li{color:#D5D8DC;}
+.plan li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;
+  border-radius:50%;background:var(--ink4);}
+.plan.hi li::before{background:var(--ac);}
+.note{margin:22px 56px 0;background:var(--acbg);border-radius:12px;padding:16px 22px;
+  font-size:15px;color:#0F5C35;font-weight:600;}
+
+/* FAQ */
+.faqs{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:34px 56px 0;}
+.fq{background:var(--surface);border-radius:12px;padding:18px 20px;}
+.fq b{display:block;font-size:14px;font-weight:700;color:var(--ink1);margin-bottom:6px;}
+.fq p{font-size:13px;color:var(--ink2);line-height:1.55;}
+
+/* ── 웹판 래퍼 ─────────────────────────────────────────────────────────
+   슬라이드는 1280x720 고정이다. 좁은 화면에서 가로 스크롤이 생기지 않도록
+   전체를 뷰포트 폭에 맞춰 축소한다(transform: scale).
+   ★scale은 레이아웃 높이를 바꾸지 않는다 — 래퍼 높이를 JS로 직접 잡아주지
+     않으면 페이지 아래에 빈 공간이 남는다. */
+body{background:#EDEEF0;margin:0;}
+.topbar{
+  position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);
+  backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid #E3E5E8;
+  display:flex;align-items:center;gap:.75rem;padding:.7rem 1.1rem;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+}
+.topbar img{width:28px;height:28px;border-radius:7px;}
+.topbar b{font-size:.95rem;color:#1A1C20;}
+.topbar .sp{flex:1;}
+.topbar a{
+  font-size:.83rem;font-weight:700;text-decoration:none;color:#fff;
+  background:#189E5A;padding:.45rem .9rem;border-radius:99px;white-space:nowrap;
+}
+.topbar a.ghost{background:transparent;color:#5A5F66;padding:.45rem .6rem;}
+/* ★좁은 화면에서 제목이 버튼을 밀어내 잘린다. 버튼은 줄이면 누르기 힘들어지니
+   대신 제목을 줄인다 — 아이콘이 이미 어느 서비스인지 알려준다. */
+.topbar b .long{display:inline;}
+@media (max-width:560px){
+  .topbar{gap:.5rem;padding:.6rem .7rem;}
+  .topbar b{font-size:.86rem;}
+  .topbar b .long{display:none;}
+  .topbar a{font-size:.78rem;padding:.42rem .75rem;}
+  .topbar a.ghost{padding:.42rem .3rem;}
+}
+#stage{overflow:hidden;}
+#scaler{transform-origin:top left;}
+#scaler .slide{
+  margin:0 auto 20px;box-shadow:0 2px 10px rgba(20,25,32,.10);border-radius:6px;
+}
+#scaler .slide:last-child{margin-bottom:0;}
+.foot{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;text-align:center;color:#757B84;font-size:.83rem;
+  padding:2rem 1rem 3rem;}
+.foot a{color:#189E5A;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <img src="icon.png" alt=""><b>단도리<span class="long"> 서비스 소개 (상세)</span></b>
+  <span class="sp"></span>
+  <a class="ghost" href="intro.html">요약본</a>
+  <a href="dandori-service-deck-full.pdf" download>PDF 받기</a>
+</div>
+<div id="stage"><div id="scaler">
+<!-- 단도리 서비스 소개 — 상세판 슬라이드 본문(fragment).
+     CSS는 service-deck.html에서 가져온다(build_full.py). 여기엔 마크업만 둔다.
+     ★요약본(service-deck.html, 16장)은 그대로 둔다. 이건 기능별로 더 파고드는
+       버전이다: 한 기능을 "무엇을/어떻게/실무에선" 세 각도로 나눠 본다. -->
+
+<!-- 1 표지 -->
+<div class="slide cover">
+  <div class="brand"><img src="deck-img/icon.png" alt=""><b>단도리</b></div>
+  <h1>매장의 하루를<br><span class="ac">단단히</span> 챙깁니다</h1>
+  <div class="tag">오픈·마감 체크부터 근무표, 출퇴근, 재고·발주까지</div>
+  <div class="meta">매장 운영 관리 앱 · 상세 소개서<br>CLPAK</div>
+</div>
+
+<!-- 2 한눈에 보기 -->
+<div class="slide">
+  <div class="rh">한눈에 보기</div><div class="pg">02</div>
+  <div class="split">
+    <div class="left">
+      <h2>사장님은 한눈에 보고,<br>직원은 <span class="ac">할 일이 분명해집니다</span></h2>
+      <ul>
+        <li><b>사장님</b>은 오늘 누가 나오고 무엇이 끝났는지 한 화면에서</li>
+        <li><b>직원</b>은 새 소식·내 근무·오늘 할 일만 간결하게</li>
+        <li>같은 앱 하나로, 역할에 따라 다른 화면을 본다</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone"><div class="scr" style="background-image:url('deck-img/home.png')"></div></div>
+        <div class="cap">사장님 화면</div>
+      </div>
+      <div class="shot">
+        <div class="phone"><div class="scr" style="background-image:url('deck-img/home_staff.png')"></div></div>
+        <div class="cap">직원 화면</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 문제 제기 -->
+<div class="slide">
+  <div class="rh">이런 적 있으시죠</div><div class="pg">03</div>
+  <div class="head">
+    <h2>아직 <span class="ac">단톡방과 종이</span>로<br>매장을 굴리고 계신가요?</h2>
+  </div>
+  <div class="grid g3">
+    <div class="card"><b>“어제 마감 누가 했지?”</b><p>인수인계가 말로 오가니, 빠졌어도 누구 탓인지 알 수 없습니다.</p></div>
+    <div class="card"><b>근무표는 카톡 공지</b><p>한 번 바뀔 때마다 다시 올리고, 못 본 사람이 꼭 생깁니다.</p></div>
+    <div class="card"><b>시급은 매달 손계산</b><p>연장·주휴까지 직접 세니 실수가 나고, 물어보면 설명이 어렵습니다.</p></div>
+    <div class="card"><b>출퇴근 서로 믿기</b><p>몇 시에 왔는지 남는 게 없어, 나중에 말이 엇갈립니다.</p></div>
+    <div class="card"><b>재고는 종이 시트</b><p>세서 사진 찍어 보내고, 몇번 사이의 흐름은 알 수 없습니다.</p></div>
+    <div class="card"><b>공지는 단톡방에 묻힘</b><p>읽었는지 알 수 없고 급한 공지도 스크롤에 밀립니다.</p></div>
+  </div>
+</div>
+
+<!-- 4 기능 전체 -->
+<div class="slide">
+  <div class="rh">기능 소개</div><div class="pg">04</div>
+  <div class="head">
+    <h2>매장에 필요한 것만<br><span class="ac">한 앱에</span> 담았습니다</h2>
+  </div>
+  <div class="fcols">
+    <div class="fcol"><h3>매장 운영</h3>
+      <ul><li>오픈·마감 체크리스트</li><li>시간대·파트별 배정</li><li>사진 인증</li><li>관리자 더블체크</li><li>활동 기록</li></ul>
+    </div>
+    <div class="fcol"><h3>사람 관리</h3>
+      <ul><li>주간·월간 근무표</li><li>2주 교대 패턴</li><li>출퇴근 기록</li><li>현장 인증</li><li>시급·정산</li><li>요청 승인</li><li>직원별 권한</li><li>보건증</li></ul>
+    </div>
+    <div class="fcol"><h3>재고·소통</h3>
+      <ul><li>재고 실사</li><li>발주 기입</li><li>나눠 세기</li><li>입고 예정</li><li>매장 소식</li><li>댓글</li><li>푸시 알림</li></ul>
+    </div>
+  </div>
+</div>
+
+<!-- 5 섹션 표지 -->
+<div class="slide divider dv-green">
+  <h2>오픈부터 마감까지,<br>말 안 해도 돌아가게</h2>
+  <div class="chips"><span>체크리스트</span><span>사진 인증</span><span>더블체크</span><span>활동 기록</span></div>
+</div>
+
+<!-- 6 체크리스트 — 등록 -->
+<div class="slide">
+  <div class="rh">매장 운영 &nbsp;|&nbsp; 체크리스트 · 등록</div><div class="pg">06</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">한 번만 등록</span>
+      <h2>할 일을 등록하면<br><span class="ac">매일 자동 배정</span>됩니다</h2>
+      <ul>
+        <li><b>시간대</b> — 오픈·미들·마감 중 언제 할 일인지</li>
+        <li><b>파트</b> — 주방·홀처럼 담당이 나뉘면 지정. 안 정하면 전원에게</li>
+        <li><b>요일</b> — 매일이 아닌 일은 그 요일만</li>
+        <li><b>사진 인증</b> — 켜면 찍어야 완료됩니다</li>
+        <li><b>더블체크</b> — 켜면 관리자가 한 번 더 확인</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/guide_tasks_manage.png')"></div></div>
+        <div class="cap">할 일 관리</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 7 체크리스트 — 실행 -->
+<div class="slide">
+  <div class="rh">매장 운영 &nbsp;|&nbsp; 체크리스트 · 실행</div><div class="pg">07</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">그날의 화면</span>
+      <h2>오늘 할 일은<br><span class="ac">오늘 근무자에게</span></h2>
+      <ul>
+        <li>직원은 <b>자기 할 일만</b> 봅니다 — 남의 파트는 뜨지 않습니다</li>
+        <li>완료하면 <b>누가 몇 시에</b> 했는지 함께 남습니다</li>
+        <li>사진 인증 항목은 카메라가 바로 열립니다</li>
+        <li>실수로 눌렀으면 다시 눌러 되돌립니다 — 되돌린 기록도 남습니다</li>
+        <li>상단에 <b>오늘 진행률</b>이 보입니다</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/tasks.png')"></div></div>
+        <div class="cap">할일 탭</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 8 활동 기록 -->
+<div class="slide">
+  <div class="rh">매장 운영 &nbsp;|&nbsp; 활동 기록</div><div class="pg">08</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">장부</span>
+      <h2>매장의 하루가<br>그대로 <span class="ac">장부로</span></h2>
+      <ul>
+        <li>완료·취소·출퇴근·재고 기입이 <b>시간순 한 줄씩</b></li>
+        <li>줄마다 <b>누가</b> 했는지 남아 물어볼 일이 없습니다</li>
+        <li>분류·직원으로 걸러 보고, 날짜를 넘겨 지난날도 확인</li>
+        <li>재고·발주는 <b>기입한 날</b>에 남고 대상 날짜를 함께 표시</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/guide_history.png')"></div></div>
+        <div class="cap">활동 기록</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 9 섹션 표지 -->
+<div class="slide divider dv-ink">
+  <h2>근무표부터 정산까지,<br>사람 관리를 한 줄로</h2>
+  <div class="chips"><span>근무표</span><span>출퇴근</span><span>근태·정산</span><span>요청</span><span>권한</span></div>
+</div>
+
+<!-- 10 근무표 — 패턴 -->
+<div class="slide">
+  <div class="rh">사람 관리 &nbsp;|&nbsp; 근무표 · 패턴</div><div class="pg">10</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">근무표</span>
+      <h2>한 번 짜두면<br><span class="ac">매주 반복</span>됩니다</h2>
+      <ul>
+        <li>요일 × 시간대 격자에 체크하면 패턴 완성</li>
+        <li><b>2주 교대</b>도 1주차·2주차로 나눠 관리</li>
+        <li>바뀌는 날만 눌러 그날만 예외 처리 — 다음 주는 원래대로</li>
+        <li>영업시간을 바꾸면 근무 시간대도 함께 따라옵니다</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/schedule.png')"></div></div>
+        <div class="cap">주간 근무표</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 11 근무표 — 월간 -->
+<div class="slide">
+  <div class="rh">사람 관리 &nbsp;|&nbsp; 근무표 · 월간</div><div class="pg">11</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">한 달</span>
+      <h2>이번 달 배치를<br><span class="ac">한 화면에서</span></h2>
+      <ul>
+        <li>날짜마다 <b>그날 근무자 이름</b>이 최대 네 명까지</li>
+        <li>내 근무일은 배경이 옅게 칠해져 훑기만 해도 잡힙니다</li>
+        <li>날짜를 누르면 그날 전체 근무자와 시간대를 확인</li>
+        <li>사람이 빈 날을 미리 찾아 메울 수 있습니다</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/schedule_month.png')"></div></div>
+        <div class="cap">월간 근무표</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 12 출퇴근 — 찍기 -->
+<div class="slide">
+  <div class="rh">사람 관리 &nbsp;|&nbsp; 출퇴근 · 기록</div><div class="pg">12</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">출퇴근</span>
+      <h2>버튼 하나로 찍고<br><span class="ac">기록은 정확하게</span></h2>
+      <ul>
+        <li>홈의 내 근무 카드에서 <b>출근·퇴근</b> 한 번</li>
+        <li>확인 창이 떠서 실수로 눌러도 괜찮습니다</li>
+        <li>오늘 근무 시간과 출퇴근 상태가 한 카드에</li>
+        <li>시간이 잘못 찍혔으면 <b>정정 요청</b> — 원래 기록은 지워지지 않습니다</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/home_staff.png')"></div></div>
+        <div class="cap">직원 홈 · 출퇴근 카드</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 13 출퇴근 — 현장 확인 -->
+<div class="slide">
+  <div class="rh">사람 관리 &nbsp;|&nbsp; 출퇴근 · 현장 확인</div><div class="pg">13</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">현장 확인</span>
+      <h2>정말 매장에서 찍었는지<br><span class="ac">앱이 확인</span>합니다</h2>
+      <ul>
+        <li><b>Wi-Fi + 위치</b> — 매장 Wi-Fi 먼저, 안 되면 위치로 (권장)</li>
+        <li><b>위치만</b> — 지도에 찍은 매장 반경 안인지로</li>
+        <li><b>Wi-Fi만</b> — 매장 Wi-Fi 연결로만</li>
+        <li>고른 방법에 필요한 설정만 화면에 나타납니다</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/guide_attend_verify.png')"></div></div>
+        <div class="cap">출퇴근 인증 설정</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 14 출퇴근 — 매장 밖 -->
+<div class="slide">
+  <div class="rh">사람 관리 &nbsp;|&nbsp; 출퇴근 · 매장 밖</div><div class="pg">14</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">예외 처리</span>
+      <h2>밖에서 찍혀도<br><span class="ac">막지 않고 알립니다</span></h2>
+      <ul>
+        <li>직원은 <b>사유를 적고</b> 그대로 출퇴근합니다 — 외근·대타를 막지 않습니다</li>
+        <li>사장님·매니저에게 <b>알림</b>이 가고 요청 목록에 잡힙니다</li>
+        <li><b>확인</b>을 누르면 목록에서 내려갑니다</li>
+        <li>승인이 아니라 “봤다”는 표시 — 근무는 이미 유효합니다</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/guide_requests.png')"></div></div>
+        <div class="cap">요청 — 근무 변경·정정·매장 밖</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 15 근태·정산 — 기준 -->
+<div class="slide">
+  <div class="rh">사람 관리 &nbsp;|&nbsp; 근태·정산 · 기준</div><div class="pg">15</div>
+  <div class="head">
+    <h2>시급만 넣으면<br><span class="ac">계산은 저절로</span></h2>
+    <p class="sub">무엇을 기준으로 계산하는지 명확합니다</p>
+  </div>
+  <div class="grid g3">
+    <div class="card"><b>출퇴근이 모두 찍힌 날</b><p>실제로 찍힌 시간으로 계산합니다.</p></div>
+    <div class="card"><b>안 찍었거나 퇴근을 빠뜨린 날</b><p>근무표에 배정된 시간으로 채웁니다.</p></div>
+    <div class="card"><b>아직 오지 않은 날</b><p>계산에 넣지 않습니다.</p></div>
+    <div class="card"><b>연장·주휴</b><p>주 40시간을 넘는 연장과 주휴 발생 여부를 자동으로 잡습니다.</p></div>
+    <div class="card"><b>분 단위 반올림</b><p>10분 단위로 두면 54분은 50분, 55분은 1시간으로. 기본은 기록된 그대로.</p></div>
+    <div class="card"><b>CSV 내보내기</b><p>이번 달 직원별 정산표를 파일로 받아 바로 보냅니다.</p></div>
+  </div>
+</div>
+
+<!-- 16 근태·정산 — 명세 -->
+<div class="slide">
+  <div class="rh">사람 관리 &nbsp;|&nbsp; 근태·정산 · 명세</div><div class="pg">16</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">투명하게</span>
+      <h2>“이번 달 얼마예요?”에<br><span class="ac">화면으로 답합니다</span></h2>
+      <ul>
+        <li>날짜별로 <b>몇 시간 · 얼마</b>가 한 줄씩</li>
+        <li>맨 아래 이 달 합계</li>
+        <li>출퇴근으로 계산된 날과 근무표로 채운 날이 구분됩니다</li>
+        <li>시급은 <b>사장님과 본인만</b> 볼 수 있습니다</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/wage_total.png')"></div></div>
+        <div class="cap">시급·정산 상세</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 17 직원·권한 -->
+<div class="slide">
+  <div class="rh">사람 관리 &nbsp;|&nbsp; 직원·권한</div><div class="pg">17</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">권한</span>
+      <h2>맡길 건 맡기고,<br><span class="ac">중요한 건 사장님만</span></h2>
+      <ul>
+        <li><b>사장</b> — 모든 권한. 직급 변경·구독·매장 설정은 사장님만</li>
+        <li><b>매니저</b> — 체크리스트·직원·근무표 관리 (설정에서 켤 때)</li>
+        <li><b>직원</b> — 본인 근무와 할 일 중심</li>
+        <li>발주 기입, 재고 실사, 근무표 편집은 <b>직원별로 따로</b> 열어줍니다</li>
+        <li>보건증은 본인이 등록하고, 만료가 다가오면 홈에 알림</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone"><div class="scr" style="background-image:url('deck-img/guide_members.png')"></div></div>
+        <div class="cap">직원 목록</div>
+      </div>
+      <div class="shot">
+        <div class="phone"><div class="scr" style="background-image:url('deck-img/guide_member_profile.png')"></div></div>
+        <div class="cap">직원 상세</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 18 섹션 표지 -->
+<div class="slide divider dv-warm">
+  <h2>세는 것도, 알리는 것도<br>앱 안에서 끝나게</h2>
+  <div class="chips"><span>재고</span><span>발주</span><span>소식</span><span>알림</span></div>
+</div>
+
+<!-- 19 재고 — 기입 -->
+<div class="slide">
+  <div class="rh">재고·발주 &nbsp;|&nbsp; 기입</div><div class="pg">19</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">재고</span>
+      <h2>종이 카운트 시트를<br><span class="ac">그대로 앱에</span></h2>
+      <ul>
+        <li>왼쪽에 품목, 위에 날짜 — 익숙한 표 그대로</li>
+        <li><b>재고</b>와 <b>발주</b>를 오가며 기입</li>
+        <li>지난 날짜도 채워 넣을 수 있습니다</li>
+        <li>수량 아래 <b>직전에 센 날과 견준 증감</b> — 늘면 초록, 줄면 빨강</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/inventory.png')"></div></div>
+        <div class="cap">재고·발주 표</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 20 재고 — 품목 -->
+<div class="slide">
+  <div class="rh">재고·발주 &nbsp;|&nbsp; 품목 설정</div><div class="pg">20</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">준비</span>
+      <h2>세는 순서대로<br><span class="ac">품목을 늘어놓습니다</span></h2>
+      <ul>
+        <li><b>리스트</b> — 일일 재고, 주간 발주처럼 세는 묶음</li>
+        <li><b>섹션</b> — 셀프바·주방·조미료를 <b>매장 동선 순서</b>로</li>
+        <li><b>품목</b> — 이름과 단위(kg·팩·박스)</li>
+        <li><b>나눠 세기</b> — 족발을 삶은 것·중탕으로 따로 세고 <b>재고는 합계</b>로</li>
+        <li>마지막 실사 이후의 발주는 <b>입고 예정</b>으로 잡힙니다</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/guide_inventory_manage.png')"></div></div>
+        <div class="cap">품목 관리</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 21 소식 -->
+<div class="slide">
+  <div class="rh">소통 &nbsp;|&nbsp; 소식</div><div class="pg">21</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">공지</span>
+      <h2>공지는 묻히지 않게<br><span class="ac">직원 홈까지</span></h2>
+      <ul>
+        <li>올리면 <b>알림</b>이 가고 직원 홈 맨 위에 카드로 뜹니다</li>
+        <li>중요한 글은 위로 고정</li>
+        <li>쓴 사람과 날짜가 남고, <b>수정은 쓴 사람만</b></li>
+        <li>직원이 <b>댓글</b>로 답합니다 — 회식 참석 여부가 매장 기록으로</li>
+        <li>댓글 알림은 <b>글쓴이와 댓글 단 사람</b>에게만</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/notices.png')"></div></div>
+        <div class="cap">매장 소식</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 22 알림 -->
+<div class="slide">
+  <div class="rh">소통 &nbsp;|&nbsp; 알림</div><div class="pg">22</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">알림</span>
+      <h2>받고 싶은 것만<br><span class="ac">골라 받습니다</span></h2>
+      <ul>
+        <li>소식·출퇴근·재고·발주·유통기한·매장 밖 출퇴근</li>
+        <li><b>매장마다 따로</b> 설정 — 여러 매장을 봐도 섞이지 않습니다</li>
+        <li>휴대폰 알림이 꺼져 있으면 설정 화면으로 안내</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/guide_notif.png')"></div></div>
+        <div class="cap">알림 설정</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 23 도입 4-Step -->
+<div class="slide">
+  <div class="rh">도입</div><div class="pg">23</div>
+  <div class="head">
+    <h2>오늘 <span class="ac">5분</span>이면<br>시작할 수 있습니다</h2>
+  </div>
+  <div class="steps">
+    <div class="step"><span class="n">STEP 1</span><b>매장 만들기</b><p>이름·업종·영업시간만 넣으면 시간대는 업종 기본값으로 채워집니다.</p></div>
+    <div class="step"><span class="n">STEP 2</span><b>직원 초대</b><p>초대 코드나 QR을 보내면 끝. 코드 하나로 여러 명이 들어옵니다.</p></div>
+    <div class="step"><span class="n">STEP 3</span><b>할 일 등록</b><p>오픈·마감에 늘 하는 일부터. 완벽하지 않아도 쓰면서 다듬는 편이 빠릅니다.</p></div>
+    <div class="step"><span class="n">STEP 4</span><b>근무표 짜기</b><p>요일별로 한 번 채우면 매주 반복됩니다.</p></div>
+  </div>
+</div>
+
+<!-- 24 요금제 -->
+<div class="slide">
+  <div class="rh">이용 요금</div><div class="pg">24</div>
+  <div class="head">
+    <h2>직원이 늘어도<br><span class="ac">요금은 그대로</span></h2>
+  </div>
+  <div class="plans">
+    <div class="plan">
+      <div class="nm">무료</div>
+      <div class="pr">0<small>원</small></div>
+      <ul><li>사장님 포함 3명까지</li><li>매장 1곳</li><li>기능 제한 없음</li></ul>
+    </div>
+    <div class="plan hi">
+      <div class="nm">프리미엄</div>
+      <div class="pr">9,900<small>원 / 월</small></div>
+      <ul><li>인원 제한 없음</li><li>매장 여러 곳</li><li>소모품 관리</li><li>연 99,000원 (두 달치 절약)</li></ul>
+    </div>
+  </div>
+  <div class="note">구독은 <b>매장 단위</b>입니다. 인당 과금이 아니라, 알바가 자주 바뀌는 매장일수록 부담이 적습니다.</div>
+</div>
+
+<!-- 25 FAQ -->
+<div class="slide">
+  <div class="rh">자주 묻는 질문</div><div class="pg">25</div>
+  <div class="head"><h2>궁금하실 만한 것들</h2></div>
+  <div class="faqs">
+    <div class="fq"><b>직원도 요금을 내나요?</b><p>아니요. 구독은 매장 단위라 사장님 한 분만 결제하면 구성원 모두가 씁니다.</p></div>
+    <div class="fq"><b>아이폰에서도 Wi-Fi 확인이 되나요?</b><p>됩니다. 위치 권한(정확한 위치)이 허용돼 있어야 하고, 아니면 위치로 확인합니다.</p></div>
+    <div class="fq"><b>직원이 그만두면 기록은요?</b><p>내보내도 근무·출퇴근 기록은 그대로 남습니다. 지난달 정산에 필요하기 때문입니다.</p></div>
+    <div class="fq"><b>매장이 여러 곳이면?</b><p>홈 위쪽에서 전환합니다. 직원으로 참여하는 매장은 개수 제한이 없습니다.</p></div>
+    <div class="fq"><b>재고를 매일 세야 하나요?</b><p>아니요. 증감은 ‘마지막으로 센 날’과 견주므로 띄엄띄엄 세도 흐름이 보입니다.</p></div>
+    <div class="fq"><b>인터넷이 없으면?</b><p>기록은 서버에 저장됩니다. 연결이 돌아오면 이어서 쓰시면 됩니다.</p></div>
+  </div>
+</div>
+
+<!-- 26 백커버 -->
+<div class="slide cover">
+  <div class="brand"><img src="deck-img/icon.png" alt=""><b>단도리</b></div>
+  <h1>오늘 우리 매장,<br><span class="ac">단도리</span> 됐습니다</h1>
+  <div class="tag">사용설명서 · 문의 claypark12@gmail.com</div>
+  <div class="meta">CLPAK<br>claypark.github.io/dev-page</div>
+</div>
+</div></div>
+<div class="foot">문의 <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a></div>
+
+<script>
+// 슬라이드(1280px 고정)를 뷰포트 폭에 맞춰 축소한다.
+// ★transform: scale은 레이아웃 크기를 바꾸지 않는다 — 래퍼 높이를 직접
+//   잡아주지 않으면 축소한 만큼 페이지 아래가 비어 스크롤이 남는다.
+(function () {
+  var stage = document.getElementById('stage');
+  var scaler = document.getElementById('scaler');
+  if (!stage || !scaler) return;
+  function fit() {
+    var pad = window.innerWidth > 1360 ? 40 : 16;
+    var avail = stage.clientWidth - pad;
+    var s = Math.min(1, avail / 1280);
+    scaler.style.transform = 'scale(' + s + ')';
+    scaler.style.width = '1280px';
+    // scrollHeight는 스케일 전 높이 → 스케일을 곱해 실제 차지할 높이를 만든다
+    stage.style.height = (scaler.scrollHeight * s) + 'px';
+    scaler.style.marginLeft = Math.max(0, (stage.clientWidth - 1280 * s) / 2) + 'px';
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('load', fit);
+  fit();
+})();
+</script>
+</body>
+</html>
