@@ -19,6 +19,7 @@
 <meta name="twitter:image" content="https://claypark.github.io/dev-page/dandori/og.png">
 <style>
 
+
 /* 단도리 서비스 소개서 — 16:9 (1280x720 CSS px = 13.333in x 7.5in, PPT 표준).
    렌더: capture_deck.sh (Chrome --print-to-pdf).
    ★샤플 덱에서 가져온 것: 규격화된 기능 페이지(좌 카피+불릿 / 우 실제 화면),
@@ -207,22 +208,26 @@ body{background:#EDEEF0;margin:0;}
 <div class="topbar">
   <img src="icon.png" alt=""><b>단도리<span class="long"> 서비스 소개</span></b>
   <span class="sp"></span>
-  <a class="ghost" href="intro-full.html">자세히 보기</a>
+  <a class="ghost" href="guide.html">사용설명서</a>
   <a href="dandori-service-deck.pdf" download>PDF 받기</a>
 </div>
 <div id="stage"><div id="scaler">
+<!-- 단도리 서비스 소개 — 상세판 슬라이드 본문(fragment).
+     CSS는 service-deck.html에서 가져온다(build_full.py). 여기엔 마크업만 둔다.
+     ★요약본(service-deck.html, 16장)은 그대로 둔다. 이건 기능별로 더 파고드는
+       버전이다: 한 기능을 "무엇을/어떻게/실무에선" 세 각도로 나눠 본다. -->
+
 <!-- 1 표지 -->
 <div class="slide cover">
   <div class="brand"><img src="deck-img/icon.png" alt=""><b>단도리</b></div>
-  <h1>오늘 우리 매장,<br><span class="ac">단도리</span> 됐습니다</h1>
-  <p class="tag">오픈·마감 체크부터 근무표·출퇴근·재고까지, 매장의 하루를 한 앱에서</p>
-  <div class="meta">매장 운영 관리 앱 · 서비스 소개서<br>CLPAK</div>
+  <h1>매장의 하루를<br><span class="ac">단단히</span> 챙깁니다</h1>
+  <div class="tag">오픈·마감 체크부터 근무표, 출퇴근, 재고·발주까지</div>
+  <div class="meta">매장 운영 관리 앱 · 상세 소개서<br>CLPAK</div>
 </div>
 
-<!-- 2 한 장 요약 -->
+<!-- 2 한눈에 보기 -->
 <div class="slide">
   <div class="rh">한눈에 보기</div><div class="pg">02</div>
-  <!-- 기능 페이지와 같은 좌우 분할 — 이 장만 중앙 배치라 리듬이 끊겼다. -->
   <div class="split">
     <div class="left">
       <h2>사장님은 한눈에 보고,<br>직원은 <span class="ac">할 일이 분명해집니다</span></h2>
@@ -251,17 +256,17 @@ body{background:#EDEEF0;margin:0;}
   <div class="head">
     <h2>아직 <span class="ac">단톡방과 종이</span>로<br>매장을 굴리고 계신가요?</h2>
   </div>
-  <div class="grid g3" style="padding-top:38px;">
-    <div class="card"><b>“어제 마감 누가 했지?”</b><p>인수인계가 말로만 오가니, 빠뜨려도 누구 탓인지 알 수 없습니다.</p></div>
-    <div class="card"><b>근무표는 카톡 공지</b><p>한 번 바뀔 때마다 다시 올리고, 못 본 사람은 꼭 생깁니다.</p></div>
-    <div class="card"><b>시급은 매달 손계산</b><p>연장·주휴까지 직접 세다 보면 매달 며칠은 계산에 씁니다.</p></div>
-    <div class="card"><b>출퇴근은 서로 믿기</b><p>몇 시에 왔는지 남는 게 없어, 나중에 말이 엇갈립니다.</p></div>
-    <div class="card"><b>재고는 종이 시트</b><p>세서 사진 찍어 보내고, 받은 사람이 또 옮겨 적습니다.</p></div>
-    <div class="card"><b>공지는 단톡방에 묻힘</b><p>올려도 읽었는지 알 수 없어 결국 한 명씩 물어봅니다.</p></div>
+  <div class="grid g3">
+    <div class="card"><b>“어제 마감 누가 했지?”</b><p>인수인계가 말로 오가니, 빠졌어도 누구 탓인지 알 수 없습니다.</p></div>
+    <div class="card"><b>근무표는 카톡 공지</b><p>한 번 바뀔 때마다 다시 올리고, 못 본 사람이 꼭 생깁니다.</p></div>
+    <div class="card"><b>시급은 매달 손계산</b><p>연장·주휴까지 직접 세니 실수가 나고, 물어보면 설명이 어렵습니다.</p></div>
+    <div class="card"><b>출퇴근 서로 믿기</b><p>몇 시에 왔는지 남는 게 없어, 나중에 말이 엇갈립니다.</p></div>
+    <div class="card"><b>재고는 종이 시트</b><p>세서 사진 찍어 보내고, 몇번 사이의 흐름은 알 수 없습니다.</p></div>
+    <div class="card"><b>공지는 단톡방에 묻힘</b><p>읽었는지 알 수 없고 급한 공지도 스크롤에 밀립니다.</p></div>
   </div>
 </div>
 
-<!-- 4 기능 한눈에 -->
+<!-- 4 기능 전체 -->
 <div class="slide">
   <div class="rh">기능 소개</div><div class="pg">04</div>
   <div class="head">
@@ -269,71 +274,103 @@ body{background:#EDEEF0;margin:0;}
   </div>
   <div class="fcols">
     <div class="fcol"><h3>매장 운영</h3>
-      <ul><li>오픈·마감 체크리스트</li><li>자동 배정</li><li>사진 인증</li><li>더블체크</li><li>활동 기록</li></ul></div>
+      <ul><li>오픈·마감 체크리스트</li><li>시간대·파트별 배정</li><li>사진 인증</li><li>관리자 더블체크</li><li>활동 기록</li></ul>
+    </div>
     <div class="fcol"><h3>사람 관리</h3>
-      <ul><li>근무표</li><li>2주 교대</li><li>출퇴근 인증</li><li>근태 집계</li><li>시급 정산</li><li>근무 변경·휴가</li><li>직원 권한</li><li>보건증</li></ul></div>
+      <ul><li>주간·월간 근무표</li><li>2주 교대 패턴</li><li>출퇴근 기록</li><li>현장 인증</li><li>시급·정산</li><li>요청 승인</li><li>직원별 권한</li><li>보건증</li></ul>
+    </div>
     <div class="fcol"><h3>재고·소통</h3>
-      <ul><li>재고 실사</li><li>발주</li><li>입고 예정</li><li>나눠 세기</li><li>매장 소식</li><li>푸시 알림</li></ul></div>
+      <ul><li>재고 실사</li><li>발주 기입</li><li>나눠 세기</li><li>입고 예정</li><li>매장 소식</li><li>댓글</li><li>푸시 알림</li></ul>
+    </div>
   </div>
 </div>
 
-<!-- 5 섹션: 매장 운영 -->
+<!-- 5 섹션 표지 -->
 <div class="slide divider dv-green">
   <h2>오픈부터 마감까지,<br>말 안 해도 돌아가게</h2>
-  <div class="chips"><span>체크리스트</span><span>자동 배정</span><span>사진 인증</span><span>활동 기록</span></div>
+  <div class="chips"><span>체크리스트</span><span>사진 인증</span><span>더블체크</span><span>활동 기록</span></div>
 </div>
 
-<!-- 6 체크리스트 -->
+<!-- 6 체크리스트 — 등록 -->
 <div class="slide">
-  <div class="rh">매장 운영 &nbsp;|&nbsp; 체크리스트</div><div class="pg">06</div>
+  <div class="rh">매장 운영 &nbsp;|&nbsp; 체크리스트 · 등록</div><div class="pg">06</div>
   <div class="split">
     <div class="left">
-      <span class="kicker">체크리스트</span>
+      <span class="kicker">한 번만 등록</span>
+      <h2>할 일을 등록하면<br><span class="ac">매일 자동 배정</span>됩니다</h2>
+      <ul>
+        <li><b>시간대</b> — 오픈·미들·마감 중 언제 할 일인지</li>
+        <li><b>파트</b> — 주방·홀처럼 담당이 나뉘면 지정. 안 정하면 전원에게</li>
+        <li><b>요일</b> — 매일이 아닌 일은 그 요일만</li>
+        <li><b>사진 인증</b> — 켜면 찍어야 완료됩니다</li>
+        <li><b>더블체크</b> — 켜면 관리자가 한 번 더 확인</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/guide_tasks_manage.png')"></div></div>
+        <div class="cap">할 일 관리</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 7 체크리스트 — 실행 -->
+<div class="slide">
+  <div class="rh">매장 운영 &nbsp;|&nbsp; 체크리스트 · 실행</div><div class="pg">07</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">그날의 화면</span>
       <h2>오늘 할 일은<br><span class="ac">오늘 근무자에게</span></h2>
       <ul>
-        <li>시간대·파트별로 한 번 등록하면 <b>매일 자동 배정</b></li>
-        <li>요일마다 다른 일도 요일을 지정해 관리</li>
-        <li>완료하면 <b>누가 몇 시에</b> 했는지 함께 기록</li>
-        <li>중요한 항목은 <b>사진 인증</b>을 필수로</li>
-        <li>확인이 필요한 일은 관리자 <b>더블체크</b>까지</li>
+        <li>직원은 <b>자기 할 일만</b> 봅니다 — 남의 파트는 뜨지 않습니다</li>
+        <li>완료하면 <b>누가 몇 시에</b> 했는지 함께 남습니다</li>
+        <li>사진 인증 항목은 카메라가 바로 열립니다</li>
+        <li>실수로 눌렀으면 다시 눌러 되돌립니다 — 되돌린 기록도 남습니다</li>
+        <li>상단에 <b>오늘 진행률</b>이 보입니다</li>
       </ul>
     </div>
     <div class="right">
-      <div class="phone lg"><div class="scr" style="background-image:url('deck-img/tasks.png')"></div></div>
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/tasks.png')"></div></div>
+        <div class="cap">할일 탭</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- 7 활동 기록 -->
+<!-- 8 활동 기록 -->
 <div class="slide">
-  <div class="rh">매장 운영 &nbsp;|&nbsp; 활동 기록</div><div class="pg">07</div>
+  <div class="rh">매장 운영 &nbsp;|&nbsp; 활동 기록</div><div class="pg">08</div>
   <div class="split">
     <div class="left">
-      <span class="kicker">활동 기록</span>
-      <h2>매장의 하루가<br><span class="ac">그대로 장부</span>로</h2>
+      <span class="kicker">장부</span>
+      <h2>매장의 하루가<br>그대로 <span class="ac">장부로</span></h2>
       <ul>
-        <li>체크 완료·취소, 출퇴근, 재고 기입이 <b>시간순 한 줄씩</b></li>
-        <li>분류와 직원으로 걸러서 필요한 것만 보기</li>
-        <li>취소한 완료도 남아 <b>되돌려도 흔적이 사라지지 않음</b></li>
-        <li>사진 인증 사진은 여기서 다시 열람</li>
-        <li>매장에 무슨 일이 있었는지 <b>말로 묻지 않아도</b> 확인</li>
+        <li>완료·취소·출퇴근·재고 기입이 <b>시간순 한 줄씩</b></li>
+        <li>줄마다 <b>누가</b> 했는지 남아 물어볼 일이 없습니다</li>
+        <li>분류·직원으로 걸러 보고, 날짜를 넘겨 지난날도 확인</li>
+        <li>재고·발주는 <b>기입한 날</b>에 남고 대상 날짜를 함께 표시</li>
       </ul>
     </div>
     <div class="right">
-      <div class="phone lg"><div class="scr" style="background-image:url('deck-img/storehub.png')"></div></div>
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/guide_history.png')"></div></div>
+        <div class="cap">활동 기록</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- 8 섹션: 사람 관리 -->
+<!-- 9 섹션 표지 -->
 <div class="slide divider dv-ink">
   <h2>근무표부터 정산까지,<br>사람 관리를 한 줄로</h2>
-  <div class="chips"><span>근무표</span><span>출퇴근</span><span>근태·정산</span><span>요청 결재</span><span>권한</span></div>
+  <div class="chips"><span>근무표</span><span>출퇴근</span><span>근태·정산</span><span>요청</span><span>권한</span></div>
 </div>
 
-<!-- 9 근무표 -->
+<!-- 10 근무표 — 패턴 -->
 <div class="slide">
-  <div class="rh">사람 관리 &nbsp;|&nbsp; 근무표</div><div class="pg">09</div>
+  <div class="rh">사람 관리 &nbsp;|&nbsp; 근무표 · 패턴</div><div class="pg">10</div>
   <div class="split">
     <div class="left">
       <span class="kicker">근무표</span>
@@ -341,170 +378,333 @@ body{background:#EDEEF0;margin:0;}
       <ul>
         <li>요일 × 시간대 격자에 체크하면 패턴 완성</li>
         <li><b>2주 교대</b>도 1주차·2주차로 나눠 관리</li>
-        <li>바뀌는 날만 눌러 그날만 예외 처리</li>
-        <li>주간 타임라인과 <b>월간 한 달치</b>를 오가며 확인</li>
-        <li>영업시간을 바꾸면 근무 시간대도 함께 따라옴</li>
+        <li>바뀌는 날만 눌러 그날만 예외 처리 — 다음 주는 원래대로</li>
+        <li>영업시간을 바꾸면 근무 시간대도 함께 따라옵니다</li>
       </ul>
     </div>
     <div class="right">
-      <div class="phone"><div class="scr" style="background-image:url('deck-img/schedule.png')"></div></div>
-      <div class="phone"><div class="scr" style="background-image:url('deck-img/schedule_month.png')"></div></div>
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/schedule.png')"></div></div>
+        <div class="cap">주간 근무표</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- 10 출퇴근 4-Step -->
+<!-- 11 근무표 — 월간 -->
 <div class="slide">
-  <div class="rh">사람 관리 &nbsp;|&nbsp; 출퇴근</div><div class="pg">10</div>
-  <div class="head">
-    <h2>출퇴근은 <span class="ac">버튼 하나</span>,<br>확인은 앱이 합니다</h2>
-  </div>
-  <div class="steps">
-    <div class="step"><span class="n">STEP 1</span><b>버튼 누르기</b><p>홈 화면 내 근무 카드에서 출근·퇴근을 누릅니다. 확인 창이 한 번 떠 실수를 막습니다.</p></div>
-    <div class="step"><span class="n">STEP 2</span><b>현장 확인</b><p>매장 Wi-Fi 연결과 위치로 정말 매장에서 찍었는지 서버가 확인합니다.</p></div>
-    <div class="step"><span class="n">STEP 3</span><b>밖이면 사유</b><p>막지 않습니다. 사유를 적으면 ‘외부’ 표시와 함께 기록됩니다.</p></div>
-    <div class="step"><span class="n">STEP 4</span><b>사장님 확인</b><p>누가 몇 시에 왔는지 홈에서 바로 보이고, 잘못 찍힌 시간은 정정 요청으로 승인합니다.</p></div>
-  </div>
-  <div class="note" style="margin-top:30px;">인증 방법은 매장마다 고를 수 있어요 — Wi-Fi+위치 / 위치만 / Wi-Fi만</div>
-</div>
-
-<!-- 11 근태·정산 -->
-<div class="slide">
-  <div class="rh">사람 관리 &nbsp;|&nbsp; 근태·정산</div><div class="pg">11</div>
+  <div class="rh">사람 관리 &nbsp;|&nbsp; 근무표 · 월간</div><div class="pg">11</div>
   <div class="split">
     <div class="left">
-      <span class="kicker">근태·시급 정산</span>
-      <h2>시급만 넣으면<br><span class="ac">계산은 저절로</span></h2>
+      <span class="kicker">한 달</span>
+      <h2>이번 달 배치를<br><span class="ac">한 화면에서</span></h2>
       <ul>
-        <li>출퇴근을 찍은 날은 <b>실제 시간</b>, 안 찍은 날은 <b>배정 시간</b>으로</li>
-        <li>주 40시간을 넘는 <b>연장</b>과 <b>주휴 발생</b>까지 자동 판정</li>
-        <li>10분·15분 등 <b>분 단위 반올림</b>을 매장 기준대로 설정</li>
-        <li>날짜별 명세로 “이 금액이 왜 나왔는지” 바로 확인</li>
-        <li>이번 달 정산표는 <b>CSV로 내보내기</b></li>
+        <li>날짜마다 <b>그날 근무자 이름</b>이 최대 네 명까지</li>
+        <li>내 근무일은 배경이 옅게 칠해져 훑기만 해도 잡힙니다</li>
+        <li>날짜를 누르면 그날 전체 근무자와 시간대를 확인</li>
+        <li>사람이 빈 날을 미리 찾아 메울 수 있습니다</li>
       </ul>
     </div>
     <div class="right">
-      <div class="phone lg"><div class="scr" style="background-image:url('deck-img/wage_total.png')"></div></div>
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/schedule_month.png')"></div></div>
+        <div class="cap">월간 근무표</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- 12 요청과 권한 -->
+<!-- 12 출퇴근 — 찍기 -->
 <div class="slide">
-  <div class="rh">사람 관리 &nbsp;|&nbsp; 요청·권한</div><div class="pg">12</div>
-  <div class="head">
-    <h2>맡길 건 맡기고,<br><span class="ac">결재는 한 곳에서</span></h2>
-  </div>
-  <div class="grid g3" style="padding-top:38px;">
-    <div class="card"><b>근무 변경·휴가</b><p>직원이 앱에서 신청하면 사장님이 승인만. 승인 즉시 근무표에 반영됩니다.</p></div>
-    <div class="card"><b>출퇴근 시간 정정</b><p>잘못 찍힌 시간도 요청·승인으로 정리. 원래 기록은 지워지지 않습니다.</p></div>
-    <div class="card"><b>요청 한 곳에 모음</b><p>매장 탭 맨 위에 대기 건수가 뜹니다. 놓칠 일이 없습니다.</p></div>
-    <div class="card"><b>직급과 권한</b><p>사장·매니저·직원 3단계. 발주·재고·근무표는 직원별로 따로 열어줄 수 있습니다.</p></div>
-    <div class="card"><b>보건증 관리</b><p>만료가 다가오면 본인 홈에 알림. 사장님은 직원 상세에서 확인합니다.</p></div>
-    <div class="card"><b>초대는 코드·QR</b><p>코드를 보내거나 QR을 찍으면 합류 끝. 매니저용 코드는 따로 발급합니다.</p></div>
+  <div class="rh">사람 관리 &nbsp;|&nbsp; 출퇴근 · 기록</div><div class="pg">12</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">출퇴근</span>
+      <h2>버튼 하나로 찍고<br><span class="ac">기록은 정확하게</span></h2>
+      <ul>
+        <li>홈의 내 근무 카드에서 <b>출근·퇴근</b> 한 번</li>
+        <li>확인 창이 떠서 실수로 눌러도 괜찮습니다</li>
+        <li>오늘 근무 시간과 출퇴근 상태가 한 카드에</li>
+        <li>시간이 잘못 찍혔으면 <b>정정 요청</b> — 원래 기록은 지워지지 않습니다</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/home_staff.png')"></div></div>
+        <div class="cap">직원 홈 · 출퇴근 카드</div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- 13 섹션+재고 -->
+<!-- 13 출퇴근 — 현장 확인 -->
 <div class="slide">
-  <div class="rh">재고·발주</div><div class="pg">13</div>
+  <div class="rh">사람 관리 &nbsp;|&nbsp; 출퇴근 · 현장 확인</div><div class="pg">13</div>
   <div class="split">
     <div class="left">
-      <span class="kicker">재고·발주</span>
+      <span class="kicker">현장 확인</span>
+      <h2>정말 매장에서 찍었는지<br><span class="ac">앱이 확인</span>합니다</h2>
+      <ul>
+        <li><b>Wi-Fi + 위치</b> — 매장 Wi-Fi 먼저, 안 되면 위치로 (권장)</li>
+        <li><b>위치만</b> — 지도에 찍은 매장 반경 안인지로</li>
+        <li><b>Wi-Fi만</b> — 매장 Wi-Fi 연결로만</li>
+        <li>고른 방법에 필요한 설정만 화면에 나타납니다</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/guide_attend_verify.png')"></div></div>
+        <div class="cap">출퇴근 인증 설정</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 14 출퇴근 — 매장 밖 -->
+<div class="slide">
+  <div class="rh">사람 관리 &nbsp;|&nbsp; 출퇴근 · 매장 밖</div><div class="pg">14</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">예외 처리</span>
+      <h2>밖에서 찍혀도<br><span class="ac">막지 않고 알립니다</span></h2>
+      <ul>
+        <li>직원은 <b>사유를 적고</b> 그대로 출퇴근합니다 — 외근·대타를 막지 않습니다</li>
+        <li>사장님·매니저에게 <b>알림</b>이 가고 요청 목록에 잡힙니다</li>
+        <li><b>확인</b>을 누르면 목록에서 내려갑니다</li>
+        <li>승인이 아니라 “봤다”는 표시 — 근무는 이미 유효합니다</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/guide_requests.png')"></div></div>
+        <div class="cap">요청 — 근무 변경·정정·매장 밖</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 15 근태·정산 — 기준 -->
+<div class="slide">
+  <div class="rh">사람 관리 &nbsp;|&nbsp; 근태·정산 · 기준</div><div class="pg">15</div>
+  <div class="head">
+    <h2>시급만 넣으면<br><span class="ac">계산은 저절로</span></h2>
+    <p class="sub">무엇을 기준으로 계산하는지 명확합니다</p>
+  </div>
+  <div class="grid g3">
+    <div class="card"><b>출퇴근이 모두 찍힌 날</b><p>실제로 찍힌 시간으로 계산합니다.</p></div>
+    <div class="card"><b>안 찍었거나 퇴근을 빠뜨린 날</b><p>근무표에 배정된 시간으로 채웁니다.</p></div>
+    <div class="card"><b>아직 오지 않은 날</b><p>계산에 넣지 않습니다.</p></div>
+    <div class="card"><b>연장·주휴</b><p>주 40시간을 넘는 연장과 주휴 발생 여부를 자동으로 잡습니다.</p></div>
+    <div class="card"><b>분 단위 반올림</b><p>10분 단위로 두면 54분은 50분, 55분은 1시간으로. 기본은 기록된 그대로.</p></div>
+    <div class="card"><b>CSV 내보내기</b><p>이번 달 직원별 정산표를 파일로 받아 바로 보냅니다.</p></div>
+  </div>
+</div>
+
+<!-- 16 근태·정산 — 명세 -->
+<div class="slide">
+  <div class="rh">사람 관리 &nbsp;|&nbsp; 근태·정산 · 명세</div><div class="pg">16</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">투명하게</span>
+      <h2>“이번 달 얼마예요?”에<br><span class="ac">화면으로 답합니다</span></h2>
+      <ul>
+        <li>날짜별로 <b>몇 시간 · 얼마</b>가 한 줄씩</li>
+        <li>맨 아래 이 달 합계</li>
+        <li>출퇴근으로 계산된 날과 근무표로 채운 날이 구분됩니다</li>
+        <li>시급은 <b>사장님과 본인만</b> 볼 수 있습니다</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/wage_total.png')"></div></div>
+        <div class="cap">시급·정산 상세</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 17 직원·권한 -->
+<div class="slide">
+  <div class="rh">사람 관리 &nbsp;|&nbsp; 직원·권한</div><div class="pg">17</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">권한</span>
+      <h2>맡길 건 맡기고,<br><span class="ac">중요한 건 사장님만</span></h2>
+      <ul>
+        <li><b>사장</b> — 모든 권한. 직급 변경·구독·매장 설정은 사장님만</li>
+        <li><b>매니저</b> — 체크리스트·직원·근무표 관리 (설정에서 켤 때)</li>
+        <li><b>직원</b> — 본인 근무와 할 일 중심</li>
+        <li>발주 기입, 재고 실사, 근무표 편집은 <b>직원별로 따로</b> 열어줍니다</li>
+        <li>보건증은 본인이 등록하고, 만료가 다가오면 홈에 알림</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone"><div class="scr" style="background-image:url('deck-img/guide_members.png')"></div></div>
+        <div class="cap">직원 목록</div>
+      </div>
+      <div class="shot">
+        <div class="phone"><div class="scr" style="background-image:url('deck-img/guide_member_profile.png')"></div></div>
+        <div class="cap">직원 상세</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 18 섹션 표지 -->
+<div class="slide divider dv-warm">
+  <h2>세는 것도, 알리는 것도<br>앱 안에서 끝나게</h2>
+  <div class="chips"><span>재고</span><span>발주</span><span>소식</span><span>알림</span></div>
+</div>
+
+<!-- 19 재고 — 기입 -->
+<div class="slide">
+  <div class="rh">재고·발주 &nbsp;|&nbsp; 기입</div><div class="pg">19</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">재고</span>
       <h2>종이 카운트 시트를<br><span class="ac">그대로 앱에</span></h2>
       <ul>
-        <li>왼쪽에 품목, 위에 날짜 — <b>보던 표 그대로</b></li>
-        <li>섹션을 <b>매장 동선 순서</b>로 두면 세는 속도가 그대로</li>
-        <li>재고와 발주를 오가며 기입, 지난 날짜도 채워 넣기</li>
-        <li>한 품목을 <b>삶은 것·중탕한 것으로 나눠 세도 합계는 자동</b></li>
-        <li>센 뒤에 넣은 발주는 <b>입고 예정</b>으로 따로 표시</li>
+        <li>왼쪽에 품목, 위에 날짜 — 익숙한 표 그대로</li>
+        <li><b>재고</b>와 <b>발주</b>를 오가며 기입</li>
+        <li>지난 날짜도 채워 넣을 수 있습니다</li>
+        <li>수량 아래 <b>직전에 센 날과 견준 증감</b> — 늘면 초록, 줄면 빨강</li>
       </ul>
     </div>
     <div class="right">
-      <div class="phone lg"><div class="scr" style="background-image:url('deck-img/inventory.png')"></div></div>
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/inventory.png')"></div></div>
+        <div class="cap">재고·발주 표</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- 14 소식·알림 -->
+<!-- 20 재고 — 품목 -->
 <div class="slide">
-  <div class="rh">소통</div><div class="pg">14</div>
+  <div class="rh">재고·발주 &nbsp;|&nbsp; 품목 설정</div><div class="pg">20</div>
   <div class="split">
     <div class="left">
-      <span class="kicker">소식·알림</span>
-      <h2>공지는 <span class="ac">묻히지 않게</span><br>직원 홈까지</h2>
+      <span class="kicker">준비</span>
+      <h2>세는 순서대로<br><span class="ac">품목을 늘어놓습니다</span></h2>
       <ul>
-        <li>사장님이 올리면 직원에게 <b>알림</b>이 갑니다</li>
-        <li>직원 홈 맨 위에 <b>카드로 떠서</b> 지나치기 어렵습니다</li>
-        <li>중요한 글은 위로 고정</li>
-        <li>보건증 만료·새 소식도 같은 자리에서 안내</li>
-        <li>받을 알림 종류는 <b>매장마다 따로</b> 설정</li>
+        <li><b>리스트</b> — 일일 재고, 주간 발주처럼 세는 묶음</li>
+        <li><b>섹션</b> — 셀프바·주방·조미료를 <b>매장 동선 순서</b>로</li>
+        <li><b>품목</b> — 이름과 단위(kg·팩·박스)</li>
+        <li><b>나눠 세기</b> — 족발을 삶은 것·중탕으로 따로 세고 <b>재고는 합계</b>로</li>
+        <li>마지막 실사 이후의 발주는 <b>입고 예정</b>으로 잡힙니다</li>
       </ul>
     </div>
     <div class="right">
-      <div class="phone lg"><div class="scr" style="background-image:url('deck-img/notices.png')"></div></div>
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/guide_inventory_manage.png')"></div></div>
+        <div class="cap">품목 관리</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- 15 요금제 -->
+<!-- 21 소식 -->
 <div class="slide">
-  <div class="rh">이용 요금</div><div class="pg">15</div>
+  <div class="rh">소통 &nbsp;|&nbsp; 소식</div><div class="pg">21</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">공지</span>
+      <h2>공지는 묻히지 않게<br><span class="ac">직원 홈까지</span></h2>
+      <ul>
+        <li>올리면 <b>알림</b>이 가고 직원 홈 맨 위에 카드로 뜹니다</li>
+        <li>중요한 글은 위로 고정</li>
+        <li>쓴 사람과 날짜가 남고, <b>수정은 쓴 사람만</b></li>
+        <li>직원이 <b>댓글</b>로 답합니다 — 회식 참석 여부가 매장 기록으로</li>
+        <li>댓글 알림은 <b>글쓴이와 댓글 단 사람</b>에게만</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/notices.png')"></div></div>
+        <div class="cap">매장 소식</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 22 알림 -->
+<div class="slide">
+  <div class="rh">소통 &nbsp;|&nbsp; 알림</div><div class="pg">22</div>
+  <div class="split">
+    <div class="left">
+      <span class="kicker">알림</span>
+      <h2>받고 싶은 것만<br><span class="ac">골라 받습니다</span></h2>
+      <ul>
+        <li>소식·출퇴근·재고·발주·유통기한·매장 밖 출퇴근</li>
+        <li><b>매장마다 따로</b> 설정 — 여러 매장을 봐도 섞이지 않습니다</li>
+        <li>휴대폰 알림이 꺼져 있으면 설정 화면으로 안내</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="shot">
+        <div class="phone lg"><div class="scr" style="background-image:url('deck-img/guide_notif.png')"></div></div>
+        <div class="cap">알림 설정</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 23 도입 4-Step -->
+<div class="slide">
+  <div class="rh">도입</div><div class="pg">23</div>
+  <div class="head">
+    <h2>오늘 <span class="ac">5분</span>이면<br>시작할 수 있습니다</h2>
+  </div>
+  <div class="steps">
+    <div class="step"><span class="n">STEP 1</span><b>매장 만들기</b><p>이름·업종·영업시간만 넣으면 시간대는 업종 기본값으로 채워집니다.</p></div>
+    <div class="step"><span class="n">STEP 2</span><b>직원 초대</b><p>초대 코드나 QR을 보내면 끝. 코드 하나로 여러 명이 들어옵니다.</p></div>
+    <div class="step"><span class="n">STEP 3</span><b>할 일 등록</b><p>오픈·마감에 늘 하는 일부터. 완벽하지 않아도 쓰면서 다듬는 편이 빠릅니다.</p></div>
+    <div class="step"><span class="n">STEP 4</span><b>근무표 짜기</b><p>요일별로 한 번 채우면 매주 반복됩니다.</p></div>
+  </div>
+</div>
+
+<!-- 24 요금제 -->
+<div class="slide">
+  <div class="rh">이용 요금</div><div class="pg">24</div>
   <div class="head">
     <h2>직원이 늘어도<br><span class="ac">요금은 그대로</span></h2>
-    <p class="sub">구독은 사람 수가 아니라 매장 단위입니다</p>
   </div>
   <div class="plans">
     <div class="plan">
       <div class="nm">무료</div>
       <div class="pr">0<small>원</small></div>
-      <ul>
-        <li>사장님 포함 3명까지</li>
-        <li>매장 1곳</li>
-        <li>기능 제한 없음 — 전부 사용</li>
-        <li>기간 제한 없음</li>
-      </ul>
+      <ul><li>사장님 포함 3명까지</li><li>매장 1곳</li><li>기능 제한 없음</li></ul>
     </div>
     <div class="plan hi">
       <div class="nm">프리미엄</div>
-      <div class="pr">9,900<small>원 / 월 · 연 99,000원</small></div>
-      <ul>
-        <li><b>인원 제한 없음</b></li>
-        <li>매장 여러 곳 운영</li>
-        <li>매장 단위 결제 — 직원은 따로 내지 않음</li>
-        <li>언제든 해지 가능</li>
-      </ul>
+      <div class="pr">9,900<small>원 / 월</small></div>
+      <ul><li>인원 제한 없음</li><li>매장 여러 곳</li><li>소모품 관리</li><li>연 99,000원 (두 달치 절약)</li></ul>
     </div>
   </div>
-  <div class="note">직원 10명이어도, 20명이어도 매장 하나에 월 9,900원입니다.</div>
+  <div class="note">구독은 <b>매장 단위</b>입니다. 인당 과금이 아니라, 알바가 자주 바뀌는 매장일수록 부담이 적습니다.</div>
 </div>
 
-<!-- 16 시작하기 + FAQ + 문의 -->
+<!-- 25 FAQ -->
 <div class="slide">
-  <div class="rh">시작하기</div><div class="pg">16</div>
-  <div class="head">
-    <h2>오늘 <span class="ac">5분</span>이면<br>시작할 수 있습니다</h2>
+  <div class="rh">자주 묻는 질문</div><div class="pg">25</div>
+  <div class="head"><h2>궁금하실 만한 것들</h2></div>
+  <div class="faqs">
+    <div class="fq"><b>직원도 요금을 내나요?</b><p>아니요. 구독은 매장 단위라 사장님 한 분만 결제하면 구성원 모두가 씁니다.</p></div>
+    <div class="fq"><b>아이폰에서도 Wi-Fi 확인이 되나요?</b><p>됩니다. 위치 권한(정확한 위치)이 허용돼 있어야 하고, 아니면 위치로 확인합니다.</p></div>
+    <div class="fq"><b>직원이 그만두면 기록은요?</b><p>내보내도 근무·출퇴근 기록은 그대로 남습니다. 지난달 정산에 필요하기 때문입니다.</p></div>
+    <div class="fq"><b>매장이 여러 곳이면?</b><p>홈 위쪽에서 전환합니다. 직원으로 참여하는 매장은 개수 제한이 없습니다.</p></div>
+    <div class="fq"><b>재고를 매일 세야 하나요?</b><p>아니요. 증감은 ‘마지막으로 센 날’과 견주므로 띄엄띄엄 세도 흐름이 보입니다.</p></div>
+    <div class="fq"><b>인터넷이 없으면?</b><p>기록은 서버에 저장됩니다. 연결이 돌아오면 이어서 쓰시면 됩니다.</p></div>
   </div>
-  <div class="steps" style="grid-template-columns:repeat(3,1fr);padding-top:34px;">
-    <div class="step"><span class="n">STEP 1</span><b>매장 만들기</b><p>앱을 설치하고 로그인한 뒤 매장 이름과 영업시간을 넣습니다.</p></div>
-    <div class="step"><span class="n">STEP 2</span><b>직원 부르기</b><p>초대 코드나 QR을 보내면 직원이 바로 합류합니다.</p></div>
-    <div class="step"><span class="n">STEP 3</span><b>할 일 등록</b><p>오픈·마감에 하는 일을 한 번 적어두면 다음 날부터 자동입니다.</p></div>
-  </div>
-  <div class="faqs" style="padding-top:26px;">
-    <div class="fq"><b>직원도 요금을 내야 하나요?</b><p>아니요. 사장님 한 분만 결제하면 매장 구성원 모두가 함께 씁니다.</p></div>
-    <div class="fq"><b>쓰던 기록은 어떻게 되나요?</b><p>무료로 쓰다 프리미엄으로 올려도, 반대로 내려도 기록은 그대로 남습니다.</p></div>
-  </div>
-  <div style="position:absolute;bottom:44px;left:56px;right:56px;display:flex;
-    justify-content:space-between;align-items:flex-end;">
-    <div style="font-size:14px;color:#757B84;line-height:1.8;">
-      사용설명서 &nbsp;claypark.github.io/dev-page/dandori/guide.html<br>
-      문의 &nbsp;claypark12@gmail.com
-    </div>
-    <div style="display:flex;align-items:center;gap:12px;">
-      <img src="deck-img/icon.png" style="width:38px;height:38px;border-radius:10px;">
-      <b style="font-size:19px;color:#1A1C20;">단도리</b>
-    </div>
-  </div>
+</div>
+
+<!-- 26 백커버 -->
+<div class="slide cover">
+  <div class="brand"><img src="deck-img/icon.png" alt=""><b>단도리</b></div>
+  <h1>오늘 우리 매장,<br><span class="ac">단도리</span> 됐습니다</h1>
+  <div class="tag">사용설명서 · 문의 claypark12@gmail.com</div>
+  <div class="meta">CLPAK<br>claypark.github.io/dev-page</div>
 </div>
 </div></div>
 <div class="foot">문의 <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a></div>
