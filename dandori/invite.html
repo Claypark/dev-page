@@ -38,7 +38,8 @@
   <p class="desc" id="desc"></p>
 
   <a class="btn" id="open-btn" href="#"></a>
-  <br><br>
+  <p class="desc" id="in-app-hint" style="display:none;white-space:pre-line;margin-top:16px"></p>
+  <br>
   <button class="copy-btn" id="copy-btn"></button>
   <p class="copied" id="copied-msg"></p>
 
@@ -56,6 +57,7 @@
         copyBtn: '코드 복사하기',
         copied: '복사되었습니다!',
         footer: '앱이 없으면 자동으로 스토어로 이동합니다',
+        inAppHint: '카카오톡 안에서는 앱을 열 수 없어요.\n오른쪽 아래 ⋯ 를 눌러 "다른 브라우저로 열기"를 선택하거나,\n위 코드를 복사해 단도리 앱에서 직접 입력해 주세요.',
       },
       en: {
         title: 'Dandori - Store Invite',
@@ -66,6 +68,7 @@
         copyBtn: 'Copy Code',
         copied: 'Copied!',
         footer: "If you don't have the app, you'll be redirected to the store",
+        inAppHint: "This in-app browser can't open the app.\nTap ⋯ and choose \"Open in browser\", or copy the code above and enter it in the Dandori app.",
       },
       es: {
         title: 'Dandori - Invitación',
@@ -76,6 +79,7 @@
         copyBtn: 'Copiar código',
         copied: '¡Copiado!',
         footer: 'Si no tienes la app, serás redirigido a la tienda',
+        inAppHint: "Este navegador integrado no puede abrir la app.\nToca ⋯ y elige \"Abrir en el navegador\", o copia el código y escríbelo en la app Dandori.",
       },
       ja: {
         title: 'Dandori - 店舗招待',
@@ -86,6 +90,7 @@
         copyBtn: 'コードをコピー',
         copied: 'コピーしました！',
         footer: 'アプリがない場合は自動的にストアに移動します',
+        inAppHint: "アプリ内ブラウザではアプリを開けません。\n⋯ から「ブラウザで開く」を選ぶか、上のコードをコピーして単道理アプリに入力してください。",
       },
     };
 
@@ -117,13 +122,39 @@
       ';package=' + APP_PACKAGE +
       ';S.browser_fallback_url=' + encodeURIComponent(PLAY_STORE) + ';end';
 
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const ua = navigator.userAgent || '';
+    const isIOS = /iPad|iPhone|iPod/.test(ua);
     const openBtn = document.getElementById('open-btn');
 
     if (isIOS) {
       openBtn.href = APP_SCHEME + '://invite?code=' + code;
     } else {
       openBtn.href = intentUri;
+    }
+
+    // ── 인앱 브라우저 대응 ──────────────────────────────────────────────────
+    //
+    // ★초대 링크는 카카오톡으로 전달된다(사장 → 직원). 카톡 인앱 브라우저는
+    //   커스텀 스킴·intent:// 를 열지 못해 "알 수 없는 페이지"만 뜬다 —
+    //   앱이 깔려 있어도 마찬가지다(2026-09-12 테스터: 3명이 같은 증상).
+    //   그래서 카톡에서는 기본 브라우저로 한 번 튕겨 준다.
+    // ★`ext=1`로 되돌이표를 막는다. 이 가드가 없으면 외부 브라우저가 다시
+    //   카톡으로 잡히는 기기에서 무한 왕복이 된다.
+    const KAKAO = /KAKAOTALK/i.test(ua);
+    const OTHER_IN_APP = /(Instagram|FBAN|FBAV|Line\/|NAVER|DaumApps|everytimeApp)/i.test(ua);
+    const alreadyBounced = params.get('ext') === '1';
+
+    if (KAKAO && !alreadyBounced) {
+      const target = new URL(window.location.href);
+      target.searchParams.set('ext', '1');
+      window.location.href =
+        'kakaotalk://web/openExternal?url=' + encodeURIComponent(target.toString());
+    } else if (KAKAO || OTHER_IN_APP) {
+      // 튕기지 못했거나(iOS 카톡 등) 다른 인앱 브라우저다 — 무엇을 하면 되는지
+      // 그 자리에서 말한다. 코드는 위에 그대로 있으니 앱에서 직접 입력하면 된다.
+      const hint = document.getElementById('in-app-hint');
+      hint.textContent = t.inAppHint;
+      hint.style.display = 'block';
     }
 
     // Copy
