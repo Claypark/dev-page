@@ -526,6 +526,13 @@
 
         <div class="app-grid" id="appGrid">
             <!-- Tiles -->
+            <div class="app-tile" style="--accent: #b06830;" onclick="toggleDetail('cannon')">
+                <img src="cannon-icon.png" alt="" class="tile-icon">
+                <div class="tile-name" data-i18n="apps.cannon.name">캐논 버티기</div>
+                <div class="tile-tagline" data-i18n="apps.cannon.tagline">픽셀 캐논 디펜스</div>
+                <span class="tile-badge badge-dev" data-i18n="badge_dev">개발중</span>
+            </div>
+
             <div class="app-tile" style="--accent: #189E5A;" onclick="toggleDetail('dandori')">
                 <img src="dandori-icon.png" alt="" class="tile-icon">
                 <div class="tile-name" data-i18n="apps.dandori.name">단도리</div>
@@ -807,6 +814,28 @@
             </div>
         </div>
 
+        <div class="app-detail" id="detail-cannon" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeDetail('cannon')">&times;</button>
+            <div class="detail-header">
+                <img src="cannon-icon.png" alt="" class="detail-icon">
+                <div class="detail-info">
+                    <h2 data-i18n="apps.cannon.detail_name">캐논 버티기 — 픽셀 캐논 디펜스</h2>
+                    <div class="tagline" data-i18n="apps.cannon.detail_tagline">고철 캐논 하나로 끝까지 버텨라</div>
+                </div>
+            </div>
+            <div class="description" data-i18n="apps.cannon.detail_desc">화면을 드래그해 주포를 겨누고, 파츠를 붙여 캐논을 키우세요. 속성 레시피가 맞으면 시너지가 켜집니다. 한 판 약 5분, 사방에서 몰려오는 벌레 떼를 버텨 보세요.</div>
+            <div class="app-langs">
+                <span class="langs-label" data-i18n="langs_label">지원 언어</span>
+                <span class="langs-list">한국어<span class="separator">·</span>English<span class="separator">·</span>Español<span class="separator">·</span>日本語</span>
+            </div>
+            <div class="app-links">
+                <span class="link-badge-dev" data-i18n="dev_coming">개발중 · 곧 출시 예정</span>
+            </div>
+            <div class="app-meta-links">
+                <a href="https://claypark.github.io/dev-page/cannon/privacy-policy.html" data-i18n="privacy">개인정보처리방침</a>
+            </div>
+        </div>
+
         <div class="app-detail" id="detail-dandori" onclick="event.stopPropagation()">
             <button class="close-btn" onclick="closeDetail('dandori')">&times;</button>
             <div class="detail-header">
@@ -955,6 +984,13 @@
                         detail_tagline: '반죽을 숫자로, 레시피를 실험으로',
                         detail_desc: '모든 재료를 밀가루 기준 퍼센트(베이커스 %)로 다루는 제빵 레시피 앱. 수분율과 배합을 한눈에 계산하고, 구울 때마다 조건과 결과를 기록해 시행착오를 데이터로 쌓아가며 나만의 레시피를 완성하세요. 모든 기록은 기기 안에만 안전하게 저장됩니다.',
                     },
+                    cannon: {
+                        name: '캐논 버티기',
+                        tagline: '픽셀 캐논 디펜스',
+                        detail_name: '캐논 버티기 — 픽셀 캐논 디펜스',
+                        detail_tagline: '고철 캐논 하나로 끝까지 버텨라',
+                        detail_desc: '화면을 드래그해 주포를 겨누고, 파츠를 붙여 캐논을 키우세요. 속성 레시피가 맞으면 시너지가 켜집니다. 한 판 약 5분, 사방에서 몰려오는 벌레 떼를 버텨 보세요.',
+                    },
                 },
             },
             en: {
@@ -1035,6 +1071,13 @@
                         detail_name: 'DoughLab — Baking Recipe Lab',
                         detail_tagline: 'Turn dough into numbers, recipes into experiments',
                         detail_desc: 'A baking recipe app that treats every ingredient as a percentage of the flour weight (baker\'s percentages). Calculate hydration and ratios at a glance, log the conditions and result of each bake, and turn trial and error into data as you perfect your own recipes. Everything stays on your device.',
+                    },
+                    cannon: {
+                        name: 'Cannon Holdout',
+                        tagline: 'Pixel cannon defense',
+                        detail_name: 'Cannon Holdout — Pixel Cannon Defense',
+                        detail_tagline: 'One scrap cannon. Hold the line.',
+                        detail_desc: 'Drag to aim the cannon, then attach parts to grow it. Line up the right elemental recipe and a synergy kicks in. One run lasts about 5 minutes — hold out against the swarm.',
                     },
                 },
             },
@@ -1117,6 +1160,13 @@
                         detail_tagline: 'Convierte la masa en números y las recetas en experimentos',
                         detail_desc: 'Una app de recetas de panadería que trata cada ingrediente como un porcentaje del peso de la harina (porcentajes del panadero). Calcula la hidratación y las proporciones de un vistazo, anota las condiciones y el resultado de cada horneada, y convierte el ensayo y error en datos mientras perfeccionas tus propias recetas. Todo se queda en tu dispositivo.',
                     },
+                    cannon: {
+                        name: 'Cannon Holdout',
+                        tagline: 'Defensa de cañón pixelada',
+                        detail_name: 'Cannon Holdout — Defensa de cañón pixelada',
+                        detail_tagline: 'Un cañón de chatarra. Resiste hasta el final.',
+                        detail_desc: 'Arrastra para apuntar el cañón y añade piezas para hacerlo crecer. Combina los elementos correctos y se activa una sinergia. Una partida dura unos 5 minutos — aguanta contra la horda.',
+                    },
                 },
             },
             ja: {
@@ -1197,6 +1247,13 @@
                         detail_name: 'DoughLab — パンレシピラボ',
                         detail_tagline: '生地を数字に、レシピを実験に',
                         detail_desc: 'すべての材料を小麦粉基準のパーセント（ベーカーズ%）で扱うパン作りレシピアプリ。加水率と配合をひと目で計算し、焼くたびに条件と結果を記録して、試行錯誤をデータとして積み重ねながら自分だけのレシピを完成させましょう。すべての記録は端末内に安全に保存されます。',
+                    },
+                    cannon: {
+                        name: 'Cannon Holdout',
+                        tagline: 'ピクセルキャノン・ディフェンス',
+                        detail_name: 'Cannon Holdout — ピクセルキャノン・ディフェンス',
+                        detail_tagline: '鉄くずキャノン一門で最後まで耐え抜け',
+                        detail_desc: '画面をドラッグして主砲を狙い、パーツを装着してキャノンを強化しましょう。属性レシピが揃うとシナジーが発動します。1プレイ約5分、四方から押し寄せる虫の群れを耐え抜け。',
                     },
                 },
             },
