@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>개인정보처리방침 - 캐논 버티기</title>
+  <meta name="date" content="2026-09-15">
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --text: #e8e8e8;
+      --text-muted: #999;
+      --accent: #6366f1;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 2rem 1.5rem;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .lang-switch {
+      display: flex;
+      gap: 0.4rem;
+      justify-content: flex-end;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .lang-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 6px;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .lang-btn.active {
+      color: var(--text);
+      border-color: var(--accent);
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .date {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 2.5rem;
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: var(--accent);
+    }
+
+    p, li {
+      color: #ccc;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    ul {
+      padding-left: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    li { margin-bottom: 0.35rem; }
+
+    a { color: var(--accent); }
+
+    .highlight {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+      display: block;
+    }
+
+    th {
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 600;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+
+    td {
+      color: #ccc;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="lang-switch">
+      <button class="lang-btn" data-lang="ko">한국어</button>
+      <button class="lang-btn" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="es">Español</button>
+      <button class="lang-btn" data-lang="ja">日本語</button>
+    </div>
+
+    <!-- ═══════════ 한국어 ═══════════ -->
+    <article class="lang" id="lang-ko">
+      <h1>개인정보처리방침</h1>
+      <p class="date">시행일: 2026년 9월 15일</p>
+
+      <p>캐논 버티기(이하 "본 앱", 패키지명 <code>com.clpak.cannon</code>)는 이용자의 개인정보를 소중히 여기며, 관련 법령에 따라 보호하고 있어요. 이 방침은 본 앱이 어떤 정보를 다루고, 어떻게 이용하며, 이용자가 어떤 권리를 갖는지 알려드려요.</p>
+
+      <h2>1. 기기에만 저장되는 데이터</h2>
+      <p>게임 진행·설정·최고 기록은 기기 안에만 저장돼요. 로그인하지 않으면 이 데이터가 개발자 서버로 전송되지 않아요.</p>
+
+      <h2>2. Google Play 게임즈 / Apple Game Center 로그인 (선택)</h2>
+      <p>로그인하지 않아도 게임은 정상적으로 즐길 수 있어요. 로그인을 선택하면 아래 정보가 개발자 서버(Supabase, 서버 지역: 미국·유럽연합·싱가포르)로 전송돼요.</p>
+      <ul>
+        <li><strong>플레이어 ID·닉네임</strong> — 계정 식별, 유료 재화(코어 셀) 지갑 관리, 향후 리더보드 참여에 사용해요.</li>
+        <li>언제든 이메일로 데이터 삭제를 요청할 수 있어요 (§13 문의 및 개인정보 보호책임자).</li>
+      </ul>
+
+      <h2>3. 인앱 결제</h2>
+      <p>결제는 Google Play 또는 Apple App Store가 처리하며, 개발자는 카드번호 등 결제 수단 정보를 받지 않아요. 구매가 완료되면 구매 영수증(주문 번호·상품명·구매 시각)이 개발자 서버로 전송돼요.</p>
+      <ul>
+        <li>영수증은 유료 재화 지급·중복 지급 방지·환불 처리를 위해 서버에서 검증하고 보관해요.</li>
+        <li>결제 기록은 「전자상거래 등에서의 소비자보호에 관한 법률」에 따라 5년간 보관해요.</li>
+      </ul>
+
+      <h2>4. 광고</h2>
+      <p>본 앱은 Google AdMob 보상형 광고(부활·결과 2배·다시 뽑기·일일 보급 상자)를 이용해요. 광고 게재 시 아래 정보가 처리돼요.</p>
+      <div class="highlight">
+        <ul>
+          <li>Google AdMob — <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">개인정보처리방침</a></li>
+        </ul>
+      </div>
+      <ul>
+        <li>광고 식별자(Android: AAID, iOS: IDFA), 기기 정보, IP 주소, 광고 상호작용 기록이 Google에 의해 처리돼요.</li>
+        <li>iOS에서는 앱 추적 투명성(ATT) 동의에 따라 광고 식별자 사용 여부를 이용자가 결정해요. 기기 설정 &gt; 개인정보 보호에서 언제든 변경할 수 있어요.</li>
+        <li>유럽경제지역(EEA)·영국 이용자는 앱 최초 실행 시 표시되는 동의 화면(Google UMP)에서 맞춤 광고 여부를 선택할 수 있고, 앱 설정에서 언제든 변경할 수 있어요.</li>
+        <li>동의하지 않아도 앱은 정상적으로 이용할 수 있으며, 비맞춤 광고가 표시되거나 광고가 제한될 수 있어요.</li>
+        <li>기기 설정에서 광고 개인 최적화를 끌 수 있어요 (Android: 설정 &gt; 개인정보 보호 &gt; 광고, iOS: 설정 &gt; 개인정보 보호 &gt; 추적).</li>
+      </ul>
+
+      <h2>5. 분석 및 오류 수집</h2>
+      <ul>
+        <li><strong>Firebase Analytics</strong> — 사용 이벤트, 앱 인스턴스 ID를 수집해 서비스 개선에 활용해요.</li>
+        <li><strong>Firebase Crashlytics</strong> — 앱 오류 및 기기 정보를 수집해 안정성 개선에 활용해요.</li>
+      </ul>
+
+      <h2>6. 푸시 알림 (허용한 경우)</h2>
+      <p>알림 수신에 동의하면 FCM(Firebase Cloud Messaging) 토큰이 서버에 저장돼요. 이 토큰은 알림 발송에만 사용하며, 앱 설정에서 언제든 끌 수 있어요.</p>
+
+      <h2>7. 수집하지 않는 정보</h2>
+      <p>본 앱은 다음 정보를 수집하지 않아요.</p>
+      <ul>
+        <li>이름, 이메일 주소, 전화번호, 연락처</li>
+        <li>정확한 위치 정보(GPS 등)</li>
+        <li>사진·미디어 파일</li>
+      </ul>
+
+      <h2>8. 처리 위탁 및 국외 이전</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>수탁자</th>
+            <th>국가</th>
+            <th>처리 목적</th>
+            <th>보유 기간</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Google (Play 게임즈)</td>
+            <td>미국</td>
+            <td>로그인·계정 연동</td>
+            <td>Google 정책에 따름</td>
+          </tr>
+          <tr>
+            <td>Google (AdMob)</td>
+            <td>미국</td>
+            <td>보상형 광고 게재</td>
+            <td>Google 정책에 따름</td>
+          </tr>
+          <tr>
+            <td>Google (Firebase)</td>
+            <td>미국</td>
+            <td>앱 분석·오류 수집·푸시 발송</td>
+            <td>Google 정책에 따름</td>
+          </tr>
+          <tr>
+            <td>Apple (Game Center)</td>
+            <td>미국</td>
+            <td>로그인·계정 연동</td>
+            <td>Apple 정책에 따름</td>
+          </tr>
+          <tr>
+            <td>Apple (App Store)</td>
+            <td>미국</td>
+            <td>인앱 결제 처리</td>
+            <td>Apple 정책에 따름</td>
+          </tr>
+          <tr>
+            <td>Supabase</td>
+            <td>미국·유럽연합·싱가포르</td>
+            <td>계정 식별·코어 셀 지갑·영수증 검증·FCM 토큰 저장</td>
+            <td>삭제 요청 시까지 (결제 기록 5년)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>9. 보관 및 파기</h2>
+      <ul>
+        <li>기기 내 데이터는 앱을 삭제하면 함께 삭제돼요.</li>
+        <li>서버에 저장된 데이터(계정·FCM 토큰 등)는 삭제를 요청하면 지체 없이 파기해 드려요.</li>
+        <li>결제 기록은 법정 보관 기간(5년) 동안 보관 후 파기해요.</li>
+        <li>삭제 요청은 아래 이메일로 해 주세요.</li>
+      </ul>
+
+      <h2>10. 아동의 개인정보</h2>
+      <p>본 앱은 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않아요. 아동의 정보가 수집된 것을 발견하면 즉시 삭제할게요.</p>
+
+      <h2>11. 이용자의 권리</h2>
+      <ul>
+        <li>광고 추적 동의는 iOS 기기 설정(ATT) 또는 앱 내 광고 개인정보 설정(EEA)에서 변경할 수 있어요.</li>
+        <li>서버에 저장된 계정 데이터 열람이나 삭제는 이메일로 요청할 수 있어요.</li>
+        <li>푸시 알림은 앱 설정에서 끌 수 있어요.</li>
+      </ul>
+
+      <h2>12. 방침의 변경</h2>
+      <p>이 방침은 법령 변경이나 서비스 변동에 따라 수정될 수 있어요. 변경 사항은 이 페이지를 통해 안내해 드려요.</p>
+
+      <h2>13. 문의 및 개인정보 보호책임자</h2>
+      <ul>
+        <li>개발자: CLPAK (박정수)</li>
+        <li>개인정보 보호책임자: 박정수</li>
+        <li>이메일: <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a></li>
+      </ul>
+    </article>
+
+    <!-- ═══════════ English ═══════════ -->
+    <article class="lang" id="lang-en" hidden>
+      <h1>Privacy Policy</h1>
+      <p class="date">Effective: September 15, 2026</p>
+
+      <p>Cannon Holdout ("the App", package <code>com.clpak.cannon</code>) values your privacy and protects your personal information in accordance with applicable laws. This policy explains what data the App handles, how it is used, and what rights you have.</p>
+
+      <h2>1. Data Stored Only on Your Device</h2>
+      <p>Your game progress, settings, and high scores are stored locally on your device. Without signing in, none of this data is sent to the developer's servers.</p>
+
+      <h2>2. Google Play Games / Apple Game Center Sign-In (Optional)</h2>
+      <p>You can play without signing in. If you choose to sign in, the following information is sent to the developer's server (Supabase, hosted in the US, EU, and Singapore).</p>
+      <ul>
+        <li><strong>Player ID and display name</strong> — used to identify your account, manage your Core Cell wallet, and support future leaderboard participation.</li>
+        <li>You can request deletion of your data at any time by email (see §13 Contact).</li>
+      </ul>
+
+      <h2>3. In-App Purchases</h2>
+      <p>Payments are processed by Google Play or the Apple App Store. The developer never receives your payment details such as card numbers. When a purchase is completed, a purchase receipt (order ID, product name, timestamp) is sent to the developer's server.</p>
+      <ul>
+        <li>Receipts are verified and retained on the server to fulfill purchases, prevent duplicate grants, and handle refunds.</li>
+        <li>Purchase records are retained for five years as required by the Korean Act on the Consumer Protection in Electronic Commerce.</li>
+      </ul>
+
+      <h2>4. Advertising</h2>
+      <p>The App uses Google AdMob rewarded ads (revive, double rewards, re-roll, and daily supply box). When an ad is shown, the following information is processed.</p>
+      <div class="highlight">
+        <ul>
+          <li>Google AdMob — <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <ul>
+        <li>Advertising identifiers (Android: AAID, iOS: IDFA), device information, IP address, and ad interaction data are processed by Google.</li>
+        <li>On iOS, App Tracking Transparency (ATT) lets you decide whether the advertising identifier may be used. You can change this anytime in Device Settings &gt; Privacy &gt; Tracking.</li>
+        <li>Users in the European Economic Area (EEA) and the UK can choose whether to receive personalized ads via the consent screen (Google UMP) shown at first launch, and can update their choice in the app settings.</li>
+        <li>You can use the App without consenting; non-personalized ads may be shown or ads may be limited.</li>
+        <li>You can opt out of ad personalization in your device settings (Android: Settings &gt; Privacy &gt; Ads; iOS: Settings &gt; Privacy &gt; Tracking).</li>
+      </ul>
+
+      <h2>5. Analytics and Crash Reporting</h2>
+      <ul>
+        <li><strong>Firebase Analytics</strong> — usage events and app instance IDs are collected to improve the service.</li>
+        <li><strong>Firebase Crashlytics</strong> — crash reports and device information are collected to improve stability.</li>
+      </ul>
+
+      <h2>6. Push Notifications (If Permitted)</h2>
+      <p>If you enable notifications, a Firebase Cloud Messaging (FCM) token is stored on the server and used solely to send you notifications. You can turn off notifications anytime in the app settings.</p>
+
+      <h2>7. Data We Do Not Collect</h2>
+      <p>The App does not collect the following:</p>
+      <ul>
+        <li>Name, email address, phone number, or contacts</li>
+        <li>Precise location (GPS, etc.)</li>
+        <li>Photos or media files</li>
+      </ul>
+
+      <h2>8. Data Processors and International Transfers</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Processor</th>
+            <th>Country</th>
+            <th>Purpose</th>
+            <th>Retention</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Google (Play Games)</td>
+            <td>USA</td>
+            <td>Sign-in and account linking</td>
+            <td>Per Google's policy</td>
+          </tr>
+          <tr>
+            <td>Google (AdMob)</td>
+            <td>USA</td>
+            <td>Rewarded ad delivery</td>
+            <td>Per Google's policy</td>
+          </tr>
+          <tr>
+            <td>Google (Firebase)</td>
+            <td>USA</td>
+            <td>Analytics, crash reporting, push messaging</td>
+            <td>Per Google's policy</td>
+          </tr>
+          <tr>
+            <td>Apple (Game Center)</td>
+            <td>USA</td>
+            <td>Sign-in and account linking</td>
+            <td>Per Apple's policy</td>
+          </tr>
+          <tr>
+            <td>Apple (App Store)</td>
+            <td>USA</td>
+            <td>In-app purchase processing</td>
+            <td>Per Apple's policy</td>
+          </tr>
+          <tr>
+            <td>Supabase</td>
+            <td>USA / EU / Singapore</td>
+            <td>Account identity, Core Cell wallet, receipt verification, FCM token storage</td>
+            <td>Until deletion request (purchase records: 5 years)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>9. Retention and Deletion</h2>
+      <ul>
+        <li>Data stored on your device is deleted when you uninstall the App.</li>
+        <li>Server-side data (account, FCM token, etc.) is deleted without undue delay upon your request.</li>
+        <li>Purchase records are retained for the statutory period (5 years) before deletion.</li>
+        <li>To request deletion, contact us at the email address below.</li>
+      </ul>
+
+      <h2>10. Children's Privacy</h2>
+      <p>The App does not knowingly collect personal information from children under 13 (or the equivalent minimum age in your jurisdiction). If we discover such data has been collected, we will delete it immediately.</p>
+
+      <h2>11. Your Rights</h2>
+      <ul>
+        <li>You can change ad tracking consent in iOS Device Settings (ATT) or, in the EEA, in the in-app ad privacy settings.</li>
+        <li>You can request access to or deletion of your server-side account data by email.</li>
+        <li>You can turn off push notifications in the app settings.</li>
+      </ul>
+
+      <h2>12. Changes to This Policy</h2>
+      <p>This policy may be updated due to legal changes or service changes. Any updates will be announced on this page.</p>
+
+      <h2>13. Contact and Data Protection Officer</h2>
+      <ul>
+        <li>Developer: CLPAK (Jeongsoo Park)</li>
+        <li>Data Protection Officer: Jeongsoo Park</li>
+        <li>Email: <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a></li>
+      </ul>
+    </article>
+
+    <!-- ═══════════ Español ═══════════ -->
+    <article class="lang" id="lang-es" hidden>
+      <h1>Política de Privacidad</h1>
+      <p class="date">Vigente desde: 15 de septiembre de 2026</p>
+
+      <p>Cannon Holdout (en adelante "la App", paquete <code>com.clpak.cannon</code>) valora tu privacidad y protege tus datos personales conforme a la legislación aplicable. Esta política explica qué información maneja la App, cómo se utiliza y qué derechos tienes.</p>
+
+      <h2>1. Datos almacenados únicamente en tu dispositivo</h2>
+      <p>Tu progreso, ajustes y récord máximo se guardan localmente en el dispositivo. Si no inicias sesión, estos datos no se envían a los servidores del desarrollador.</p>
+
+      <h2>2. Inicio de sesión con Google Play Juegos / Apple Game Center (opcional)</h2>
+      <p>Puedes jugar sin iniciar sesión. Si eliges hacerlo, la siguiente información se envía al servidor del desarrollador (Supabase, alojado en EE. UU., UE y Singapur).</p>
+      <ul>
+        <li><strong>ID de jugador y nombre de pantalla</strong> — se utilizan para identificar tu cuenta, gestionar tu cartera de Células de Núcleo y participar en futuras clasificaciones.</li>
+        <li>Puedes solicitar la eliminación de tus datos en cualquier momento por correo electrónico (ver §13 Contacto).</li>
+      </ul>
+
+      <h2>3. Compras dentro de la aplicación</h2>
+      <p>Los pagos los procesan Google Play o Apple App Store. El desarrollador nunca recibe datos de pago como números de tarjeta. Al completarse una compra, el recibo (ID de pedido, nombre del producto, fecha y hora) se envía al servidor del desarrollador.</p>
+      <ul>
+        <li>Los recibos se verifican y conservan en el servidor para entregar las compras, evitar entregas duplicadas y gestionar reembolsos.</li>
+        <li>Los registros de compra se conservan durante cinco años conforme a la Ley coreana de Protección del Consumidor en el Comercio Electrónico.</li>
+      </ul>
+
+      <h2>4. Publicidad</h2>
+      <p>La App utiliza anuncios con recompensa de Google AdMob (revivir, doble recompensa, nueva tirada y caja de suministro diario). Al mostrarse un anuncio, se procesa la siguiente información.</p>
+      <div class="highlight">
+        <ul>
+          <li>Google AdMob — <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de privacidad</a></li>
+        </ul>
+      </div>
+      <ul>
+        <li>Google procesa identificadores publicitarios (Android: AAID, iOS: IDFA), información del dispositivo, dirección IP e interacciones con anuncios.</li>
+        <li>En iOS, la Transparencia de Seguimiento de Apps (ATT) te permite decidir si se usa el identificador publicitario. Puedes cambiarlo en Ajustes &gt; Privacidad &gt; Seguimiento.</li>
+        <li>Los usuarios del Espacio Económico Europeo (EEE) y del Reino Unido pueden elegir si reciben anuncios personalizados en la pantalla de consentimiento (Google UMP) que aparece al primer inicio, y modificar su preferencia en los ajustes de la App.</li>
+        <li>Puedes usar la App sin dar tu consentimiento; en ese caso se mostrarán anuncios no personalizados o la publicidad podría estar limitada.</li>
+        <li>Puedes desactivar la personalización de anuncios en los ajustes del dispositivo (Android: Ajustes &gt; Privacidad &gt; Anuncios; iOS: Ajustes &gt; Privacidad &gt; Seguimiento).</li>
+      </ul>
+
+      <h2>5. Análisis y registro de errores</h2>
+      <ul>
+        <li><strong>Firebase Analytics</strong> — se recopilan eventos de uso e IDs de instancia de la App para mejorar el servicio.</li>
+        <li><strong>Firebase Crashlytics</strong> — se recopilan informes de fallos e información del dispositivo para mejorar la estabilidad.</li>
+      </ul>
+
+      <h2>6. Notificaciones push (si las permites)</h2>
+      <p>Si activas las notificaciones, un token de Firebase Cloud Messaging (FCM) se almacena en el servidor y se usa exclusivamente para enviarte notificaciones. Puedes desactivarlas en cualquier momento desde los ajustes de la App.</p>
+
+      <h2>7. Datos que no recopilamos</h2>
+      <p>La App no recopila los siguientes datos:</p>
+      <ul>
+        <li>Nombre, dirección de correo electrónico, número de teléfono ni contactos</li>
+        <li>Ubicación precisa (GPS, etc.)</li>
+        <li>Fotos ni archivos multimedia</li>
+      </ul>
+
+      <h2>8. Encargados del tratamiento y transferencias internacionales</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Encargado</th>
+            <th>País</th>
+            <th>Finalidad</th>
+            <th>Conservación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Google (Play Juegos)</td>
+            <td>EE. UU.</td>
+            <td>Inicio de sesión y vinculación de cuenta</td>
+            <td>Según la política de Google</td>
+          </tr>
+          <tr>
+            <td>Google (AdMob)</td>
+            <td>EE. UU.</td>
+            <td>Entrega de anuncios con recompensa</td>
+            <td>Según la política de Google</td>
+          </tr>
+          <tr>
+            <td>Google (Firebase)</td>
+            <td>EE. UU.</td>
+            <td>Análisis, registro de fallos y mensajería push</td>
+            <td>Según la política de Google</td>
+          </tr>
+          <tr>
+            <td>Apple (Game Center)</td>
+            <td>EE. UU.</td>
+            <td>Inicio de sesión y vinculación de cuenta</td>
+            <td>Según la política de Apple</td>
+          </tr>
+          <tr>
+            <td>Apple (App Store)</td>
+            <td>EE. UU.</td>
+            <td>Procesamiento de compras</td>
+            <td>Según la política de Apple</td>
+          </tr>
+          <tr>
+            <td>Supabase</td>
+            <td>EE. UU. / UE / Singapur</td>
+            <td>Identificación de cuenta, cartera de Células de Núcleo, verificación de recibos, almacenamiento de token FCM</td>
+            <td>Hasta la solicitud de eliminación (registros de compra: 5 años)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>9. Conservación y eliminación</h2>
+      <ul>
+        <li>Los datos del dispositivo se eliminan al desinstalar la App.</li>
+        <li>Los datos en el servidor (cuenta, token FCM, etc.) se eliminan sin demora injustificada a petición tuya.</li>
+        <li>Los registros de compra se conservan durante el período legal obligatorio (5 años) antes de ser eliminados.</li>
+        <li>Envía tu solicitud de eliminación al correo electrónico indicado abajo.</li>
+      </ul>
+
+      <h2>10. Privacidad de los menores</h2>
+      <p>La App no recopila deliberadamente datos personales de menores de 13 años (o la edad mínima equivalente en tu jurisdicción). Si detectamos que se han recopilado tales datos, los eliminaremos de inmediato.</p>
+
+      <h2>11. Tus derechos</h2>
+      <ul>
+        <li>Puedes cambiar el consentimiento de seguimiento publicitario en los ajustes de iOS (ATT) o, en el EEE, en la configuración de privacidad de anuncios de la App.</li>
+        <li>Puedes solicitar acceso o eliminación de tus datos de cuenta en el servidor por correo electrónico.</li>
+        <li>Puedes desactivar las notificaciones push en los ajustes de la App.</li>
+      </ul>
+
+      <h2>12. Cambios en esta política</h2>
+      <p>Esta política puede actualizarse por cambios legales o del servicio. Los cambios se anunciarán en esta página.</p>
+
+      <h2>13. Contacto y responsable de protección de datos</h2>
+      <ul>
+        <li>Desarrollador: CLPAK (Jeongsoo Park)</li>
+        <li>Responsable de protección de datos: Jeongsoo Park</li>
+        <li>Correo electrónico: <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a></li>
+      </ul>
+    </article>
+
+    <!-- ═══════════ 日本語 ═══════════ -->
+    <article class="lang" id="lang-ja" hidden>
+      <h1>プライバシーポリシー</h1>
+      <p class="date">施行日：2026年9月15日</p>
+
+      <p>Cannon Holdout（以下「本アプリ」、パッケージ名 <code>com.clpak.cannon</code>）は、ユーザーの個人情報を大切にし、関連法令に従って適切に保護します。本ポリシーでは、本アプリが扱う情報の種類・利用方法・ユーザーの権利についてご説明します。</p>
+
+      <h2>1. 端末内にのみ保存されるデータ</h2>
+      <p>ゲームの進行状況・設定・ハイスコアは端末内にのみ保存されます。ログインしない場合、これらのデータは開発者のサーバーに送信されません。</p>
+
+      <h2>2. Google Play ゲーム / Apple Game Center ログイン（任意）</h2>
+      <p>ログインしなくてもゲームをお楽しみいただけます。ログインを選択した場合、以下の情報が開発者のサーバー（Supabase、米国・EU・シンガポールにホスト）に送信されます。</p>
+      <ul>
+        <li><strong>プレイヤーIDと表示名</strong> — アカウントの識別、コアセルウォレットの管理、将来のリーダーボード参加に使用します。</li>
+        <li>データの削除はいつでもメールでご請求いただけます（§13 お問い合わせ参照）。</li>
+      </ul>
+
+      <h2>3. アプリ内課金</h2>
+      <p>決済はGoogle PlayまたはApple App Storeが処理します。開発者がカード番号などの決済情報を受け取ることはありません。購入が完了すると、購入レシート（注文ID・商品名・購入日時）が開発者のサーバーに送信されます。</p>
+      <ul>
+        <li>レシートは、商品の付与・二重付与の防止・返金対応のためにサーバーで検証・保管されます。</li>
+        <li>購入記録は、韓国の電子商取引等消費者保護法に基づき5年間保管されます。</li>
+      </ul>
+
+      <h2>4. 広告</h2>
+      <p>本アプリはGoogle AdMobのリワード広告（復活・報酬2倍・リロール・デイリーサプライボックス）を利用しています。広告表示の際、以下の情報が処理されます。</p>
+      <div class="highlight">
+        <ul>
+          <li>Google AdMob — <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">プライバシーポリシー</a></li>
+        </ul>
+      </div>
+      <ul>
+        <li>広告識別子（Android：AAID、iOS：IDFA）、端末情報、IPアドレス、広告操作履歴がGoogleによって処理されます。</li>
+        <li>iOSでは、アプリトラッキングの透明性（ATT）により、広告識別子の使用可否をユーザーが決定できます。「設定」&gt;「プライバシーとセキュリティ」&gt;「トラッキング」からいつでも変更できます。</li>
+        <li>欧州経済領域（EEA）・英国のユーザーは、初回起動時に表示される同意画面（Google UMP）でパーソナライズ広告の受け取り可否を選択でき、アプリ設定からいつでも変更できます。</li>
+        <li>同意しなくても本アプリはご利用いただけます。その場合、非パーソナライズ広告が表示されるか、広告が制限される場合があります。</li>
+        <li>端末設定から広告のパーソナライズを無効にできます（Android：設定&gt;プライバシー&gt;広告、iOS：設定&gt;プライバシーとセキュリティ&gt;トラッキング）。</li>
+      </ul>
+
+      <h2>5. 分析・クラッシュレポート</h2>
+      <ul>
+        <li><strong>Firebase Analytics</strong> — サービス改善のため、利用イベントとアプリインスタンスIDを収集します。</li>
+        <li><strong>Firebase Crashlytics</strong> — 安定性向上のため、クラッシュレポートと端末情報を収集します。</li>
+      </ul>
+
+      <h2>6. プッシュ通知（許可した場合）</h2>
+      <p>通知を許可すると、Firebase Cloud Messaging（FCM）トークンがサーバーに保存され、通知の送信にのみ使用されます。アプリ設定からいつでもオフにできます。</p>
+
+      <h2>7. 収集しない情報</h2>
+      <p>本アプリは以下の情報を収集しません。</p>
+      <ul>
+        <li>氏名、メールアドレス、電話番号、連絡先</li>
+        <li>正確な位置情報（GPSなど）</li>
+        <li>写真・メディアファイル</li>
+      </ul>
+
+      <h2>8. 処理委託・国外移転</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>委託先</th>
+            <th>国・地域</th>
+            <th>利用目的</th>
+            <th>保管期間</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Google（Play ゲーム）</td>
+            <td>米国</td>
+            <td>ログイン・アカウント連携</td>
+            <td>Googleのポリシーに準拠</td>
+          </tr>
+          <tr>
+            <td>Google（AdMob）</td>
+            <td>米国</td>
+            <td>リワード広告の配信</td>
+            <td>Googleのポリシーに準拠</td>
+          </tr>
+          <tr>
+            <td>Google（Firebase）</td>
+            <td>米国</td>
+            <td>分析・クラッシュレポート・プッシュ通知</td>
+            <td>Googleのポリシーに準拠</td>
+          </tr>
+          <tr>
+            <td>Apple（Game Center）</td>
+            <td>米国</td>
+            <td>ログイン・アカウント連携</td>
+            <td>Appleのポリシーに準拠</td>
+          </tr>
+          <tr>
+            <td>Apple（App Store）</td>
+            <td>米国</td>
+            <td>アプリ内課金の処理</td>
+            <td>Appleのポリシーに準拠</td>
+          </tr>
+          <tr>
+            <td>Supabase</td>
+            <td>米国・EU・シンガポール</td>
+            <td>アカウント識別・コアセルウォレット・レシート検証・FCMトークン保管</td>
+            <td>削除請求まで（購入記録は5年）</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>9. 保管・削除</h2>
+      <ul>
+        <li>端末内のデータはアプリをアンインストールすると削除されます。</li>
+        <li>サーバー上のデータ（アカウント・FCMトークンなど）は、ご請求後に速やかに削除します。</li>
+        <li>購入記録は法定保管期間（5年）の満了後に削除します。</li>
+        <li>削除のご請求は下記メールアドレスへお送りください。</li>
+      </ul>
+
+      <h2>10. 子どものプライバシー</h2>
+      <p>本アプリは13歳未満（またはお住まいの地域で定められた最低年齢）の子どもの個人情報を意図的に収集しません。万が一収集されていると判明した場合は、速やかに削除します。</p>
+
+      <h2>11. ユーザーの権利</h2>
+      <ul>
+        <li>広告トラッキングの同意は、iOSの端末設定（ATT）またはEEA向けのアプリ内広告プライバシー設定から変更できます。</li>
+        <li>サーバー上のアカウントデータの閲覧・削除はメールでご請求いただけます。</li>
+        <li>プッシュ通知はアプリ設定からいつでもオフにできます。</li>
+      </ul>
+
+      <h2>12. ポリシーの変更</h2>
+      <p>本ポリシーは、法令の改正やサービスの変更に応じて改定されることがあります。変更内容はこのページでお知らせします。</p>
+
+      <h2>13. お問い合わせ・個人情報保護責任者</h2>
+      <ul>
+        <li>開発者：CLPAK（Jeongsoo Park）</li>
+        <li>個人情報保護責任者：Jeongsoo Park</li>
+        <li>メール：<a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a></li>
+      </ul>
+    </article>
+
+    <footer>&copy; 2026 CLPAK. All rights reserved.</footer>
+  </div>
+
+  <script>
+    (function () {
+      var SUPPORTED = ['ko', 'en', 'es', 'ja'];
+      var params = new URLSearchParams(location.search);
+      var lang = params.get('lang')
+        || localStorage.getItem('clpak_lang')
+        || (navigator.language || 'ko').slice(0, 2);
+      if (SUPPORTED.indexOf(lang) === -1) lang = 'ko';
+
+      function setLang(l) {
+        SUPPORTED.forEach(function (s) {
+          document.getElementById('lang-' + s).hidden = (s !== l);
+        });
+        document.querySelectorAll('.lang-btn').forEach(function (b) {
+          b.classList.toggle('active', b.dataset.lang === l);
+        });
+        document.documentElement.lang = l;
+        var titles = {
+          ko: '개인정보처리방침 - 캐논 버티기',
+          en: 'Privacy Policy - Cannon Holdout',
+          es: 'Política de Privacidad - Cannon Holdout',
+          ja: 'プライバシーポリシー - Cannon Holdout'
+        };
+        document.title = titles[l];
+      }
+
+      document.querySelectorAll('.lang-btn').forEach(function (b) {
+        b.addEventListener('click', function () {
+          localStorage.setItem('clpak_lang', b.dataset.lang);
+          setLang(b.dataset.lang);
+        });
+      });
+
+      setLang(lang);
+    })();
+  </script>
+</body>
+</html>
