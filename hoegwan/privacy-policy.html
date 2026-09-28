@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>개인정보처리방침 - 회관</title>
+  <style>
+    :root {
+      --bg: #F2F4F8;
+      --surface: #FFFFFF;
+      --border: #E2E8F0;
+      --text: #14213D;
+      --text-muted: #718096;
+      --accent: #2E5BFF;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 2rem 1.5rem;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .date {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 2.5rem;
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: var(--accent);
+    }
+
+    p, li {
+      color: #4A5568;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    ul {
+      padding-left: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    li { margin-bottom: 0.35rem; }
+
+    .highlight {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>개인정보처리방침</h1>
+    <p class="date">시행일: 2026년 9월 28일</p>
+
+    <p>회관(Hoegwan, 이하 "본 앱")은 레슨장 코치·사장님이 회원과 시간표를 관리하는 앱입니다. 본 앱은 이용자의 개인정보를 소중히 여기며 관련 법령에 따라 보호합니다. 이 방침은 본 앱이 어떤 정보를 수집하고, 어떻게 이용하며, 어떻게 보호하는지 안내합니다.</p>
+
+    <h2>1. 수집하는 정보</h2>
+    <div class="highlight">
+      <p><strong>계정 정보 (카카오 · Apple 로그인)</strong></p>
+      <p>로그인할 때 소셜 계정의 식별자와, 제공되는 경우 이메일 주소·닉네임을 받습니다. 가입을 마치려면 이름과 휴대폰 번호를 직접 입력합니다.</p>
+    </div>
+    <ul>
+      <li>계정 식별자</li>
+      <li>이메일 주소(Apple 로그인 시 제공되는 경우)</li>
+      <li>이름, 휴대폰 번호</li>
+    </ul>
+
+    <div class="highlight">
+      <p><strong>레슨장 운영 데이터</strong></p>
+      <p>매장 정보(매장 이름, 종목, 영업시간, 코트, 레슨 유형과 가격), 코치 합류 정보, 초대 코드, 그리고 변경 이력(누가 언제 무엇을 바꿨는지)이 서버에 저장됩니다.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>코치가 입력하는 수강생 정보</strong></p>
+      <p>코치·사장님이 수강생을 등록하면 수강생의 이름, 휴대폰 번호, 메모, 수강 내역(레슨 일정·출석·결석·보강·수강료)이 저장됩니다. 이 정보는 해당 매장의 코치·사장님만 볼 수 있습니다.</p>
+    </div>
+
+    <p>본 앱은 위치 정보, 연락처(주소록) 전체, 사진, 광고 식별자를 수집하지 않습니다.</p>
+
+    <h2>2. 정보의 이용 목적</h2>
+    <ul>
+      <li>사용자 인증 및 계정 관리</li>
+      <li>레슨 시간표·수강 관리 서비스 제공</li>
+      <li>초대 코드를 통한 코치 공동 관리 기능 제공</li>
+      <li>변경 이력 보관(분쟁 시 확인)</li>
+    </ul>
+
+    <h2>3. 정보의 저장 및 전송</h2>
+    <div class="highlight">
+      <p><strong>데이터는 Supabase(PostgreSQL) 해외 클라우드 서버에 저장됩니다.</strong></p>
+      <p>모든 데이터 전송은 HTTPS로 암호화됩니다. Row Level Security(RLS) 정책으로 본인과 같은 매장에 승인된 구성원만 데이터에 접근할 수 있습니다. 다른 코치의 휴대폰 번호는 본인만 볼 수 있습니다.</p>
+    </div>
+
+    <h2>4. 제3자 제공</h2>
+    <p>본 앱은 수집한 정보를 제3자에게 판매하거나 제공하지 않습니다. 아래 서비스가 처리를 위탁받아 데이터를 다룹니다.</p>
+    <ul>
+      <li>카카오 (인증): 카카오 로그인</li>
+      <li>Apple (인증): Sign in with Apple</li>
+      <li>Supabase (데이터 저장): 계정·매장·수강 데이터</li>
+    </ul>
+    <p>본 앱에는 광고가 없으며 광고·분석 SDK를 사용하지 않습니다.</p>
+
+    <h2>5. 데이터 보관 기간</h2>
+    <p>데이터는 계정이 활성화된 동안 보관됩니다. 계정을 삭제하면 계정 정보(식별자, 이메일, 이름, 휴대폰 번호)가 삭제되고, <strong>본인이 만든 매장과 그 안의 수강생·수강·시간표 데이터도 함께 삭제</strong>됩니다.</p>
+    <p>다른 사람의 매장에 코치로 합류했던 경우, 그 매장의 변경 이력과 레슨 기록은 매장 운영을 위해 <strong>계정과 연결이 끊긴 상태</strong>로 남습니다. 자세한 내용은 <a href="delete-account.html">계정 삭제 안내</a>를 참고해 주세요.</p>
+
+    <h2>6. 이용자의 권리</h2>
+    <ul>
+      <li>언제든지 계정 삭제를 요청할 수 있습니다(<a href="delete-account.html">계정 삭제 안내</a>).</li>
+      <li>개인정보 열람, 정정, 삭제를 요청할 수 있습니다.</li>
+      <li>수강생은 자신의 정보를 등록한 매장에 삭제를 요청하거나, 아래 이메일로 요청할 수 있습니다.</li>
+    </ul>
+
+    <h2>7. 아동의 개인정보</h2>
+    <p>본 앱은 코치·사장님용 업무 앱이며 만 14세 미만 아동의 계정 가입을 받지 않습니다. 수강생 정보는 코치가 업무 목적으로 입력하며, 만 14세 미만 수강생의 경우 보호자 연락처를 입력하도록 안내합니다.</p>
+
+    <h2>8. 방침의 변경</h2>
+    <p>이 방침은 법령 변경이나 서비스 변동에 따라 수정될 수 있습니다. 변경 사항은 이 페이지를 통해 안내합니다.</p>
+
+    <h2>9. 문의</h2>
+    <ul>
+      <li>이메일: claypark12@gmail.com</li>
+    </ul>
+
+    <footer>&copy; 2026 CLPAK. All rights reserved.</footer>
+  </div>
+</body>
+</html>

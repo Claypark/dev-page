@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>계정 삭제 요청 - 회관</title>
+  <style>
+    :root {
+      --bg: #F2F4F8;
+      --surface: #FFFFFF;
+      --border: #E2E8F0;
+      --text: #14213D;
+      --text-muted: #718096;
+      --accent: #2E5BFF;
+      --danger: #E53E3E;
+      --danger-light: #FFF5F5;
+      --danger-border: #FED7D7;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 2rem 1.5rem;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: var(--accent);
+    }
+
+    p, li {
+      color: #4A5568;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    ul {
+      padding-left: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    li { margin-bottom: 0.35rem; }
+
+    .highlight {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+    }
+
+    .warning {
+      background: var(--danger-light);
+      border: 1px solid var(--danger-border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+    }
+
+    .warning p {
+      color: var(--danger);
+    }
+
+    .steps {
+      counter-reset: step;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .steps li {
+      counter-increment: step;
+      padding-left: 2rem;
+      position: relative;
+      margin-bottom: 0.75rem;
+    }
+
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0.1rem;
+      width: 1.4rem;
+      height: 1.4rem;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .email-link {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--danger);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .email-link:hover {
+      opacity: 0.9;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>계정 및 데이터 삭제 요청</h1>
+    <p class="subtitle">Account &amp; Data Deletion Request</p>
+
+    <p>회관(Hoegwan) 앱에서 사용 중인 계정과 관련 데이터의 삭제를 요청할 수 있습니다.</p>
+
+    <h2>삭제되는 데이터</h2>
+    <div class="highlight">
+      <ul>
+        <li><strong>계정 정보</strong> — 계정 식별자, 이메일 주소, 이름, 휴대폰 번호</li>
+        <li><strong>본인이 만든 매장</strong> — 매장 이름·영업시간·코트·레슨 유형·초대 코드, 그리고 그 매장의 수강생·수강·시간표·변경 이력 전체</li>
+      </ul>
+    </div>
+
+    <h2>삭제 후에도 남는 데이터</h2>
+    <p>다른 사람의 매장에 코치로 합류했던 경우, 그 매장에서 진행한 레슨 기록과 변경 이력은 <strong>그 매장에 남습니다.</strong> 매장이 수강료와 출석을 정산하려면 기록이 남아 있어야 하기 때문입니다.</p>
+    <p>이 기록은 <strong>계정과 연결이 끊긴 상태</strong>로 남으며, 삭제 후에는 본인이 열람하거나 로그인할 수 없습니다. 휴대폰 번호 등 연락처는 함께 삭제됩니다.</p>
+
+    <div class="warning">
+      <p><strong>삭제된 계정과 매장은 복구할 수 없습니다.</strong> 삭제 전 신중하게 결정해 주세요.</p>
+    </div>
+
+    <h2>삭제 요청 방법</h2>
+
+    <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">앱에서 직접 삭제하기 (권장)</h3>
+    <ol class="steps">
+      <li>회관 앱을 열고 <strong>매장</strong> 탭으로 이동합니다</li>
+      <li>맨 아래 <strong>계정</strong>을 누릅니다</li>
+      <li><strong>계정 삭제</strong>를 누르고 확인하면 즉시 삭제됩니다</li>
+    </ol>
+
+    <h3 style="font-size: 1rem; margin-top: 1.25rem; margin-bottom: 0.5rem;">이메일로 요청</h3>
+    <p>앱에 로그인할 수 없는 경우 아래 이메일로 요청해 주세요. 가입 방법(카카오/Apple)과 가입 이름·휴대폰 번호를 적어 주시면 본인 확인 후 처리합니다.</p>
+
+    <a class="email-link" href="mailto:claypark12@gmail.com?subject=%5B%ED%9A%8C%EA%B4%80%5D%20%EA%B3%84%EC%A0%95%20%EC%82%AD%EC%A0%9C%20%EC%9A%94%EC%B2%AD&body=%EC%95%88%EB%85%95%ED%95%98%EC%84%B8%EC%9A%94.%0A%0A%ED%9A%8C%EA%B4%80%20%EC%95%B1%20%EA%B3%84%EC%A0%95%20%EB%B0%8F%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%82%AD%EC%A0%9C%EB%A5%BC%20%EC%9A%94%EC%B2%AD%ED%95%A9%EB%8B%88%EB%8B%A4.%0A%0A%EA%B0%80%EC%9E%85%20%EB%B0%A9%EB%B2%95%28%EC%B9%B4%EC%B9%B4%EC%98%A4/Apple%29%3A%0A%EA%B0%80%EC%9E%85%20%EC%9D%B4%EB%A6%84%3A%0A%ED%9C%B4%EB%8C%80%ED%8F%B0%20%EB%B2%88%ED%98%B8%3A%0A">계정 삭제 요청 이메일 보내기</a>
+
+    <h2>처리 기간</h2>
+    <div class="highlight">
+      <p><strong>앱에서 삭제하면 즉시</strong> 처리됩니다.<br>
+        이메일로 요청하신 경우 <strong>30일 이내</strong>에 처리되며, 완료 시 이메일로 안내드립니다.</p>
+    </div>
+
+    <h2>문의</h2>
+    <ul>
+      <li>이메일: claypark12@gmail.com</li>
+    </ul>
+
+    <footer>&copy; 2026 CLPAK. All rights reserved.</footer>
+  </div>
+</body>
+</html>
