@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#F4F6FB">
+  <title>보강 시간 고르기 - 회관</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <style>
+    :root {
+      --blue: #2E5BFF;
+      --blue-soft: #E8EEFF;
+      --navy: #14213D;
+      --lime: #D8F34A;
+      --bg: #F4F6FB;
+      --surface: #FFFFFF;
+      --muted: #6B7489;
+      --faint: #A9B0C0;
+      --danger: #D64545;
+      --radius: 18px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html, body { background: var(--bg); }
+
+    body {
+      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+      color: var(--navy);
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 28px 20px calc(120px + env(safe-area-inset-bottom));
+    }
+
+    .store {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--blue);
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      font-size: 24px;
+      line-height: 1.35;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      word-break: keep-all;
+    }
+
+    .sub {
+      margin-top: 8px;
+      font-size: 15px;
+      color: var(--muted);
+      word-break: keep-all;
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-top: 20px;
+    }
+
+    .card-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .card-value {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .card-meta {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 28px 0 12px;
+    }
+
+    /* 날짜 칸 — 가로 스크롤 */
+    .days {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      margin: 0 -20px;
+      padding: 2px 20px 6px;
+      scrollbar-width: none;
+    }
+    .days::-webkit-scrollbar { display: none; }
+
+    .day {
+      flex: 0 0 auto;
+      width: 58px;
+      padding: 10px 0 12px;
+      border: 0;
+      border-radius: 16px;
+      background: var(--surface);
+      color: var(--navy);
+      font: inherit;
+      text-align: center;
+      cursor: pointer;
+      scroll-snap-align: start;
+      transition: background .15s, color .15s, opacity .15s;
+    }
+    .day .wd { display: block; font-size: 12px; font-weight: 600; color: var(--muted); }
+    .day .dd { display: block; font-size: 19px; font-weight: 800; margin-top: 2px; }
+    .day .mm { display: block; font-size: 11px; color: var(--faint); height: 14px; }
+    .day.sun .wd { color: #D64545; }
+    .day.sat .wd { color: var(--blue); }
+    .day.empty { opacity: .38; }
+    .day.selected { background: var(--navy); color: #fff; opacity: 1; }
+    .day.selected .wd, .day.selected .mm { color: rgba(255,255,255,.7); }
+
+    /* 시각 버튼 */
+    .times {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .time {
+      border: 0;
+      border-radius: 14px;
+      padding: 14px 0;
+      background: var(--surface);
+      color: var(--navy);
+      font: inherit;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .time small { display: block; font-size: 11px; font-weight: 600; color: var(--muted); }
+    .time.selected { background: var(--blue); color: #fff; }
+    .time.selected small { color: rgba(255,255,255,.75); }
+
+    .band-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      margin: 16px 0 8px;
+    }
+    .band-title:first-child { margin-top: 0; }
+
+    .hint {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 22px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 15px;
+      word-break: keep-all;
+    }
+
+    .skeleton {
+      height: 50px;
+      border-radius: 14px;
+      background: linear-gradient(90deg, #E9EDF5 0%, #F3F5FA 50%, #E9EDF5 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.2s infinite;
+    }
+    @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+    /* 아래 고정 버튼 */
+    .bar {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      padding: 12px 20px calc(16px + env(safe-area-inset-bottom));
+      background: linear-gradient(to top, var(--bg) 70%, rgba(244,246,251,0));
+    }
+    .bar-inner { max-width: 440px; margin: 0 auto; }
+
+    .btn {
+      display: block;
+      width: 100%;
+      border: 0;
+      border-radius: 16px;
+      padding: 17px 0;
+      font: inherit;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: opacity .15s, transform .1s;
+    }
+    .btn:active { transform: scale(.985); }
+    .btn:disabled { opacity: .35; cursor: default; transform: none; }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-ghost { background: transparent; color: var(--muted); font-weight: 600; padding: 14px 0; }
+    .btn-soft { background: var(--blue-soft); color: var(--blue); }
+    .btn + .btn { margin-top: 8px; }
+
+    /* 결과·안내 화면 */
+    .center {
+      text-align: center;
+      padding-top: 36px;
+    }
+    .center img {
+      width: 120px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    .center h1 { font-size: 22px; }
+    .center .card { text-align: left; }
+
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--lime);
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    /* 확인 시트 */
+    .scrim {
+      position: fixed; inset: 0;
+      background: rgba(20,33,61,.45);
+      display: flex; align-items: flex-end; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s;
+      z-index: 10;
+    }
+    .scrim.open { opacity: 1; pointer-events: auto; }
+    .sheet {
+      width: 100%;
+      max-width: 480px;
+      background: var(--surface);
+      border-radius: 24px 24px 0 0;
+      padding: 26px 20px calc(18px + env(safe-area-inset-bottom));
+      transform: translateY(24px);
+      transition: transform .2s;
+    }
+    .scrim.open .sheet { transform: none; }
+    .sheet h2 { font-size: 20px; font-weight: 800; word-break: keep-all; }
+    .sheet .big {
+      margin: 18px 0 6px;
+      padding: 18px 20px;
+      border-radius: var(--radius);
+      background: var(--bg);
+    }
+    .sheet .big b { display: block; font-size: 20px; font-weight: 800; }
+    .sheet .big span { font-size: 14px; color: var(--muted); }
+    .sheet p { font-size: 14px; color: var(--muted); margin: 10px 0 20px; word-break: keep-all; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(100px + env(safe-area-inset-bottom));
+      transform: translate(-50%, 12px);
+      max-width: calc(100% - 40px);
+      padding: 12px 18px;
+      border-radius: 14px;
+      background: var(--navy);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s, transform .2s;
+      z-index: 20;
+      word-break: keep-all;
+      text-align: center;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    .mock-badge {
+      position: fixed; top: 8px; right: 8px;
+      font-size: 11px; font-weight: 700;
+      padding: 3px 8px; border-radius: 8px;
+      background: var(--lime); color: var(--navy);
+      z-index: 30;
+    }
+
+    .foot {
+      margin-top: 36px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--faint);
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap" id="app">
+    <div class="center">
+      <div class="skeleton" style="height:28px;width:60%;margin:0 auto 12px"></div>
+      <div class="skeleton" style="height:18px;width:40%;margin:0 auto"></div>
+    </div>
+  </main>
+  <div class="bar" id="bar" hidden><div class="bar-inner" id="bar-inner"></div></div>
+  <div class="scrim" id="scrim"><div class="sheet" id="sheet"></div></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    'use strict';
+
+    // 회관 Supabase(publishable anon 키) — 페이지는 토큰이 곧 권한인 공개 RPC 셋만 부른다.
+    const SUPABASE_URL = 'https://zdvyzauugrpjqttsicve.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpkdnl6YXV1Z3JwanF0dHNpY3ZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MTQ5MjAsImV4cCI6MjA5MDA5MDkyMH0.GDLhEvb8Nsf4n0-rrB1dM-EIsdUOWPOXAmY7azko2Zc';
+
+    const params = new URLSearchParams(location.search);
+    const TOKEN = (params.get('t') || '').trim();
+    const MOCK = params.get('mock') === '1';
+
+    const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
+
+    const state = {
+      link: null,
+      days: [],            // ['YYYY-MM-DD', …]
+      slots: {},           // date → [{start_time, court_label}] | undefined(조회 전)
+      date: null,
+      time: null,
+      changing: false,     // requested에서 «다른 시간으로 바꾸기»
+      sending: false,
+    };
+
+    // ── 날짜·시각 문구 ───────────────────────────────────────────
+    function parseDate(s) {
+      const [y, m, d] = s.split('-').map(Number);
+      return new Date(y, m - 1, d);
+    }
+    function isoDate(dt) {
+      const p = (n) => String(n).padStart(2, '0');
+      return `${dt.getFullYear()}-${p(dt.getMonth() + 1)}-${p(dt.getDate())}`;
+    }
+    function dateLabel(s) {
+      const d = parseDate(s);
+      return `${d.getMonth() + 1}월 ${d.getDate()}일 (${WEEKDAYS[d.getDay()]})`;
+    }
+    function toMin(hm) {
+      const [h, m] = hm.split(':').map(Number);
+      return h * 60 + m;
+    }
+    function timeLabel(hm) {
+      const t = toMin(hm);
+      const h = Math.floor(t / 60), m = t % 60;
+      const ampm = h < 12 ? '오전' : '오후';
+      const h12 = h % 12 === 0 ? 12 : h % 12;
+      return `${ampm} ${h12}:${String(m).padStart(2, '0')}`;
+    }
+    function rangeLabel(hm, minutes) {
+      const end = toMin(hm) + (minutes || 0);
+      const e = `${String(Math.floor(end / 60)).padStart(2, '0')}:${String(end % 60).padStart(2, '0')}`;
+      return minutes ? `${timeLabel(hm)} – ${timeLabel(e)}` : timeLabel(hm);
+    }
+    function esc(s) {
+      return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+    function coachLabel(link) {
+      return link.coach_name ? `${link.coach_name} 코치님` : '코치님';
+    }
+
+    // ── 서버 ─────────────────────────────────────────────────────
+    async function rpc(fn, body) {
+      if (MOCK) return mockRpc(fn, body);
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        const err = new Error((data && data.message) || `http_${res.status}`);
+        err.code = err.message;
+        throw err;
+      }
+      return data;
+    }
+
+    // ── 화면 ─────────────────────────────────────────────────────
+    const $app = document.getElementById('app');
+    const $bar = document.getElementById('bar');
+    const $barInner = document.getElementById('bar-inner');
+    const $scrim = document.getElementById('scrim');
+    const $sheet = document.getElementById('sheet');
+
+    function setBar(html) {
+      if (!html) { $bar.hidden = true; $barInner.innerHTML = ''; return; }
+      $bar.hidden = false;
+      $barInner.innerHTML = html;
+    }
+
+    let toastTimer = null;
+    function toast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+    }
+
+    function header(link, title, sub) {
+      return `
+        <div class="store">${esc(link.store_name || '회관')}</div>
+        <h1>${title}</h1>
+        ${sub ? `<p class="sub">${sub}</p>` : ''}`;
+    }
+
+    function originalCard(link) {
+      if (!link.original) return '';
+      return `
+        <div class="card">
+          <div class="card-label">보강할 레슨</div>
+          <div class="card-value">${esc(dateLabel(link.original.date))} ${esc(timeLabel(link.original.start_time))}</div>
+          <div class="card-meta">${esc(coachLabel(link))}${link.minutes ? ` · ${link.minutes}분` : ''}</div>
+        </div>`;
+    }
+
+    function messageScreen({ pill, title, body, card, button }) {
+      setBar(null);
+      $app.innerHTML = `
+        <div class="center">
+          <img src="calendar.png" alt="" width="120" height="126">
+          ${pill ? `<div><span class="pill">${pill}</span></div>` : ''}
+          <h1>${title}</h1>
+          ${body ? `<p class="sub">${body}</p>` : ''}
+        </div>
+        ${card || ''}
+        ${button || ''}
+        <p class="foot">회관 · 테니스 레슨 관리</p>`;
+    }
+
+    function render() {
+      const link = state.link;
+      if (!link || link.status === 'not_found') {
+        document.title = '링크를 찾을 수 없어요 - 회관';
+        return messageScreen({
+          title: '링크를 찾을 수 없어요',
+          body: '받은 문자의 주소를 다시 확인하거나<br>코치님께 새 링크를 요청해 주세요.',
+        });
+      }
+      const name = esc(link.member_name || '회원');
+      if (link.status === 'scheduled') {
+        const s = link.scheduled;
+        return messageScreen({
+          pill: '보강 확정',
+          title: `${name}님, 보강이 잡혔어요`,
+          body: '이 시간에 만나요.',
+          card: s ? `
+            <div class="card">
+              <div class="card-label">보강 일정</div>
+              <div class="card-value">${esc(dateLabel(s.date))}</div>
+              <div class="card-value">${esc(rangeLabel(s.start_time, link.minutes))}</div>
+              <div class="card-meta">${esc(coachLabel(link))}${s.court_name ? ` · ${esc(s.court_name)} 코트` : ''}</div>
+            </div>` : '',
+        });
+      }
+      if (link.status === 'closed') {
+        const s = link.scheduled;
+        return messageScreen({
+          title: s ? '보강 일정이 이미 정해졌어요' : '이 링크는 더 이상 쓸 수 없어요',
+          body: s ? '코치님이 보강 시간을 정했어요.' : '레슨 일정이 바뀌었어요. 궁금한 점은 코치님께 물어봐 주세요.',
+          card: s ? `
+            <div class="card">
+              <div class="card-label">보강 일정</div>
+              <div class="card-value">${esc(dateLabel(s.date))} ${esc(timeLabel(s.start_time))}</div>
+              <div class="card-meta">${esc(coachLabel(link))}${s.court_name ? ` · ${esc(s.court_name)} 코트` : ''}</div>
+            </div>` : '',
+        });
+      }
+      if (link.status === 'expired') {
+        const p = link.pending;
+        return messageScreen({
+          title: '링크 기간이 지났어요',
+          body: p ? '요청한 시간은 코치님이 확인하고 있어요.<br>바꾸려면 코치님께 새 링크를 요청해 주세요.'
+                  : '코치님께 새 링크를 요청해 주세요.',
+          card: p ? `
+            <div class="card">
+              <div class="card-label">요청한 시간</div>
+              <div class="card-value">${esc(dateLabel(p.date))} ${esc(timeLabel(p.start_time))}</div>
+            </div>` : '',
+        });
+      }
+      if (link.status === 'requested' && !state.changing) {
+        const p = link.pending;
+        messageScreen({
+          pill: '확인 중',
+          title: `${name}님, 요청을 보냈어요`,
+          body: `${esc(coachLabel(link))}이 확인하면 확정돼요.`,
+          card: p ? `
+            <div class="card">
+              <div class="card-label">요청한 시간</div>
+              <div class="card-value">${esc(dateLabel(p.date))}</div>
+              <div class="card-value">${esc(rangeLabel(p.start_time, link.minutes))}</div>
+            </div>` : '',
+          button: `<div style="margin-top:20px"><button class="btn btn-soft" id="change">다른 시간으로 바꾸기</button></div>`,
+        });
+        document.getElementById('change').addEventListener('click', () => {
+          state.changing = true;
+          state.date = null;
+          state.time = null;
+          render();
+          pickFirstDay();
+        });
+        return;
+      }
+      renderPicker();
+    }
+
+    function renderPicker() {
+      const link = state.link;
+      const name = esc(link.member_name || '회원');
+      const title = state.changing ? '바꿀 시간을 골라 주세요' : `${name}님<br>보강 시간을 골라 주세요`;
+      const sub = `${esc(coachLabel(link))}이 비어 있는 시간이에요. 고르면 코치님이 확인하고 확정해요.`;
+      const days = state.days.map((d) => {
+        const dt = parseDate(d);
+        const slots = state.slots[d];
+        const cls = ['day'];
+        if (dt.getDay() === 0) cls.push('sun');
+        if (dt.getDay() === 6) cls.push('sat');
+        if (slots && slots.length === 0) cls.push('empty');
+        if (d === state.date) cls.push('selected');
+        const showMonth = d === state.days[0] || dt.getDate() === 1;
+        return `<button class="${cls.join(' ')}" data-date="${d}" aria-pressed="${d === state.date}">
+          <span class="mm">${showMonth ? `${dt.getMonth() + 1}월` : ''}</span>
+          <span class="wd">${WEEKDAYS[dt.getDay()]}</span>
+          <span class="dd">${dt.getDate()}</span>
+        </button>`;
+      }).join('');
+
+      $app.innerHTML = `
+        ${header(link, title, sub)}
+        ${state.changing && link.pending ? `
+          <div class="card">
+            <div class="card-label">지금 요청한 시간</div>
+            <div class="card-value">${esc(dateLabel(link.pending.date))} ${esc(timeLabel(link.pending.start_time))}</div>
+          </div>` : originalCard(link)}
+        <div class="section-title">날짜</div>
+        <div class="days" id="days">${days}</div>
+        <div class="section-title">${state.date ? esc(dateLabel(state.date)) : '시간'}</div>
+        <div id="times">${timesHtml()}</div>
+        ${state.changing ? `<button class="btn btn-ghost" id="cancel-change" style="margin-top:12px">바꾸지 않기</button>` : ''}
+        <p class="foot">회관 · 테니스 레슨 관리</p>`;
+
+      document.getElementById('days').addEventListener('click', (e) => {
+        const b = e.target.closest('.day');
+        if (b) selectDay(b.dataset.date);
+      });
+      document.getElementById('times').addEventListener('click', (e) => {
+        const b = e.target.closest('.time');
+        if (!b) return;
+        state.time = b.dataset.time;
+        renderTimes();
+        renderBar();
+      });
+      const cancel = document.getElementById('cancel-change');
+      if (cancel) cancel.addEventListener('click', () => { state.changing = false; render(); });
+      const sel = document.querySelector('.day.selected');
+      if (sel) sel.scrollIntoView({ block: 'nearest', inline: 'center' });
+      renderBar();
+    }
+
+    function timesHtml() {
+      if (!state.date) return `<div class="hint">날짜를 먼저 골라 주세요.</div>`;
+      const slots = state.slots[state.date];
+      if (slots === undefined) {
+        return `<div class="times">${'<div class="skeleton"></div>'.repeat(6)}</div>`;
+      }
+      if (slots === null) return `<div class="hint">시간을 불러오지 못했어요. 날짜를 다시 눌러 주세요.</div>`;
+      if (slots.length === 0) return `<div class="hint">이 날은 가능한 시간이 없어요.<br>다른 날을 골라 주세요.</div>`;
+      const bands = [['오전', (m) => m < 720], ['오후', (m) => m >= 720 && m < 1080], ['저녁', (m) => m >= 1080]];
+      return bands.map(([label, test]) => {
+        const items = slots.filter((s) => test(toMin(s.start_time)));
+        if (!items.length) return '';
+        return `<div class="band-title">${label}</div><div class="times">${items.map((s) => `
+          <button class="time${s.start_time === state.time ? ' selected' : ''}" data-time="${esc(s.start_time)}" aria-pressed="${s.start_time === state.time}">
+            ${esc(timeLabel(s.start_time).replace(/^오[전후] /, ''))}
+          </button>`).join('')}</div>`;
+      }).join('');
+    }
+
+    function renderTimes() {
+      const el = document.getElementById('times');
+      if (el) el.innerHTML = timesHtml();
+    }
+
+    function renderBar() {
+      const ready = state.date && state.time;
+      const label = state.changing ? '이 시간으로 바꾸기' : '이 시간으로 요청';
+      setBar(`<button class="btn btn-primary" id="submit" ${ready ? '' : 'disabled'}>${ready
+        ? `${esc(dateLabel(state.date))} ${esc(timeLabel(state.time))} · ${label}` : label}</button>`);
+      document.getElementById('submit').addEventListener('click', openConfirm);
+    }
+
+    async function selectDay(d) {
+      state.date = d;
+      state.time = null;
+      document.querySelectorAll('.day').forEach((b) => {
+        b.classList.toggle('selected', b.dataset.date === d);
+        b.setAttribute('aria-pressed', String(b.dataset.date === d));
+      });
+      const title = document.querySelectorAll('.section-title')[1];
+      if (title) title.textContent = dateLabel(d);
+      renderTimes();
+      renderBar();
+      if (!state.slots[d]) await loadSlots(d);
+    }
+
+    async function loadSlots(d) {
+      try {
+        const slots = await rpc('hoegwan_public_makeup_slots', { p_token: TOKEN, p_date: d });
+        state.slots[d] = Array.isArray(slots) ? slots : [];
+      } catch (e) {
+        state.slots[d] = null;
+      }
+      const btn = document.querySelector(`.day[data-date="${d}"]`);
+      if (btn) btn.classList.toggle('empty', Array.isArray(state.slots[d]) && state.slots[d].length === 0);
+      if (state.date === d) renderTimes();
+    }
+
+    // 가능한 날을 흐리게 보이려고 나머지 날도 뒤에서 조회한다(한 번에 3개씩).
+    async function prefetchDays() {
+      const queue = state.days.filter((d) => state.slots[d] === undefined);
+      async function worker() {
+        while (queue.length) {
+          const d = queue.shift();
+          if (state.slots[d] === undefined) await loadSlots(d);
+        }
+      }
+      await Promise.all([worker(), worker(), worker()]);
+    }
+
+    async function pickFirstDay() {
+      await loadSlots(state.days[0]);
+      await prefetchDays();
+      if (!state.date) {
+        const first = state.days.find((d) => (state.slots[d] || []).length > 0);
+        if (first) selectDay(first);
+      }
+    }
+
+    // ── 요청 ─────────────────────────────────────────────────────
+    function openConfirm() {
+      if (!state.date || !state.time) return;
+      const link = state.link;
+      $sheet.innerHTML = `
+        <h2>${state.changing ? '이 시간으로 바꿀까요?' : '이 시간으로 요청할까요?'}</h2>
+        <div class="big">
+          <b>${esc(dateLabel(state.date))}</b>
+          <b>${esc(rangeLabel(state.time, link.minutes))}</b>
+          <span>${esc(coachLabel(link))}</span>
+        </div>
+        <p>${esc(coachLabel(link))}이 확인하면 확정돼요. 확정 전까지는 다른 시간으로 바꿀 수 있어요.</p>
+        <button class="btn btn-primary" id="send">${state.changing ? '바꾸기' : '요청하기'}</button>
+        <button class="btn btn-ghost" id="back">다시 고르기</button>`;
+      $scrim.classList.add('open');
+      document.getElementById('send').addEventListener('click', send);
+      document.getElementById('back').addEventListener('click', closeConfirm);
+    }
+
+    function closeConfirm() {
+      $scrim.classList.remove('open');
+    }
+    $scrim.addEventListener('click', (e) => { if (e.target === $scrim && !state.sending) closeConfirm(); });
+
+    async function send() {
+      if (state.sending) return;
+      state.sending = true;
+      const btn = document.getElementById('send');
+      btn.disabled = true;
+      btn.textContent = '보내는 중…';
+      try {
+        await rpc('hoegwan_public_makeup_request', { p_token: TOKEN, p_date: state.date, p_start_time: state.time });
+        closeConfirm();
+        await loadLink();
+        state.changing = false;
+        render();
+        window.scrollTo({ top: 0 });
+      } catch (e) {
+        closeConfirm();
+        const code = e.code || '';
+        if (code === 'slot_taken') {
+          toast('방금 그 시간이 찼어요. 다른 시간을 골라 주세요.');
+          delete state.slots[state.date];
+          state.time = null;
+          const d = state.date;
+          renderTimes();
+          renderBar();
+          await loadSlots(d);
+        } else if (code === 'too_many_requests') {
+          toast('오늘은 더 바꿀 수 없어요. 내일 다시 해 주세요.');
+        } else if (code === 'expired' || code === 'not_found' || code === 'out_of_window') {
+          await loadLink();
+          render();
+        } else {
+          toast('보내지 못했어요. 잠시 뒤 다시 해 주세요.');
+        }
+      } finally {
+        state.sending = false;
+      }
+    }
+
+    // ── 시작 ─────────────────────────────────────────────────────
+    async function loadLink() {
+      state.link = await rpc('hoegwan_public_makeup_link', { p_token: TOKEN });
+      const w = state.link && state.link.window;
+      state.days = [];
+      if (w) {
+        for (let d = parseDate(w.from); d <= parseDate(w.to); d.setDate(d.getDate() + 1)) state.days.push(isoDate(d));
+      }
+      state.slots = {};
+    }
+
+    async function start() {
+      if (MOCK) {
+        const b = document.createElement('div');
+        b.className = 'mock-badge';
+        b.textContent = 'MOCK';
+        document.body.appendChild(b);
+      }
+      if (!TOKEN && !MOCK) {
+        state.link = { status: 'not_found' };
+        return render();
+      }
+      try {
+        await loadLink();
+      } catch (e) {
+        return messageScreen({
+          title: '불러오지 못했어요',
+          body: '인터넷 연결을 확인하고 다시 열어 주세요.',
+          button: `<div style="margin-top:20px"><button class="btn btn-soft" onclick="location.reload()">다시 열기</button></div>`,
+        });
+      }
+      render();
+      if (state.link.status === 'open') pickFirstDay();
+    }
+
+    // ── 목(mock) 모드: ?mock=1&state=open|requested|scheduled|closed|expired|not_found[&fail=slot_taken|too_many_requests]
+    const mock = {
+      status: params.get('state') || 'open',
+      pending: null,
+      fail: params.get('fail'),
+    };
+    function mockRpc(fn, body) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const plus = (n) => { const d = new Date(today); d.setDate(d.getDate() + n); return isoDate(d); };
+      if (mock.status === 'requested' && !mock.pending) mock.pending = { date: plus(2), start_time: '19:00' };
+      return new Promise((resolve, reject) => setTimeout(() => {
+        if (fn === 'hoegwan_public_makeup_link') {
+          if (mock.status === 'not_found') return resolve({ status: 'not_found' });
+          resolve({
+            status: mock.status,
+            store_name: '한강 테니스 클럽',
+            member_name: '김○○',
+            coach_name: '박지훈',
+            minutes: 60,
+            original: { date: plus(-2), start_time: '19:00' },
+            window: { from: plus(0), to: plus(14) },
+            pending: ['requested', 'expired'].includes(mock.status) ? mock.pending : null,
+            scheduled: ['scheduled', 'closed'].includes(mock.status)
+              ? { date: plus(3), start_time: '20:00', court_name: 'A' } : null,
+          });
+        } else if (fn === 'hoegwan_public_makeup_slots') {
+          const dt = parseDate(body.p_date);
+          const n = Math.round((dt - today) / 86400000);
+          if (dt.getDay() === 1 || n % 5 === 4) return resolve([]); // 월요일 휴무·가끔 꽉 찬 날
+          const all = ['07:00', '07:30', '08:00', '10:00', '10:30', '13:00', '14:30', '18:00', '19:00', '19:30', '20:00', '21:00'];
+          resolve(all.filter((_, i) => (i + n) % 3 !== 0 && !(n === 0 && toMin(all[i]) <= new Date().getHours() * 60 + new Date().getMinutes()))
+            .map((t) => ({ start_time: t, court_label: 'A' })));
+        } else if (fn === 'hoegwan_public_makeup_request') {
+          if (mock.fail) { const f = mock.fail; mock.fail = null; const e = new Error(f); e.code = f; return reject(e); }
+          mock.status = 'requested';
+          mock.pending = { date: body.p_date, start_time: body.p_start_time };
+          resolve({ ok: true, date: body.p_date, start_time: body.p_start_time });
+        } else {
+          reject(new Error('unknown_fn'));
+        }
+      }, 250));
+    }
+
+    start();
+  </script>
+</body>
+</html>
