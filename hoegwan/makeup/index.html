@@ -99,6 +99,7 @@
       gap: 8px;
       overflow-x: auto;
       scroll-snap-type: x proximity;
+      scroll-padding-inline: 20px; /* 스냅 기준선도 본문 여백만큼 안쪽 — 없으면 첫 칸이 화면 가장자리로 끌려간다 */
       margin: 0 -20px;
       padding: 2px 20px 6px;
       scrollbar-width: none;
@@ -942,7 +943,7 @@
           resolve({
             status: mock.status,
             store_name: '한강 테니스 클럽',
-            member_name: '김○○',
+            member_name: mock.pinOn ? '김민지' : '김○○',  // 번호 확인을 통과하면 전체 이름(023), 번호 없는 회차는 마스킹
             coach_name: '박지훈',
             minutes: 60,
             original: { date: plus(-2), start_time: '19:00' },
