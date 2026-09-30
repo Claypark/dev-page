@@ -599,7 +599,9 @@
       else if (link.pin_error === 'wrong') msg = `번호가 맞지 않아요 (남은 기회 ${Number(link.attempts_left) || 0}번)`;
       document.title = '번호 확인 - 회관';
       $app.innerHTML = `
-        ${header(link, '휴대폰 번호 뒤 4자리를<br>입력해 주세요', '레슨에 등록한 회원님의 번호예요. 본인 확인을 위해 한 번만 물어봐요.')}
+        ${header(link, '휴대폰 번호 뒤 4자리를<br>입력해 주세요', link.group
+          ? '이 레슨을 함께 듣는 회원 중 한 분의 번호면 돼요. 본인 확인을 위해 한 번만 물어봐요.'
+          : '레슨에 등록한 회원님의 번호예요. 본인 확인을 위해 한 번만 물어봐요.')}
         <div class="pin${link.pin_error === 'wrong' && !entered ? ' error' : ''}${locked ? ' locked' : ''}" id="pin">
           ${[0, 1, 2, 3].map((i) => `<div class="pin-cell" data-i="${i}"></div>`).join('')}
           <input id="pin-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4"
@@ -899,11 +901,14 @@
 
     // ── 목(mock) 모드: ?mock=1&state=open|requested|scheduled|closed|expired|not_found[&fail=slot_taken|too_many_requests]
     //    번호 확인: 기본 켜짐(맞는 번호 1234) · &pin=0 번호 없는 회차 · &pin=locked 잠긴 채로 시작. 5번 틀리면 30분 잠금.
+    //    &group=1 그룹 레슨(2:1 — 1234=김민지, 5678=이서준).
     const mock = {
       status: params.get('state') || 'open',
       pending: null,
       fail: params.get('fail'),
       pinOn: params.get('pin') !== '0',
+      group: params.get('group') === '1',
+      pinName: null,
       failures: 0,
       lockedUntil: params.get('pin') === 'locked' ? new Date(Date.now() + 30 * 60000).toISOString() : null,
     };
@@ -913,7 +918,8 @@
         return { error: 'pin_locked', attempts_left: 0, locked_until: mock.lockedUntil };
       }
       if (!pin) return { error: 'pin_required', attempts_left: 5 - mock.failures };
-      if (pin === '1234') { mock.failures = 0; mock.lockedUntil = null; return null; }
+      const owner = pin === '1234' ? '김민지' : mock.group && pin === '5678' ? '이서준' : null;
+      if (owner) { mock.failures = 0; mock.lockedUntil = null; mock.pinName = owner; return null; }
       mock.failures += 1;
       if (mock.failures >= 5) {
         mock.failures = 0;
@@ -935,6 +941,7 @@
             return resolve({
               status: 'pin_required',
               store_name: '한강 테니스 클럽',
+              group: mock.group,
               ...(pe.error === 'pin_wrong' ? { pin_error: 'wrong' } : pe.error === 'pin_locked' ? { pin_error: 'locked' } : {}),
               attempts_left: pe.attempts_left,
               ...(pe.locked_until ? { locked_until: pe.locked_until } : {}),
@@ -943,7 +950,7 @@
           resolve({
             status: mock.status,
             store_name: '한강 테니스 클럽',
-            member_name: mock.pinOn ? '김민지' : '김○○',  // 번호 확인을 통과하면 전체 이름(023), 번호 없는 회차는 마스킹
+            member_name: mock.pinOn ? mock.pinName : '김○○',  // 번호가 맞은 그 회원의 전체 이름(023), 번호 없는 회차는 마스킹
             coach_name: '박지훈',
             minutes: 60,
             original: { date: plus(-2), start_time: '19:00' },
