@@ -283,6 +283,49 @@
     }
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
+    /* 번호 뒤 4자리 */
+    .pin {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .pin-cell {
+      height: 64px;
+      border-radius: 16px;
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 800;
+      transition: box-shadow .15s, background .15s;
+    }
+    .pin-cell.active { box-shadow: inset 0 0 0 2px var(--blue); }
+    .pin.error .pin-cell { background: #FDECEC; }
+    .pin.locked .pin-cell { background: #EEF0F5; color: var(--faint); }
+    .pin input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      border: 0;
+      font-size: 16px; /* iOS 확대 방지 */
+      caret-color: transparent;
+    }
+    .pin-msg {
+      min-height: 22px;
+      margin-top: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--danger);
+      text-align: center;
+      word-break: keep-all;
+    }
+    .pin-msg.muted { color: var(--muted); font-weight: 500; }
+
     .mock-badge {
       position: fixed; top: 8px; right: 8px;
       font-size: 11px; font-weight: 700;
@@ -331,7 +374,16 @@
       time: null,
       changing: false,     // requested에서 «다른 시간으로 바꾸기»
       sending: false,
+      pin: null,           // 확인된 번호 뒤 4자리(sessionStorage에도 둔다 — 새로 고침해도 다시 묻지 않게)
     };
+
+    const PIN_KEY = `hg_makeup_pin_${TOKEN}`;
+    function loadPin() {
+      try { return sessionStorage.getItem(PIN_KEY); } catch (e) { return null; }
+    }
+    function savePin(pin) {
+      try { if (pin) sessionStorage.setItem(PIN_KEY, pin); else sessionStorage.removeItem(PIN_KEY); } catch (e) { /* 저장 못 해도 이번 화면에선 쓴다 */ }
+    }
 
     // ── 날짜·시각 문구 ───────────────────────────────────────────
     function parseDate(s) {
@@ -388,6 +440,18 @@
         throw err;
       }
       return data;
+    }
+
+    // slots·request가 번호 확인 실패를 {error:'pin_*'}로 돌려주면 번호를 지우고 번호 화면으로 돌아간다.
+    function isPinError(r) {
+      return r && !Array.isArray(r) && typeof r.error === 'string' && r.error.startsWith('pin_');
+    }
+    async function backToPin() {
+      state.pin = null;
+      savePin(null);
+      closeConfirm();
+      await loadLink();
+      render();
     }
 
     // ── 화면 ─────────────────────────────────────────────────────
@@ -452,6 +516,7 @@
           body: '받은 문자의 주소를 다시 확인하거나<br>코치님께 새 링크를 요청해 주세요.',
         });
       }
+      if (link.status === 'pin_required') return renderPin();
       const name = esc(link.member_name || '회원');
       if (link.status === 'scheduled') {
         const s = link.scheduled;
@@ -518,6 +583,79 @@
         return;
       }
       renderPicker();
+    }
+
+    function lockedLabel(iso) {
+      const d = new Date(iso);
+      return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+    }
+
+    function renderPin(entered = '') {
+      const link = state.link;
+      const locked = link.pin_error === 'locked';
+      let msg = '';
+      if (locked) msg = `잠시 뒤 다시 시도해 주세요 (${esc(lockedLabel(link.locked_until))} 이후)`;
+      else if (link.pin_error === 'wrong') msg = `번호가 맞지 않아요 (남은 기회 ${Number(link.attempts_left) || 0}번)`;
+      document.title = '번호 확인 - 회관';
+      $app.innerHTML = `
+        ${header(link, '휴대폰 번호 뒤 4자리를<br>입력해 주세요', '레슨에 등록한 회원님의 번호예요. 본인 확인을 위해 한 번만 물어봐요.')}
+        <div class="pin${link.pin_error === 'wrong' && !entered ? ' error' : ''}${locked ? ' locked' : ''}" id="pin">
+          ${[0, 1, 2, 3].map((i) => `<div class="pin-cell" data-i="${i}"></div>`).join('')}
+          <input id="pin-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4"
+                 autocomplete="off" aria-label="휴대폰 번호 뒤 4자리" ${locked ? 'disabled' : ''}>
+        </div>
+        <p class="pin-msg${msg ? '' : ' muted'}" id="pin-msg" role="alert">${msg}</p>
+        <p class="foot">회관 · 테니스 레슨 관리</p>`;
+      const input = document.getElementById('pin-input');
+      const paint = () => {
+        const v = input.value;
+        document.querySelectorAll('.pin-cell').forEach((c, i) => {
+          c.textContent = v[i] || '';
+          c.classList.toggle('active', !locked && document.activeElement === input && i === Math.min(v.length, 3));
+        });
+        const b = document.getElementById('pin-submit');
+        if (b) b.disabled = locked || v.length !== 4;
+      };
+      input.value = entered;
+      input.addEventListener('input', () => {
+        input.value = input.value.replace(/[^0-9]/g, '').slice(0, 4);
+        document.getElementById('pin').classList.remove('error');
+        paint();
+        if (input.value.length === 4) submitPin(input.value);
+      });
+      input.addEventListener('focus', paint);
+      input.addEventListener('blur', paint);
+      setBar(`<button class="btn btn-primary" id="pin-submit" disabled>확인</button>`);
+      document.getElementById('pin-submit').addEventListener('click', () => submitPin(input.value));
+      if (!locked) input.focus();
+      paint();
+    }
+
+    let pinBusy = false;
+    async function submitPin(pin) {
+      if (pinBusy || !/^[0-9]{4}$/.test(pin)) return;
+      pinBusy = true;
+      const b = document.getElementById('pin-submit');
+      if (b) { b.disabled = true; b.textContent = '확인하는 중…'; }
+      try {
+        state.pin = pin;
+        await loadLink();
+        if (state.link.status === 'pin_required') {
+          state.pin = null;
+          savePin(null);
+          renderPin();
+          return;
+        }
+        savePin(pin);
+        render();
+        if (state.link.status === 'open') pickFirstDay();
+      } catch (e) {
+        state.pin = null;
+        toast('확인하지 못했어요. 잠시 뒤 다시 해 주세요.');
+        renderPin(pin);
+      } finally {
+        pinBusy = false;
+      }
     }
 
     function renderPicker() {
@@ -621,7 +759,8 @@
 
     async function loadSlots(d) {
       try {
-        const slots = await rpc('hoegwan_public_makeup_slots', { p_token: TOKEN, p_date: d });
+        const slots = await rpc('hoegwan_public_makeup_slots', { p_token: TOKEN, p_date: d, p_pin: state.pin });
+        if (isPinError(slots)) return backToPin();
         state.slots[d] = Array.isArray(slots) ? slots : [];
       } catch (e) {
         state.slots[d] = null;
@@ -683,7 +822,10 @@
       btn.disabled = true;
       btn.textContent = '보내는 중…';
       try {
-        await rpc('hoegwan_public_makeup_request', { p_token: TOKEN, p_date: state.date, p_start_time: state.time });
+        const r = await rpc('hoegwan_public_makeup_request', {
+          p_token: TOKEN, p_date: state.date, p_start_time: state.time, p_pin: state.pin,
+        });
+        if (isPinError(r)) return backToPin();
         closeConfirm();
         await loadLink();
         state.changing = false;
@@ -715,7 +857,7 @@
 
     // ── 시작 ─────────────────────────────────────────────────────
     async function loadLink() {
-      state.link = await rpc('hoegwan_public_makeup_link', { p_token: TOKEN });
+      state.link = await rpc('hoegwan_public_makeup_link', { p_token: TOKEN, p_pin: state.pin });
       const w = state.link && state.link.window;
       state.days = [];
       if (w) {
@@ -735,8 +877,14 @@
         state.link = { status: 'not_found' };
         return render();
       }
+      state.pin = loadPin();
       try {
         await loadLink();
+        if (state.link.status === 'pin_required' && state.pin) {
+          // 저장된 번호가 더는 맞지 않으면(회원 번호 변경 등) 지우고 다시 묻는다.
+          state.pin = null;
+          savePin(null);
+        }
       } catch (e) {
         return messageScreen({
           title: '불러오지 못했어요',
@@ -749,11 +897,30 @@
     }
 
     // ── 목(mock) 모드: ?mock=1&state=open|requested|scheduled|closed|expired|not_found[&fail=slot_taken|too_many_requests]
+    //    번호 확인: 기본 켜짐(맞는 번호 1234) · &pin=0 번호 없는 회차 · &pin=locked 잠긴 채로 시작. 5번 틀리면 30분 잠금.
     const mock = {
       status: params.get('state') || 'open',
       pending: null,
       fail: params.get('fail'),
+      pinOn: params.get('pin') !== '0',
+      failures: 0,
+      lockedUntil: params.get('pin') === 'locked' ? new Date(Date.now() + 30 * 60000).toISOString() : null,
     };
+    function mockPin(pin) {
+      if (!mock.pinOn) return null;
+      if (mock.lockedUntil && new Date(mock.lockedUntil) > new Date()) {
+        return { error: 'pin_locked', attempts_left: 0, locked_until: mock.lockedUntil };
+      }
+      if (!pin) return { error: 'pin_required', attempts_left: 5 - mock.failures };
+      if (pin === '1234') { mock.failures = 0; mock.lockedUntil = null; return null; }
+      mock.failures += 1;
+      if (mock.failures >= 5) {
+        mock.failures = 0;
+        mock.lockedUntil = new Date(Date.now() + 30 * 60000).toISOString();
+        return { error: 'pin_locked', attempts_left: 0, locked_until: mock.lockedUntil };
+      }
+      return { error: 'pin_wrong', attempts_left: 5 - mock.failures };
+    }
     function mockRpc(fn, body) {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -762,6 +929,16 @@
       return new Promise((resolve, reject) => setTimeout(() => {
         if (fn === 'hoegwan_public_makeup_link') {
           if (mock.status === 'not_found') return resolve({ status: 'not_found' });
+          const pe = mockPin(body.p_pin);
+          if (pe) {
+            return resolve({
+              status: 'pin_required',
+              store_name: '한강 테니스 클럽',
+              ...(pe.error === 'pin_wrong' ? { pin_error: 'wrong' } : pe.error === 'pin_locked' ? { pin_error: 'locked' } : {}),
+              attempts_left: pe.attempts_left,
+              ...(pe.locked_until ? { locked_until: pe.locked_until } : {}),
+            });
+          }
           resolve({
             status: mock.status,
             store_name: '한강 테니스 클럽',
@@ -775,6 +952,8 @@
               ? { date: plus(3), start_time: '20:00', court_name: 'A' } : null,
           });
         } else if (fn === 'hoegwan_public_makeup_slots') {
+          const pe = mockPin(body.p_pin);
+          if (pe) return resolve(pe);
           const dt = parseDate(body.p_date);
           const n = Math.round((dt - today) / 86400000);
           if (dt.getDay() === 1 || n % 5 === 4) return resolve([]); // 월요일 휴무·가끔 꽉 찬 날
@@ -782,6 +961,8 @@
           resolve(all.filter((_, i) => (i + n) % 3 !== 0 && !(n === 0 && toMin(all[i]) <= new Date().getHours() * 60 + new Date().getMinutes()))
             .map((t) => ({ start_time: t, court_label: 'A' })));
         } else if (fn === 'hoegwan_public_makeup_request') {
+          const pe = mockPin(body.p_pin);
+          if (pe) return resolve({ ok: false, ...pe });
           if (mock.fail) { const f = mock.fail; mock.fail = null; const e = new Error(f); e.code = f; return reject(e); }
           mock.status = 'requested';
           mock.pending = { date: body.p_date, start_time: body.p_start_time };
