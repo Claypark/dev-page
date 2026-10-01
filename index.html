@@ -533,6 +533,13 @@
                 <span class="tile-badge badge-dev" data-i18n="badge_dev">개발중</span>
             </div>
 
+            <div class="app-tile" style="--accent: #2E5BFF;" onclick="toggleDetail('hoegwan')">
+                <img src="hoegwan-icon.png" alt="" class="tile-icon">
+                <div class="tile-name" data-i18n="apps.hoegwan.name">회관</div>
+                <div class="tile-tagline" data-i18n="apps.hoegwan.tagline">레슨장 회원·시간표</div>
+                <span class="tile-badge badge-dev" data-i18n="badge_dev">개발중</span>
+            </div>
+
             <div class="app-tile" style="--accent: #189E5A;" onclick="toggleDetail('dandori')">
                 <img src="dandori-icon.png" alt="" class="tile-icon">
                 <div class="tile-name" data-i18n="apps.dandori.name">단도리</div>
@@ -836,6 +843,28 @@
             </div>
         </div>
 
+        <div class="app-detail" id="detail-hoegwan" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeDetail('hoegwan')">&times;</button>
+            <div class="detail-header">
+                <img src="hoegwan-icon.png" alt="" class="detail-icon">
+                <div class="detail-info">
+                    <h2 data-i18n="apps.hoegwan.detail_name">회관 — 레슨장 회원·시간표 관리</h2>
+                    <div class="tagline" data-i18n="apps.hoegwan.detail_tagline">작은 레슨장 운영을 한 앱으로</div>
+                </div>
+            </div>
+            <div class="description" data-i18n="apps.hoegwan.detail_desc">회원 등록부터 시간표, 출석, 보강, 수강 연장까지 레슨장 운영을 한 앱에 담았습니다. 빈 시간 추천으로 보강을 쉽게 잡고, 코치 여러 명이 같은 시간표를 함께 봅니다.</div>
+            <div class="app-langs">
+                <span class="langs-label" data-i18n="langs_label">지원 언어</span>
+                <span class="langs-list">한국어</span>
+            </div>
+            <div class="app-links">
+                <span class="link-badge-dev" data-i18n="dev_coming">개발중 · 곧 출시 예정</span>
+            </div>
+            <div class="app-meta-links">
+                <a href="https://claypark.github.io/dev-page/hoegwan/privacy-policy.html" data-i18n="privacy">개인정보처리방침</a>
+            </div>
+        </div>
+
         <div class="app-detail" id="detail-dandori" onclick="event.stopPropagation()">
             <button class="close-btn" onclick="closeDetail('dandori')">&times;</button>
             <div class="detail-header">
@@ -970,6 +999,13 @@
                         detail_tagline: '유한한 시간을 연료 삼아, 오늘을 태우다',
                         detail_desc: '인생에 남은 주말과 시간을 시각화해주는 동기부여 카운트다운 앱. 아침·저녁 체크인으로 오늘 하루를 기록하고, 소중한 사람과 함께할 수 있는 시간을 확인하세요. 모든 데이터는 기기 안에만 저장됩니다.',
                     },
+                    hoegwan: {
+                        name: '회관',
+                        tagline: '레슨장 회원·시간표',
+                        detail_name: '회관 — 레슨장 회원·시간표 관리',
+                        detail_tagline: '작은 레슨장 운영을 한 앱으로',
+                        detail_desc: '회원 등록부터 시간표, 출석, 보강, 수강 연장까지 레슨장 운영을 한 앱에 담았습니다. 빈 시간 추천으로 보강을 쉽게 잡고, 코치 여러 명이 같은 시간표를 함께 봅니다.',
+                    },
                     dandori: {
                         name: '단도리',
                         tagline: '매장 체크리스트·근무표',
@@ -1057,6 +1093,13 @@
                         tagline: 'Burn the day. Leave nothing behind.',
                         detail_tagline: 'Fuel today with the time you have left',
                         detail_desc: 'A motivational countdown app that visualizes the weekends and hours you have left. Check in morning and night to mark the day, and see the time you still have with the people who matter. All your data stays on your device.',
+                    },
+                    hoegwan: {
+                        name: 'Hoegwan',
+                        tagline: 'Lesson studio scheduler',
+                        detail_name: 'Hoegwan — Members & schedules for lesson studios',
+                        detail_tagline: 'Your lesson studio, in one app',
+                        detail_desc: 'From member sign-ups to schedules, attendance, makeup lessons and renewals, everything a small lesson studio needs lives in one app. Open-slot suggestions make rescheduling easy, and every coach shares the same timetable.',
                     },
                     dandori: {
                         name: 'Dandori',
@@ -1146,6 +1189,13 @@
                         detail_tagline: 'Usa tu tiempo como combustible y arde hoy',
                         detail_desc: 'Una app de cuenta atrás que visualiza los fines de semana y el tiempo que te quedan. Registra tu día con un check-in de mañana y noche, y descubre cuánto tiempo puedes compartir con quienes más quieres. Todos tus datos se guardan solo en tu dispositivo.',
                     },
+                    hoegwan: {
+                        name: 'Hoegwan',
+                        tagline: 'Agenda para academias',
+                        detail_name: 'Hoegwan — Alumnos y horarios para academias',
+                        detail_tagline: 'Tu academia, en una sola app',
+                        detail_desc: 'Desde la inscripción de alumnos hasta los horarios, la asistencia, las clases de recuperación y las renovaciones: todo lo que necesita una pequeña academia, en una sola app. Las sugerencias de huecos libres facilitan reprogramar y todos los entrenadores comparten el mismo horario.',
+                    },
                     dandori: {
                         name: 'Dandori',
                         tagline: 'Checklists y turnos para tu local',
@@ -1233,6 +1283,13 @@
                         tagline: '残さず、今日を',
                         detail_tagline: '限りある時間を燃料に、今日を燃やす',
                         detail_desc: '人生に残された週末と時間を可視化するモチベーションカウントダウンアプリ。朝・夜のチェックインで一日を記録し、大切な人と過ごせる時間を確認してください。すべてのデータは端末内にのみ保存されます。',
+                    },
+                    hoegwan: {
+                        name: 'Hoegwan',
+                        tagline: 'レッスン教室の会員・時間割',
+                        detail_name: 'Hoegwan — レッスン教室の会員・時間割管理',
+                        detail_tagline: '小さなレッスン教室の運営をひとつのアプリで',
+                        detail_desc: '会員登録から時間割、出欠、振替レッスン、受講延長まで、レッスン教室の運営をひとつのアプリにまとめました。空き時間のおすすめで振替もかんたん。複数のコーチが同じ時間割を共有できます。',
                     },
                     dandori: {
                         name: 'ダンドリ',
