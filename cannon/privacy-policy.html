@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>개인정보처리방침 - 캐논 버티기</title>
-  <meta name="date" content="2026-10-11">
+  <meta name="date" content="2026-10-12">
   <style>
     :root {
       --bg: #0f0f0f;
@@ -142,12 +142,12 @@
     <!-- ═══════════ 한국어 ═══════════ -->
     <article class="lang" id="lang-ko">
       <h1>개인정보처리방침</h1>
-      <p class="date">시행일: 2026년 10월 11일</p>
+      <p class="date">시행일: 2026년 10월 12일</p>
 
       <p>캐논 버티기(이하 "본 앱", 패키지명 <code>com.clpak.cannon</code>)는 이용자의 개인정보를 소중히 여기며, 관련 법령에 따라 보호하고 있어요. 이 방침은 본 앱이 어떤 정보를 다루고, 어떻게 이용하며, 이용자가 어떤 권리를 갖는지 알려드려요.</p>
 
       <h2>1. 기기에만 저장되는 데이터</h2>
-      <p>게임 진행·설정·최고 기록은 기기 안에만 저장돼요. 로그인하지 않으면 이 데이터가 개발자 서버로 전송되지 않아요. 다만 이용 통계(§5)와 푸시 알림(§6)은 로그인과 관계없이 처리돼요.</p>
+      <p>게임 진행·설정·최고 기록은 기기 안에만 저장돼요. 로그인하지 않으면 이 데이터가 개발자 서버로 전송되지 않아요. 다만 이용 통계(§5), 크래시 보고(§6), 푸시 알림(§7)은 로그인과 관계없이 처리돼요.</p>
 
       <h2>2. Google Play 게임즈 / Apple Game Center 로그인 (선택)</h2>
       <p>로그인하지 않아도 게임은 정상적으로 즐길 수 있어요. 로그인을 선택하면 아래 정보가 개발자 서버(Supabase, 서버 지역: 미국·유럽연합·싱가포르)로 전송돼요.</p>
@@ -155,7 +155,7 @@
         <li><strong>플레이어 ID</strong> — 계정 식별, 유료 재화(코어 셀) 지갑 관리, 향후 리더보드 참여에 사용해요.</li>
         <li><strong>플랫폼 표시 이름</strong>(Play 게임즈 프로필 이름 / Game Center 별명) — 로그인할 때 플랫폼이 알려 주는 이름을 계정에 함께 저장해요. 앱 안에서 따로 닉네임을 만들지 않으며, 지금은 다른 이용자에게 공개하지 않아요.</li>
         <li><strong>코어 셀 지급·사용 기록</strong> — 구매, 스테이지 첫 클리어, 출석·주간·업적 보상을 받거나 셀을 쓸 때 그 내역(스테이지 번호, 보상 종류와 기간, 수량, 시각)을 중복 지급 방지를 위해 서버에 남겨요.</li>
-        <li>언제든 이메일로 데이터 삭제를 요청할 수 있어요 (§13 문의 및 개인정보 보호책임자).</li>
+        <li>언제든 이메일로 데이터 삭제를 요청할 수 있어요 (§14 문의 및 개인정보 보호책임자).</li>
       </ul>
 
       <h2>3. 인앱 결제</h2>
@@ -187,10 +187,21 @@
         <li><strong>기기 및 식별 정보</strong> — Firebase 앱 인스턴스 ID, 광고 식별자(Android: AAID), 기기 모델, OS 버전, 앱 버전, 언어, IP 주소로 추정한 대략적인 지역(국가 수준).</li>
         <li>이름·이메일 같은 개인을 직접 알아볼 수 있는 정보는 이벤트에 넣지 않으며, 플레이어 ID와 연결하지 않아요.</li>
         <li>Android에서는 기기 설정에서 광고 ID를 삭제하거나 재설정할 수 있어요 (설정 &gt; 개인정보 보호 &gt; 광고).</li>
+        <li>유럽경제지역(EEA)·영국 이용자의 이용 통계는 §4의 동의 화면(Google UMP)에서 고른 내용을 따라요. 동의하기 전이거나 동의하지 않으면 분석용 저장과 광고 관련 신호가 거부 상태로 설정되고, 동의하면 허용돼요. 앱 설정의 광고 개인정보 설정에서 선택을 바꾸면 이용 통계에도 반영돼요.</li>
         <li>Google의 데이터 처리 방식: <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">Google 파트너 사이트·앱의 데이터 사용</a></li>
       </ul>
 
-      <h2>6. 푸시 알림</h2>
+      <h2>6. 크래시 보고 (Firebase Crashlytics)</h2>
+      <p>앱 안정성을 높이고 오류를 고치기 위해, 앱이 비정상 종료되거나 처리되지 않은 오류가 나면 Firebase Crashlytics로 크래시 보고를 보내요. 로그인 여부와 관계없이 처리돼요.</p>
+      <ul>
+        <li><strong>크래시 정보</strong> — 오류 종류와 스택 트레이스, 발생 시각, 그 순간의 기기 상태(여유 메모리·저장 공간, 화면 방향, 루팅·탈옥 여부).</li>
+        <li><strong>기기 및 식별 정보</strong> — 기기 모델, OS 버전, 앱 버전, Firebase 설치 ID(크래시를 기기 단위로 묶는 데 쓰는 임의 ID).</li>
+        <li>게임 기록, 플레이어 ID, 광고 식별자는 크래시 보고에 넣지 않아요.</li>
+        <li>크래시 보고는 Google(Firebase)이 처리하며 90일 동안 보관된 뒤 삭제돼요.</li>
+        <li>Google의 처리 방식: <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase 개인정보 보호 안내</a></li>
+      </ul>
+
+      <h2>7. 푸시 알림</h2>
       <p>알림은 두 가지예요. 무료 보급 알림은 기기 안에서 예약되어 서버로 아무것도 보내지 않아요. 공지·이벤트 알림은 Firebase Cloud Messaging(FCM)으로 발송돼요.</p>
       <ul>
         <li>앱 안의 알림 안내나 설정에서 알림을 켜고 기기 권한을 허용한 경우에만, FCM 기기 토큰과 함께 <strong>기기 종류(Android/iOS), 앱 언어, 시간대</strong>가 개발자의 푸시 서버(Supabase)에 저장돼요. 시간대는 알림을 이용자의 현지 시각에 맞춰 보내는 데 써요.</li>
@@ -198,7 +209,7 @@
         <li><strong>수신 거부</strong>: 앱 설정의 알림 스위치를 끄면 서버의 토큰이 비활성화되어 더 이상 발송되지 않아요. 기기 설정에서 앱 알림을 꺼도 돼요.</li>
       </ul>
 
-      <h2>7. 수집하지 않는 정보</h2>
+      <h2>8. 수집하지 않는 정보</h2>
       <p>본 앱은 다음 정보를 수집하지 않아요.</p>
       <ul>
         <li>실명, 이메일 주소, 전화번호, 연락처</li>
@@ -206,7 +217,7 @@
         <li>사진·미디어 파일</li>
       </ul>
 
-      <h2>8. 처리 위탁 및 국외 이전</h2>
+      <h2>9. 처리 위탁 및 국외 이전</h2>
       <table>
         <thead>
           <tr>
@@ -226,7 +237,7 @@
           <tr>
             <td>Google (Firebase)</td>
             <td>미국</td>
-            <td>이용 통계 분석(Analytics)·푸시 알림 발송(FCM)</td>
+            <td>이용 통계 분석(Analytics)·크래시 보고(Crashlytics)·푸시 알림 발송(FCM)</td>
             <td>Google 정책에 따름</td>
           </tr>
           <tr>
@@ -262,30 +273,31 @@
         </tbody>
       </table>
 
-      <h2>9. 보관 및 파기</h2>
+      <h2>10. 보관 및 파기</h2>
       <ul>
         <li>기기 내 데이터는 앱을 삭제하면 함께 삭제돼요.</li>
         <li>서버에 저장된 데이터(계정 등)는 삭제를 요청하면 지체 없이 파기해 드려요.</li>
         <li>결제 기록은 법정 보관 기간(5년) 동안 보관 후 파기해요.</li>
         <li>푸시 알림 기기 토큰은 알림을 끄면 비활성화되고, 삭제를 요청하면 파기해요.</li>
         <li>이용 통계의 보관 기간은 Google의 정책과 Firebase 보존 설정을 따라요.</li>
+        <li>크래시 보고는 90일 동안 보관된 뒤 삭제돼요.</li>
         <li>삭제 요청은 아래 이메일로 해 주세요.</li>
       </ul>
 
-      <h2>10. 아동의 개인정보</h2>
+      <h2>11. 아동의 개인정보</h2>
       <p>본 앱은 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않아요. 아동의 정보가 수집된 것을 발견하면 즉시 삭제할게요.</p>
 
-      <h2>11. 이용자의 권리</h2>
+      <h2>12. 이용자의 권리</h2>
       <ul>
         <li>맞춤 광고 동의는 앱 내 광고 개인정보 설정(EEA·영국)에서 변경할 수 있어요.</li>
         <li>서버에 저장된 계정 데이터 열람이나 삭제는 이메일로 요청할 수 있어요.</li>
         <li>푸시 알림은 앱 설정이나 기기 설정에서 언제든 끌 수 있어요.</li>
       </ul>
 
-      <h2>12. 방침의 변경</h2>
+      <h2>13. 방침의 변경</h2>
       <p>이 방침은 법령 변경이나 서비스 변동에 따라 수정될 수 있어요. 변경 사항은 이 페이지를 통해 안내해 드려요.</p>
 
-      <h2>13. 문의 및 개인정보 보호책임자</h2>
+      <h2>14. 문의 및 개인정보 보호책임자</h2>
       <ul>
         <li>개발자: CLPAK (박정수)</li>
         <li>개인정보 보호책임자: 박정수</li>
@@ -296,12 +308,12 @@
     <!-- ═══════════ English ═══════════ -->
     <article class="lang" id="lang-en" hidden>
       <h1>Privacy Policy</h1>
-      <p class="date">Effective: October 11, 2026</p>
+      <p class="date">Effective: October 12, 2026</p>
 
       <p>Cannon Holdout ("the App", package <code>com.clpak.cannon</code>) values your privacy and protects your personal information in accordance with applicable laws. This policy explains what data the App handles, how it is used, and what rights you have.</p>
 
       <h2>1. Data Stored Only on Your Device</h2>
-      <p>Your game progress, settings, and high scores are stored locally on your device. Without signing in, none of this data is sent to the developer's servers. Usage analytics (§5) and push notifications (§6) are processed regardless of sign-in.</p>
+      <p>Your game progress, settings, and high scores are stored locally on your device. Without signing in, none of this data is sent to the developer's servers. Usage analytics (§5), crash reports (§6), and push notifications (§7) are processed regardless of sign-in.</p>
 
       <h2>2. Google Play Games / Apple Game Center Sign-In (Optional)</h2>
       <p>You can play without signing in. If you choose to sign in, the following information is sent to the developer's server (Supabase, hosted in the US, EU, and Singapore).</p>
@@ -309,7 +321,7 @@
         <li><strong>Player ID</strong> — used to identify your account, manage your Core Cell wallet, and support future leaderboard participation.</li>
         <li><strong>Platform display name</strong> (Play Games profile name / Game Center nickname) — the name the platform provides at sign-in is stored with your account. The App does not ask you to create a nickname, and this name is currently not shown to other players.</li>
         <li><strong>Core Cell grant and spend records</strong> — when you purchase, clear a stage for the first time, claim daily, weekly, or achievement rewards, or spend cells, the record (stage number, reward type and period, amount, time) is kept on the server to prevent duplicate grants.</li>
-        <li>You can request deletion of your data at any time by email (see §13 Contact).</li>
+        <li>You can request deletion of your data at any time by email (see §14 Contact).</li>
       </ul>
 
       <h2>3. In-App Purchases</h2>
@@ -341,10 +353,21 @@
         <li><strong>Device and identifier data</strong> — Firebase app instance ID, advertising identifier (Android: AAID), device model, OS version, app version, language, and approximate region (country level) inferred from your IP address.</li>
         <li>Events do not contain information that directly identifies you, such as your name or email, and are not linked to your Player ID.</li>
         <li>On Android, you can delete or reset your advertising ID in your device settings (Settings &gt; Privacy &gt; Ads).</li>
+        <li>For users in the European Economic Area (EEA) and the UK, usage analytics follow the choice made on the consent screen (Google UMP) described in §4. Before you choose, or if you decline, analytics storage and advertising-related signals are set to denied; if you consent, they are granted. Changing your choice in the ad privacy settings in the App also applies to usage analytics.</li>
         <li>How Google uses this data: <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">How Google uses information from sites or apps that use its services</a></li>
       </ul>
 
-      <h2>6. Push Notifications</h2>
+      <h2>6. Crash Reports (Firebase Crashlytics)</h2>
+      <p>To improve stability and fix bugs, the App sends a crash report through Firebase Crashlytics when it crashes or hits an unhandled error. This happens whether or not you sign in.</p>
+      <ul>
+        <li><strong>Crash data</strong> — the error type and stack trace, when it happened, and the device state at that moment (free memory and storage, screen orientation, whether the device is rooted or jailbroken).</li>
+        <li><strong>Device and identifier data</strong> — device model, OS version, app version, and the Firebase installation ID (a random ID used to group crashes by device).</li>
+        <li>Crash reports do not include your game records, Player ID, or advertising identifier.</li>
+        <li>Crash reports are processed by Google (Firebase) and deleted after 90 days.</li>
+        <li>How Google processes this data: <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Privacy and Security in Firebase</a></li>
+      </ul>
+
+      <h2>7. Push Notifications</h2>
       <p>There are two kinds of notifications. Free supply reminders are scheduled on your device and send nothing to the server. Announcement and event notifications are delivered through Firebase Cloud Messaging (FCM).</p>
       <ul>
         <li>Only if you turn notifications on (via the in-app prompt or settings) and allow the device permission, your FCM device token is stored on the developer's push server (Supabase) together with your <strong>device type (Android/iOS), app language, and time zone</strong>. The time zone is used to send notifications at a suitable local time.</li>
@@ -352,7 +375,7 @@
         <li><strong>Opting out</strong>: turning off the notification switch in the app settings deactivates your token on the server, and no further notifications are sent. You can also turn off notifications for the App in your device settings.</li>
       </ul>
 
-      <h2>7. Data We Do Not Collect</h2>
+      <h2>8. Data We Do Not Collect</h2>
       <p>The App does not collect the following:</p>
       <ul>
         <li>Real name, email address, phone number, or contacts</li>
@@ -360,7 +383,7 @@
         <li>Photos or media files</li>
       </ul>
 
-      <h2>8. Data Processors and International Transfers</h2>
+      <h2>9. Data Processors and International Transfers</h2>
       <table>
         <thead>
           <tr>
@@ -380,7 +403,7 @@
           <tr>
             <td>Google (Firebase)</td>
             <td>USA</td>
-            <td>Usage analytics (Analytics), push notification delivery (FCM)</td>
+            <td>Usage analytics (Analytics), crash reports (Crashlytics), push notification delivery (FCM)</td>
             <td>Per Google's policy</td>
           </tr>
           <tr>
@@ -416,30 +439,31 @@
         </tbody>
       </table>
 
-      <h2>9. Retention and Deletion</h2>
+      <h2>10. Retention and Deletion</h2>
       <ul>
         <li>Data stored on your device is deleted when you uninstall the App.</li>
         <li>Server-side data (account, etc.) is deleted without undue delay upon your request.</li>
         <li>Purchase records are retained for the statutory period (5 years) before deletion.</li>
         <li>Push notification device tokens are deactivated when you turn notifications off and deleted upon request.</li>
         <li>Usage analytics are retained according to Google's policy and the Firebase retention settings.</li>
+        <li>Crash reports are deleted after 90 days.</li>
         <li>To request deletion, contact us at the email address below.</li>
       </ul>
 
-      <h2>10. Children's Privacy</h2>
+      <h2>11. Children's Privacy</h2>
       <p>The App does not knowingly collect personal information from children under 13 (or the equivalent minimum age in your jurisdiction). If we discover such data has been collected, we will delete it immediately.</p>
 
-      <h2>11. Your Rights</h2>
+      <h2>12. Your Rights</h2>
       <ul>
         <li>In the EEA and the UK, you can change your personalized-ads consent in the in-app ad privacy settings.</li>
         <li>You can request access to or deletion of your server-side account data by email.</li>
         <li>You can turn off push notifications at any time in the app settings or your device settings.</li>
       </ul>
 
-      <h2>12. Changes to This Policy</h2>
+      <h2>13. Changes to This Policy</h2>
       <p>This policy may be updated due to legal changes or service changes. Any updates will be announced on this page.</p>
 
-      <h2>13. Contact and Data Protection Officer</h2>
+      <h2>14. Contact and Data Protection Officer</h2>
       <ul>
         <li>Developer: CLPAK (Jeongsoo Park)</li>
         <li>Data Protection Officer: Jeongsoo Park</li>
@@ -450,12 +474,12 @@
     <!-- ═══════════ Español ═══════════ -->
     <article class="lang" id="lang-es" hidden>
       <h1>Política de Privacidad</h1>
-      <p class="date">Vigente desde: 11 de octubre de 2026</p>
+      <p class="date">Vigente desde: 12 de octubre de 2026</p>
 
       <p>Cannon Holdout (en adelante "la App", paquete <code>com.clpak.cannon</code>) valora tu privacidad y protege tus datos personales conforme a la legislación aplicable. Esta política explica qué información maneja la App, cómo se utiliza y qué derechos tienes.</p>
 
       <h2>1. Datos almacenados únicamente en tu dispositivo</h2>
-      <p>Tu progreso, ajustes y récord máximo se guardan localmente en el dispositivo. Si no inicias sesión, estos datos no se envían a los servidores del desarrollador. Las estadísticas de uso (§5) y las notificaciones push (§6) se procesan aunque no inicies sesión.</p>
+      <p>Tu progreso, ajustes y récord máximo se guardan localmente en el dispositivo. Si no inicias sesión, estos datos no se envían a los servidores del desarrollador. Las estadísticas de uso (§5), los informes de fallos (§6) y las notificaciones push (§7) se procesan aunque no inicies sesión.</p>
 
       <h2>2. Inicio de sesión con Google Play Juegos / Apple Game Center (opcional)</h2>
       <p>Puedes jugar sin iniciar sesión. Si eliges hacerlo, la siguiente información se envía al servidor del desarrollador (Supabase, alojado en EE. UU., UE y Singapur).</p>
@@ -463,7 +487,7 @@
         <li><strong>ID de jugador</strong> — se utiliza para identificar tu cuenta, gestionar tu cartera de Células de Núcleo y participar en futuras clasificaciones.</li>
         <li><strong>Nombre visible de la plataforma</strong> (nombre de perfil de Play Juegos / apodo de Game Center): el nombre que facilita la plataforma al iniciar sesión se guarda con tu cuenta. La App no te pide crear un apodo y, por ahora, este nombre no se muestra a otros jugadores.</li>
         <li><strong>Registros de entrega y uso de Células de Núcleo</strong>: al comprar, superar un nivel por primera vez, reclamar recompensas diarias, semanales o de logros, o gastar células, el registro (número de nivel, tipo y periodo de la recompensa, cantidad, hora) se guarda en el servidor para evitar entregas duplicadas.</li>
-        <li>Puedes solicitar la eliminación de tus datos en cualquier momento por correo electrónico (ver §13 Contacto).</li>
+        <li>Puedes solicitar la eliminación de tus datos en cualquier momento por correo electrónico (ver §14 Contacto).</li>
       </ul>
 
       <h2>3. Compras dentro de la aplicación</h2>
@@ -495,10 +519,21 @@
         <li><strong>Datos del dispositivo e identificadores</strong>: ID de instancia de la app de Firebase, identificador publicitario (Android: AAID), modelo del dispositivo, versión del sistema operativo, versión de la App, idioma y región aproximada (a nivel de país) deducida de la dirección IP.</li>
         <li>Los eventos no incluyen datos que te identifiquen directamente, como tu nombre o correo, y no se vinculan con tu ID de jugador.</li>
         <li>En Android puedes eliminar o restablecer tu ID de publicidad en los ajustes del dispositivo (Ajustes &gt; Privacidad &gt; Anuncios).</li>
+        <li>Para los usuarios del Espacio Económico Europeo (EEE) y el Reino Unido, las estadísticas de uso siguen lo que elijas en la pantalla de consentimiento (Google UMP) descrita en §4. Antes de elegir, o si no das tu consentimiento, el almacenamiento para análisis y las señales relacionadas con la publicidad quedan denegados; si lo das, quedan permitidos. Si cambias tu elección en la configuración de privacidad de anuncios de la App, también se aplica a las estadísticas de uso.</li>
         <li>Cómo usa Google estos datos: <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">Cómo utiliza Google la información de sitios o aplicaciones que usan sus servicios</a></li>
       </ul>
 
-      <h2>6. Notificaciones push</h2>
+      <h2>6. Informes de fallos (Firebase Crashlytics)</h2>
+      <p>Para mejorar la estabilidad y corregir errores, la App envía un informe de fallo mediante Firebase Crashlytics cuando se cierra inesperadamente o se produce un error no controlado, inicies sesión o no.</p>
+      <ul>
+        <li><strong>Datos del fallo</strong>: tipo de error y traza de la pila, momento en que ocurrió y estado del dispositivo en ese instante (memoria y almacenamiento libres, orientación de la pantalla, si el dispositivo tiene root o jailbreak).</li>
+        <li><strong>Datos del dispositivo e identificadores</strong>: modelo del dispositivo, versión del sistema operativo, versión de la App e ID de instalación de Firebase (un ID aleatorio que agrupa los fallos por dispositivo).</li>
+        <li>Los informes de fallos no incluyen tu progreso, tu ID de jugador ni el identificador publicitario.</li>
+        <li>Google (Firebase) procesa los informes de fallos y los elimina a los 90 días.</li>
+        <li>Cómo trata Google estos datos: <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Privacidad y seguridad en Firebase</a></li>
+      </ul>
+
+      <h2>7. Notificaciones push</h2>
       <p>Hay dos tipos de notificaciones. Los avisos de suministro gratuito se programan en tu dispositivo y no envían nada al servidor. Los avisos de anuncios y eventos se envían mediante Firebase Cloud Messaging (FCM).</p>
       <ul>
         <li>Solo si activas las notificaciones (desde el aviso de la App o los ajustes) y concedes el permiso del dispositivo, tu token de dispositivo de FCM se guarda en el servidor push del desarrollador (Supabase) junto con el <strong>tipo de dispositivo (Android/iOS), el idioma de la App y la zona horaria</strong>. La zona horaria se usa para enviar las notificaciones a una hora local adecuada.</li>
@@ -506,7 +541,7 @@
         <li><strong>Cómo darte de baja</strong>: al desactivar el interruptor de notificaciones en los ajustes de la App, tu token se desactiva en el servidor y no se envían más avisos. También puedes desactivar las notificaciones de la App en los ajustes del dispositivo.</li>
       </ul>
 
-      <h2>7. Datos que no recopilamos</h2>
+      <h2>8. Datos que no recopilamos</h2>
       <p>La App no recopila los siguientes datos:</p>
       <ul>
         <li>Nombre real, dirección de correo electrónico, número de teléfono ni contactos</li>
@@ -514,7 +549,7 @@
         <li>Fotos ni archivos multimedia</li>
       </ul>
 
-      <h2>8. Encargados del tratamiento y transferencias internacionales</h2>
+      <h2>9. Encargados del tratamiento y transferencias internacionales</h2>
       <table>
         <thead>
           <tr>
@@ -534,7 +569,7 @@
           <tr>
             <td>Google (Firebase)</td>
             <td>EE. UU.</td>
-            <td>Estadísticas de uso (Analytics), envío de notificaciones push (FCM)</td>
+            <td>Estadísticas de uso (Analytics), informes de fallos (Crashlytics), envío de notificaciones push (FCM)</td>
             <td>Según la política de Google</td>
           </tr>
           <tr>
@@ -570,30 +605,31 @@
         </tbody>
       </table>
 
-      <h2>9. Conservación y eliminación</h2>
+      <h2>10. Conservación y eliminación</h2>
       <ul>
         <li>Los datos del dispositivo se eliminan al desinstalar la App.</li>
         <li>Los datos en el servidor (cuenta, etc.) se eliminan sin demora injustificada a petición tuya.</li>
         <li>Los registros de compra se conservan durante el período legal obligatorio (5 años) antes de ser eliminados.</li>
         <li>Los tokens de notificaciones push se desactivan al apagar las notificaciones y se eliminan a petición tuya.</li>
         <li>Las estadísticas de uso se conservan según la política de Google y la configuración de retención de Firebase.</li>
+        <li>Los informes de fallos se eliminan a los 90 días.</li>
         <li>Envía tu solicitud de eliminación al correo electrónico indicado abajo.</li>
       </ul>
 
-      <h2>10. Privacidad de los menores</h2>
+      <h2>11. Privacidad de los menores</h2>
       <p>La App no recopila deliberadamente datos personales de menores de 13 años (o la edad mínima equivalente en tu jurisdicción). Si detectamos que se han recopilado tales datos, los eliminaremos de inmediato.</p>
 
-      <h2>11. Tus derechos</h2>
+      <h2>12. Tus derechos</h2>
       <ul>
         <li>En el EEE y el Reino Unido, puedes cambiar tu consentimiento de anuncios personalizados en la configuración de privacidad de anuncios de la App.</li>
         <li>Puedes solicitar acceso o eliminación de tus datos de cuenta en el servidor por correo electrónico.</li>
         <li>Puedes desactivar las notificaciones push en cualquier momento en los ajustes de la App o del dispositivo.</li>
       </ul>
 
-      <h2>12. Cambios en esta política</h2>
+      <h2>13. Cambios en esta política</h2>
       <p>Esta política puede actualizarse por cambios legales o del servicio. Los cambios se anunciarán en esta página.</p>
 
-      <h2>13. Contacto y responsable de protección de datos</h2>
+      <h2>14. Contacto y responsable de protección de datos</h2>
       <ul>
         <li>Desarrollador: CLPAK (Jeongsoo Park)</li>
         <li>Responsable de protección de datos: Jeongsoo Park</li>
@@ -604,12 +640,12 @@
     <!-- ═══════════ 日本語 ═══════════ -->
     <article class="lang" id="lang-ja" hidden>
       <h1>プライバシーポリシー</h1>
-      <p class="date">施行日：2026年10月11日</p>
+      <p class="date">施行日：2026年10月12日</p>
 
       <p>Cannon Holdout（以下「本アプリ」、パッケージ名 <code>com.clpak.cannon</code>）は、ユーザーの個人情報を大切にし、関連法令に従って適切に保護します。本ポリシーでは、本アプリが扱う情報の種類・利用方法・ユーザーの権利についてご説明します。</p>
 
       <h2>1. 端末内にのみ保存されるデータ</h2>
-      <p>ゲームの進行状況・設定・ハイスコアは端末内にのみ保存されます。ログインしない場合、これらのデータは開発者のサーバーに送信されません。ただし、利用統計（§5）とプッシュ通知（§6）はログインの有無にかかわらず処理されます。</p>
+      <p>ゲームの進行状況・設定・ハイスコアは端末内にのみ保存されます。ログインしない場合、これらのデータは開発者のサーバーに送信されません。ただし、利用統計（§5）、クラッシュレポート（§6）、プッシュ通知（§7）はログインの有無にかかわらず処理されます。</p>
 
       <h2>2. Google Play ゲーム / Apple Game Center ログイン（任意）</h2>
       <p>ログインしなくてもゲームをお楽しみいただけます。ログインを選択した場合、以下の情報が開発者のサーバー（Supabase、米国・EU・シンガポールにホスト）に送信されます。</p>
@@ -617,7 +653,7 @@
         <li><strong>プレイヤーID</strong> — アカウントの識別、コアセルウォレットの管理、将来のリーダーボード参加に使用します。</li>
         <li><strong>プラットフォームの表示名</strong>（Play ゲームのプロフィール名 / Game Center のニックネーム）— ログイン時にプラットフォームから提供される名前をアカウントとあわせて保存します。アプリ内でニックネームを作成することはなく、現在は他のユーザーに公開していません。</li>
         <li><strong>コアセルの付与・使用記録</strong> — 購入、ステージの初回クリア、出席・週間・実績報酬の受け取り、セルの使用時に、その記録（ステージ番号、報酬の種類と期間、数量、日時）を二重付与防止のためサーバーに保存します。</li>
-        <li>データの削除はいつでもメールでご請求いただけます（§13 お問い合わせ参照）。</li>
+        <li>データの削除はいつでもメールでご請求いただけます（§14 お問い合わせ参照）。</li>
       </ul>
 
       <h2>3. アプリ内課金</h2>
@@ -649,10 +685,21 @@
         <li><strong>端末・識別情報</strong> — Firebaseアプリインスタンス ID、広告識別子（Android：AAID）、端末モデル、OSバージョン、アプリバージョン、言語、IPアドレスから推定したおおよその地域（国レベル）。</li>
         <li>氏名・メールアドレスなど個人を直接特定できる情報はイベントに含めず、プレイヤーIDとも紐付けません。</li>
         <li>Androidでは端末設定から広告IDを削除・リセットできます（設定&gt;プライバシー&gt;広告）。</li>
+        <li>欧州経済領域（EEA）・英国のユーザーの利用統計は、§4の同意画面（Google UMP）での選択に従います。選択する前、または同意しない場合は、分析用の保存と広告関連のシグナルが拒否に設定され、同意すると許可されます。アプリ内の広告のプライバシー設定で選択を変えると、利用統計にも反映されます。</li>
         <li>Googleによるデータの取り扱い：<a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">Googleのサービスを使用するサイトやアプリから収集した情報のGoogleによる使用</a></li>
       </ul>
 
-      <h2>6. プッシュ通知</h2>
+      <h2>6. クラッシュレポート（Firebase Crashlytics）</h2>
+      <p>アプリの安定性を高め不具合を直すため、アプリが異常終了したり処理されないエラーが起きたりすると、Firebase Crashlyticsでクラッシュレポートを送信します。ログインの有無にかかわらず処理されます。</p>
+      <ul>
+        <li><strong>クラッシュ情報</strong> — エラーの種類とスタックトレース、発生日時、その時点の端末の状態（空きメモリ・空きストレージ、画面の向き、root化・脱獄の有無）。</li>
+        <li><strong>端末・識別情報</strong> — 端末モデル、OSバージョン、アプリバージョン、Firebaseインストール ID（クラッシュを端末ごとにまとめるためのランダムなID）。</li>
+        <li>ゲームの記録、プレイヤーID、広告識別子はクラッシュレポートに含めません。</li>
+        <li>クラッシュレポートはGoogle（Firebase）が処理し、90日間保管された後に削除されます。</li>
+        <li>Googleによる取り扱い：<a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebaseのプライバシーとセキュリティ</a></li>
+      </ul>
+
+      <h2>7. プッシュ通知</h2>
       <p>通知は2種類あります。無料補給の通知は端末内で予約され、サーバーには何も送信しません。お知らせ・イベントの通知はFirebase Cloud Messaging（FCM）で配信されます。</p>
       <ul>
         <li>アプリ内の案内または設定で通知をオンにし、端末の権限を許可した場合に限り、FCMデバイストークンとあわせて<strong>端末の種類（Android/iOS）、アプリの言語、タイムゾーン</strong>が開発者のプッシュサーバー（Supabase）に保存されます。タイムゾーンは現地時刻に合わせて通知を送るために使用します。</li>
@@ -660,7 +707,7 @@
         <li><strong>受信の停止</strong>：アプリ設定の通知スイッチをオフにすると、サーバー上のトークンが無効化され、以降は配信されません。端末設定から本アプリの通知をオフにすることもできます。</li>
       </ul>
 
-      <h2>7. 収集しない情報</h2>
+      <h2>8. 収集しない情報</h2>
       <p>本アプリは以下の情報を収集しません。</p>
       <ul>
         <li>氏名（本名）、メールアドレス、電話番号、連絡先</li>
@@ -668,7 +715,7 @@
         <li>写真・メディアファイル</li>
       </ul>
 
-      <h2>8. 処理委託・国外移転</h2>
+      <h2>9. 処理委託・国外移転</h2>
       <table>
         <thead>
           <tr>
@@ -688,7 +735,7 @@
           <tr>
             <td>Google（Firebase）</td>
             <td>米国</td>
-            <td>利用統計の分析（Analytics）・プッシュ通知の配信（FCM）</td>
+            <td>利用統計の分析（Analytics）・クラッシュレポート（Crashlytics）・プッシュ通知の配信（FCM）</td>
             <td>Googleのポリシーに準拠</td>
           </tr>
           <tr>
@@ -724,30 +771,31 @@
         </tbody>
       </table>
 
-      <h2>9. 保管・削除</h2>
+      <h2>10. 保管・削除</h2>
       <ul>
         <li>端末内のデータはアプリをアンインストールすると削除されます。</li>
         <li>サーバー上のデータ（アカウントなど）は、ご請求後に速やかに削除します。</li>
         <li>購入記録は法定保管期間（5年）の満了後に削除します。</li>
         <li>プッシュ通知のデバイストークンは、通知をオフにすると無効化され、ご請求により削除します。</li>
         <li>利用統計の保管期間はGoogleのポリシーおよびFirebaseの保持設定に従います。</li>
+        <li>クラッシュレポートは90日間保管された後に削除されます。</li>
         <li>削除のご請求は下記メールアドレスへお送りください。</li>
       </ul>
 
-      <h2>10. 子どものプライバシー</h2>
+      <h2>11. 子どものプライバシー</h2>
       <p>本アプリは13歳未満（またはお住まいの地域で定められた最低年齢）の子どもの個人情報を意図的に収集しません。万が一収集されていると判明した場合は、速やかに削除します。</p>
 
-      <h2>11. ユーザーの権利</h2>
+      <h2>12. ユーザーの権利</h2>
       <ul>
         <li>EEA・英国では、パーソナライズ広告への同意をアプリ内の広告プライバシー設定から変更できます。</li>
         <li>サーバー上のアカウントデータの閲覧・削除はメールでご請求いただけます。</li>
         <li>プッシュ通知はアプリ設定または端末設定からいつでもオフにできます。</li>
       </ul>
 
-      <h2>12. ポリシーの変更</h2>
+      <h2>13. ポリシーの変更</h2>
       <p>本ポリシーは、法令の改正やサービスの変更に応じて改定されることがあります。変更内容はこのページでお知らせします。</p>
 
-      <h2>13. お問い合わせ・個人情報保護責任者</h2>
+      <h2>14. お問い合わせ・個人情報保護責任者</h2>
       <ul>
         <li>開発者：CLPAK（Jeongsoo Park）</li>
         <li>個人情報保護責任者：Jeongsoo Park</li>
