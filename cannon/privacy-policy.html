@@ -194,9 +194,9 @@
       <h2>6. 크래시 보고 (Firebase Crashlytics)</h2>
       <p>앱 안정성을 높이고 오류를 고치기 위해, 앱이 비정상 종료되거나 처리되지 않은 오류가 나면 Firebase Crashlytics로 크래시 보고를 보내요. 로그인 여부와 관계없이 처리돼요.</p>
       <ul>
-        <li><strong>크래시 정보</strong> — 오류 종류와 스택 트레이스, 발생 시각, 그 순간의 기기 상태(여유 메모리·저장 공간, 화면 방향, 루팅·탈옥 여부).</li>
+        <li><strong>크래시 정보</strong> — 오류 종류와 스택 트레이스, 발생 시각, 그 순간의 기기 상태(여유 메모리·저장 공간, 화면 방향, 루팅·탈옥 여부), 오류 직전의 이용 통계 이벤트(§5).</li>
         <li><strong>기기 및 식별 정보</strong> — 기기 모델, OS 버전, 앱 버전, Firebase 설치 ID(크래시를 기기 단위로 묶는 데 쓰는 임의 ID).</li>
-        <li>게임 기록, 플레이어 ID, 광고 식별자는 크래시 보고에 넣지 않아요.</li>
+        <li>플레이어 ID와 광고 식별자는 크래시 보고에 넣지 않아요.</li>
         <li>크래시 보고는 Google(Firebase)이 처리하며 90일 동안 보관된 뒤 삭제돼요.</li>
         <li>Google의 처리 방식: <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase 개인정보 보호 안내</a></li>
       </ul>
@@ -360,9 +360,9 @@
       <h2>6. Crash Reports (Firebase Crashlytics)</h2>
       <p>To improve stability and fix bugs, the App sends a crash report through Firebase Crashlytics when it crashes or hits an unhandled error. This happens whether or not you sign in.</p>
       <ul>
-        <li><strong>Crash data</strong> — the error type and stack trace, when it happened, and the device state at that moment (free memory and storage, screen orientation, whether the device is rooted or jailbroken).</li>
+        <li><strong>Crash data</strong> — the error type and stack trace, when it happened, and the device state at that moment (free memory and storage, screen orientation, whether the device is rooted or jailbroken), and the usage analytics events (§5) logged just before the error.</li>
         <li><strong>Device and identifier data</strong> — device model, OS version, app version, and the Firebase installation ID (a random ID used to group crashes by device).</li>
-        <li>Crash reports do not include your game records, Player ID, or advertising identifier.</li>
+        <li>Crash reports do not include your Player ID or advertising identifier.</li>
         <li>Crash reports are processed by Google (Firebase) and deleted after 90 days.</li>
         <li>How Google processes this data: <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Privacy and Security in Firebase</a></li>
       </ul>
@@ -526,9 +526,9 @@
       <h2>6. Informes de fallos (Firebase Crashlytics)</h2>
       <p>Para mejorar la estabilidad y corregir errores, la App envía un informe de fallo mediante Firebase Crashlytics cuando se cierra inesperadamente o se produce un error no controlado, inicies sesión o no.</p>
       <ul>
-        <li><strong>Datos del fallo</strong>: tipo de error y traza de la pila, momento en que ocurrió y estado del dispositivo en ese instante (memoria y almacenamiento libres, orientación de la pantalla, si el dispositivo tiene root o jailbreak).</li>
+        <li><strong>Datos del fallo</strong>: tipo de error y traza de la pila, momento en que ocurrió y estado del dispositivo en ese instante (memoria y almacenamiento libres, orientación de la pantalla, si el dispositivo tiene root o jailbreak) y los eventos de estadísticas de uso (§5) registrados justo antes del error.</li>
         <li><strong>Datos del dispositivo e identificadores</strong>: modelo del dispositivo, versión del sistema operativo, versión de la App e ID de instalación de Firebase (un ID aleatorio que agrupa los fallos por dispositivo).</li>
-        <li>Los informes de fallos no incluyen tu progreso, tu ID de jugador ni el identificador publicitario.</li>
+        <li>Los informes de fallos no incluyen tu ID de jugador ni el identificador publicitario.</li>
         <li>Google (Firebase) procesa los informes de fallos y los elimina a los 90 días.</li>
         <li>Cómo trata Google estos datos: <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Privacidad y seguridad en Firebase</a></li>
       </ul>
@@ -692,9 +692,9 @@
       <h2>6. クラッシュレポート（Firebase Crashlytics）</h2>
       <p>アプリの安定性を高め不具合を直すため、アプリが異常終了したり処理されないエラーが起きたりすると、Firebase Crashlyticsでクラッシュレポートを送信します。ログインの有無にかかわらず処理されます。</p>
       <ul>
-        <li><strong>クラッシュ情報</strong> — エラーの種類とスタックトレース、発生日時、その時点の端末の状態（空きメモリ・空きストレージ、画面の向き、root化・脱獄の有無）。</li>
+        <li><strong>クラッシュ情報</strong> — エラーの種類とスタックトレース、発生日時、その時点の端末の状態（空きメモリ・空きストレージ、画面の向き、root化・脱獄の有無）、エラー直前の利用統計イベント（§5）。</li>
         <li><strong>端末・識別情報</strong> — 端末モデル、OSバージョン、アプリバージョン、Firebaseインストール ID（クラッシュを端末ごとにまとめるためのランダムなID）。</li>
-        <li>ゲームの記録、プレイヤーID、広告識別子はクラッシュレポートに含めません。</li>
+        <li>プレイヤーIDと広告識別子はクラッシュレポートに含めません。</li>
         <li>クラッシュレポートはGoogle（Firebase）が処理し、90日間保管された後に削除されます。</li>
         <li>Googleによる取り扱い：<a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebaseのプライバシーとセキュリティ</a></li>
       </ul>
