@@ -111,7 +111,7 @@
     .bn-meta { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
     .bn-stats { font-size: 12px; color: var(--text); margin-top: 3px; }
     .bn-ctrl { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-    @media (max-width: 600px) { .bn-row { grid-template-columns: 72px 1fr; } .bn-ctrl { grid-column: 1 / -1; justify-content: flex-start; } }
+    @media (max-width: 600px) { .bn-row { grid-template-columns: 72px 1fr; } .bn-thumb { width: 72px; height: 36px; } .bn-ctrl { grid-column: 1 / -1; justify-content: flex-start; } }
 
     .attach-row { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
     .attach-row select { flex: 1; min-width: 200px; }
@@ -137,6 +137,20 @@
     .muted { font-size: 13px; color: var(--text-muted); }
     .sub-title { font-size: 13px; font-weight: 600; color: var(--text-bright); margin: 22px 0 10px; }
     .hidden { display: none !important; }
+
+    .tabs { display: flex; gap: 6px; max-width: 1180px; margin: 24px auto 0; padding: 0 20px; }
+    .tab { background: var(--bg-card); color: var(--text-muted); border: none; border-radius: 8px; padding: 8px 18px; font-size: 14px; cursor: pointer; font-family: inherit; }
+    .tab:hover { color: var(--text-bright); }
+    .tab.selected { background: #1f3a2a; color: var(--text-bright); font-weight: 600; }
+    .wrap { max-width: 1180px; margin: 24px auto 32px; padding: 0 20px; }
+    .tabs + .layout { margin-top: 24px; }
+    .bn-row.clickable { cursor: pointer; }
+    .bn-row.clickable:hover { background: var(--bg-hover); }
+    .bn-row.clickable.editing { background: #1f3a2a; }
+    .pl-checks { display: grid; gap: 8px; }
+    .pl-checks .check { font-size: 13px; }
+    .pl-checks .pl-meta { margin: 0; }
+    .local-preview { max-width: 420px; width: 100%; border-radius: 12px; display: block; margin-top: 10px; background: var(--bg-input); }
   </style>
 </head>
 <body>
@@ -155,7 +169,12 @@
       </div>
     </div>
 
-    <div class="layout">
+    <div class="tabs" role="tablist">
+      <button class="tab" data-tab="pl" role="tab">자리</button>
+      <button class="tab" data-tab="bn" role="tab">배너</button>
+    </div>
+
+    <div class="layout" id="tab-pl">
       <div class="panel">
         <div class="panel-title">배너 자리</div>
         <div class="panel-desc">앱 화면마다 하나씩 있는 배너 칸입니다. 자리를 고르면 설정과 배너가 나옵니다.</div>
@@ -206,14 +225,24 @@
         <!-- 자리의 배너 -->
         <div class="panel hidden" id="slot-panel">
           <div class="panel-title">이 자리의 배너</div>
-          <div class="panel-desc">위에서부터 순서대로 넘어갑니다. 숫자는 최근 30일 노출·클릭·닫기 수입니다.</div>
+          <div class="panel-desc">위에서부터 순서대로 넘어갑니다. 숫자는 최근 30일 노출·클릭·닫기 수입니다. 행을 누르면 배너 탭에서 편집합니다.</div>
           <div class="bn-list" id="bn-list"></div>
           <div class="attach-row">
             <select id="attach-select" class="input"></select>
             <button class="btn" id="attach-btn">이 자리에 붙이기</button>
-            <button class="btn" id="new-banner-btn">새 배너 만들기</button>
           </div>
           <div class="status" id="slot-status" style="margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap hidden" id="tab-bn">
+        <!-- 배너 목록 -->
+        <div class="panel">
+          <div class="panel-title">배너</div>
+          <div class="panel-desc">배너 하나를 여러 자리에 꽂을 수 있습니다. 숫자는 최근 30일 노출·클릭 수입니다. 행을 누르면 편집합니다.</div>
+          <div class="actions" style="margin:0 0 14px"><button class="btn primary" id="new-banner-btn">새 배너</button><span class="status" id="bn-list-status"></span></div>
+          <div class="bn-list" id="all-bn-list"><div class="muted">불러오는 중...</div></div>
         </div>
 
         <!-- 배너 편집 -->
@@ -279,6 +308,20 @@
               <input id="bn-ends" class="input" type="datetime-local">
             </div>
             <div class="field"><span class="label">상태</span><label class="check"><input type="checkbox" id="bn-active">배너 켜기</label></div>
+            <div class="field wide">
+              <span class="label">꽂힌 자리 (저장하면 체크한 자리 맨 뒤에 꽂히고, 뺀 자리에서는 빠집니다)</span>
+              <div class="pl-checks" id="bn-placements"></div>
+            </div>
+          </div>
+
+          <div id="bn-new-img">
+            <div class="sub-title">이미지</div>
+            <div class="actions" style="margin-top:0">
+              <input type="file" id="new-img-file" accept="image/png" class="hidden">
+              <button class="btn" id="new-img-btn">PNG 고르기</button>
+              <span class="muted" id="new-img-name">고른 파일 없음. 저장할 때 함께 올라가고 바로 쓰입니다.</span>
+            </div>
+            <img id="new-img-preview" class="local-preview hidden" alt="">
           </div>
           <div class="actions">
             <button class="btn primary" id="bn-save">배너 저장</button>
@@ -299,7 +342,6 @@
             </div>
           </div>
         </div>
-      </div>
     </div>
   </div>
 
@@ -350,8 +392,26 @@ let placements = [];
 let currentPl = null;     // 선택한 자리 행
 let slotRows = [];        // [{ banner_id, sort_order, banner, image }]
 let allBanners = [];
+let allSlots = [];        // 배너 탭: 전체 [{ placement_id, banner_id, sort_order }]
+let bannerRows = [];      // 배너 탭 목록: [{ banner_id, banner, image, stats }]
 let editingId = null;     // 편집 중 배너 id (null이면 새 배너)
 let editingImages = [];
+let pendingFile = null;   // 새 배너 저장 때 올릴 PNG
+
+// ─── 탭 ────────────────────────────────────────
+const TAB_KEY = 'banner-admin-tab';
+async function showTab(tab) {
+  document.querySelectorAll('.tab').forEach((t) => { t.classList.toggle('selected', t.dataset.tab === tab); t.setAttribute('aria-selected', t.dataset.tab === tab); });
+  $('tab-pl').classList.toggle('hidden', tab !== 'pl');
+  $('tab-bn').classList.toggle('hidden', tab !== 'bn');
+  try { localStorage.setItem(TAB_KEY, tab); } catch (_) {}
+  if (tab === 'bn') await loadBanners();
+  else if (currentPl) await loadSlots();
+}
+document.querySelector('.tabs').addEventListener('click', (e) => {
+  const t = e.target.closest('.tab');
+  if (t) showTab(t.dataset.tab);
+});
 
 // ─── 자리 목록 ─────────────────────────────────
 async function loadPlacements() {
@@ -379,7 +439,6 @@ async function selectPlacement(id) {
   currentPl = placements.find((p) => p.id === id);
   if (!currentPl) return;
   renderPlacements();
-  closeEditor();
   $('pl-empty').classList.add('hidden');
   $('pl-panel').classList.remove('hidden');
   $('slot-panel').classList.remove('hidden');
@@ -448,15 +507,15 @@ async function loadSlots() {
   }));
   renderSlots();
   renderAttachSelect();
-  loadStats();
+  const rows = slotRows;
+  loadStats(rows, ['impression', 'click', 'dismiss']).then(() => { if (rows === slotRows) renderSlots(); });
 }
 
 // 최근 30일 배너별 이벤트 수. 행을 받지 않고 head count로 센다(행 1000개 상한 회피).
-async function loadStats() {
+async function loadStats(rows, events) {
   const since = new Date(Date.now() - 30 * 86400000).toISOString();
-  const rows = slotRows;
   await Promise.all(rows.map(async (r) => {
-    const counts = await Promise.all(['impression', 'click', 'dismiss'].map(async (ev) => {
+    const counts = await Promise.all(events.map(async (ev) => {
       const { count, error } = await supabase.from('common_banner_events')
         .select('id', { count: 'exact', head: true })
         .eq('banner_id', r.banner_id).eq('event', ev).gte('created_at', since);
@@ -464,7 +523,6 @@ async function loadStats() {
     }));
     r.stats = counts;
   }));
-  if (rows === slotRows) renderSlots();
 }
 
 function bannerLabel(b) {
@@ -478,10 +536,10 @@ function renderSlots() {
     const s = r.stats;
     const statLine = s ? `노출 ${s[0] ?? '?'} · 클릭 ${s[1] ?? '?'} · 닫기 ${s[2] ?? '?'}` : '집계 중...';
     return `
-      <div class="bn-row${b?.active ? '' : ' off'}${editingId === r.banner_id ? ' editing' : ''}" data-id="${esc(r.banner_id)}">
+      <div class="bn-row clickable${b?.active ? '' : ' off'}" data-id="${esc(r.banner_id)}">
         <div class="bn-thumb" style="${r.image ? `background-image:url('${esc(r.image)}')` : ''}"></div>
         <div class="bn-main">
-          <div class="bn-title">${esc(bannerLabel(b))}</div>
+          <div class="bn-title">${i + 1}. ${esc(bannerLabel(b))}</div>
           <div class="bn-meta">${esc(b?.kind ?? '')}${b?.affiliate ? ' · ' + esc(b.affiliate) : ''}${b?.active ? '' : ' · 꺼짐'}${r.image ? '' : ' · 활성 이미지 없음'}</div>
           <div class="bn-stats">${statLine}</div>
         </div>
@@ -489,7 +547,6 @@ function renderSlots() {
           <button class="btn small" data-act="up" ${i === 0 ? 'disabled' : ''} aria-label="위로">↑</button>
           <button class="btn small" data-act="down" ${i === slotRows.length - 1 ? 'disabled' : ''} aria-label="아래로">↓</button>
           <button class="btn small" data-act="toggle">${b?.active ? '끄기' : '켜기'}</button>
-          <button class="btn small" data-act="edit">편집</button>
           <button class="btn small danger" data-act="remove">빼기</button>
         </div>
       </div>`;
@@ -505,28 +562,33 @@ function renderAttachSelect() {
   $('attach-btn').disabled = !rest.length;
 }
 
+// 배너 행을 누르면 배너 탭에서 편집한다(버튼은 제외).
+async function goEditBanner(id) {
+  await showTab('bn');
+  await openEditor(id);
+}
+
 $('bn-list').addEventListener('click', async (e) => {
+  const row = e.target.closest('.bn-row');
+  if (!row) return;
+  const id = row.dataset.id;
   const btn = e.target.closest('button[data-act]');
-  if (!btn) return;
-  const id = btn.closest('.bn-row').dataset.id;
+  if (!btn) return goEditBanner(id);
   const idx = slotRows.findIndex((r) => r.banner_id === id);
   const act = btn.dataset.act;
   if (act === 'up' || act === 'down') return moveSlot(idx, act === 'up' ? -1 : 1);
-  if (act === 'edit') return openEditor(id);
   if (act === 'toggle') {
     const b = slotRows[idx].banner;
     const { error } = await supabase.from('common_banners').update({ active: !b.active }).eq('id', id);
     if (error) return setStatus('slot-status', '바꾸기 실패: ' + error.message, 'error');
     b.active = !b.active;
     renderSlots();
-    if (editingId === id) $('bn-active').checked = b.active;
     return;
   }
   if (act === 'remove') {
     if (!confirm('이 자리에서 배너를 뺄까요? 배너 자체는 지워지지 않습니다.')) return;
     const { error } = await supabase.from('common_banner_slots').delete().eq('placement_id', currentPl.id).eq('banner_id', id);
     if (error) return setStatus('slot-status', '빼기 실패: ' + error.message, 'error');
-    if (editingId === id) closeEditor();
     await loadSlots();
   }
 });
@@ -545,19 +607,60 @@ async function moveSlot(idx, dir) {
   if (failed) { setStatus('slot-status', '순서 저장 실패: ' + failed.error.message, 'error'); await loadSlots(); }
 }
 
-async function attachBanner(bannerId) {
-  const nextOrder = slotRows.length ? Math.max(...slotRows.map((r) => r.sort_order)) + 10 : 0;
-  const { error } = await supabase.from('common_banner_slots').insert({ placement_id: currentPl.id, banner_id: bannerId, sort_order: nextOrder });
-  if (error) { setStatus('slot-status', '붙이기 실패: ' + error.message, 'error'); return false; }
-  return true;
-}
-
 $('attach-btn').addEventListener('click', async () => {
   const id = $('attach-select').value;
   if (!id) return;
-  if (await attachBanner(id)) { await loadSlots(); setStatus('slot-status', '붙였습니다.', 'success'); }
+  const nextOrder = slotRows.length ? Math.max(...slotRows.map((r) => r.sort_order)) + 10 : 0;
+  const { error } = await supabase.from('common_banner_slots').insert({ placement_id: currentPl.id, banner_id: id, sort_order: nextOrder });
+  if (error) return setStatus('slot-status', '붙이기 실패: ' + error.message, 'error');
+  await loadSlots();
+  setStatus('slot-status', '붙였습니다.', 'success');
 });
 
+// ─── 배너 탭 목록 ──────────────────────────────
+async function loadBanners() {
+  const [bannersRes, slotsRes, imagesRes] = await Promise.all([
+    supabase.from('common_banners').select('*').order('created_at', { ascending: false }),
+    supabase.from('common_banner_slots').select('placement_id, banner_id, sort_order'),
+    supabase.from('common_banner_images').select('banner_id, url').eq('is_active', true),
+  ]);
+  const err = bannersRes.error || slotsRes.error || imagesRes.error;
+  if (err) return setStatus('bn-list-status', '불러오기 실패: ' + err.message, 'error');
+  allBanners = bannersRes.data;
+  allSlots = slotsRes.data;
+  bannerRows = allBanners.map((b) => ({
+    banner_id: b.id,
+    banner: b,
+    image: imagesRes.data.find((i) => i.banner_id === b.id)?.url ?? null,
+    stats: null,
+  }));
+  renderBanners();
+  const rows = bannerRows;
+  loadStats(rows, ['impression', 'click']).then(() => { if (rows === bannerRows) renderBanners(); });
+}
+
+function renderBanners() {
+  if (!bannerRows.length) { $('all-bn-list').innerHTML = '<div class="muted">아직 배너가 없습니다.</div>'; return; }
+  $('all-bn-list').innerHTML = bannerRows.map((r) => {
+    const b = r.banner;
+    const s = r.stats;
+    const n = allSlots.filter((x) => x.banner_id === b.id).length;
+    return `
+      <div class="bn-row clickable${b.active ? '' : ' off'}${editingId === b.id ? ' editing' : ''}" data-id="${esc(b.id)}">
+        <div class="bn-thumb" style="${r.image ? `background-image:url('${esc(r.image)}')` : ''}"></div>
+        <div class="bn-main">
+          <div class="bn-title">${esc(bannerLabel(b))}</div>
+          <div class="bn-meta">${esc(b.kind)}${b.affiliate ? ' · ' + esc(b.affiliate) : ''} · ${b.active ? '켜짐' : '꺼짐'} · 자리 ${n}곳${r.image ? '' : ' · 활성 이미지 없음'}</div>
+          <div class="bn-stats">${s ? `노출 ${s[0] ?? '?'} · 클릭 ${s[1] ?? '?'}` : '집계 중...'}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+$('all-bn-list').addEventListener('click', (e) => {
+  const row = e.target.closest('.bn-row');
+  if (row) openEditor(row.dataset.id);
+});
 $('new-banner-btn').addEventListener('click', () => openEditor(null));
 
 // ─── 배너 편집 ─────────────────────────────────
@@ -580,6 +683,11 @@ function fillEditor(b) {
   $('bn-ends').value = isoUtcToLocalInput(b?.ends_at);
   $('bn-active').checked = b?.active ?? true;
   syncAffiliateField();
+  const on = new Set(allSlots.filter((s) => s.banner_id === b?.id).map((s) => s.placement_id));
+  $('bn-placements').innerHTML = placements.length ? placements.map((p) => `
+    <label class="check"><input type="checkbox" value="${esc(p.id)}"${on.has(p.id) ? ' checked' : ''}>
+      <span>${esc(p.id)} <span class="pl-meta">· ${esc(p.app_slug)}${p.description ? ' · ' + esc(p.description) : ''}${p.active ? '' : ' · 꺼짐'}</span></span></label>`).join('')
+    : '<div class="muted">등록된 자리가 없습니다.</div>';
 }
 
 function syncAffiliateField() {
@@ -590,17 +698,38 @@ function syncAffiliateField() {
 $('bn-kind').addEventListener('change', syncAffiliateField);
 ['bn-title', 'bn-description'].forEach((id) => $(id).addEventListener('input', renderPreview));
 
+function setPendingFile(file) {
+  pendingFile = file;
+  const pv = $('new-img-preview');
+  if (pv.src) URL.revokeObjectURL(pv.src);
+  pv.removeAttribute('src');
+  pv.classList.toggle('hidden', !file);
+  $('new-img-name').textContent = file ? `${file.name} · 저장할 때 함께 올라가고 바로 쓰입니다.` : '고른 파일 없음. 저장할 때 함께 올라가고 바로 쓰입니다.';
+  if (file) pv.src = URL.createObjectURL(file);
+}
+$('new-img-btn').addEventListener('click', () => $('new-img-file').click());
+$('new-img-file').addEventListener('change', () => {
+  const file = $('new-img-file').files[0];
+  $('new-img-file').value = '';
+  if (!file) return;
+  if (file.type !== 'image/png') return setStatus('bn-status', 'PNG 파일만 올릴 수 있습니다.', 'error');
+  setStatus('bn-status', '');
+  setPendingFile(file);
+});
+
 async function openEditor(id) {
   editingId = id;
   const b = id ? allBanners.find((x) => x.id === id) : null;
   fillEditor(b);
+  setPendingFile(null);
   $('bn-panel').classList.remove('hidden');
   $('bn-panel-title').textContent = id ? '배너 편집' : '새 배너';
-  $('bn-panel-desc').textContent = id ? `id ${id}` : `저장하면 ${currentPl.id} 자리 맨 뒤에 붙습니다. 이미지는 저장 뒤에 올릴 수 있습니다.`;
+  $('bn-panel-desc').textContent = id ? `id ${id}` : 'PNG를 고르고 꽂을 자리를 체크한 뒤 저장하세요.';
   $('bn-extra').classList.toggle('hidden', !id);
+  $('bn-new-img').classList.toggle('hidden', !!id);
   setStatus('bn-status', '');
   setStatus('img-status', '');
-  renderSlots();
+  renderBanners();
   editingImages = [];
   if (id) await loadImages();
   renderPreview();
@@ -610,10 +739,28 @@ async function openEditor(id) {
 function closeEditor() {
   editingId = null;
   editingImages = [];
+  setPendingFile(null);
   $('bn-panel').classList.add('hidden');
-  renderSlots();
+  renderBanners();
 }
 $('bn-close').addEventListener('click', closeEditor);
+
+// 체크 변화만큼 slots를 넣고 뺀다. 새로 꽂는 자리는 그 자리 맨 뒤(기존 max + 10, 순서 다시 매기기와 같은 간격).
+async function syncSlots(bannerId) {
+  const want = new Set([...$('bn-placements').querySelectorAll('input:checked')].map((c) => c.value));
+  const have = new Set(allSlots.filter((s) => s.banner_id === bannerId).map((s) => s.placement_id));
+  const ops = [];
+  for (const pid of want) {
+    if (have.has(pid)) continue;
+    const orders = allSlots.filter((s) => s.placement_id === pid).map((s) => s.sort_order);
+    ops.push(supabase.from('common_banner_slots').insert({ placement_id: pid, banner_id: bannerId, sort_order: orders.length ? Math.max(...orders) + 10 : 0 }));
+  }
+  for (const pid of have) {
+    if (!want.has(pid)) ops.push(supabase.from('common_banner_slots').delete().eq('placement_id', pid).eq('banner_id', bannerId));
+  }
+  const failed = (await Promise.all(ops)).find((r) => r.error);
+  if (failed) throw failed.error;
+}
 
 $('bn-save').addEventListener('click', async () => {
   const kind = $('bn-kind').value;
@@ -643,24 +790,32 @@ $('bn-save').addEventListener('click', async () => {
   if (!platforms.length) return setStatus('bn-status', '플랫폼을 하나 이상 고르세요.', 'error');
   if (row.starts_at && row.ends_at && row.starts_at >= row.ends_at) return setStatus('bn-status', '끝이 시작보다 뒤여야 합니다.', 'error');
 
+  const isNew = !editingId;
+  const file = pendingFile;
   $('bn-save').disabled = true;
-  let res;
-  if (editingId) {
-    res = await supabase.from('common_banners').update(row).eq('id', editingId).select().single();
-  } else {
-    res = await supabase.from('common_banners').insert(row).select().single();
+  setStatus('bn-status', '저장 중...');
+  const res = isNew
+    ? await supabase.from('common_banners').insert(row).select().single()
+    : await supabase.from('common_banners').update(row).eq('id', editingId).select().single();
+  if (res.error) { $('bn-save').disabled = false; return setStatus('bn-status', '저장 실패: ' + res.error.message, 'error'); }
+  const id = res.data.id;
+
+  // 배너 행은 이미 저장됐다. 이후 단계가 실패하면 배너는 남기고 어느 단계인지 알린다.
+  let failMsg = null;
+  try { await syncSlots(id); } catch (err) { failMsg = '배너는 저장했지만 자리 꽂기에 실패했습니다: ' + err.message; }
+  if (!failMsg && isNew && file) {
+    try {
+      const img = await uploadPng(id, file);
+      const act = await activateImage(id, img.id);
+      if (act.error) throw new Error('이미지는 올렸지만 사용 중으로 바꾸지 못했습니다: ' + act.error.message);
+    } catch (err) { failMsg = '배너는 만들었지만 ' + err.message; }
   }
   $('bn-save').disabled = false;
-  if (res.error) return setStatus('bn-status', '저장 실패: ' + res.error.message, 'error');
-
-  if (!editingId) {
-    if (!(await attachBanner(res.data.id))) return setStatus('bn-status', '배너는 만들었지만 자리에 붙이지 못했습니다.', 'error');
-    await loadSlots();
-    await openEditor(res.data.id);
-    return setStatus('bn-status', '만들었습니다. 이제 이미지를 올리세요.', 'success');
-  }
-  await loadSlots();
-  setStatus('bn-status', '저장되었습니다.', 'success');
+  await loadBanners();
+  if (isNew) await openEditor(id);
+  else renderPreview();
+  if (failMsg) return setStatus('bn-status', failMsg, 'error');
+  setStatus('bn-status', isNew ? (file ? '만들었습니다.' : '만들었습니다. 이제 이미지를 올리세요.') : '저장되었습니다.', 'success');
 });
 
 // ─── 이미지 후보 ───────────────────────────────
@@ -681,18 +836,39 @@ function renderImages() {
 }
 
 // 배너당 활성 이미지 1장(부분 유니크 인덱스): 기존 활성을 먼저 끄고 고른 것을 켠다.
+async function activateImage(bannerId, imageId) {
+  const off = await supabase.from('common_banner_images').update({ is_active: false }).eq('banner_id', bannerId).eq('is_active', true);
+  return off.error ? off : await supabase.from('common_banner_images').update({ is_active: true }).eq('id', imageId);
+}
+
 $('img-grid').addEventListener('click', async (e) => {
   const btn = e.target.closest('button[data-img]');
   if (!btn) return;
   btn.disabled = true;
-  const off = await supabase.from('common_banner_images').update({ is_active: false }).eq('banner_id', editingId).eq('is_active', true);
-  const on = off.error ? off : await supabase.from('common_banner_images').update({ is_active: true }).eq('id', btn.dataset.img);
+  const on = await activateImage(editingId, btn.dataset.img);
   if (on.error) { setStatus('img-status', '바꾸기 실패: ' + on.error.message, 'error'); }
   else setStatus('img-status', '활성 이미지를 바꿨습니다.', 'success');
   await loadImages();
-  await loadSlots();
+  await loadBanners();
   renderPreview();
 });
+
+// banner-images/<banner_id>/<Date.now()>.png 에 올리고 비활성 images 행을 만든다. 실패하면 단계를 담아 던진다.
+async function uploadPng(bannerId, file) {
+  const size = await new Promise((resolve) => {
+    const im = new Image();
+    im.onload = () => { resolve({ width: im.naturalWidth, height: im.naturalHeight }); URL.revokeObjectURL(im.src); };
+    im.onerror = () => resolve({ width: null, height: null });
+    im.src = URL.createObjectURL(file);
+  });
+  const path = `${bannerId}/${Date.now()}.png`;
+  const up = await supabase.storage.from(BUCKET).upload(path, file, { contentType: 'image/png', upsert: false });
+  if (up.error) throw new Error('이미지 파일 올리기에 실패했습니다: ' + up.error.message);
+  const url = supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+  const ins = await supabase.from('common_banner_images').insert({ banner_id: bannerId, url, ...size, is_active: false }).select().single();
+  if (ins.error) throw new Error('파일은 올렸지만 이미지 등록에 실패했습니다: ' + ins.error.message);
+  return ins.data;
+}
 
 $('img-upload-btn').addEventListener('click', () => $('img-file').click());
 
@@ -704,18 +880,7 @@ $('img-file').addEventListener('change', async () => {
   setStatus('img-status', '올리는 중...');
   $('img-upload-btn').disabled = true;
   try {
-    const size = await new Promise((resolve) => {
-      const im = new Image();
-      im.onload = () => { resolve({ width: im.naturalWidth, height: im.naturalHeight }); URL.revokeObjectURL(im.src); };
-      im.onerror = () => resolve({ width: null, height: null });
-      im.src = URL.createObjectURL(file);
-    });
-    const path = `${editingId}/${Date.now()}.png`;
-    const up = await supabase.storage.from(BUCKET).upload(path, file, { contentType: 'image/png', upsert: false });
-    if (up.error) throw up.error;
-    const url = supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
-    const ins = await supabase.from('common_banner_images').insert({ banner_id: editingId, url, ...size, is_active: false });
-    if (ins.error) throw ins.error;
+    await uploadPng(editingId, file);
     setStatus('img-status', '올렸습니다. 쓰려면 이 이미지 쓰기를 누르세요.', 'success');
     await loadImages();
   } catch (err) {
@@ -725,18 +890,22 @@ $('img-file').addEventListener('change', async () => {
   }
 });
 
-// ─── 미리보기: 자리 비율 + 활성 이미지 + 오버레이 문구 ─
+// ─── 미리보기: 꽂힌 첫 자리 비율(없으면 4) + 활성 이미지 + 오버레이 문구 ─
 function renderPreview() {
-  if (!editingId || !currentPl) return;
+  if (!editingId) return;
+  const pid = allSlots.filter((s) => s.banner_id === editingId).map((s) => s.placement_id).sort()[0];
+  const pl = placements.find((p) => p.id === pid);
+  const shape = pl?.shape ?? 'strip';
+  const ratio = pl ? Number(pl.aspect_ratio) : 4;
   const active = editingImages.find((i) => i.is_active);
   if (!active) { $('preview-wrap').innerHTML = '<div class="preview-empty">활성 이미지가 없어 앱에 나오지 않습니다.</div>'; return; }
   const title = orNull($('bn-title').value);
   const desc = orNull($('bn-description').value);
   $('preview-wrap').innerHTML = `
-    <div class="preview ${esc(currentPl.shape)}" style="aspect-ratio:${Number(currentPl.aspect_ratio)};background-image:url('${esc(active.url)}')">
+    <div class="preview ${esc(shape)}" style="aspect-ratio:${ratio};background-image:url('${esc(active.url)}')">
       ${title ? `<div class="shade"><div class="pv-title">${esc(title)}</div>${desc ? `<div class="pv-desc">${esc(desc)}</div>` : ''}</div>` : ''}
     </div>
-    <div class="preview-note">${esc(currentPl.id)} · ${esc(currentPl.shape)} · ${esc(currentPl.aspect_ratio)}:1 (저장 전 문구도 바로 반영됩니다)</div>`;
+    <div class="preview-note">${pl ? `${esc(pl.id)} · ${esc(shape)} · ${esc(pl.aspect_ratio)}:1` : `꽂힌 자리 없음 · ${ratio}:1`} (저장 전 문구도 바로 반영됩니다)</div>`;
 }
 
 // ─── Auth (naru 어드민과 같은 흐름, 비로그인·비관리자는 메인으로) ─
@@ -769,6 +938,9 @@ async function onLogin(session) {
   document.getElementById('user-display').textContent = `@${username}`;
 
   await loadPlacements();
+  let tab = 'pl';
+  try { if (localStorage.getItem(TAB_KEY) === 'bn') tab = 'bn'; } catch (_) {}
+  await showTab(tab);
 }
 
 let authInitDone = false;
