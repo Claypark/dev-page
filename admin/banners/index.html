@@ -128,9 +128,9 @@
       background: var(--bg-input) center / cover no-repeat;
     }
     .preview .shade { position: absolute; inset: 0; display: flex; }
-    .preview .pv-box { padding: 12px; display: flex; flex-direction: column; min-width: 0; }
+    .preview .pv-box { padding: 12px; display: flex; flex-direction: column; min-width: 0; max-height: 100%; box-sizing: border-box; }
     .preview .pv-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .preview .pv-desc { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .preview .pv-desc { min-height: 0; flex-shrink: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .ts-box summary { cursor: pointer; font-size: 13px; color: var(--text-bright); }
     .ts-box[open] summary { margin-bottom: 12px; }
     .ts-align { display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap; }
@@ -140,6 +140,9 @@
     .ts-box input[type=color] { height: 38px; padding: 4px; }
     .preview-empty { font-size: 12px; color: var(--text-muted); padding: 14px; text-align: center; }
     .preview-note { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+    /* 제휴 표시: 앱 CrossBanner 0.2.2와 같은 자리·크기 */
+    .preview .pv-ad { position: absolute; left: 8px; top: 8px; padding: 2px 6px; border-radius: 4px; background: rgba(0,0,0,0.54); color: #fff; font-size: 10px; line-height: 12px; font-weight: 700; }
+    .preview .pv-notice { position: absolute; right: 8px; bottom: 6px; max-width: 75%; box-sizing: border-box; padding: 2px 6px; border-radius: 4px; background: rgba(0,0,0,0.38); color: #fff; font-size: 9px; line-height: 1.2; text-align: right; }
 
     .muted { font-size: 13px; color: var(--text-muted); }
     .sub-title { font-size: 13px; font-weight: 600; color: var(--text-bright); margin: 22px 0 10px; }
@@ -790,7 +793,8 @@ function syncAffiliateField() {
   $('bn-affiliate').disabled = !isAff;
   if (!isAff) $('bn-affiliate').value = '';
 }
-$('bn-kind').addEventListener('change', syncAffiliateField);
+$('bn-kind').addEventListener('change', () => { syncAffiliateField(); renderPreview(); });
+$('bn-affiliate').addEventListener('change', renderPreview);
 ['bn-title', 'bn-description'].forEach((id) => $(id).addEventListener('input', renderPreview));
 
 function setPendingFile(file) {
@@ -990,6 +994,10 @@ $('img-file').addEventListener('change', async () => {
 });
 
 // ─── 미리보기: 꽂힌 첫 자리 비율(없으면 4) + 활성 이미지 + 오버레이 문구 ─
+const AFFILIATE_NOTICE = {
+  coupang: '쿠팡 파트너스 활동으로 수수료를 받을 수 있어요',
+  amazon: 'As an Amazon Associate I earn from qualifying purchases',
+};
 function renderPreview() {
   $('ts-no-title').classList.toggle('hidden', !!orNull($('bn-title').value));
   if (!editingId) return;
@@ -1011,14 +1019,21 @@ function renderPreview() {
   const scrim = !s.scrim ? 'none' : align === 'center' ? 'rgba(0,0,0,0.38)' : `linear-gradient(${dir}, rgba(0,0,0,0.54), rgba(0,0,0,0))`;
   const weight = (w) => (w === 'bold' ? 700 : 400);
   // 앱과 같게 strip은 글자 상자 폭 65%, card는 100%.
-  const box = `width:${shape === 'card' ? 100 : 65}%;align-items:${flex[h]};text-align:${h}`;
+  // 제휴 배너는 앱과 같게 글자 상자를 칩에서 띄운다: top_*은 위 여백 8+16+4=28, bottom_*은 아래 여백 6+28=34.
+  const isAff = $('bn-kind').value === 'affiliate';
+  const notice = isAff ? AFFILIATE_NOTICE[$('bn-affiliate').value] : null;
+  const pad = `${isAff && v === 'top' ? 28 : 12}px 12px ${isAff && v === 'bottom' ? 34 : 12}px`;
+  const box = `width:${shape === 'card' ? 100 : 65}%;align-items:${flex[h]};text-align:${h};padding:${pad}`;
   $('preview-wrap').innerHTML = `
     <div class="preview ${esc(shape)}" style="aspect-ratio:${ratio};background-image:url('${esc(active.url)}')">
       ${title ? `<div class="shade" style="background:${scrim};align-items:${flex[v]};justify-content:${flex[h]}"><div class="pv-box" style="${box}">
         <div class="pv-title" style="color:${s.color};font-size:${s.title_size}px;font-weight:${weight(s.title_weight)};max-width:100%">${esc(title)}</div>
         ${desc ? `<div class="pv-desc" style="color:${s.color}B3;font-size:${s.desc_size}px;font-weight:${weight(s.desc_weight)}">${esc(desc)}</div>` : ''}</div></div>` : ''}
+      ${isAff ? '<div class="pv-ad">AD</div>' : ''}
+      ${notice ? `<div class="pv-notice">${esc(notice)}</div>` : ''}
     </div>
-    <div class="preview-note">${pl ? `${esc(pl.id)} · ${esc(shape)} · ${esc(pl.aspect_ratio)}:1` : `꽂힌 자리 없음 · ${ratio}:1`} (저장 전 문구도 바로 반영됩니다)</div>`;
+    <div class="preview-note">${pl ? `${esc(pl.id)} · ${esc(shape)} · ${esc(pl.aspect_ratio)}:1` : `꽂힌 자리 없음 · ${ratio}:1`} (저장 전 문구도 바로 반영됩니다)</div>
+    <div class="preview-note">이미지에 글자를 넣을 때는 왼쪽 위·오른쪽 위·오른쪽 아래를 비워 두세요.</div>`;
 }
 
 // ─── Auth (naru 어드민과 같은 흐름, 비로그인·비관리자는 메인으로) ─
