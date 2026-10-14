@@ -149,7 +149,6 @@
     .preview-empty { font-size: 12px; color: var(--text-muted); padding: 14px; text-align: center; }
     .preview-note { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
     /* 제휴 표시: 앱 CrossBanner 0.2.2와 같은 자리·크기 */
-    .preview .pv-ad { position: absolute; left: 8px; top: 8px; padding: 2px 6px; border-radius: 4px; background: rgba(0,0,0,0.54); color: #fff; font-size: 10px; line-height: 12px; font-weight: 700; }
     .preview .pv-notice { position: absolute; right: 8px; bottom: 6px; max-width: 75%; box-sizing: border-box; padding: 2px 6px; border-radius: 4px; background: rgba(0,0,0,0.38); color: #fff; font-size: 9px; line-height: 1.2; text-align: right; }
 
     .muted { font-size: 13px; color: var(--text-muted); }
@@ -1079,22 +1078,21 @@ function renderPreview() {
   const scrim = !s.scrim ? 'none' : align === 'center' ? 'rgba(0,0,0,0.38)' : `linear-gradient(${dir}, rgba(0,0,0,0.54), rgba(0,0,0,0))`;
   const weight = (w) => (w === 'bold' ? 700 : 400);
   // 앱과 같게 strip은 글자 상자 폭 65%, card는 100%.
-  // 제휴 배너는 앱과 같게 글자 상자를 칩에서 띄운다: top_*은 위 여백 max(세로 여백, 8+16+4=28), bottom_*은 아래 여백 max(세로 여백, 6+28=34).
+  // 제휴 배너는 앱과 같게 글자 상자를 대가성 문구 칩에서 띄운다: bottom_*은 아래 여백 max(세로 여백, 6+28=34). AD 칩은 없다(앱 0.2.6).
   const isAff = $('bn-kind').value === 'affiliate';
   const notice = isAff ? AFFILIATE_NOTICE[$('bn-affiliate').value] : null;
   const py = s.padding_y;
-  const pad = `${isAff && v === 'top' ? Math.max(py, 28) : py}px ${s.padding_x}px ${isAff && v === 'bottom' ? Math.max(py, 34) : py}px`;
+  const pad = `${py}px ${s.padding_x}px ${isAff && v === 'bottom' ? Math.max(py, 34) : py}px`;
   const box = `width:${shape === 'card' ? 100 : 65}%;align-items:${flex[h]};text-align:${h};padding:${pad}`;
   $('preview-wrap').innerHTML = `${picks}
     <div class="preview ${esc(shape)}" style="aspect-ratio:${ratio};background-image:url('${esc(active.url)}')">
       ${title ? `<div class="shade" style="background:${scrim};align-items:${flex[v]};justify-content:${flex[h]}"><div class="pv-box" style="${box}">
         <div class="pv-title" style="color:${s.color};font-size:${s.title_size}px;font-weight:${weight(s.title_weight)};max-width:100%">${esc(title)}</div>
         ${desc ? `<div class="pv-desc" style="color:${s.color}B3;font-size:${s.desc_size}px;font-weight:${weight(s.desc_weight)}">${esc(desc)}</div>` : ''}</div></div>` : ''}
-      ${isAff ? '<div class="pv-ad">AD</div>' : ''}
       ${notice ? `<div class="pv-notice">${esc(notice)}</div>` : ''}
     </div>
     <div class="preview-note">${pl ? `${esc(pl.id)} · ${esc(shape)} · ${esc(pl.aspect_ratio)}:1` : `꽂힌 자리 없음 · ${ratio}:1`} (저장 전 문구도 바로 반영됩니다)</div>
-    <div class="preview-note">이미지에 글자를 넣을 때는 왼쪽 위·오른쪽 위·오른쪽 아래를 비워 두세요.</div>`;
+    <div class="preview-note">이미지에 글자를 넣을 때는 오른쪽 위·오른쪽 아래를 비워 두세요.</div>`;
 }
 
 $('preview-wrap').addEventListener('click', (e) => {
