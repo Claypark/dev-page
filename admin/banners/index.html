@@ -106,7 +106,8 @@
     }
     .bn-row.editing { background: #1f3a2a; }
     .bn-row.off .bn-thumb, .bn-row.off .bn-main { opacity: 0.5; }
-    .bn-thumb { width: 96px; height: 48px; border-radius: 6px; background: var(--bg-input) center / cover no-repeat; }
+    .bn-thumb { position: relative; width: 96px; height: 48px; border-radius: 6px; background: var(--bg-input) center / cover no-repeat; }
+    .bn-more { position: absolute; right: 3px; bottom: 3px; padding: 1px 5px; border-radius: 4px; background: rgba(0,0,0,0.6); color: #fff; font-size: 10px; font-weight: 700; }
     .bn-title { font-size: 14px; color: var(--text-bright); font-weight: 600; }
     .bn-meta { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
     .bn-stats { font-size: 12px; color: var(--text); margin-top: 3px; }
@@ -121,6 +122,13 @@
     .img-card.active { background: #1f3a2a; }
     .img-card img { width: 100%; aspect-ratio: 2; object-fit: cover; border-radius: 6px; background: var(--bg-input); }
     .img-meta { font-size: 11px; color: var(--text-muted); }
+    .img-stats { font-size: 12px; color: var(--text); }
+    .img-best { color: #3fb950; font-weight: 600; }
+    .img-note { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.5; }
+    .pv-picks { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+    .pv-picks .btn { padding: 3px; }
+    .pv-picks .btn.selected { background: var(--accent); }
+    .pv-picks img { display: block; width: 64px; height: 32px; object-fit: cover; border-radius: 4px; }
 
     /* 앱 기준폭 360px 고정: 글자 px가 앱과 같은 비율로 보이게 한다 */
     .preview {
@@ -129,8 +137,8 @@
     }
     .preview .shade { position: absolute; inset: 0; display: flex; }
     .preview .pv-box { padding: 12px; display: flex; flex-direction: column; min-width: 0; max-height: 100%; box-sizing: border-box; }
-    .preview .pv-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .preview .pv-desc { min-height: 0; flex-shrink: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .preview .pv-title { white-space: pre-line; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .preview .pv-desc { white-space: pre-line; min-height: 0; flex-shrink: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .ts-box summary { cursor: pointer; font-size: 13px; color: var(--text-bright); }
     .ts-box[open] summary { margin-bottom: 12px; }
     .ts-align { display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap; }
@@ -285,8 +293,8 @@
               <input id="bn-url-ios" class="input" type="url">
             </div>
             <div class="field wide">
-              <label for="bn-title">제목 (비우면 그림만)</label>
-              <input id="bn-title" class="input">
+              <label for="bn-title">제목 (비우면 그림만, 줄바꿈은 그대로 두 줄로)</label>
+              <textarea id="bn-title" class="input" rows="2"></textarea>
             </div>
             <div class="field wide">
               <label for="bn-description">설명</label>
@@ -364,7 +372,9 @@
             <div id="preview-wrap"></div>
 
             <div class="sub-title">이미지 후보</div>
+            <div class="img-note hidden" id="img-note"></div>
             <div class="img-grid" id="img-grid"></div>
+            <div class="img-stats" id="img-legacy" style="margin-top:10px"></div>
             <div class="actions">
               <input type="file" id="img-file" accept="image/png" class="hidden">
               <button class="btn" id="img-upload-btn">PNG 이미지 올리기</button>
@@ -426,6 +436,8 @@ let allSlots = [];        // 배너 탭: 전체 [{ placement_id, banner_id, sort
 let bannerRows = [];      // 배너 탭 목록: [{ banner_id, banner, image, stats }]
 let editingId = null;     // 편집 중 배너 id (null이면 새 배너)
 let editingImages = [];
+let imgStats = null;      // { [image_id | 'none']: [노출, 클릭] }, null이면 집계 중
+let previewImgId = null;  // 미리보기에 보이는 사용 중 이미지
 let pendingFile = null;   // 새 배너 저장 때 올릴 PNG
 
 // ─── 탭 ────────────────────────────────────────
@@ -652,7 +664,7 @@ async function loadBanners() {
   const [bannersRes, slotsRes, imagesRes] = await Promise.all([
     supabase.from('common_banners').select('*').order('created_at', { ascending: false }),
     supabase.from('common_banner_slots').select('placement_id, banner_id, sort_order'),
-    supabase.from('common_banner_images').select('banner_id, url').eq('is_active', true),
+    supabase.from('common_banner_images').select('banner_id, url').eq('is_active', true).order('created_at', { ascending: false }),
   ]);
   const err = bannersRes.error || slotsRes.error || imagesRes.error;
   if (err) return setStatus('bn-list-status', '불러오기 실패: ' + err.message, 'error');
@@ -662,6 +674,7 @@ async function loadBanners() {
     banner_id: b.id,
     banner: b,
     image: imagesRes.data.find((i) => i.banner_id === b.id)?.url ?? null,
+    imageCount: imagesRes.data.filter((i) => i.banner_id === b.id).length,
     stats: null,
   }));
   renderBanners();
@@ -677,7 +690,7 @@ function renderBanners() {
     const n = allSlots.filter((x) => x.banner_id === b.id).length;
     return `
       <div class="bn-row clickable${b.active ? '' : ' off'}${editingId === b.id ? ' editing' : ''}" data-id="${esc(b.id)}">
-        <div class="bn-thumb" style="${r.image ? `background-image:url('${esc(r.image)}')` : ''}"></div>
+        <div class="bn-thumb" style="${r.image ? `background-image:url('${esc(r.image)}')` : ''}">${r.imageCount > 1 ? `<span class="bn-more">+${r.imageCount - 1}</span>` : ''}</div>
         <div class="bn-main">
           <div class="bn-title">${esc(bannerLabel(b))}</div>
           <div class="bn-meta">${esc(b.kind)}${b.affiliate ? ' · ' + esc(b.affiliate) : ''} · ${b.active ? '켜짐' : '꺼짐'} · 자리 ${n}곳${r.image ? '' : ' · 활성 이미지 없음'}</div>
@@ -830,6 +843,8 @@ async function openEditor(id) {
   setStatus('img-status', '');
   renderBanners();
   editingImages = [];
+  imgStats = null;
+  previewImgId = null;
   if (id) await loadImages();
   renderPreview();
   $('bn-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -908,9 +923,7 @@ $('bn-save').addEventListener('click', async () => {
   try { await syncSlots(id); } catch (err) { failMsg = '배너는 저장했지만 자리 꽂기에 실패했습니다: ' + err.message; }
   if (!failMsg && isNew && file) {
     try {
-      const img = await uploadPng(id, file);
-      const act = await activateImage(id, img.id);
-      if (act.error) throw new Error('이미지는 올렸지만 사용 중으로 바꾸지 못했습니다: ' + act.error.message);
+      await uploadPng(id, file, true);
     } catch (err) { failMsg = '배너는 만들었지만 ' + err.message; }
   }
   $('bn-save').disabled = false;
@@ -922,42 +935,78 @@ $('bn-save').addEventListener('click', async () => {
 });
 
 // ─── 이미지 후보 ───────────────────────────────
+// 사용 중(is_active) 이미지는 여러 장 가능. 앱이 요청마다 그중 한 장을 무작위로 받는다(A/B).
 async function loadImages() {
   const { data, error } = await supabase.from('common_banner_images').select('*').eq('banner_id', editingId).order('created_at', { ascending: false });
   if (error) return setStatus('img-status', '이미지 불러오기 실패: ' + error.message, 'error');
   editingImages = data;
   renderImages();
+  const id = editingId;
+  imgStats = null;
+  loadImageStats(id, data).then((st) => { if (id === editingId) { imgStats = st; renderImages(); } });
 }
 
+// 최근 30일 이미지별 노출·클릭. 배너 통계와 같은 head count(행 1000개 상한 회피). image_id 없는 옛 이벤트는 'none'.
+async function loadImageStats(bannerId, images) {
+  const since = new Date(Date.now() - 30 * 86400000).toISOString();
+  const keys = [...images.map((i) => i.id), 'none'];
+  const st = {};
+  await Promise.all(keys.map(async (k) => {
+    st[k] = await Promise.all(['impression', 'click'].map(async (ev) => {
+      let q = supabase.from('common_banner_events').select('id', { count: 'exact', head: true })
+        .eq('banner_id', bannerId).eq('event', ev).gte('created_at', since);
+      q = k === 'none' ? q.is('image_id', null) : q.eq('image_id', k);
+      const { count, error } = await q;
+      return error ? null : count;
+    }));
+  }));
+  return st;
+}
+
+const MIN_COMPARE = 100; // 이미지마다 노출이 이만큼 쌓이기 전에는 가장 높음을 고르지 않는다
+const ctr = (s) => (s && s[0] > 0 && s[1] != null ? s[1] / s[0] : null);
+const statText = (s) => s ? `노출 ${s[0] ?? '?'} · 클릭 ${s[1] ?? '?'} · 클릭률 ${ctr(s) == null ? '–' : (ctr(s) * 100).toFixed(1) + '%'}` : '집계 중...';
+
 function renderImages() {
-  $('img-grid').innerHTML = editingImages.length ? editingImages.map((img) => `
+  const actives = editingImages.filter((i) => i.is_active);
+  const multi = actives.length >= 2;
+  const ready = multi && imgStats && actives.every((i) => (imgStats[i.id]?.[0] ?? 0) >= MIN_COMPARE);
+  const best = ready ? Math.max(...actives.map((i) => ctr(imgStats[i.id]) ?? 0)) : 0;
+  $('img-note').classList.toggle('hidden', !multi);
+  $('img-note').textContent = multi
+    ? `사용 중 ${actives.length}장 — 앱이 요청마다 한 장을 무작위로 보여 줍니다.${imgStats && !ready ? ' 노출이 쌓이면 비교할 수 있습니다.' : ''}`
+    : '';
+  $('img-grid').innerHTML = editingImages.length ? editingImages.map((img) => {
+    const s = imgStats?.[img.id];
+    const isBest = img.is_active && best > 0 && ctr(s) === best;
+    return `
     <div class="img-card${img.is_active ? ' active' : ''}">
       <img src="${esc(img.url)}" alt="" loading="lazy">
       <div class="img-meta">${img.width && img.height ? `${img.width}×${img.height}` : '크기 모름'} · ${esc(new Date(img.created_at).toLocaleString('ko-KR'))}</div>
-      ${img.is_active ? '<div class="img-meta" style="color:#3fb950">사용 중</div>' : `<button class="btn small" data-img="${esc(img.id)}">이 이미지 쓰기</button>`}
-    </div>`).join('') : '<div class="muted">이미지가 없습니다. 활성 이미지가 없으면 앱에 나오지 않습니다.</div>';
+      <div class="img-stats">${statText(s)}${isBest ? ' · <span class="img-best">가장 높음</span>' : ''}</div>
+      <label class="check"><input type="checkbox" data-img="${esc(img.id)}"${img.is_active ? ' checked' : ''}>사용 중</label>
+    </div>`;
+  }).join('') : '<div class="muted">이미지가 없습니다. 사용 중 이미지가 없으면 앱에 나오지 않습니다.</div>';
+  const legacy = imgStats?.none;
+  $('img-legacy').textContent = legacy && (legacy[0] || legacy[1]) ? `이미지 구분 없음(옛 기록): ${statText(legacy)}` : '';
 }
 
-// 배너당 활성 이미지 1장(부분 유니크 인덱스): 기존 활성을 먼저 끄고 고른 것을 켠다.
-async function activateImage(bannerId, imageId) {
-  const off = await supabase.from('common_banner_images').update({ is_active: false }).eq('banner_id', bannerId).eq('is_active', true);
-  return off.error ? off : await supabase.from('common_banner_images').update({ is_active: true }).eq('id', imageId);
-}
-
-$('img-grid').addEventListener('click', async (e) => {
-  const btn = e.target.closest('button[data-img]');
-  if (!btn) return;
-  btn.disabled = true;
-  const on = await activateImage(editingId, btn.dataset.img);
-  if (on.error) { setStatus('img-status', '바꾸기 실패: ' + on.error.message, 'error'); }
-  else setStatus('img-status', '활성 이미지를 바꿨습니다.', 'success');
+$('img-grid').addEventListener('change', async (e) => {
+  const box = e.target.closest('input[data-img]');
+  if (!box) return;
+  const on = box.checked;
+  if (!on && editingImages.filter((i) => i.is_active).length === 1 && !confirm('끄면 사용 중 이미지가 없어 앱에 나오지 않습니다. 끌까요?')) { box.checked = true; return; }
+  box.disabled = true;
+  const { error } = await supabase.from('common_banner_images').update({ is_active: on }).eq('id', box.dataset.img);
+  if (error) setStatus('img-status', '바꾸기 실패: ' + error.message, 'error');
+  else setStatus('img-status', on ? '사용 중으로 켰습니다.' : '사용을 껐습니다.', 'success');
   await loadImages();
   await loadBanners();
   renderPreview();
 });
 
-// banner-images/<banner_id>/<Date.now()>.png 에 올리고 비활성 images 행을 만든다. 실패하면 단계를 담아 던진다.
-async function uploadPng(bannerId, file) {
+// banner-images/<banner_id>/<Date.now()>.png 에 올리고 images 행을 만든다(active면 바로 사용 중). 실패하면 단계를 담아 던진다.
+async function uploadPng(bannerId, file, active = false) {
   const size = await new Promise((resolve) => {
     const im = new Image();
     im.onload = () => { resolve({ width: im.naturalWidth, height: im.naturalHeight }); URL.revokeObjectURL(im.src); };
@@ -968,7 +1017,7 @@ async function uploadPng(bannerId, file) {
   const up = await supabase.storage.from(BUCKET).upload(path, file, { contentType: 'image/png', upsert: false });
   if (up.error) throw new Error('이미지 파일 올리기에 실패했습니다: ' + up.error.message);
   const url = supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
-  const ins = await supabase.from('common_banner_images').insert({ banner_id: bannerId, url, ...size, is_active: false }).select().single();
+  const ins = await supabase.from('common_banner_images').insert({ banner_id: bannerId, url, ...size, is_active: active }).select().single();
   if (ins.error) throw new Error('파일은 올렸지만 이미지 등록에 실패했습니다: ' + ins.error.message);
   return ins.data;
 }
@@ -984,7 +1033,7 @@ $('img-file').addEventListener('change', async () => {
   $('img-upload-btn').disabled = true;
   try {
     await uploadPng(editingId, file);
-    setStatus('img-status', '올렸습니다. 쓰려면 이 이미지 쓰기를 누르세요.', 'success');
+    setStatus('img-status', '올렸습니다. 쓰려면 사용 중을 켜세요.', 'success');
     await loadImages();
   } catch (err) {
     setStatus('img-status', '올리기 실패: ' + err.message, 'error');
@@ -1005,8 +1054,10 @@ function renderPreview() {
   const pl = placements.find((p) => p.id === pid);
   const shape = pl?.shape ?? 'strip';
   const ratio = pl ? Number(pl.aspect_ratio) : 4;
-  const active = editingImages.find((i) => i.is_active);
-  if (!active) { $('preview-wrap').innerHTML = '<div class="preview-empty">활성 이미지가 없어 앱에 나오지 않습니다.</div>'; return; }
+  const actives = editingImages.filter((i) => i.is_active);
+  const active = actives.find((i) => i.id === previewImgId) ?? actives[0];
+  if (!active) { $('preview-wrap').innerHTML = '<div class="preview-empty">사용 중 이미지가 없어 앱에 나오지 않습니다.</div>'; return; }
+  const picks = actives.length < 2 ? '' : `<div class="pv-picks">${actives.map((i) => `<button type="button" class="btn${i === active ? ' selected' : ''}" data-pv="${esc(i.id)}" aria-label="이 이미지로 미리보기"><img src="${esc(i.url)}" alt=""></button>`).join('')}</div>`;
   const title = orNull($('bn-title').value);
   const desc = orNull($('bn-description').value);
   const s = readStyle(styleToSave(formStyle()));
@@ -1024,7 +1075,7 @@ function renderPreview() {
   const notice = isAff ? AFFILIATE_NOTICE[$('bn-affiliate').value] : null;
   const pad = `${isAff && v === 'top' ? 28 : 12}px 12px ${isAff && v === 'bottom' ? 34 : 12}px`;
   const box = `width:${shape === 'card' ? 100 : 65}%;align-items:${flex[h]};text-align:${h};padding:${pad}`;
-  $('preview-wrap').innerHTML = `
+  $('preview-wrap').innerHTML = `${picks}
     <div class="preview ${esc(shape)}" style="aspect-ratio:${ratio};background-image:url('${esc(active.url)}')">
       ${title ? `<div class="shade" style="background:${scrim};align-items:${flex[v]};justify-content:${flex[h]}"><div class="pv-box" style="${box}">
         <div class="pv-title" style="color:${s.color};font-size:${s.title_size}px;font-weight:${weight(s.title_weight)};max-width:100%">${esc(title)}</div>
@@ -1035,6 +1086,11 @@ function renderPreview() {
     <div class="preview-note">${pl ? `${esc(pl.id)} · ${esc(shape)} · ${esc(pl.aspect_ratio)}:1` : `꽂힌 자리 없음 · ${ratio}:1`} (저장 전 문구도 바로 반영됩니다)</div>
     <div class="preview-note">이미지에 글자를 넣을 때는 왼쪽 위·오른쪽 위·오른쪽 아래를 비워 두세요.</div>`;
 }
+
+$('preview-wrap').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-pv]');
+  if (b) { previewImgId = b.dataset.pv; renderPreview(); }
+});
 
 // ─── Auth (naru 어드민과 같은 흐름, 비로그인·비관리자는 메인으로) ─
 document.getElementById('logoutBtn').addEventListener('click', async () => {
