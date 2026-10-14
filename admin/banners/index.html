@@ -122,15 +122,22 @@
     .img-card img { width: 100%; aspect-ratio: 2; object-fit: cover; border-radius: 6px; background: var(--bg-input); }
     .img-meta { font-size: 11px; color: var(--text-muted); }
 
+    /* 앱 기준폭 360px 고정: 글자 px가 앱과 같은 비율로 보이게 한다 */
     .preview {
-      position: relative; width: 100%; max-width: 420px; border-radius: 12px; overflow: hidden;
+      position: relative; width: 360px; max-width: 100%; border-radius: 12px; overflow: hidden;
       background: var(--bg-input) center / cover no-repeat;
     }
-    .preview .shade { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 12px 16px; gap: 2px; }
-    .preview.strip .shade { background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0) 70%); max-width: 100%; }
-    .preview.card .shade { justify-content: flex-end; background: linear-gradient(0deg, rgba(0,0,0,0.65), rgba(0,0,0,0) 60%); }
-    .preview .pv-title { color: #fff; font-size: 15px; font-weight: 700; }
-    .preview .pv-desc { color: rgba(255,255,255,0.85); font-size: 12px; }
+    .preview .shade { position: absolute; inset: 0; display: flex; }
+    .preview .pv-box { padding: 12px; display: flex; flex-direction: column; min-width: 0; }
+    .preview .pv-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .preview .pv-desc { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .ts-box summary { cursor: pointer; font-size: 13px; color: var(--text-bright); }
+    .ts-box[open] summary { margin-bottom: 12px; }
+    .ts-align { display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap; }
+    .ts-grid { display: grid; grid-template-columns: repeat(3, 34px); gap: 4px; }
+    .ts-grid .btn { padding: 0; height: 26px; }
+    .ts-align .btn.selected { background: var(--accent); color: #fff; }
+    .ts-box input[type=color] { height: 38px; padding: 4px; }
     .preview-empty { font-size: 12px; color: var(--text-muted); padding: 14px; text-align: center; }
     .preview-note { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
 
@@ -282,6 +289,26 @@
               <label for="bn-description">설명</label>
               <textarea id="bn-description" class="input"></textarea>
             </div>
+            <details class="field wide ts-box" id="ts-box">
+              <summary>글자 꾸미기</summary>
+              <div class="muted" id="ts-no-title" style="margin-bottom:10px">제목이 없으면 글자를 겹쳐 쓰지 않습니다.</div>
+              <div class="grid-form">
+                <div class="field wide">
+                  <span class="label">위치</span>
+                  <div class="ts-align" id="ts-align">
+                    <button type="button" class="btn small" data-align="">자동(자리 모양에 따라)</button>
+                    <div class="ts-grid"><button type="button" class="btn" data-align="top_left" aria-label="top_left">↖</button><button type="button" class="btn" data-align="top_center" aria-label="top_center">↑</button><button type="button" class="btn" data-align="top_right" aria-label="top_right">↗</button><button type="button" class="btn" data-align="center_left" aria-label="center_left">←</button><button type="button" class="btn" data-align="center" aria-label="center">•</button><button type="button" class="btn" data-align="center_right" aria-label="center_right">→</button><button type="button" class="btn" data-align="bottom_left" aria-label="bottom_left">↙</button><button type="button" class="btn" data-align="bottom_center" aria-label="bottom_center">↓</button><button type="button" class="btn" data-align="bottom_right" aria-label="bottom_right">↘</button></div>
+                  </div>
+                </div>
+                <div class="field"><label for="ts-title-size">제목 크기 (10~40)</label><input id="ts-title-size" class="input" type="number" min="10" max="40" step="1"></div>
+                <div class="field"><label for="ts-title-weight">제목 굵기</label><select id="ts-title-weight" class="input"><option value="bold">굵게</option><option value="regular">보통</option></select></div>
+                <div class="field"><label for="ts-desc-size">설명 크기 (9~30)</label><input id="ts-desc-size" class="input" type="number" min="9" max="30" step="1"></div>
+                <div class="field"><label for="ts-desc-weight">설명 굵기</label><select id="ts-desc-weight" class="input"><option value="regular">보통</option><option value="bold">굵게</option></select></div>
+                <div class="field"><label for="ts-color">글자 색 (설명은 70% 투명도)</label><input id="ts-color" class="input" type="color"></div>
+                <div class="field"><span class="label">그늘</span><label class="check"><input type="checkbox" id="ts-scrim">글자 쪽 그늘 깔기</label></div>
+              </div>
+              <div class="muted" style="margin-top:10px">글꼴은 각 앱의 글꼴을 따릅니다.</div>
+            </details>
             <div class="field wide">
               <label for="bn-alt">화면 읽기 문구 (필수)</label>
               <input id="bn-alt" class="input">
@@ -663,6 +690,73 @@ $('all-bn-list').addEventListener('click', (e) => {
 });
 $('new-banner-btn').addEventListener('click', () => openEditor(null));
 
+// ─── 글자 꾸미기 (text_style, 앱 패키지와 같은 계약) ─
+// 키는 전부 선택. 저장 때 기본값과 같은 키는 뺀다. align 기본은 자리 모양(strip=center_left, card=bottom_left).
+const ALIGNS = ['top_left', 'top_center', 'top_right', 'center_left', 'center', 'center_right', 'bottom_left', 'bottom_center', 'bottom_right'];
+const TS_DEFAULT = { title_size: 15, desc_size: 12, title_weight: 'bold', desc_weight: 'regular', color: '#FFFFFF', scrim: true };
+const TS_SIZE = { title_size: [10, 40], desc_size: [9, 30] };
+const inRange = (n, [lo, hi]) => Number.isFinite(n) && n >= lo && n <= hi;
+const isWeight = (w) => w === 'regular' || w === 'bold';
+const isColor = (c) => typeof c === 'string' && /^#[0-9a-f]{6}$/i.test(c);
+let tsAlign = null;       // null = 자동
+
+// DB 값 → 폼 값. 범위 밖·잘못된 값은 기본값으로.
+function readStyle(raw) {
+  const r = raw && typeof raw === 'object' ? raw : {};
+  const s = { ...TS_DEFAULT, align: ALIGNS.includes(r.align) ? r.align : null };
+  for (const k of ['title_size', 'desc_size']) if (inRange(r[k], TS_SIZE[k])) s[k] = r[k];
+  for (const k of ['title_weight', 'desc_weight']) if (isWeight(r[k])) s[k] = r[k];
+  if (isColor(r.color)) s.color = r.color.toUpperCase();
+  if (typeof r.scrim === 'boolean') s.scrim = r.scrim;
+  return s;
+}
+
+function fillStyle(raw) {
+  const s = readStyle(raw);
+  tsAlign = s.align;
+  $('ts-title-size').value = s.title_size;
+  $('ts-desc-size').value = s.desc_size;
+  $('ts-title-weight').value = s.title_weight;
+  $('ts-desc-weight').value = s.desc_weight;
+  $('ts-color').value = s.color.toLowerCase();
+  $('ts-scrim').checked = s.scrim;
+  $('ts-box').open = false;
+  syncAlignButtons();
+}
+
+// 폼 → 화면 값. 크기 칸이 범위 밖이면 미리보기는 기본값, 저장은 막는다.
+function formStyle() {
+  return {
+    align: tsAlign,
+    title_size: Number($('ts-title-size').value),
+    desc_size: Number($('ts-desc-size').value),
+    title_weight: $('ts-title-weight').value,
+    desc_weight: $('ts-desc-weight').value,
+    color: $('ts-color').value.toUpperCase(),
+    scrim: $('ts-scrim').checked,
+  };
+}
+
+// 저장용: 기본값과 다른 키만.
+function styleToSave(s) {
+  const out = {};
+  if (s.align) out.align = s.align;
+  for (const k of Object.keys(TS_DEFAULT)) if (s[k] !== TS_DEFAULT[k]) out[k] = s[k];
+  return out;
+}
+
+function syncAlignButtons() {
+  $('ts-align').querySelectorAll('button[data-align]').forEach((b) => b.classList.toggle('selected', (b.dataset.align || null) === tsAlign));
+}
+$('ts-align').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-align]');
+  if (!b) return;
+  tsAlign = b.dataset.align || null;
+  syncAlignButtons();
+  renderPreview();
+});
+['ts-title-size', 'ts-desc-size', 'ts-title-weight', 'ts-desc-weight', 'ts-color', 'ts-scrim'].forEach((id) => $(id).addEventListener('input', renderPreview));
+
 // ─── 배너 편집 ─────────────────────────────────
 function fillEditor(b) {
   $('bn-kind').value = b?.kind ?? 'app';
@@ -682,6 +776,7 @@ function fillEditor(b) {
   $('bn-starts').value = isoUtcToLocalInput(b?.starts_at);
   $('bn-ends').value = isoUtcToLocalInput(b?.ends_at);
   $('bn-active').checked = b?.active ?? true;
+  fillStyle(b?.text_style);
   syncAffiliateField();
   const on = new Set(allSlots.filter((s) => s.banner_id === b?.id).map((s) => s.placement_id));
   $('bn-placements').innerHTML = placements.length ? placements.map((p) => `
@@ -783,6 +878,10 @@ $('bn-save').addEventListener('click', async () => {
     ends_at: localInputToIsoUtc($('bn-ends').value),
     active: $('bn-active').checked,
   };
+  const ts = formStyle();
+  if (!inRange(ts.title_size, TS_SIZE.title_size)) return setStatus('bn-status', '제목 크기는 10~40입니다.', 'error');
+  if (!inRange(ts.desc_size, TS_SIZE.desc_size)) return setStatus('bn-status', '설명 크기는 9~30입니다.', 'error');
+  row.text_style = styleToSave(ts);
   if (!row.target_url) return setStatus('bn-status', '이동 주소를 입력하세요.', 'error');
   if (!row.alt_text) return setStatus('bn-status', '화면 읽기 문구를 입력하세요.', 'error');
   if (kind === 'affiliate' && !affiliate) return setStatus('bn-status', '제휴 배너는 제휴처를 골라야 합니다.', 'error');
@@ -892,6 +991,7 @@ $('img-file').addEventListener('change', async () => {
 
 // ─── 미리보기: 꽂힌 첫 자리 비율(없으면 4) + 활성 이미지 + 오버레이 문구 ─
 function renderPreview() {
+  $('ts-no-title').classList.toggle('hidden', !!orNull($('bn-title').value));
   if (!editingId) return;
   const pid = allSlots.filter((s) => s.banner_id === editingId).map((s) => s.placement_id).sort()[0];
   const pl = placements.find((p) => p.id === pid);
@@ -901,9 +1001,22 @@ function renderPreview() {
   if (!active) { $('preview-wrap').innerHTML = '<div class="preview-empty">활성 이미지가 없어 앱에 나오지 않습니다.</div>'; return; }
   const title = orNull($('bn-title').value);
   const desc = orNull($('bn-description').value);
+  const s = readStyle(styleToSave(formStyle()));
+  const align = s.align ?? (shape === 'card' ? 'bottom_left' : 'center_left');
+  const [v, h] = align === 'center' ? ['center', 'center'] : align.split('_');
+  const flex = { top: 'flex-start', center: 'center', bottom: 'flex-end', left: 'flex-start', right: 'flex-end' };
+  // 그늘은 글자 쪽에서 반대로 사라진다. 앱과 같게 strip은 가로 성분 우선, card는 세로 성분 우선. center는 균일.
+  const horizontal = shape === 'card' ? v === 'center' : h !== 'center';
+  const dir = horizontal ? (h === 'left' ? 'to right' : 'to left') : (v === 'top' ? 'to bottom' : 'to top');
+  const scrim = !s.scrim ? 'none' : align === 'center' ? 'rgba(0,0,0,0.38)' : `linear-gradient(${dir}, rgba(0,0,0,0.54), rgba(0,0,0,0))`;
+  const weight = (w) => (w === 'bold' ? 700 : 400);
+  // 앱과 같게 strip은 글자 상자 폭 65%, card는 100%.
+  const box = `width:${shape === 'card' ? 100 : 65}%;align-items:${flex[h]};text-align:${h}`;
   $('preview-wrap').innerHTML = `
     <div class="preview ${esc(shape)}" style="aspect-ratio:${ratio};background-image:url('${esc(active.url)}')">
-      ${title ? `<div class="shade"><div class="pv-title">${esc(title)}</div>${desc ? `<div class="pv-desc">${esc(desc)}</div>` : ''}</div>` : ''}
+      ${title ? `<div class="shade" style="background:${scrim};align-items:${flex[v]};justify-content:${flex[h]}"><div class="pv-box" style="${box}">
+        <div class="pv-title" style="color:${s.color};font-size:${s.title_size}px;font-weight:${weight(s.title_weight)};max-width:100%">${esc(title)}</div>
+        ${desc ? `<div class="pv-desc" style="color:${s.color}B3;font-size:${s.desc_size}px;font-weight:${weight(s.desc_weight)}">${esc(desc)}</div>` : ''}</div></div>` : ''}
     </div>
     <div class="preview-note">${pl ? `${esc(pl.id)} · ${esc(shape)} · ${esc(pl.aspect_ratio)}:1` : `꽂힌 자리 없음 · ${ratio}:1`} (저장 전 문구도 바로 반영됩니다)</div>`;
 }
