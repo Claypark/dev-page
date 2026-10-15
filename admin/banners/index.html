@@ -323,6 +323,7 @@
                 <div class="field"><label for="ts-padding-x">가로 여백 (0~80)</label><input id="ts-padding-x" class="input" type="number" min="0" max="80" step="1"></div>
                 <div class="field"><label for="ts-padding-y">세로 여백 (0~40)</label><input id="ts-padding-y" class="input" type="number" min="0" max="40" step="1"></div>
                 <div class="field"><label for="ts-text-width">글자 상자 폭 % (30~100 — 이미지가 반을 차지하면 50)</label><input id="ts-text-width" class="input" type="number" min="30" max="100" step="5"></div>
+                <div class="field"><span class="label">AD 표시</span><label class="check"><input type="checkbox" id="ts-show-ad">왼쪽 위에 AD 글자 (제휴 아닌 앱 홍보용, 공지 등은 끔)</label></div>
                 <div class="field"><label for="ts-notice-position">제휴 문구 위치</label><select id="ts-notice-position" class="input"><option value="corner">오른쪽 아래 모서리</option><option value="below_text">제목·설명 바로 아래</option><option value="bottom_text">맨 아래 (글자 칸 왼쪽)</option></select></div>
               </div>
               <div class="muted" style="margin-top:10px">글꼴은 각 앱의 글꼴을 따릅니다.</div>
@@ -719,7 +720,7 @@ $('new-banner-btn').addEventListener('click', () => openEditor(null));
 // ─── 글자 꾸미기 (text_style, 앱 패키지와 같은 계약) ─
 // 키는 전부 선택. 저장 때 기본값과 같은 키는 뺀다. align 기본은 자리 모양(strip=center_left, card=bottom_left).
 const ALIGNS = ['top_left', 'top_center', 'top_right', 'center_left', 'center', 'center_right', 'bottom_left', 'bottom_center', 'bottom_right'];
-const TS_DEFAULT = { title_size: 15, desc_size: 12, title_weight: 'bold', desc_weight: 'regular', color: '#FFFFFF', scrim: true, padding_x: 12, padding_y: 12, notice_color: '#8A8A8A', text_width: 1, notice_position: 'corner' };
+const TS_DEFAULT = { title_size: 15, desc_size: 12, title_weight: 'bold', desc_weight: 'regular', color: '#FFFFFF', scrim: true, padding_x: 12, padding_y: 12, notice_color: '#8A8A8A', text_width: 1, notice_position: 'corner', show_ad: false };
 const TS_SIZE = { title_size: [10, 40], desc_size: [9, 30], padding_x: [0, 80], padding_y: [0, 40], text_width: [0.3, 1] };
 const inRange = (n, [lo, hi]) => Number.isFinite(n) && n >= lo && n <= hi;
 const isWeight = (w) => w === 'regular' || w === 'bold';
@@ -735,6 +736,7 @@ function readStyle(raw) {
   if (isColor(r.color)) s.color = r.color.toUpperCase();
   if (isColor(r.notice_color)) s.notice_color = r.notice_color.toUpperCase();
   if (typeof r.scrim === 'boolean') s.scrim = r.scrim;
+  s.show_ad = r.show_ad === true;
   if (r.notice_position === 'below_text' || r.notice_position === 'bottom_text') s.notice_position = r.notice_position;
   s.desc_color = isColor(r.desc_color) ? r.desc_color.toUpperCase() : null;
   return s;
@@ -757,6 +759,7 @@ function fillStyle(raw) {
   $('ts-notice-color').value = s.notice_color.toLowerCase();
   $('ts-text-width').value = Math.round(s.text_width * 100);
   $('ts-notice-position').value = s.notice_position;
+  $('ts-show-ad').checked = s.show_ad;
   $('ts-box').open = false;
   syncAlignButtons();
 }
@@ -778,6 +781,7 @@ function formStyle() {
     notice_color: $('ts-notice-color').value.toUpperCase(),
     text_width: $('ts-text-width').valueAsNumber / 100,
     notice_position: $('ts-notice-position').value,
+    show_ad: $('ts-show-ad').checked,
   };
 }
 
@@ -800,7 +804,7 @@ $('ts-align').addEventListener('click', (e) => {
   syncAlignButtons();
   renderPreview();
 });
-['ts-title-size', 'ts-desc-size', 'ts-title-weight', 'ts-desc-weight', 'ts-color', 'ts-scrim', 'ts-desc-color', 'ts-padding-x', 'ts-padding-y', 'ts-notice-color', 'ts-text-width', 'ts-notice-position'].forEach((id) => $(id).addEventListener('input', renderPreview));
+['ts-title-size', 'ts-desc-size', 'ts-title-weight', 'ts-desc-weight', 'ts-color', 'ts-scrim', 'ts-desc-color', 'ts-padding-x', 'ts-padding-y', 'ts-notice-color', 'ts-text-width', 'ts-notice-position', 'ts-show-ad'].forEach((id) => $(id).addEventListener('input', renderPreview));
 $('ts-desc-color-on').addEventListener('change', () => {
   $('ts-desc-color').disabled = !$('ts-desc-color-on').checked;
   renderPreview();
@@ -1126,7 +1130,7 @@ function renderPreview() {
         <div class="pv-title" style="color:${s.color};font-size:${s.title_size}px;font-weight:${weight(s.title_weight)};max-width:100%">${esc(title)}</div>
         ${desc ? `<div class="pv-desc" style="color:${s.desc_color ?? s.color + 'B3'};font-size:${s.desc_size}px;font-weight:${weight(s.desc_weight)}">${esc(desc)}</div>` : ''}
         ${inline ? `<div class="pv-notice-inline" style="color:${s.notice_color}">${esc(notice)}</div>` : ''}</div></div>` : ''}
-      ${!isAff ? `<div class="pv-notice" style="color:${s.notice_color};left:10px;right:auto;top:8px;bottom:auto;font-weight:600;letter-spacing:0.4px">AD</div>` : ''}
+      ${!isAff && s.show_ad ? `<div class="pv-notice" style="color:${s.notice_color};left:10px;right:auto;top:8px;bottom:auto;font-weight:600;letter-spacing:0.4px">AD</div>` : ''}
       ${atBottom ? `<div class="pv-notice" style="color:${s.notice_color};${h === 'right' ? `left:auto;right:10px;text-align:right` : `right:auto;left:10px;text-align:left`};bottom:10px;max-width:none;width:calc(100% - 20px)">${esc(notice)}</div>` : ''}
       ${notice && !inline && !atBottom ? `<div class="pv-notice" style="color:${s.notice_color}">${esc(notice)}</div>` : ''}
     </div>
