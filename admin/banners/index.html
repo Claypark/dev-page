@@ -232,6 +232,7 @@
               <input id="pl-max" class="input" type="number" step="1" min="1" max="10">
             </div>
             <div class="field"><span class="label">닫기</span><label class="check"><input type="checkbox" id="pl-dismissible">닫기 버튼 보이기</label></div>
+            <div class="field"><span class="label">순서</span><label class="check"><input type="checkbox" id="pl-shuffle">순서 섞기 (자동 추천 자리는 태그 순위 안에서만)</label></div>
             <div class="field"><span class="label">상태</span><label class="check"><input type="checkbox" id="pl-active">자리 켜기</label></div>
           </div>
           <div class="actions">
@@ -500,6 +501,7 @@ async function selectPlacement(id) {
   $('pl-fill').value = currentPl.fill_mode;
   $('pl-max').value = currentPl.max_items;
   $('pl-dismissible').checked = currentPl.dismissible;
+  $('pl-shuffle').checked = !!currentPl.shuffle;
   $('pl-active').checked = currentPl.active;
   setStatus('pl-status', '');
   await loadSlots();
@@ -520,6 +522,7 @@ $('pl-save').addEventListener('click', async () => {
     fill_mode: $('pl-fill').value,
     max_items: maxItems,
     dismissible: $('pl-dismissible').checked,
+    shuffle: $('pl-shuffle').checked,
     active: $('pl-active').checked,
   };
   $('pl-save').disabled = true;
