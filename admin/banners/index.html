@@ -1126,6 +1126,7 @@ function renderPreview() {
         <div class="pv-title" style="color:${s.color};font-size:${s.title_size}px;font-weight:${weight(s.title_weight)};max-width:100%">${esc(title)}</div>
         ${desc ? `<div class="pv-desc" style="color:${s.desc_color ?? s.color + 'B3'};font-size:${s.desc_size}px;font-weight:${weight(s.desc_weight)}">${esc(desc)}</div>` : ''}
         ${inline ? `<div class="pv-notice-inline" style="color:${s.notice_color}">${esc(notice)}</div>` : ''}</div></div>` : ''}
+      ${!isAff ? `<div class="pv-notice" style="color:${s.notice_color};left:10px;right:auto;top:8px;bottom:auto;font-weight:600;letter-spacing:0.4px">AD</div>` : ''}
       ${atBottom ? `<div class="pv-notice" style="color:${s.notice_color};${h === 'right' ? `left:auto;right:10px;text-align:right` : `right:auto;left:10px;text-align:left`};bottom:10px;max-width:none;width:calc(100% - 20px)">${esc(notice)}</div>` : ''}
       ${notice && !inline && !atBottom ? `<div class="pv-notice" style="color:${s.notice_color}">${esc(notice)}</div>` : ''}
     </div>
