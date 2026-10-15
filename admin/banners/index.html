@@ -322,7 +322,7 @@
                 <div class="field"><label for="ts-padding-x">가로 여백 (0~80)</label><input id="ts-padding-x" class="input" type="number" min="0" max="80" step="1"></div>
                 <div class="field"><label for="ts-padding-y">세로 여백 (0~40)</label><input id="ts-padding-y" class="input" type="number" min="0" max="40" step="1"></div>
                 <div class="field"><label for="ts-text-width">글자 상자 폭 % (30~100 — 이미지가 반을 차지하면 50)</label><input id="ts-text-width" class="input" type="number" min="30" max="100" step="5"></div>
-                <div class="field"><label for="ts-notice-position">제휴 문구 위치</label><select id="ts-notice-position" class="input"><option value="corner">오른쪽 아래 모서리</option><option value="below_text">제목·설명 바로 아래</option></select></div>
+                <div class="field"><label for="ts-notice-position">제휴 문구 위치</label><select id="ts-notice-position" class="input"><option value="corner">오른쪽 아래 모서리</option><option value="below_text">제목·설명 바로 아래</option><option value="bottom_text">맨 아래 (글자 칸 왼쪽)</option></select></div>
               </div>
               <div class="muted" style="margin-top:10px">글꼴은 각 앱의 글꼴을 따릅니다.</div>
             </details>
@@ -731,7 +731,7 @@ function readStyle(raw) {
   if (isColor(r.color)) s.color = r.color.toUpperCase();
   if (isColor(r.notice_color)) s.notice_color = r.notice_color.toUpperCase();
   if (typeof r.scrim === 'boolean') s.scrim = r.scrim;
-  if (r.notice_position === 'below_text') s.notice_position = 'below_text';
+  if (r.notice_position === 'below_text' || r.notice_position === 'bottom_text') s.notice_position = r.notice_position;
   s.desc_color = isColor(r.desc_color) ? r.desc_color.toUpperCase() : null;
   return s;
 }
@@ -1108,7 +1108,9 @@ function renderPreview() {
   const py = s.padding_y;
   // notice_position below_text(앱 0.3.2): 문구가 설명 바로 아래로 들어오고 모서리 자리는 비운다(제목 없으면 모서리).
   const inline = !!(notice && title && s.notice_position === 'below_text');
-  const pad = `${py}px ${s.padding_x}px ${isAff && v === 'bottom' && !inline ? Math.max(py, 34) : py}px`;
+  // bottom_text(앱 0.3.3): 맨 아래 왼쪽, 글자 칸 폭. 글자는 그 위로 비켜 선다(아래 여백 max(py, 38)).
+  const atBottom = !!(notice && s.notice_position === 'bottom_text');
+  const pad = `${py}px ${s.padding_x}px ${atBottom ? Math.max(py, 38) : isAff && v === 'bottom' && !inline ? Math.max(py, 34) : py}px`;
   const box = `width:${Math.round(s.text_width * 100)}%;align-items:${flex[h]};text-align:${h};padding:${pad}`;
   $('preview-wrap').innerHTML = `${picks}
     <div class="preview ${esc(shape)}" style="aspect-ratio:${ratio};background-image:url('${esc(active.url)}')">
@@ -1116,7 +1118,8 @@ function renderPreview() {
         <div class="pv-title" style="color:${s.color};font-size:${s.title_size}px;font-weight:${weight(s.title_weight)};max-width:100%">${esc(title)}</div>
         ${desc ? `<div class="pv-desc" style="color:${s.desc_color ?? s.color + 'B3'};font-size:${s.desc_size}px;font-weight:${weight(s.desc_weight)}">${esc(desc)}</div>` : ''}
         ${inline ? `<div class="pv-notice-inline" style="color:${s.notice_color}">${esc(notice)}</div>` : ''}</div></div>` : ''}
-      ${notice && !inline ? `<div class="pv-notice" style="color:${s.notice_color}">${esc(notice)}</div>` : ''}
+      ${atBottom ? `<div class="pv-notice" style="color:${s.notice_color};right:auto;left:${s.padding_x}px;bottom:10px;text-align:left;max-width:none;width:calc(${Math.round(s.text_width * 100)}% - ${s.padding_x * 2}px)">${esc(notice)}</div>` : ''}
+      ${notice && !inline && !atBottom ? `<div class="pv-notice" style="color:${s.notice_color}">${esc(notice)}</div>` : ''}
     </div>
     <div class="preview-note">${pl ? `${esc(pl.id)} · ${esc(shape)} · ${esc(pl.aspect_ratio)}:1` : `꽂힌 자리 없음 · ${ratio}:1`} (저장 전 문구도 바로 반영됩니다)</div>
     <div class="preview-note">이미지에 글자를 넣을 때는 오른쪽 위·오른쪽 아래를 비워 두세요.</div>`;
