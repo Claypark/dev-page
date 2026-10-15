@@ -1118,7 +1118,7 @@ function renderPreview() {
         <div class="pv-title" style="color:${s.color};font-size:${s.title_size}px;font-weight:${weight(s.title_weight)};max-width:100%">${esc(title)}</div>
         ${desc ? `<div class="pv-desc" style="color:${s.desc_color ?? s.color + 'B3'};font-size:${s.desc_size}px;font-weight:${weight(s.desc_weight)}">${esc(desc)}</div>` : ''}
         ${inline ? `<div class="pv-notice-inline" style="color:${s.notice_color}">${esc(notice)}</div>` : ''}</div></div>` : ''}
-      ${atBottom ? `<div class="pv-notice" style="color:${s.notice_color};right:auto;left:${s.padding_x}px;bottom:10px;text-align:left;max-width:none;width:calc(${Math.round(s.text_width * 100)}% - ${s.padding_x * 2}px)">${esc(notice)}</div>` : ''}
+      ${atBottom ? `<div class="pv-notice" style="color:${s.notice_color};${h === 'right' ? `left:auto;right:${s.padding_x}px;text-align:right` : `right:auto;left:${s.padding_x}px;text-align:left`};bottom:10px;max-width:none;width:calc(${Math.round(s.text_width * 100)}% - ${s.padding_x * 2}px)">${esc(notice)}</div>` : ''}
       ${notice && !inline && !atBottom ? `<div class="pv-notice" style="color:${s.notice_color}">${esc(notice)}</div>` : ''}
     </div>
     <div class="preview-note">${pl ? `${esc(pl.id)} · ${esc(shape)} · ${esc(pl.aspect_ratio)}:1` : `꽂힌 자리 없음 · ${ratio}:1`} (저장 전 문구도 바로 반영됩니다)</div>
