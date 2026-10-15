@@ -444,6 +444,7 @@ let editingId = null;     // 편집 중 배너 id (null이면 새 배너)
 let editingImages = [];
 let imgStats = null;      // { [image_id | 'none']: [노출, 클릭] }, null이면 집계 중
 let previewImgId = null;  // 미리보기에 보이는 사용 중 이미지
+let previewPlId = null;   // 미리보기 자리(꽂힌 자리가 여럿일 때 고른 것)
 let pendingFile = null;   // 새 배너 저장 때 올릴 PNG
 
 // ─── 탭 ────────────────────────────────────────
@@ -874,6 +875,7 @@ async function openEditor(id) {
   editingImages = [];
   imgStats = null;
   previewImgId = null;
+  previewPlId = null;
   if (id) await loadImages();
   renderPreview();
   $('bn-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1082,7 +1084,9 @@ const AFFILIATE_NOTICE = {
 function renderPreview() {
   $('ts-no-title').classList.toggle('hidden', !!orNull($('bn-title').value));
   if (!editingId) return;
-  const pid = allSlots.filter((s) => s.banner_id === editingId).map((s) => s.placement_id).sort()[0];
+  // 꽂힌 자리가 여럿이면 골라 볼 수 있다(모양·비율이 자리마다 다르다).
+  const pids = allSlots.filter((s) => s.banner_id === editingId).map((s) => s.placement_id).sort();
+  const pid = pids.includes(previewPlId) ? previewPlId : pids[0];
   const pl = placements.find((p) => p.id === pid);
   const shape = pl?.shape ?? 'strip';
   const ratio = pl ? Number(pl.aspect_ratio) : 4;
@@ -1108,11 +1112,12 @@ function renderPreview() {
   const py = s.padding_y;
   // notice_position below_text(앱 0.3.2): 문구가 설명 바로 아래로 들어오고 모서리 자리는 비운다(제목 없으면 모서리).
   const inline = !!(notice && title && s.notice_position === 'below_text');
-  // bottom_text(앱 0.3.3): 맨 아래 왼쪽, 글자 칸 폭. 글자는 그 위로 비켜 선다(아래 여백 max(py, 38)).
+  // bottom_text(앱 0.3.3~0.3.7): 맨 아래 한 줄, 여백 10, 글자 칸 쪽. 글자는 그 위로 비켜 선다(아래 여백 max(py, 24)).
   const atBottom = !!(notice && s.notice_position === 'bottom_text');
-  const pad = `${py}px ${s.padding_x}px ${atBottom ? Math.max(py, 38) : isAff && v === 'bottom' && !inline ? Math.max(py, 34) : py}px`;
+  const pad = `${py}px ${s.padding_x}px ${atBottom ? Math.max(py, 24) : isAff && v === 'bottom' && !inline ? Math.max(py, 34) : py}px`;
   const box = `width:${Math.round(s.text_width * 100)}%;align-items:${flex[h]};text-align:${h};padding:${pad}`;
-  $('preview-wrap').innerHTML = `${picks}
+  const plPicks = pids.length < 2 ? '' : `<div class="pv-picks">${pids.map((id) => { const p = placements.find((x) => x.id === id); return `<button type="button" class="btn${id === pid ? ' selected' : ''}" data-pvpl="${esc(id)}">${esc(id)} · ${esc(p?.aspect_ratio ?? '?')}:1</button>`; }).join('')}</div>`;
+  $('preview-wrap').innerHTML = `${plPicks}${picks}
     <div class="preview ${esc(shape)}" style="aspect-ratio:${ratio};background-image:url('${esc(active.url)}')">
       ${title ? `<div class="shade" style="background:${scrim};align-items:${flex[v]};justify-content:${flex[h]}"><div class="pv-box" style="${box}">
         <div class="pv-title" style="color:${s.color};font-size:${s.title_size}px;font-weight:${weight(s.title_weight)};max-width:100%">${esc(title)}</div>
@@ -1128,6 +1133,8 @@ function renderPreview() {
 $('preview-wrap').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-pv]');
   if (b) { previewImgId = b.dataset.pv; renderPreview(); }
+  const p = e.target.closest('button[data-pvpl]');
+  if (p) { previewPlId = p.dataset.pvpl; renderPreview(); }
 });
 
 // ─── Auth (naru 어드민과 같은 흐름, 비로그인·비관리자는 메인으로) ─
