@@ -126,8 +126,25 @@
     const isIOS = /iPad|iPhone|iPod/.test(ua);
     const openBtn = document.getElementById('open-btn');
 
+    // ★iOS에는 intent:// 의 browser_fallback_url 같은 장치가 없다 — 앱이 없으면 Safari가
+    //   '주소가 유효하지 않기 때문에 페이지를 열 수 없습니다'를 띄우고 끝난다(2026-10-16 테스터:
+    //   "주소가 올바르지 않아서 수동으로 깔고 초대함"). 스킴을 시도하고 1.5초 안에 페이지가
+    //   가려지지 않으면(=앱이 안 열림) App Store로 보낸다. 코드는 위에 남아 있어 설치 뒤 입력한다.
+    const APP_STORE = 'https://apps.apple.com/app/id6801367784';
     if (isIOS) {
       openBtn.href = APP_SCHEME + '://invite?code=' + code;
+      openBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        var opened = false;
+        var onHide = function() { if (document.hidden) opened = true; };
+        document.addEventListener('visibilitychange', onHide);
+        window.addEventListener('pagehide', function() { opened = true; });
+        window.location.href = APP_SCHEME + '://invite?code=' + code;
+        setTimeout(function() {
+          document.removeEventListener('visibilitychange', onHide);
+          if (!opened && !document.hidden) window.location.href = APP_STORE;
+        }, 1500);
+      });
     } else {
       openBtn.href = intentUri;
     }
