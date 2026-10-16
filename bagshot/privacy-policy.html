@@ -60,6 +60,12 @@
       color: var(--accent);
     }
 
+    .lang-divider {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
     p, li {
       color: #ccc;
       font-size: 0.95rem;
@@ -81,6 +87,31 @@
       margin: 1rem 0;
     }
 
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .lang-nav {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .lang-nav a {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .lang-nav a:hover {
+      color: var(--accent);
+      text-decoration: none;
+      border-color: var(--accent);
+    }
+
     footer {
       margin-top: 3rem;
       padding-top: 1.5rem;
@@ -95,134 +126,410 @@
     <h1>개인정보처리방침</h1>
     <p class="date">시행일: 2026년 10월 15일</p>
 
-    <p>Bagshot(이하 "본 앱")은 이용자의 개인정보를 소중히 여기며, 관련 법령에 따라 개인정보를 보호하고 있어요. 이 방침은 본 앱이 어떤 정보를 다루고, 어떻게 이용하며, 이용자가 어떤 권리를 갖는지 알려드려요.</p>
+    <nav class="lang-nav">
+      <a href="#ko">한국어</a>
+      <a href="#en">English</a>
+      <a href="#es">Español</a>
+    </nav>
 
-    <h2>1. 카메라 및 사진</h2>
-    <div class="highlight">
-      <p><strong>사진은 기기 밖으로 나가지 않아요.</strong></p>
-      <p>샌드백에 붙일 사진을 고르거나 찍을 때 기기의 갤러리 또는 카메라에 접근해요. 고른 사진은 기기 안에서 가운데를 정사각형으로 잘라 작게 줄인 뒤 샌드백에 붙여요. 얼굴 인식 같은 분석은 하지 않으며, 사진을 파일로 따로 저장하거나 서버로 보내지 않아요.</p>
-    </div>
-    <ul>
-      <li>사진은 게임을 하는 동안 메모리에만 있다가 앱을 종료하면 사라져요.</li>
-      <li>이용 통계(§6)에는 사진이 어디서 왔는지(갤러리·카메라·기본 캐릭터)만 남고, 사진 자체는 남지 않아요.</li>
-      <li>카메라와 사진 접근 권한은 기기 설정에서 언제든 철회할 수 있어요. 철회해도 기본 캐릭터로 게임을 즐길 수 있어요.</li>
-    </ul>
+    <section id="ko">
+      <p>Bagshot(이하 "본 앱")은 이용자의 개인정보를 소중히 여기며, 관련 법령에 따라 개인정보를 보호하고 있어요. 이 방침은 본 앱이 어떤 정보를 다루고, 어떻게 이용하며, 이용자가 어떤 권리를 갖는지 알려드려요.</p>
 
-    <h2>2. 기기에 저장되는 데이터</h2>
-    <p>타격 횟수, 터트린 횟수, 최소 타격 기록, 업적, 설정 같은 게임 기록은 기기 안에 저장돼요. 아래 §3 클라우드 저장과 §4 리더보드에 쓰이는 정보, 그리고 이용 통계(§6)·크래시 보고(§7)·푸시 알림(§8)을 빼면 개발자 서버로 보내지 않아요.</p>
-
-    <h2>3. 로그인과 클라우드 저장</h2>
-    <p>기기를 바꾸거나 앱을 다시 설치해도 기록을 이어 갈 수 있도록, 게임 기록을 클라우드에 저장해요. 로그인에 실패해도 게임은 그대로 즐길 수 있어요.</p>
-    <ul>
-      <li><strong>Android</strong> — 앱을 열면 Google Play 게임즈 로그인을 시도해요. 로그인되면 Play 게임즈 플레이어 ID와 프로필 이름을 받아 와요. 게임 기록은 Play 게임즈 저장 게임(Google)과 개발자 서버(Supabase, 서버 지역: 미국·유럽연합·싱가포르)에 함께 저장돼요.</li>
-      <li><strong>iOS</strong> — Game Center 로그인은 쓰지 않아요. 앱이 처음 실행될 때 기기 안에서 임의의 식별 번호를 만들어, 이 번호로 개발자 서버(Supabase)에 기록을 저장해요. 이 번호는 이름이나 기기 식별자와 관계없어요.</li>
-      <li><strong>저장되는 내용</strong> — 무기별 타격 횟수, 터트린 횟수, 최소 타격 기록, 해금한 업적, 캐릭터별 터트린 횟수, 커피 후원·리뷰 버튼을 누른 적이 있는지, 저장 시각과 기기 종류(Android/iOS). 사진은 저장하지 않으며, 사진으로 만든 캐릭터는 고른 시각으로 만든 번호로만 남아요.</li>
-      <li>서버의 기록은 개발자 서버가 이용자마다 발급한 사용자 ID에 묶여 저장돼요.</li>
-    </ul>
-
-    <h2>4. 리더보드</h2>
-    <p>§3에서 사용자 ID가 발급되면 리더보드에 참여해요. 누적 타격 횟수, 누적 터트린 횟수, 최소 타격 기록이 공용 리더보드 서버(Supabase)에 저장되고, 순위와 함께 다른 이용자에게 공개돼요.</p>
-    <ul>
-      <li><strong>닉네임</strong> — Android에서는 Play 게임즈 프로필 이름이 처음 닉네임으로 함께 저장돼요. 리더보드 화면에서 닉네임을 바꿀 수 있고, 바꾼 닉네임은 서버에서 길이·중복·비속어를 확인한 뒤 저장돼요. 닉네임이 없으면 순위표에 익명으로 표시돼요.</li>
-      <li>리더보드에 공개되는 정보는 닉네임과 점수, 순위예요.</li>
-    </ul>
-
-    <h2>5. 광고</h2>
-    <p>본 앱은 Google AdMob으로 광고를 보여 줘요. 앱을 다시 열 때 나오는 광고, 판을 시작할 때 가끔 나오는 전면 광고, 설정 화면의 네이티브 광고가 있어요.</p>
-    <div class="highlight">
+      <h2>1. 카메라 및 사진</h2>
+      <div class="highlight">
+        <p><strong>사진은 기기 밖으로 나가지 않아요.</strong></p>
+        <p>샌드백에 붙일 사진을 고르거나 찍을 때 기기의 갤러리 또는 카메라에 접근해요. 고른 사진은 기기 안에서 가운데를 정사각형으로 잘라 작게 줄인 뒤 샌드백에 붙여요. 얼굴 인식 같은 분석은 하지 않으며, 사진을 파일로 따로 저장하거나 서버로 보내지 않아요.</p>
+      </div>
       <ul>
-        <li>Google AdMob — <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">개인정보처리방침</a></li>
+        <li>사진은 게임을 하는 동안 메모리에만 있다가 앱을 종료하면 사라져요.</li>
+        <li>이용 통계(§6)에는 사진이 어디서 왔는지(갤러리·카메라·기본 캐릭터)만 남고, 사진 자체는 남지 않아요.</li>
+        <li>카메라와 사진 접근 권한은 기기 설정에서 언제든 철회할 수 있어요. 철회해도 기본 캐릭터로 게임을 즐길 수 있어요.</li>
       </ul>
-    </div>
-    <ul>
-      <li>광고 식별자(Android: AAID, iOS: 허용한 경우 IDFA), 기기 정보, IP 주소, 광고 상호작용 기록이 Google에 의해 처리돼요.</li>
-      <li>iOS에서는 광고를 불러오기 전에 앱 추적 투명성(ATT) 권한을 물어요. 허용하지 않아도 모든 기능을 그대로 즐길 수 있고, 기기 설정 &gt; 개인정보 보호 및 보안 &gt; 추적에서 언제든 바꿀 수 있어요.</li>
-      <li>Android에서는 기기 설정에서 광고 ID를 삭제하거나 재설정할 수 있어요 (설정 &gt; 개인정보 보호 &gt; 광고).</li>
-    </ul>
 
-    <h2>6. 이용 통계 (Google Analytics for Firebase)</h2>
-    <p>게임과 앱 품질을 개선하기 위해 Google Analytics for Firebase로 이용 통계를 수집해요.</p>
-    <ul>
-      <li><strong>앱 이용 기록</strong> — 판 시작·완료·중도 이탈(캐릭터 종류, 사진 출처, 무기별 타격 수, 플레이 시간), 사진 출처 선택, 무기 변경, 업적 해금, 커피 후원 완료(상품과 가격), 광고 표시, 화면 이동, 누적 터트린 횟수 구간과 업적 수.</li>
-      <li><strong>기기 및 식별 정보</strong> — Firebase 앱 인스턴스 ID, 광고 식별자, 기기 모델, OS 버전, 앱 버전, 언어, IP 주소로 추정한 대략적인 지역(국가 수준).</li>
-      <li>이름·이메일, 사진, 닉네임은 이용 통계에 넣지 않아요.</li>
-      <li>Google의 데이터 처리 방식: <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">Google 파트너 사이트·앱의 데이터 사용</a></li>
-    </ul>
+      <h2>2. 기기에 저장되는 데이터</h2>
+      <p>타격 횟수, 터트린 횟수, 최소 타격 기록, 업적, 설정 같은 게임 기록은 기기 안에 저장돼요. 아래 §3 클라우드 저장과 §4 리더보드에 쓰이는 정보, 그리고 이용 통계(§6)·크래시 보고(§7)·푸시 알림(§8)을 빼면 개발자 서버로 보내지 않아요.</p>
 
-    <h2>7. 크래시 보고 (Firebase Crashlytics)</h2>
-    <p>앱 안정성을 높이고 오류를 고치기 위해, 앱이 비정상 종료되거나 처리되지 않은 오류가 나면 Firebase Crashlytics로 크래시 보고를 보내요. 클라우드 저장(§3)에 실패했을 때도 오류 내용을 보내요.</p>
-    <ul>
-      <li><strong>크래시 정보</strong> — 오류 종류와 스택 트레이스, 발생 시각, 그 순간의 기기 상태(여유 메모리·저장 공간, 화면 방향, 루팅·탈옥 여부), 오류 직전의 이용 통계 이벤트(§6).</li>
-      <li><strong>기기 및 식별 정보</strong> — 기기 모델, OS 버전, 앱 버전, Firebase 설치 ID(크래시를 기기 단위로 묶는 데 쓰는 임의 ID).</li>
-      <li>크래시 보고는 Google(Firebase)이 처리하며 90일 동안 보관된 뒤 삭제돼요.</li>
-      <li>Google의 처리 방식: <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase 개인정보 보호 안내</a></li>
-    </ul>
+      <h2>3. 로그인과 클라우드 저장</h2>
+      <p>기기를 바꾸거나 앱을 다시 설치해도 기록을 이어 갈 수 있도록, 게임 기록을 클라우드에 저장해요. 로그인에 실패해도 게임은 그대로 즐길 수 있어요.</p>
+      <ul>
+        <li><strong>Android</strong> — 앱을 열면 Google Play 게임즈 로그인을 시도해요. 로그인되면 Play 게임즈 플레이어 ID와 프로필 이름을 받아 와요. 게임 기록은 Play 게임즈 저장 게임(Google)과 개발자 서버(Supabase, 서버 지역: 미국·유럽연합·싱가포르)에 함께 저장돼요.</li>
+        <li><strong>iOS</strong> — Game Center 로그인은 쓰지 않아요. 앱이 처음 실행될 때 기기 안에서 임의의 식별 번호를 만들어, 이 번호로 개발자 서버(Supabase)에 기록을 저장해요. 이 번호는 이름이나 기기 식별자와 관계없어요.</li>
+        <li><strong>저장되는 내용</strong> — 무기별 타격 횟수, 터트린 횟수, 최소 타격 기록, 해금한 업적, 캐릭터별 터트린 횟수, 커피 후원·리뷰 버튼을 누른 적이 있는지, 저장 시각과 기기 종류(Android/iOS). 사진은 저장하지 않으며, 사진으로 만든 캐릭터는 고른 시각으로 만든 번호로만 남아요.</li>
+        <li>서버의 기록은 개발자 서버가 이용자마다 발급한 사용자 ID에 묶여 저장돼요.</li>
+      </ul>
 
-    <h2>8. 푸시 알림</h2>
-    <p>공지·이벤트 알림은 Firebase Cloud Messaging(FCM)으로 발송돼요.</p>
-    <ul>
-      <li>기기에서 알림 권한을 허용하면 FCM 기기 토큰과 함께 <strong>기기 종류(Android/iOS), 앱 언어, 시간대</strong>가 개발자의 푸시 서버(Supabase)에 저장돼요. 시간대는 알림을 이용자의 현지 시각에 맞춰 보내는 데 써요.</li>
-      <li>기기 토큰은 리더보드·클라우드 저장의 사용자 ID와 연결하지 않아요.</li>
-      <li><strong>수신 거부</strong>: 앱 설정의 알림 스위치를 끄면 서버에 수신 거부로 기록되어 더 이상 발송되지 않아요. 기기 설정에서 앱 알림을 꺼도 돼요.</li>
-    </ul>
+      <h2>4. 리더보드</h2>
+      <p>§3에서 사용자 ID가 발급되면 리더보드에 참여해요. 누적 타격 횟수, 누적 터트린 횟수, 최소 타격 기록이 공용 리더보드 서버(Supabase)에 저장되고, 순위와 함께 다른 이용자에게 공개돼요.</p>
+      <ul>
+        <li><strong>닉네임</strong> — Android에서는 Play 게임즈 프로필 이름이 처음 닉네임으로 함께 저장돼요. 리더보드 화면에서 닉네임을 바꿀 수 있고, 바꾼 닉네임은 서버에서 길이·중복·비속어를 확인한 뒤 저장돼요. 닉네임이 없으면 순위표에 익명으로 표시돼요.</li>
+        <li>리더보드에 공개되는 정보는 닉네임과 점수, 순위예요.</li>
+      </ul>
 
-    <h2>9. 커피 후원(인앱 결제)과 리뷰</h2>
-    <ul>
-      <li>커피 후원 결제는 Google Play 또는 Apple App Store가 처리하며, 개발자는 카드번호 등 결제 수단 정보를 받지 않아요. 본 앱은 결제 영수증을 개발자 서버로 보내지 않아요.</li>
-      <li>후원을 마치면 후원한 적이 있다는 표시가 게임 기록(§3)에 남고, 상품과 가격이 이용 통계(§6)에 기록돼요.</li>
-      <li>리뷰 쓰기를 누르면 Google Play 또는 App Store의 리뷰 화면이 열려요. 리뷰 내용은 각 스토어가 처리하며, 본 앱은 버튼을 누른 적이 있다는 표시만 게임 기록에 남겨요.</li>
-    </ul>
+      <h2>5. 광고</h2>
+      <p>본 앱은 Google AdMob으로 광고를 보여 줘요. 앱을 다시 열 때 나오는 광고, 판을 시작할 때 가끔 나오는 전면 광고, 설정 화면의 네이티브 광고가 있어요.</p>
+      <div class="highlight">
+        <ul>
+          <li>Google AdMob — <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">개인정보처리방침</a></li>
+        </ul>
+      </div>
+      <ul>
+        <li>광고 식별자(Android: AAID, iOS: 허용한 경우 IDFA), 기기 정보, IP 주소, 광고 상호작용 기록이 Google에 의해 처리돼요.</li>
+        <li>iOS에서는 광고를 불러오기 전에 앱 추적 투명성(ATT) 권한을 물어요. 허용하지 않아도 모든 기능을 그대로 즐길 수 있고, 기기 설정 &gt; 개인정보 보호 및 보안 &gt; 추적에서 언제든 바꿀 수 있어요.</li>
+        <li>Android에서는 기기 설정에서 광고 ID를 삭제하거나 재설정할 수 있어요 (설정 &gt; 개인정보 보호 &gt; 광고).</li>
+      </ul>
 
-    <h2>10. 게임 소개 카드</h2>
-    <p><strong>게임 소개 카드</strong>: 홈 화면의 다른 게임 소개 카드를 보여 주기 위해 공용 서버(Supabase)에서 카드 목록을 받아 오고, 카드가 보이거나 눌렸을 때 카드·이미지 번호, 카드 자리, 기기 종류(Android/iOS), 앱 언어를 기록해요. 이 요청과 기록에는 이름, 기기 식별자 등 이용자를 식별할 수 있는 정보가 포함되지 않아요. 카드를 누르면 Google Play 또는 App Store로 이동해요.</p>
+      <h2>6. 이용 통계 (Google Analytics for Firebase)</h2>
+      <p>게임과 앱 품질을 개선하기 위해 Google Analytics for Firebase로 이용 통계를 수집해요.</p>
+      <ul>
+        <li><strong>앱 이용 기록</strong> — 판 시작·완료·중도 이탈(캐릭터 종류, 사진 출처, 무기별 타격 수, 플레이 시간), 사진 출처 선택, 무기 변경, 업적 해금, 커피 후원 완료(상품과 가격), 광고 표시, 화면 이동, 누적 터트린 횟수 구간과 업적 수.</li>
+        <li><strong>기기 및 식별 정보</strong> — Firebase 앱 인스턴스 ID, 광고 식별자, 기기 모델, OS 버전, 앱 버전, 언어, IP 주소로 추정한 대략적인 지역(국가 수준).</li>
+        <li>이름·이메일, 사진, 닉네임은 이용 통계에 넣지 않아요.</li>
+        <li>Google의 데이터 처리 방식: <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">Google 파트너 사이트·앱의 데이터 사용</a></li>
+      </ul>
 
-    <h2>11. 수집하지 않는 정보</h2>
-    <ul>
-      <li>실명, 이메일 주소, 전화번호, 연락처</li>
-      <li>정확한 위치 정보(GPS 등)</li>
-      <li>얼굴 인식 정보, 그리고 서버로 보내는 사진·미디어 파일</li>
-    </ul>
+      <h2>7. 크래시 보고 (Firebase Crashlytics)</h2>
+      <p>앱 안정성을 높이고 오류를 고치기 위해, 앱이 비정상 종료되거나 처리되지 않은 오류가 나면 Firebase Crashlytics로 크래시 보고를 보내요. 클라우드 저장(§3)에 실패했을 때도 오류 내용을 보내요.</p>
+      <ul>
+        <li><strong>크래시 정보</strong> — 오류 종류와 스택 트레이스, 발생 시각, 그 순간의 기기 상태(여유 메모리·저장 공간, 화면 방향, 루팅·탈옥 여부), 오류 직전의 이용 통계 이벤트(§6).</li>
+        <li><strong>기기 및 식별 정보</strong> — 기기 모델, OS 버전, 앱 버전, Firebase 설치 ID(크래시를 기기 단위로 묶는 데 쓰는 임의 ID).</li>
+        <li>크래시 보고는 Google(Firebase)이 처리하며 90일 동안 보관된 뒤 삭제돼요.</li>
+        <li>Google의 처리 방식: <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase 개인정보 보호 안내</a></li>
+      </ul>
 
-    <h2>12. 처리 위탁 및 국외 이전</h2>
-    <p>본 앱은 아래 서비스에 데이터 처리를 맡기고 있어요. 이들 서버는 해외에 있어 데이터가 국외에서 처리될 수 있어요.</p>
-    <ul>
-      <li>Google (Play 게임즈, 미국) — Android 로그인·저장 게임 (Google 정책에 따름)</li>
-      <li>Google (Firebase, 미국) — 이용 통계(Analytics)·크래시 보고(Crashlytics)·푸시 알림 발송(FCM) (Google 정책에 따름)</li>
-      <li>Google (AdMob, 미국) — 광고 게재 (Google 정책에 따름)</li>
-      <li>Google Play / Apple App Store (미국) — 인앱 결제·리뷰 처리 (각 사 정책에 따름)</li>
-      <li>Supabase (미국·유럽연합·싱가포르) — 클라우드 저장·리더보드·푸시 알림 기기 토큰·게임 소개 카드 (삭제 요청 시까지)</li>
-    </ul>
+      <h2>8. 푸시 알림</h2>
+      <p>공지·이벤트 알림은 Firebase Cloud Messaging(FCM)으로 발송돼요.</p>
+      <ul>
+        <li>기기에서 알림 권한을 허용하면 FCM 기기 토큰과 함께 <strong>기기 종류(Android/iOS), 앱 언어, 시간대</strong>가 개발자의 푸시 서버(Supabase)에 저장돼요. 시간대는 알림을 이용자의 현지 시각에 맞춰 보내는 데 써요.</li>
+        <li>기기 토큰은 리더보드·클라우드 저장의 사용자 ID와 연결하지 않아요.</li>
+        <li><strong>수신 거부</strong>: 앱 설정의 알림 스위치를 끄면 서버에 수신 거부로 기록되어 더 이상 발송되지 않아요. 기기 설정에서 앱 알림을 꺼도 돼요.</li>
+      </ul>
 
-    <h2>13. 보관 및 파기</h2>
-    <ul>
-      <li>기기 내 데이터는 앱을 삭제하면 함께 삭제돼요. iOS에서는 기기 안의 식별 번호도 함께 지워져, 다시 설치하면 서버의 이전 기록과 이어지지 않아요.</li>
-      <li>앱 안에는 계정 삭제 버튼이 없어요. 서버에 저장된 클라우드 저장 기록, 리더보드 기록과 닉네임은 아래 이메일로 삭제를 요청하면 지체 없이 파기해 드려요.</li>
-      <li>Play 게임즈 저장 게임은 Google 계정의 Play 게임즈 설정에서 지울 수 있어요.</li>
-      <li>푸시 알림 기기 토큰은 알림을 끄면 수신 거부로 바뀌고, 삭제를 요청하면 파기해요.</li>
-      <li>이용 통계의 보관 기간은 Google의 정책과 Firebase 보존 설정을 따르고, 크래시 보고는 90일 동안 보관된 뒤 삭제돼요.</li>
-    </ul>
+      <h2>9. 커피 후원(인앱 결제)과 리뷰</h2>
+      <ul>
+        <li>커피 후원 결제는 Google Play 또는 Apple App Store가 처리하며, 개발자는 카드번호 등 결제 수단 정보를 받지 않아요. 본 앱은 결제 영수증을 개발자 서버로 보내지 않아요.</li>
+        <li>후원을 마치면 후원한 적이 있다는 표시가 게임 기록(§3)에 남고, 상품과 가격이 이용 통계(§6)에 기록돼요.</li>
+        <li>리뷰 쓰기를 누르면 Google Play 또는 App Store의 리뷰 화면이 열려요. 리뷰 내용은 각 스토어가 처리하며, 본 앱은 버튼을 누른 적이 있다는 표시만 게임 기록에 남겨요.</li>
+      </ul>
 
-    <h2>14. 이용자의 권리</h2>
-    <ul>
-      <li>카메라·사진 접근 권한과 알림 권한은 기기 설정에서 언제든 철회할 수 있어요.</li>
-      <li>iOS 광고 추적 허용 여부는 기기 설정에서 바꿀 수 있어요.</li>
-      <li>서버에 저장된 기록의 열람이나 삭제는 이메일로 요청할 수 있어요.</li>
-      <li>푸시 알림은 앱 설정이나 기기 설정에서 언제든 끌 수 있어요.</li>
-    </ul>
+      <h2>10. 게임 소개 카드</h2>
+      <p><strong>게임 소개 카드</strong>: 홈 화면의 다른 게임 소개 카드를 보여 주기 위해 공용 서버(Supabase)에서 카드 목록을 받아 오고, 카드가 보이거나 눌렸을 때 카드·이미지 번호, 카드 자리, 기기 종류(Android/iOS), 앱 언어를 기록해요. 이 요청과 기록에는 이름, 기기 식별자 등 이용자를 식별할 수 있는 정보가 포함되지 않아요. 카드를 누르면 Google Play 또는 App Store로 이동해요.</p>
 
-    <h2>15. 아동의 개인정보</h2>
-    <p>본 앱은 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않아요. 만약 아동의 정보가 수집된 것을 발견하면 즉시 삭제할게요.</p>
+      <h2>11. 수집하지 않는 정보</h2>
+      <ul>
+        <li>실명, 이메일 주소, 전화번호, 연락처</li>
+        <li>정확한 위치 정보(GPS 등)</li>
+        <li>얼굴 인식 정보, 그리고 서버로 보내는 사진·미디어 파일</li>
+      </ul>
 
-    <h2>16. 방침의 변경</h2>
-    <p>이 방침은 법령 변경이나 서비스 변동에 따라 수정될 수 있어요. 변경 사항은 이 페이지를 통해 안내해 드릴게요.</p>
+      <h2>12. 처리 위탁 및 국외 이전</h2>
+      <p>본 앱은 아래 서비스에 데이터 처리를 맡기고 있어요. 이들 서버는 해외에 있어 데이터가 국외에서 처리될 수 있어요.</p>
+      <ul>
+        <li>Google (Play 게임즈, 미국) — Android 로그인·저장 게임 (Google 정책에 따름)</li>
+        <li>Google (Firebase, 미국) — 이용 통계(Analytics)·크래시 보고(Crashlytics)·푸시 알림 발송(FCM) (Google 정책에 따름)</li>
+        <li>Google (AdMob, 미국) — 광고 게재 (Google 정책에 따름)</li>
+        <li>Google Play / Apple App Store (미국) — 인앱 결제·리뷰 처리 (각 사 정책에 따름)</li>
+        <li>Supabase (미국·유럽연합·싱가포르) — 클라우드 저장·리더보드·푸시 알림 기기 토큰·게임 소개 카드 (삭제 요청 시까지)</li>
+      </ul>
 
-    <h2>17. 문의 및 개인정보 보호책임자</h2>
-    <p>개인정보 관련 문의와 삭제 요청은 아래로 연락해 주세요.</p>
-    <ul>
-      <li>개발자: CLPAK (박정수)</li>
-      <li>개인정보 보호책임자: 박정수</li>
-      <li>이메일: <a href="mailto:claypark12@gmail.com" style="color: inherit;">claypark12@gmail.com</a></li>
-    </ul>
+      <h2>13. 보관 및 파기</h2>
+      <ul>
+        <li>기기 내 데이터는 앱을 삭제하면 함께 삭제돼요. iOS에서는 기기 안의 식별 번호도 함께 지워져, 다시 설치하면 서버의 이전 기록과 이어지지 않아요.</li>
+        <li>앱 안에는 계정 삭제 버튼이 없어요. 서버에 저장된 클라우드 저장 기록, 리더보드 기록과 닉네임은 아래 이메일로 삭제를 요청하면 지체 없이 파기해 드려요.</li>
+        <li>Play 게임즈 저장 게임은 Google 계정의 Play 게임즈 설정에서 지울 수 있어요.</li>
+        <li>푸시 알림 기기 토큰은 알림을 끄면 수신 거부로 바뀌고, 삭제를 요청하면 파기해요.</li>
+        <li>이용 통계의 보관 기간은 Google의 정책과 Firebase 보존 설정을 따르고, 크래시 보고는 90일 동안 보관된 뒤 삭제돼요.</li>
+      </ul>
+
+      <h2>14. 이용자의 권리</h2>
+      <ul>
+        <li>카메라·사진 접근 권한과 알림 권한은 기기 설정에서 언제든 철회할 수 있어요.</li>
+        <li>iOS 광고 추적 허용 여부는 기기 설정에서 바꿀 수 있어요.</li>
+        <li>서버에 저장된 기록의 열람이나 삭제는 이메일로 요청할 수 있어요.</li>
+        <li>푸시 알림은 앱 설정이나 기기 설정에서 언제든 끌 수 있어요.</li>
+      </ul>
+
+      <h2>15. 아동의 개인정보</h2>
+      <p>본 앱은 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않아요. 만약 아동의 정보가 수집된 것을 발견하면 즉시 삭제할게요.</p>
+
+      <h2>16. 방침의 변경</h2>
+      <p>이 방침은 법령 변경이나 서비스 변동에 따라 수정될 수 있어요. 변경 사항은 이 페이지를 통해 안내해 드릴게요.</p>
+
+      <h2>17. 문의 및 개인정보 보호책임자</h2>
+      <p>개인정보 관련 문의와 삭제 요청은 아래로 연락해 주세요.</p>
+      <ul>
+        <li>개발자: CLPAK (박정수)</li>
+        <li>개인정보 보호책임자: 박정수</li>
+        <li>이메일: <a href="mailto:claypark12@gmail.com" style="color: inherit;">claypark12@gmail.com</a></li>
+      </ul>
+    </section>
+
+    <section id="en" class="lang-divider">
+      <h1>Privacy Policy</h1>
+      <p class="date">Last updated: October 15, 2026</p>
+
+      <p>Bagshot (hereinafter "the App") values your privacy and protects personal information in accordance with applicable laws. This policy explains what information the App handles, how it is used, and what rights you have.</p>
+
+      <h2>1. Camera and Photos</h2>
+      <div class="highlight">
+        <p><strong>Photos never leave your device.</strong></p>
+        <p>When you select or take a photo to attach to the punching bag, the App accesses your device's gallery or camera. The selected photo is cropped to a square from the center, resized, and applied to the punching bag — all on your device. No analysis such as facial recognition is performed, and photos are not saved as files or sent to any server.</p>
+      </div>
+      <ul>
+        <li>Photos are held in memory only while you play; they disappear when you close the App.</li>
+        <li>Usage statistics (§6) record only where a photo came from (gallery, camera, or default character), not the photo itself.</li>
+        <li>Camera and photo access permissions can be revoked at any time in device settings. You can still enjoy the game with the default character if you do.</li>
+      </ul>
+
+      <h2>2. Data Stored on Device</h2>
+      <p>Game records such as hit count, pop count, best hit record, achievements, and settings are stored on your device. Except for the information used in cloud save (§3), leaderboard (§4), usage statistics (§6), crash reporting (§7), and push notifications (§8), nothing is sent to the developer's server.</p>
+
+      <h2>3. Login and Cloud Save</h2>
+      <p>To let you continue your records even when you switch devices or reinstall the App, game records are saved to the cloud. You can still enjoy the game even if login fails.</p>
+      <ul>
+        <li><strong>Android</strong> — When you open the App, it attempts to sign in to Google Play Games. If signed in, it retrieves your Play Games player ID and profile name. Game records are saved to both Play Games Saved Games (Google) and the developer's server (Supabase, server regions: United States, European Union, Singapore).</li>
+        <li><strong>iOS</strong> — Google Play Games login is not used. When the App first runs, a random identification number is generated on your device. Records are saved to the developer's server (Supabase) under this number. This number is unrelated to your name or device identifier.</li>
+        <li><strong>What is saved</strong> — Hit count per weapon, pop count, best hit record, unlocked achievements, pop count per character, whether you have tapped the coffee donation or review button, save timestamp, and device type (Android/iOS). Photos are not saved; a character created from a photo is kept only as a number derived from the selection time.</li>
+        <li>Records on the server are tied to a user ID assigned by the developer's server for each user.</li>
+      </ul>
+
+      <h2>4. Leaderboard</h2>
+      <p>Once a user ID is assigned (§3), you join the leaderboard. Your cumulative hit count, cumulative pop count, and best hit record are stored on the shared leaderboard server (Supabase) and made public to other users along with your ranking.</p>
+      <ul>
+        <li><strong>Nickname</strong> — On Android, your Play Games profile name is stored as your initial nickname. You can change your nickname on the leaderboard screen; changed nicknames are verified for length, duplicates, and profanity on the server before saving. If you have no nickname, you appear anonymously on the leaderboard.</li>
+        <li>Information visible on the leaderboard: nickname, score, and ranking.</li>
+      </ul>
+
+      <h2>5. Advertising</h2>
+      <p>The App displays ads through Google AdMob. These include an ad shown when you reopen the App, occasional interstitial ads when starting a round, and a native ad on the settings screen.</p>
+      <div class="highlight">
+        <ul>
+          <li>Google AdMob — <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <ul>
+        <li>Advertising identifiers (Android: AAID; iOS: IDFA if permitted), device information, IP address, and ad interaction records are processed by Google.</li>
+        <li>On iOS, the App asks for App Tracking Transparency (ATT) permission before loading ads. You can enjoy all features without granting permission, and you can change this at any time in device settings &gt; Privacy &amp; Security &gt; Tracking.</li>
+        <li>On Android, you can reset or delete your advertising ID in device settings (Settings &gt; Privacy &gt; Ads).</li>
+      </ul>
+
+      <h2>6. Usage Statistics (Google Analytics for Firebase)</h2>
+      <p>To improve the game and app quality, the App collects usage statistics through Google Analytics for Firebase.</p>
+      <ul>
+        <li><strong>App usage records</strong> — Round start, completion, and abandonment (character type, photo source, hit count per weapon, play time); photo source selection; weapon change; achievement unlock; coffee donation completion (product and price); ad display; screen navigation; cumulative pop count range and achievement count.</li>
+        <li><strong>Device and identity information</strong> — Firebase app instance ID, advertising identifier, device model, OS version, app version, language, approximate region (country level) estimated from IP address.</li>
+        <li>Name, email, photos, and nickname are not included in usage statistics.</li>
+        <li>Google's data processing: <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">Google's use of data from partner sites and apps</a></li>
+      </ul>
+
+      <h2>7. Crash Reporting (Firebase Crashlytics)</h2>
+      <p>To improve app stability and fix errors, the App sends crash reports via Firebase Crashlytics when the App crashes or an unhandled error occurs. Error details are also sent when cloud save (§3) fails.</p>
+      <ul>
+        <li><strong>Crash information</strong> — Error type and stack trace, time of occurrence, device state at that moment (free memory, storage space, screen orientation, rooting/jailbreak status), usage statistics events (§6) just before the error.</li>
+        <li><strong>Device and identity information</strong> — Device model, OS version, app version, Firebase installation ID (a random ID used to group crashes by device).</li>
+        <li>Crash reports are processed by Google (Firebase) and retained for 90 days before deletion.</li>
+        <li>Google's processing: <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase Privacy and Security</a></li>
+      </ul>
+
+      <h2>8. Push Notifications</h2>
+      <p>Announcements and event notifications are sent via Firebase Cloud Messaging (FCM).</p>
+      <ul>
+        <li>If you allow notification permission on your device, the FCM device token along with <strong>device type (Android/iOS), app language, and time zone</strong> are stored on the developer's push server (Supabase). The time zone is used to send notifications at the appropriate local time.</li>
+        <li>The device token is not linked to the user ID used in the leaderboard or cloud save.</li>
+        <li><strong>Opt-out</strong>: Turning off the notification switch in app settings records an opt-out on the server and stops further notifications. You can also turn off app notifications in device settings.</li>
+      </ul>
+
+      <h2>9. Coffee Donation (In-App Purchase) and Review</h2>
+      <ul>
+        <li>Coffee donation payments are processed by Google Play or the Apple App Store; the developer does not receive payment details such as card numbers. The App does not send purchase receipts to the developer's server.</li>
+        <li>After a donation, a record that a donation was made is added to your game records (§3), and the product and price are recorded in usage statistics (§6).</li>
+        <li>Tapping "Write a review" opens the review screen on Google Play or the App Store. Review content is handled by the respective store; the App only records that the button was tapped in game records.</li>
+      </ul>
+
+      <h2>10. Game Introduction Cards</h2>
+      <p><strong>Game introduction cards</strong>: To display other game introduction cards on the home screen, the App fetches the card list from our shared server (Supabase) and, when a card is shown or tapped, records the card and image number, the card slot, the device type (Android/iOS), and the app language. These requests and records contain nothing that identifies you, such as your name or a device identifier. Tapping a card takes you to Google Play or the App Store.</p>
+
+      <h2>11. Information Not Collected</h2>
+      <ul>
+        <li>Full name, email address, phone number, contact information</li>
+        <li>Precise location information (GPS, etc.)</li>
+        <li>Facial recognition data, and photos or media files sent to a server</li>
+      </ul>
+
+      <h2>12. Data Processing and International Transfers</h2>
+      <p>The App delegates data processing to the following services. Their servers are located overseas, so your data may be processed outside your country.</p>
+      <ul>
+        <li>Google (Play Games, United States) — Android login and saved games (subject to Google's policy)</li>
+        <li>Google (Firebase, United States) — Usage statistics (Analytics), crash reporting (Crashlytics), push notification delivery (FCM) (subject to Google's policy)</li>
+        <li>Google (AdMob, United States) — Ad serving (subject to Google's policy)</li>
+        <li>Google Play / Apple App Store (United States) — In-app purchases and review processing (subject to each party's policy)</li>
+        <li>Supabase (United States, European Union, Singapore) — Cloud save, leaderboard, push notification device tokens, game introduction cards (until deletion is requested)</li>
+      </ul>
+
+      <h2>13. Retention and Deletion</h2>
+      <ul>
+        <li>Data on your device is deleted when you uninstall the App. On iOS, the identification number on your device is also deleted, so reinstalling the App will not reconnect to your previous server records.</li>
+        <li>There is no account deletion button in the App. You can request deletion of cloud save records, leaderboard records, and nicknames stored on the server by emailing us, and they will be deleted without delay.</li>
+        <li>Play Games saved games can be deleted from Play Games settings in your Google account.</li>
+        <li>Push notification device tokens are changed to opt-out when you disable notifications, and deleted upon request.</li>
+        <li>The retention period for usage statistics follows Google's policy and Firebase retention settings; crash reports are retained for 90 days before deletion.</li>
+      </ul>
+
+      <h2>14. Your Rights</h2>
+      <ul>
+        <li>Camera and photo access permissions, and notification permissions, can be revoked at any time in device settings.</li>
+        <li>On iOS, you can change your ad tracking permission in device settings.</li>
+        <li>You can request to view or delete records stored on the server by email.</li>
+        <li>Push notifications can be turned off at any time in the app settings or device settings.</li>
+      </ul>
+
+      <h2>15. Children's Privacy</h2>
+      <p>The App does not intentionally collect personal information from children under the age of 14. If we discover that a child's information has been collected, we will delete it immediately.</p>
+
+      <h2>16. Changes to This Policy</h2>
+      <p>This policy may be revised due to changes in laws or services. Any changes will be announced on this page.</p>
+
+      <h2>17. Contact and Privacy Officer</h2>
+      <p>For privacy-related inquiries and deletion requests, please contact us at:</p>
+      <ul>
+        <li>Developer: CLPAK (Jeongsoo Park)</li>
+        <li>Privacy Officer: Jeongsoo Park</li>
+        <li>Email: <a href="mailto:claypark12@gmail.com" style="color: inherit;">claypark12@gmail.com</a></li>
+      </ul>
+    </section>
+
+    <section id="es" class="lang-divider">
+      <h1>Política de Privacidad</h1>
+      <p class="date">Última actualización: 15 de octubre de 2026</p>
+
+      <p>Bagshot (en adelante, "la App") valora tu privacidad y protege la información personal de acuerdo con la legislación aplicable. Esta política explica qué información maneja la App, cómo se utiliza y qué derechos tienes.</p>
+
+      <h2>1. Cámara y fotos</h2>
+      <div class="highlight">
+        <p><strong>Las fotos no salen de tu dispositivo.</strong></p>
+        <p>Cuando seleccionas o tomas una foto para pegarla en el saco de boxeo, la App accede a la galería o cámara de tu dispositivo. La foto seleccionada se recorta al centro en forma cuadrada, se reduce y se aplica al saco de boxeo, todo en tu dispositivo. No se realiza ningún análisis como reconocimiento facial, y las fotos no se guardan como archivos ni se envían a ningún servidor.</p>
+      </div>
+      <ul>
+        <li>Las fotos se mantienen en memoria solo mientras juegas; desaparecen cuando cierras la App.</li>
+        <li>Las estadísticas de uso (§6) solo registran de dónde vino la foto (galería, cámara o personaje predeterminado), no la foto en sí.</li>
+        <li>Los permisos de acceso a la cámara y fotos pueden revocarse en cualquier momento desde la configuración del dispositivo. Si lo haces, puedes seguir disfrutando del juego con el personaje predeterminado.</li>
+      </ul>
+
+      <h2>2. Datos almacenados en el dispositivo</h2>
+      <p>Los registros del juego, como el número de golpes, el número de explosiones, el mejor récord de golpes, los logros y la configuración, se almacenan en tu dispositivo. Salvo la información utilizada en el guardado en la nube (§3), la clasificación (§4), las estadísticas de uso (§6), los informes de fallos (§7) y las notificaciones push (§8), nada se envía al servidor del desarrollador.</p>
+
+      <h2>3. Inicio de sesión y guardado en la nube</h2>
+      <p>Para que puedas continuar tus registros aunque cambies de dispositivo o reinstales la App, los registros del juego se guardan en la nube. Puedes disfrutar del juego igualmente aunque el inicio de sesión falle.</p>
+      <ul>
+        <li><strong>Android</strong> — Al abrir la App, se intenta iniciar sesión en Google Play Juegos. Si se inicia sesión, se obtiene el ID de jugador de Play Juegos y el nombre de perfil. Los registros del juego se guardan tanto en Partidas guardadas de Play Juegos (Google) como en el servidor del desarrollador (Supabase, regiones del servidor: Estados Unidos, Unión Europea, Singapur).</li>
+        <li><strong>iOS</strong> — No se utiliza el inicio de sesión de Google Play Juegos. La primera vez que se ejecuta la App, se genera en tu dispositivo un número de identificación aleatorio. Los registros se guardan en el servidor del desarrollador (Supabase) con este número. Este número no tiene relación con tu nombre ni con el identificador de tu dispositivo.</li>
+        <li><strong>Qué se guarda</strong> — Número de golpes por arma, número de explosiones, mejor récord de golpes, logros desbloqueados, explosiones por personaje, si has pulsado alguna vez el botón de donación de café o de reseña, fecha y hora del guardado, y tipo de dispositivo (Android/iOS). Las fotos no se guardan; un personaje creado a partir de una foto solo queda registrado como un número derivado del momento de selección.</li>
+        <li>Los registros en el servidor están vinculados a un ID de usuario asignado por el servidor del desarrollador para cada usuario.</li>
+      </ul>
+
+      <h2>4. Clasificación (Leaderboard)</h2>
+      <p>Una vez asignado el ID de usuario (§3), participas en la clasificación. Tu total acumulado de golpes, tu total acumulado de explosiones y tu mejor récord de golpes se almacenan en el servidor público de clasificación (Supabase) y se hacen públicos a otros usuarios junto con tu posición.</p>
+      <ul>
+        <li><strong>Apodo</strong> — En Android, el nombre de perfil de Play Juegos se guarda inicialmente como apodo. Puedes cambiar tu apodo en la pantalla de clasificación; los apodos modificados se verifican en el servidor en cuanto a longitud, duplicados y palabras inapropiadas antes de guardarse. Si no tienes apodo, aparecerás como anónimo en la clasificación.</li>
+        <li>Información visible en la clasificación: apodo, puntuación y posición.</li>
+      </ul>
+
+      <h2>5. Publicidad</h2>
+      <p>La App muestra anuncios a través de Google AdMob. Estos incluyen un anuncio al reabrir la App, anuncios intersticiales ocasionales al iniciar una ronda y un anuncio nativo en la pantalla de configuración.</p>
+      <div class="highlight">
+        <ul>
+          <li>Google AdMob — <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de privacidad</a></li>
+        </ul>
+      </div>
+      <ul>
+        <li>Los identificadores publicitarios (Android: AAID; iOS: IDFA si está permitido), la información del dispositivo, la dirección IP y el historial de interacciones con anuncios son procesados por Google.</li>
+        <li>En iOS, la App solicita el permiso de Transparencia de Seguimiento de Apps (ATT) antes de cargar anuncios. Puedes disfrutar de todas las funciones sin conceder el permiso, y puedes cambiarlo en cualquier momento en Configuración &gt; Privacidad y seguridad &gt; Seguimiento.</li>
+        <li>En Android, puedes restablecer o eliminar tu ID publicitario en la configuración del dispositivo (Configuración &gt; Privacidad &gt; Anuncios).</li>
+      </ul>
+
+      <h2>6. Estadísticas de uso (Google Analytics for Firebase)</h2>
+      <p>Para mejorar la calidad del juego y de la App, se recopilan estadísticas de uso a través de Google Analytics for Firebase.</p>
+      <ul>
+        <li><strong>Registros de uso de la App</strong> — Inicio, finalización y abandono de rondas (tipo de personaje, origen de la foto, golpes por arma, tiempo de juego); selección del origen de la foto; cambio de arma; desbloqueo de logros; donación de café completada (producto y precio); visualización de anuncios; navegación por pantallas; rango de explosiones acumuladas y número de logros.</li>
+        <li><strong>Información del dispositivo e identificación</strong> — ID de instancia de la App en Firebase, identificador publicitario, modelo del dispositivo, versión del SO, versión de la App, idioma, región aproximada (a nivel de país) estimada a partir de la dirección IP.</li>
+        <li>El nombre, el correo electrónico, las fotos y el apodo no se incluyen en las estadísticas de uso.</li>
+        <li>Procesamiento de datos por parte de Google: <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">Uso de datos de Google en sitios y apps de socios</a></li>
+      </ul>
+
+      <h2>7. Informes de fallos (Firebase Crashlytics)</h2>
+      <p>Para mejorar la estabilidad de la App y corregir errores, la App envía informes de fallos mediante Firebase Crashlytics cuando se produce un cierre inesperado o un error no controlado. También se envían detalles del error cuando falla el guardado en la nube (§3).</p>
+      <ul>
+        <li><strong>Información de fallos</strong> — Tipo de error y traza de la pila, hora del suceso, estado del dispositivo en ese momento (memoria libre, espacio de almacenamiento, orientación de la pantalla, estado de root o jailbreak), eventos de estadísticas de uso (§6) justo antes del error.</li>
+        <li><strong>Información del dispositivo e identificación</strong> — Modelo del dispositivo, versión del SO, versión de la App, ID de instalación de Firebase (un ID aleatorio utilizado para agrupar fallos por dispositivo).</li>
+        <li>Los informes de fallos son procesados por Google (Firebase) y se conservan durante 90 días antes de eliminarse.</li>
+        <li>Procesamiento por parte de Google: <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Seguridad y privacidad de Firebase</a></li>
+      </ul>
+
+      <h2>8. Notificaciones push</h2>
+      <p>Los avisos y notificaciones de eventos se envían mediante Firebase Cloud Messaging (FCM).</p>
+      <ul>
+        <li>Si permites las notificaciones en tu dispositivo, el token FCM del dispositivo junto con el <strong>tipo de dispositivo (Android/iOS), el idioma de la App y la zona horaria</strong> se almacenan en el servidor push del desarrollador (Supabase). La zona horaria se usa para enviarte notificaciones a la hora local adecuada.</li>
+        <li>El token del dispositivo no está vinculado al ID de usuario de la clasificación ni del guardado en la nube.</li>
+        <li><strong>Cancelar suscripción</strong>: Al desactivar el interruptor de notificaciones en la configuración de la App, se registra una cancelación de suscripción en el servidor y no se envían más notificaciones. También puedes desactivar las notificaciones de la App desde la configuración del dispositivo.</li>
+      </ul>
+
+      <h2>9. Donación de café (compra integrada) y reseñas</h2>
+      <ul>
+        <li>Los pagos de donación de café son procesados por Google Play o el Apple App Store; el desarrollador no recibe datos de pago como números de tarjeta. La App no envía recibos de compra al servidor del desarrollador.</li>
+        <li>Tras una donación, se añade a tus registros del juego (§3) una marca de que se realizó una donación, y el producto y el precio se registran en las estadísticas de uso (§6).</li>
+        <li>Al pulsar "Escribir una reseña", se abre la pantalla de reseñas en Google Play o el App Store. El contenido de la reseña es gestionado por la tienda correspondiente; la App solo registra en los registros del juego que se pulsó el botón.</li>
+      </ul>
+
+      <h2>10. Tarjetas de presentación del juego</h2>
+      <p><strong>Tarjetas de presentación del juego</strong>: Para mostrar las tarjetas de presentación de otros juegos en la pantalla de inicio, la App obtiene la lista de tarjetas del servidor compartido (Supabase) y, cuando una tarjeta se muestra o se toca, registra el número de tarjeta e imagen, el espacio de la tarjeta, el tipo de dispositivo (Android/iOS) y el idioma de la App. Estas solicitudes y registros no contienen nada que te identifique, como tu nombre o un identificador del dispositivo. Al tocar una tarjeta, accedes a Google Play o al App Store.</p>
+
+      <h2>11. Información que no recopilamos</h2>
+      <ul>
+        <li>Nombre completo, dirección de correo electrónico, número de teléfono, información de contacto</li>
+        <li>Información de ubicación precisa (GPS, etc.)</li>
+        <li>Datos de reconocimiento facial, y fotos o archivos multimedia enviados a un servidor</li>
+      </ul>
+
+      <h2>12. Delegación del tratamiento y transferencias internacionales</h2>
+      <p>La App delega el tratamiento de datos en los siguientes servicios. Sus servidores se encuentran en el extranjero, por lo que tus datos podrían procesarse fuera de tu país.</p>
+      <ul>
+        <li>Google (Play Juegos, Estados Unidos) — inicio de sesión en Android y partidas guardadas (sujeto a la política de Google)</li>
+        <li>Google (Firebase, Estados Unidos) — estadísticas de uso (Analytics), informes de fallos (Crashlytics), envío de notificaciones push (FCM) (sujeto a la política de Google)</li>
+        <li>Google (AdMob, Estados Unidos) — publicación de anuncios (sujeto a la política de Google)</li>
+        <li>Google Play / Apple App Store (Estados Unidos) — compras integradas y procesamiento de reseñas (sujeto a la política de cada uno)</li>
+        <li>Supabase (Estados Unidos, Unión Europea, Singapur) — guardado en la nube, clasificación, tokens de dispositivo para notificaciones push, tarjetas de presentación del juego (hasta que se solicite la eliminación)</li>
+      </ul>
+
+      <h2>13. Conservación y eliminación</h2>
+      <ul>
+        <li>Los datos en tu dispositivo se eliminan al desinstalar la App. En iOS, el número de identificación del dispositivo también se elimina, por lo que al reinstalar la App no se conectará con tus registros anteriores del servidor.</li>
+        <li>No hay botón de eliminación de cuenta en la App. Puedes solicitar la eliminación de los registros de guardado en la nube, registros de la clasificación y apodos almacenados en el servidor enviándonos un correo electrónico, y se eliminarán sin demora.</li>
+        <li>Las partidas guardadas de Play Juegos pueden eliminarse desde la configuración de Play Juegos en tu cuenta de Google.</li>
+        <li>Los tokens de dispositivo para notificaciones push se cambian a estado de cancelación de suscripción al desactivar las notificaciones, y se eliminan a solicitud.</li>
+        <li>El período de conservación de las estadísticas de uso sigue la política de Google y la configuración de retención de Firebase; los informes de fallos se conservan durante 90 días antes de eliminarse.</li>
+      </ul>
+
+      <h2>14. Tus derechos</h2>
+      <ul>
+        <li>Los permisos de acceso a la cámara y fotos, y los permisos de notificación, pueden revocarse en cualquier momento desde la configuración del dispositivo.</li>
+        <li>En iOS, puedes cambiar tu permiso de seguimiento publicitario en la configuración del dispositivo.</li>
+        <li>Puedes solicitar ver o eliminar los registros almacenados en el servidor por correo electrónico.</li>
+        <li>Las notificaciones push pueden desactivarse en cualquier momento desde la configuración de la App o del dispositivo.</li>
+      </ul>
+
+      <h2>15. Privacidad de menores</h2>
+      <p>La App no recopila intencionadamente información personal de menores de 14 años. Si descubrimos que se ha recopilado información de un menor, la eliminaremos de inmediato.</p>
+
+      <h2>16. Cambios en esta política</h2>
+      <p>Esta política puede modificarse debido a cambios en las leyes o en el servicio. Cualquier cambio se anunciará en esta página.</p>
+
+      <h2>17. Contacto y responsable de privacidad</h2>
+      <p>Para consultas relacionadas con la privacidad y solicitudes de eliminación, contáctanos en:</p>
+      <ul>
+        <li>Desarrollador: CLPAK (Jeongsoo Park)</li>
+        <li>Responsable de privacidad: Jeongsoo Park</li>
+        <li>Correo: <a href="mailto:claypark12@gmail.com" style="color: inherit;">claypark12@gmail.com</a></li>
+      </ul>
+    </section>
 
     <footer>&copy; 2026 CLPAK. All rights reserved.</footer>
   </div>
