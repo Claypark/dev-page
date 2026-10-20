@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>사용설명서 - 단도리</title>
-<meta name="description" content="단도리 사용설명서 — 매장 만들기부터 체크리스트, 근무표, 출퇴근, 시급 정산, 재고·발주까지 기능별 사용법을 안내합니다.">
+<meta name="description" content="단도리 사용설명서 — 매장 만들기, 할 일, 근무표, 대타, 출퇴근, 자동 출퇴근, 근무·급여, 재고·발주까지 쉽게 따라 하는 사용법.">
 <link rel="icon" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
 <!-- 공유 미리보기. og:image는 절대 URL이어야 하고(상대경로는 크롤러가 못 읽는다),
@@ -12,14 +12,14 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="CLPAK">
 <meta property="og:title" content="단도리 사용설명서">
-<meta property="og:description" content="오픈·마감 체크리스트부터 근무표, 출퇴근, 시급 정산, 재고·발주까지 기능별 사용법.">
+<meta property="og:description" content="할 일, 근무표, 대타, 출퇴근, 근무·급여, 재고·발주까지 쉽게 따라 하는 사용법.">
 <meta property="og:url" content="https://claypark.github.io/dev-page/dandori/guide.html">
 <meta property="og:image" content="https://claypark.github.io/dev-page/dandori/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="단도리 사용설명서">
-<meta name="twitter:description" content="오픈·마감 체크리스트부터 근무표, 출퇴근, 시급 정산, 재고·발주까지 기능별 사용법.">
+<meta name="twitter:description" content="할 일, 근무표, 대타, 출퇴근, 근무·급여, 재고·발주까지 쉽게 따라 하는 사용법.">
 <meta name="twitter:image" content="https://claypark.github.io/dev-page/dandori/og.png">
 <style>
   :root{
@@ -145,116 +145,144 @@
     <span>단도리</span>
   </div>
   <h1>사용설명서</h1>
-  <p class="lede">매장 만들기부터 체크리스트·근무표·출퇴근·정산·재고까지, 기능별로 어떻게 쓰는지 정리했습니다.</p>
+  <p class="lede">단도리를 처음 쓰는 분도 따라 할 수 있게 쉽게 적었어요. 궁금한 기능을 위에서 골라 보세요.</p>
 </header>
 
 <nav>
   <ol>
     <li><a href="#start">1 시작하기</a></li>
-    <li><a href="#checklist">2 체크리스트</a></li>
+    <li><a href="#checklist">2 할 일</a></li>
     <li><a href="#schedule">3 근무표</a></li>
-    <li><a href="#attendance">4 출퇴근</a></li>
-    <li><a href="#wage">5 근태·정산</a></li>
-    <li><a href="#inventory">6 재고·발주</a></li>
-    <li><a href="#notice">7 소식·알림</a></li>
-    <li><a href="#members">8 직원·권한</a></li>
-    <li><a href="#plan">9 요금제</a></li>
-    <li><a href="#faq">10 자주 묻는 질문</a></li>
+    <li><a href="#cover">4 대타</a></li>
+    <li><a href="#attendance">5 출퇴근</a></li>
+    <li><a href="#auto">6 자동 출퇴근</a></li>
+    <li><a href="#wage">7 근무·급여</a></li>
+    <li><a href="#inventory">8 재고·발주</a></li>
+    <li><a href="#notice">9 소식·알림</a></li>
+    <li><a href="#members">10 직원·권한</a></li>
+    <li><a href="#plan">11 요금제</a></li>
+    <li><a href="#faq">12 자주 묻는 질문</a></li>
   </ol>
 </nav>
 
 <!-- 1 -->
 <section id="start">
   <h2><span class="num">1</span>시작하기</h2>
-  <p class="sub">매장을 만들고 직원을 부르기까지 5분이면 됩니다.</p>
+  <p class="sub">매장을 만들고 직원을 부르는 데 5분이면 돼요.</p>
   <div class="cols">
     <div class="body">
 
     <h3>사장님이 처음 할 일</h3>
     <ol class="steps">
-      <li>앱을 설치하고 <strong>구글 또는 애플 계정으로 로그인</strong>합니다. 매장에서 쓸 이름과 <strong>생년월일</strong>을 한 번 입력합니다.</li>
-      <li><strong>매장 만들기</strong>를 고르고 매장 이름과 업종을 입력합니다.</li>
-      <li><strong>영업시간</strong>을 요일별로 지정합니다. 이 시간을 기준으로 근무표 화면이 그려집니다.</li>
-      <li><strong>시간대</strong>(오픈·미들·마감처럼 하루를 나누는 구간)를 정합니다. 업종을 고르면 기본값이 채워지니 이름과 시간만 손보면 됩니다.</li>
+      <li>앱을 열어요.</li>
+      <li><strong>구글</strong>이나 <strong>애플</strong> 계정으로 로그인해요. 따로 가입할 건 없어요.</li>
+      <li>내 이름과 <strong>생년월일</strong>을 적어요.</li>
+      <li><strong>매장 만들기</strong>를 눌러요.</li>
+      <li>매장 이름을 적고, 업종(치킨·카페 같은 가게 종류)을 골라요.</li>
+      <li><strong>영업시간</strong>을 정해요. 몇 시에 열고 몇 시에 닫는지 적으면 돼요.</li>
+      <li><strong>시간대</strong>를 나눠요. 시간대는 하루를 나눈 근무 구간이에요(예: 오픈 준비, 영업, 마감). 한 타임, 2교대, 3교대 중에 고르면 앱이 알아서 나눠 줘요.</li>
     </ol>
 
-    <h3>직원 초대하기</h3>
-    <p>매장 탭 → <strong>직원</strong>에서 초대 코드나 QR을 만듭니다. 직원은 앱을 설치한 뒤 코드를 입력하거나 QR을 찍으면 바로 합류합니다.</p>
-    <p><strong>코드도 QR도 직책별로 따로 있습니다.</strong> 직원용·알바용이 기본이고, 사장님에게는 점장용이 하나 더 보입니다. QR 화면 위쪽에서 직책을 고르면 그 직책의 QR로 바뀝니다 — 알바에게 점장용을 주지 않도록 고른 뒤에 보여주세요.</p>
-    <p>코드는 한 번 만들면 여러 명이 씁니다. 알바를 새로 뽑을 때마다 다시 만들 필요 없이 같은 코드를 보내면 됩니다. 코드가 밖으로 샜다면 새로 발급해 이전 코드를 무효로 만드세요.</p>
-    <p>합류한 직원은 <strong>본인 계정 이름</strong>으로 표시됩니다. 계정 이름을 바꾸면 매장 표시도 함께 바뀝니다.</p>
-
-    <h3>첫 주에 해두면 좋은 것</h3>
+    <h3>직원 부르기(초대)</h3>
     <ol class="steps">
-      <li><strong>할 일 등록</strong> — 오픈·마감에 늘 하는 일을 먼저 넣습니다. 완벽하지 않아도 되고, 쓰면서 다듬는 편이 빠릅니다.</li>
-      <li><strong>근무 패턴 짜기</strong> — 요일별로 누가 언제 나오는지 한 번 채워두면 매주 반복됩니다.</li>
-      <li><strong>시급 입력</strong> — 직원별 시급을 넣어두면 정산이 자동으로 계산됩니다.</li>
-      <li><strong>출퇴근 인증 켜기</strong> — 매장에서 찍는지 확인이 필요하면 이때 켭니다.</li>
+      <li>아래 <strong>매장</strong> 탭을 눌러요.</li>
+      <li><strong>직원</strong>을 눌러요.</li>
+      <li>초대 버튼을 누르면 → 초대 코드와 QR이 나와요.</li>
+      <li>코드를 카톡으로 보내거나, 직원에게 QR을 찍게 해요.</li>
+      <li>직원이 앱에서 코드를 넣으면 → 매장에 들어와요.</li>
+    </ol>
+    <p>코드는 <strong>직책마다 달라요</strong>. 직원용, 알바용이 있고, 사장님에게는 점장용이 하나 더 보여요. QR 화면 위에서 직책을 먼저 고른 다음 보여 주세요.</p>
+    <p>코드 하나를 여러 명이 같이 써도 돼요. 코드가 밖으로 퍼졌다면 새로 만들어요. 그러면 예전 코드는 못 써요.</p>
+
+    <h3>첫 주에 해 두면 좋아요</h3>
+    <ol class="steps">
+      <li><strong>할 일 넣기</strong>: 오픈·마감 때 매일 하는 일을 적어요.</li>
+      <li><strong>근무표 짜기</strong>: 누가 무슨 요일에 일하는지 한 번만 정해요. 그러면 매주 똑같이 나와요.</li>
+      <li><strong>시급 넣기</strong>: 직원마다 시급을 적으면 급여가 저절로 계산돼요.</li>
+      <li><strong>출퇴근 확인 켜기</strong>: 매장에서 찍었는지 확인하고 싶을 때 켜요.</li>
     </ol>
 
+    <h3>화면 옮겨 다니기</h3>
+    <ul>
+      <li>맨 아래에 탭이 다섯 개 있어요: 홈, 할일, 근무표, 매장, 설정.</li>
+      <li>홈과 근무표 오른쪽 아래 <strong>+ 버튼</strong>을 누르면 → 자주 쓰는 메뉴가 나와요. 맨 위 <strong>메뉴 찾기</strong>로 메뉴 이름을 검색할 수도 있어요.</li>
+      <li>뒤로 가기를 누르면 → 바로 전 화면으로 가요.</li>
+      <li>홈이 아닌 탭에서 뒤로 가기를 누르면 → 홈 탭으로 가요.</li>
+      <li>홈에서 뒤로 가기를 누르면 → 한 번 더 누르면 앱이 닫혀요 라는 안내가 나와요. 2초 안에 한 번 더 누르면 앱이 닫혀요.</li>
+    </ul>
 
     <div class="tip">
       <b>알아두면 좋아요</b>
-      <p>매장이 여러 곳이면 홈 화면 위쪽 매장 이름을 눌러 전환합니다. 직원으로 참여하는 매장은 개수 제한이 없습니다.</p>
+      <p>매장이 여러 곳이면 홈 맨 위 매장 이름을 눌러서 바꿔요. 직원으로 들어가는 매장은 몇 개든 괜찮아요.</p>
     </div>
     </div>
     <aside class="shots">
       <figure>
-        <img src="guide-img/login.png" alt="" loading="lazy">
-        <figcaption>로그인 — 구글 또는 애플 계정으로 시작합니다. 따로 가입할 것은 없습니다.</figcaption>
+        <img src="guide-img/login.png" alt="로그인 화면" loading="lazy">
+        <figcaption>로그인 화면이에요. 구글이나 애플 계정으로 시작해요.</figcaption>
       </figure>
-    <figure>
-      <img src="guide-img/storehub.png" alt="매장 탭 화면">
-      <figcaption>매장 탭 — 직원·소식·재고·매장 설정으로 들어가는 입구입니다. 매장 이름 아래에 내 이름과 직책이 보입니다.</figcaption>
-    </figure>
     </aside>
   </div>
 </section>
 
 <!-- 2 -->
 <section id="checklist">
-  <h2><span class="num">2</span>오픈·마감 체크리스트</h2>
-  <p class="sub">할 일을 한 번 등록해두면 매일 그날 근무자에게 자동으로 배정됩니다.</p>
+  <h2><span class="num">2</span>오픈·마감 할 일</h2>
+  <p class="sub">할 일을 한 번 넣어 두면, 매일 그날 일하는 사람에게 저절로 나와요.</p>
   <div class="cols">
     <div class="body">
 
-    <h3>할 일 등록</h3>
-    <p>할일 탭 오른쪽 위 설정 아이콘 → <strong>할 일 관리</strong>에서 항목을 추가합니다. 항목마다 이렇게 정할 수 있습니다.</p>
+    <h3>할 일 넣기</h3>
+    <ol class="steps">
+      <li><strong>할일</strong> 탭을 눌러요.</li>
+      <li>오른쪽 위 설정 아이콘을 눌러요.</li>
+      <li><strong>할일 관리</strong>를 눌러요.</li>
+      <li>할 일을 추가해요.</li>
+    </ol>
+    <p>할 일마다 이런 걸 정할 수 있어요.</p>
     <ul>
-      <li><strong>시간대</strong> — 오픈에 할 일인지 마감에 할 일인지</li>
-      <li><strong>파트</strong> — 주방·홀처럼 담당이 나뉘면 지정 (안 정하면 전원에게 보입니다)</li>
-      <li><strong>요일</strong> — 매일이 아니라 특정 요일만 하는 일이면 지정</li>
-      <li><strong>사진 인증</strong> — 켜면 완료할 때 사진을 반드시 찍어야 합니다</li>
-      <li><strong>더블체크</strong> — 켜면 직원이 완료한 뒤 관리자가 한 번 더 확인합니다</li>
+      <li><strong>시간대</strong>: 오픈 때 할 일인지, 마감 때 할 일인지</li>
+      <li><strong>파트</strong>: 주방·홀처럼 맡은 곳(안 정하면 모두에게 보여요)</li>
+      <li><strong>요일</strong>: 매일 하는 게 아니라 정해진 요일에만 하는 일</li>
+      <li><strong>사진 인증</strong>: 켜면 사진을 찍어야 끝낼 수 있어요</li>
+      <li><strong>더블체크</strong>: 켜면 직원이 끝낸 뒤 관리자가 한 번 더 확인해요</li>
     </ul>
 
+    <h3>직원은 이렇게 써요</h3>
+    <ol class="steps">
+      <li><strong>할일</strong> 탭을 눌러요.</li>
+      <li>오늘 내가 할 일만 보여요.</li>
+      <li>다 한 일을 누르면 → 끝낸 표시가 돼요.</li>
+      <li>사진 인증이 켜진 일은 → 카메라가 열려요. 사진을 찍어야 끝나요.</li>
+      <li>잘못 눌렀으면 한 번 더 눌러서 되돌려요.</li>
+    </ol>
+    <p>위쪽 칩을 누르면 시간대나 파트별로 골라 볼 수 있어요.</p>
 
-    <h3>직원이 보는 화면</h3>
-    <p>직원은 할일 탭에서 <strong>오늘 자기가 할 일</strong>만 봅니다. 파트를 지정한 항목은 그 파트 사람에게만 보이고, 지정하지 않은 항목은 전원에게 보입니다. 위쪽 칩으로 시간대나 파트를 걸러 볼 수도 있습니다.</p>
-    <p>완료는 항목을 누르기만 하면 됩니다. 사진 인증이 켜진 항목은 카메라가 바로 열리고, 찍지 않으면 완료되지 않습니다. 더블체크가 켜진 항목은 직원이 완료한 뒤 <strong>관리자가 한 번 더 확인</strong>해야 최종 완료가 됩니다. 실수로 눌렀다면 다시 눌러 되돌릴 수 있습니다.</p>
-
-    <h3>기록 확인</h3>
-    <p>홈의 <strong>활동 기록</strong>에서 그날 있었던 일을 시간순 장부로 볼 수 있습니다. 완료·취소·출퇴근·재고 기입이 한 줄씩 쌓이고, 분류나 직원으로 걸러서 볼 수 있습니다.</p>
-    <p>줄마다 <strong>누가</strong> 했는지가 함께 남습니다. “이거 누가 했지”를 묻지 않아도 되고, 반대로 빠진 일이 있으면 언제 끊겼는지 거슬러 볼 수 있습니다.</p>
-    <p>날짜를 넘겨 지난날도 볼 수 있습니다. 재고·발주는 <strong>기입한 날</strong>에 남고, 대상 날짜가 다르면 함께 표시됩니다.</p>
+    <h3>누가 했는지 보기</h3>
+    <ol class="steps">
+      <li>홈에서 <strong>활동 기록</strong>을 눌러요.</li>
+      <li>그날 있었던 일이 시간 순서대로 나와요.</li>
+      <li>줄마다 <strong>누가 했는지</strong> 함께 나와요.</li>
+    </ol>
+    <p>할 일 끝내기, 취소, 출퇴근, 재고 기입이 한 줄씩 쌓여요. 날짜를 넘기면 지난날도 볼 수 있어요.</p>
 
     <div class="tip">
-      <b>주의</b>
-      <p>취소된 완료도 기록에 남습니다. 되돌려도 흔적이 사라지지 않으니 안심하고 쓰셔도 됩니다.</p>
+      <b>알아두면 좋아요</b>
+      <p>취소한 것도 기록에 남아요. 되돌려도 흔적은 지워지지 않아요.</p>
     </div>
     </div>
     <aside class="shots">
-    <figure>
-      <img src="guide-img/tasks.png" alt="오늘 할 일 화면">
-      <figcaption>할일 탭 — 완료한 항목에는 <strong>누가 몇 시에</strong> 했는지가 남습니다. 인수인계 다툼이 사라지는 지점입니다.</figcaption>
-    </figure>
       <figure>
-        <img src="guide-img/tasks_manage.png" alt="" loading="lazy">
-        <figcaption>할 일 관리 — 시간대·파트·요일과 사진 인증·더블체크를 항목마다 정합니다.</figcaption>
+        <img src="guide-img/tasks.png" alt="오늘 할 일 화면" loading="lazy">
+        <figcaption>할일 탭이에요. 끝낸 일에는 누가 몇 시에 했는지 남아요.</figcaption>
       </figure>
       <figure>
-        <img src="guide-img/history.png" alt="" loading="lazy">
-        <figcaption>활동 기록 — 완료·취소·출퇴근·재고 기입이 시간순 장부로 쌓입니다.</figcaption>
+        <img src="guide-img/tasks_manage.png" alt="할일 관리 화면" loading="lazy">
+        <figcaption>할일 관리예요. 시간대·파트·요일, 사진 인증, 더블체크를 정해요.</figcaption>
+      </figure>
+      <figure>
+        <img src="guide-img/history.png" alt="활동 기록 화면" loading="lazy">
+        <figcaption>활동 기록이에요. 그날 있었던 일이 시간 순서대로 쌓여요.</figcaption>
       </figure>
     </aside>
   </div>
@@ -263,353 +291,566 @@
 <!-- 3 -->
 <section id="schedule">
   <h2><span class="num">3</span>근무표</h2>
-  <p class="sub">패턴을 한 번 짜두면 매주 반복됩니다. 바뀌는 날만 손대면 됩니다.</p>
+  <p class="sub">매주 근무표를 한 번 짜 두면 매주 똑같이 나와요. 바뀌는 날만 고치면 돼요.</p>
   <div class="cols">
     <div class="body">
 
-    <h3>근무 패턴 짜기</h3>
-    <p>근무표 탭 → <strong>근무 패턴 편집</strong>에서 요일 × 시간대 격자에 직원을 체크합니다. 여기서 저장한 내용이 매주 되풀이됩니다.</p>
-    <p>2주씩 번갈아 도는 매장이라면 <strong>1주차 / 2주차</strong> 탭을 각각 채우면 됩니다.</p>
+    <h3>근무표 보기</h3>
+    <ul>
+      <li>아래 <strong>근무표</strong> 탭을 눌러요.</li>
+      <li>맨 위 <strong>‹ ›</strong>를 누르면 → 지난주, 다음 주로 넘어가요.</li>
+      <li><strong>[오늘]</strong>을 누르면 → 오늘이 있는 주로 돌아와요.</li>
+      <li><strong>[주간] [월간]</strong>을 누르면 → 한 주씩 보기, 한 달씩 보기로 바뀌어요.</li>
+    </ul>
+
+    <h3>주간 보기 읽는 법</h3>
+    <ul>
+      <li>시간대마다 <strong>큰 칸 하나</strong>가 있어요(예: 영업 16:00~23:00).</li>
+      <li>칸 안에 그 시간에 일하는 사람 이름이 한 줄에 한 명씩 있어요.</li>
+      <li><strong>내 이름</strong>은 굵은 글씨에 밑줄이 있어요.</li>
+      <li>남들과 <strong>시간이 다른 사람</strong>은 칸 오른쪽에 <strong>색깔 세로줄</strong>로 나와요. 줄이 시작하는 곳이 출근 시간, 끝나는 곳이 퇴근 시간이에요.</li>
+      <li>그 사람 이름도 칸 안에 줄과 같은 색 글씨로 적혀 있어요. 색을 보면 누구 줄인지 알 수 있어요.</li>
+      <li>사람이 많아 다 안 들어가면 <strong>+2</strong>처럼 숫자로 나와요.</li>
+      <li>칸을 누르면 → 그날 일하는 사람 모두가 나와요. 몇 시부터 몇 시까지인지, 어느 파트인지도 나와요.</li>
+    </ul>
+
+    <h3>월간 보기 읽는 법</h3>
+    <ul>
+      <li>날짜마다 <strong>동그란 점</strong>이 있어요. 점 하나가 한 사람이에요.</li>
+      <li>점 안에는 이름 첫 글자가 있어요.</li>
+      <li>사람마다 점 색이 정해져 있어요. 맨 위에 어떤 점이 누구인지 이름이 적혀 있어요.</li>
+      <li><strong>내 점</strong>은 테두리가 있어요.</li>
+      <li>날짜를 누르면 → 그날 일하는 사람 모두가 나와요.</li>
+    </ul>
+
+    <h3>매주 근무표 짜기(사장님·근무표 편집 권한이 있는 사람)</h3>
+    <ol class="steps">
+      <li>근무표 탭에서 <strong>[편집]</strong>을 눌러요.</li>
+      <li><strong>매주 근무표 편집</strong> 화면이 열려요. 근무표와 똑같이 생겼어요.</li>
+      <li>바꾸고 싶은 칸을 눌러요.</li>
+      <li><strong>몇 시부터 몇 시까지 해요?</strong>에서 시간을 정해요.</li>
+      <li><strong>누가 일해요?</strong>에서 이름을 눌러서 넣고 빼요.</li>
+      <li><strong>다른 요일도 똑같이 할까요?</strong>에서 같은 근무를 할 요일을 골라요.</li>
+      <li>[저장]을 눌러요. 그러면 칸이 바뀌어요.</li>
+      <li>다 고쳤으면 화면 위 <strong>[저장]</strong>을 눌러요.</li>
+      <li><strong>언제부터 적용할까요?</strong>가 나오면 오늘부터, 다음 주 월요일부터, 날짜 직접 선택 중에 골라요.</li>
+    </ol>
+    <p>고른 날 전의 근무표는 그대로 남아요.</p>
+    <ul>
+      <li><strong>한 사람만 시간이 달라요</strong>: 칸에서 그 사람 이름 옆 시간을 눌러요 → 그 사람만 시간과 파트를 바꿀 수 있어요.</li>
+      <li><strong>새 시간대 만들기</strong>: 빈 곳을 누르거나 시간대 만들기를 눌러요 → 이름, 시간, 요일을 정해요.</li>
+      <li><strong>시간대 지우기</strong>: 칸을 누르고 아래 지우기를 눌러요. 그 요일에 일하던 사람도 함께 빠져요.</li>
+      <li><strong>칸이 겹쳐서 누르기 어려워요</strong>: 맨 위 요일 글자를 눌러요 → 그 요일 시간대 목록이 나와요. 목록에서 고쳐요.</li>
+      <li><strong>2주씩 번갈아 일해요</strong>: 더보기를 눌러 주기를 바꿔요. 그러면 1주차, 2주차를 따로 짤 수 있어요.</li>
+      <li>저장하지 않고 나가려고 하면 → 앱이 한 번 더 물어봐요.</li>
+    </ul>
+    <p>한 사람의 근무만 고치고 싶으면 매장 탭 → 직원 → 그 사람 옆 ⋮ → <strong>근무 요일·시간</strong>을 눌러도 돼요.</p>
 
     <div class="tip">
       <b>만 18세 미만 직원</b>
-      <p>만 18세 미만은 밤 10시~새벽 6시 근무가 법으로 제한됩니다(근로기준법 제70조). 그 시간에 닿는 시간대에 배정하려 하면 앱이 막고 이유를 알려드립니다. 생년월일이 없는 직원은 나이를 알 수 없어 막지 않으니, 설정 → 계정에서 채우도록 알려 주세요.</p>
+      <p>만 18세가 안 된 사람은 밤 10시부터 새벽 6시까지 일할 수 없어요(법으로 정해져 있어요). 그 시간에 넣으려고 하면 앱이 막고 이유를 알려 줘요. 생년월일을 안 적은 직원은 앱이 나이를 몰라서 막지 못해요.</p>
     </div>
 
-    <h3>특정 날짜만 바꾸기</h3>
-    <p>주간 화면에서 날짜 칸을 눌러 그날만 사람을 넣거나 뺄 수 있습니다. 패턴은 그대로 두고 그날만 예외로 처리됩니다. 다음 주에는 원래 패턴대로 돌아옵니다.</p>
-    <p>영업시간을 바꾸면 근무 시간대도 함께 따라옵니다. 여름·겨울 영업시간이 다른 매장이라면 영업시간만 손보면 근무표가 알아서 맞춰집니다.</p>
+    <h3>오늘 하루만 바꾸기</h3>
+    <ol class="steps">
+      <li>근무표에서 그날 칸을 눌러요.</li>
+      <li>그날 일하는 사람 목록이 나와요.</li>
+      <li><strong>[배정 편집]</strong>을 눌러요.</li>
+      <li>사람을 넣거나 빼요.</li>
+      <li>[저장]을 눌러요.</li>
+    </ol>
+    <p>여기서 바꾼 건 <strong>그날만</strong> 바뀌어요. 다음 주는 원래대로 나와요. 매주 바꾸고 싶으면 아래 <strong>매주 바꾸려면 매주 패턴에서</strong>를 눌러요. 그러면 매주 근무표 편집으로 가요.</p>
 
-
-    <h3>한 달을 한눈에</h3>
-    <p>월간 보기에서는 날짜마다 그날 근무자 이름이 뜹니다. <strong>네 명까지 이름이 보이고</strong>, 더 많으면 <strong>+N</strong>으로 접힙니다. 날짜를 누르면 그날 전체 근무자와 시간대를 볼 수 있습니다.</p>
-    <p>내 근무일은 배경이 옅게 칠해져 있어 달력만 훑어도 이번 달 내 일정이 잡힙니다.</p>
-
-    <h3>직원의 근무 변경·휴가 요청</h3>
-    <p>직원이 근무표에서 본인 근무를 눌러 휴무·휴가를 신청하거나 추가 근무를 요청할 수 있습니다. 요청이 오면 매장 탭 맨 위 <strong>요청</strong>에 뱃지가 뜨고, 승인하면 근무표에 바로 반영됩니다.</p>
-    <p>추가 근무를 요청할 때는 <strong>어느 시간대인지</strong>(영업·재료준비·마감처럼 매장이 정한 구간)를 함께 고릅니다. 그 날 여는 시간대만 보이고, 정해진 구간이 아니면 ‘희망 시간을 직접 정할게요’로 시작·종료를 적으면 됩니다.</p>
+    <h3>직원이 근무를 바꾸고 싶을 때</h3>
+    <ol class="steps">
+      <li>근무표에서 내 근무 칸을 눌러요.</li>
+      <li><strong>[변경 요청]</strong>을 누르면 → 그날 쉬겠다고 요청할 수 있어요.</li>
+      <li><strong>[시간 변경]</strong>을 누르면 → 다른 시간에 일하겠다고 요청할 수 있어요.</li>
+      <li>요청은 사장님의 <strong>결재함</strong>(요청을 모아 두는 곳)으로 가요.</li>
+      <li>사장님이 승인하면 → 근무표가 바로 바뀌어요.</li>
+    </ol>
     </div>
-    <aside class="shots">
-    <figure>
-      <img src="guide-img/schedule.png" alt="주간 근무표 화면">
-      <figcaption>주간 근무표 — 영업시간 밖은 흐리게 표시됩니다. 월간 보기로 넘기면 한 달 배치를 한눈에 볼 수 있습니다.</figcaption>
-    </figure>
-      <figure>
-        <img src="guide-img/schedule_month.png" alt="" loading="lazy">
-        <figcaption>월간 근무표 — 날짜마다 근무자 이름이 최대 네 명까지 보입니다. 내 근무일은 배경이 옅게 칠해집니다.</figcaption>
-      </figure>
-    </aside>
   </div>
 </section>
 
 <!-- 4 -->
-<section id="attendance">
-  <h2><span class="num">4</span>출퇴근</h2>
-  <p class="sub">버튼 한 번으로 찍고, 정말 매장에서 찍었는지는 앱이 확인합니다.</p>
+<section id="cover">
+  <h2><span class="num">4</span>대타 구하기</h2>
+  <p class="sub">못 나가는 날, 대신 일할 사람을 앱에서 찾아요. 단톡방에서 묻지 않아도 돼요.</p>
   <div class="cols">
     <div class="body">
 
-    <h3>찍는 방법</h3>
-    <p>홈 화면 내 근무 카드에서 <strong>출근하기 / 퇴근하기</strong>를 누릅니다. 확인 창이 한 번 뜨니 실수로 눌러도 괜찮습니다.</p>
+    <h3>대타를 구할 때(직원)</h3>
+    <ol class="steps">
+      <li>근무표에서 내 근무 칸을 눌러요. 홈의 내 근무 카드나 + 버튼의 <strong>대타 구하기</strong>를 눌러도 돼요.</li>
+      <li><strong>[대타 구해요]</strong>를 눌러요.</li>
+      <li>이유를 적어요. 안 적어도 괜찮아요.</li>
+      <li><strong>[동료에게 알리기]</strong>를 눌러요.</li>
+      <li>그 시간에 일할 수 있는 동료에게 알림이 가요.</li>
+    </ol>
+    <p>대타는 <strong>근무 시작 2시간 전까지만</strong> 구할 수 있어요. 그 뒤에는 사장님께 직접 연락해 주세요.</p>
 
+    <h3>내가 대신 일할 수 있을 때(동료)</h3>
+    <ol class="steps">
+      <li>알림을 누르거나 근무표 탭을 열어요.</li>
+      <li>맨 위에 <strong>대타 찾는 중</strong> 칸이 있어요.</li>
+      <li><strong>[저 가능해요]</strong>를 눌러요. 이걸 손들기라고 불러요.</li>
+      <li>마음이 바뀌면 [취소]를 눌러 손을 내려요.</li>
+    </ol>
+    <p>공동 사장님(사장님이 두 명인 매장의 다른 사장님)도 손들 수 있어요.</p>
 
-    <h3>현장 확인 설정 (사장님)</h3>
-    <p>매장 설정 → <strong>출퇴근 인증</strong>에서 켜고, 확인 방법을 고릅니다.</p>
+    <h3>누가 할지 정하기(사장님·결재 권한이 있는 점장님)</h3>
+    <ol class="steps">
+      <li>근무표 맨 위 <strong>대타 찾는 중</strong>이나 매장 탭 → 결재함을 봐요.</li>
+      <li><strong>[정하기]</strong>를 눌러요.</li>
+      <li>손든 사람 중 한 명 옆 <strong>[이 분으로]</strong>를 눌러요.</li>
+      <li>근무표가 바로 바뀌어요. 원래 사람은 빠지고, 고른 사람이 들어가요.</li>
+    </ol>
     <ul>
-      <li><strong>Wi-Fi + 위치</strong> (권장) — 매장 Wi-Fi를 먼저 확인하고, 안 되면 위치로 확인합니다</li>
-      <li><strong>위치만</strong> — 지도에 찍은 매장 위치에서 정해진 반경 안인지로만 확인합니다</li>
-      <li><strong>Wi-Fi만</strong> — 매장 Wi-Fi 연결로만 확인합니다</li>
+      <li>손든 사람이 없어요 → <strong>[직접 배정]</strong>을 눌러요. 손들지 않은 직원에게 바로 맡길 수 있어요. 공동 사장님도 목록에 나와요.</li>
+      <li>사장님이 직접 일할게요 → <strong>[제가 할게요]</strong>를 눌러요.</li>
+      <li>대타가 필요 없어졌어요 → <strong>[요청 닫기]</strong>를 눌러요.</li>
     </ul>
-    <p>고른 방법에 필요한 설정(지도 위치 / Wi-Fi 등록)만 화면에 나타납니다.</p>
 
     <div class="tip">
-      <b>밖에서 찍으면 어떻게 되나요?</b>
-      <p>막지 않습니다. 대신 <strong>사유를 적어야</strong> 기록되고, 활동 기록과 근태 화면에 <strong>‘외부’</strong> 표시와 사유가 함께 남습니다. 외근이나 대타처럼 정당한 경우를 막지 않으면서, 사장님은 무슨 일이 있었는지 알 수 있습니다.</p>
+      <b>대타를 못 구하면</b>
+      <p>근무 2시간 전까지 아무도 정해지지 않으면 요청이 저절로 닫혀요. 그리고 사장님께 대타를 못 구했다는 알림이 가요.</p>
     </div>
-
-    <h3>밖에서 찍히면 알려드립니다</h3>
-    <p>직원이 인증 범위 밖에서 출근하거나 퇴근하면 <strong>사장님과 매니저에게 알림</strong>이 갑니다. 매장 탭 맨 위 <strong>요청</strong>에도 함께 잡히고, <strong>확인</strong>을 누르면 목록에서 내려갑니다.</p>
-    <div class="tip">
-      <b>승인이 아니라 확인입니다</b>
-      <p>확인을 누르지 않아도 그 근무는 이미 유효합니다. 직원의 출퇴근을 막거나 되돌리는 것이 아니라, 사장님이 <strong>“봤다”</strong>는 표시를 남기는 절차입니다. 알림이 번거로우면 설정 탭 → 알림 설정에서 <strong>매장 밖 출퇴근 알림</strong>만 끌 수 있습니다.</p>
     </div>
-
-    <h3>시간이 잘못 찍혔다면</h3>
-    <p>직원이 정정 요청을 보내면 매장 탭 → <strong>요청</strong>에서 승인할 수 있습니다. 원래 기록은 지워지지 않고, 승인된 정정이 반영된 시간으로 계산됩니다.</p>
-    <p><strong>사장님은 요청을 기다리지 않고 직접 넣을 수도 있습니다.</strong> 홈의 ‘오늘 근무’에서 그 직원 줄을 누르면 근태 상세가 열리고, 그 날 카드를 한 번 더 누르면 출근·퇴근 시각을 직접 적는 창이 뜹니다. 사유도 함께 남습니다.</p>
-    <p>퇴근을 안 찍고 간 사람을 <strong>대신 퇴근 처리</strong>할 때도 같은 자리를 씁니다. 계약 시간과 다르게 적었다면 사유에 그 이유를 적어두면 나중에 근거가 됩니다.</p>
-    </div>
-    <aside class="shots">
-    <figure>
-      <img src="guide-img/home_staff.png" alt="직원 홈 화면">
-      <figcaption><strong>출퇴근 찍는 화면</strong> — 직원 홈의 내 근무 카드. 출근 시각과 상태가 보이고 아래 버튼으로 퇴근을 찍습니다.</figcaption>
-    </figure>
-      <figure>
-        <img src="guide-img/attend_verify.png" alt="" loading="lazy">
-        <figcaption>출퇴근 인증 설정 — 확인 방법 3가지 중 고르면 필요한 설정만 나타납니다.</figcaption>
-      </figure>
-      <figure>
-        <img src="guide-img/requests.png" alt="" loading="lazy">
-        <figcaption>요청 — 근무 변경·출퇴근 정정과 매장 밖 출퇴근이 여기 모입니다.</figcaption>
-      </figure>
-    </aside>
   </div>
 </section>
 
 <!-- 5 -->
-<section id="wage">
-  <h2><span class="num">5</span>근태·시급 정산</h2>
-  <p class="sub">시급만 넣어두면 연장·주휴까지 계산해 드립니다.</p>
+<section id="attendance">
+  <h2><span class="num">5</span>출퇴근</h2>
+  <p class="sub">버튼 한 번으로 찍어요. 매장에서 찍었는지는 앱이 확인해요.</p>
   <div class="cols">
     <div class="body">
 
-    <h3>시급 넣기</h3>
-    <p>매장 탭 → 직원 → 직원을 고르면 <strong>시급·정산</strong> 항목이 있습니다. 시급은 사장님과 본인만 볼 수 있습니다.</p>
+    <h3>출퇴근 찍기</h3>
+    <ol class="steps">
+      <li>홈의 내 근무 카드를 봐요.</li>
+      <li><strong>[출근하기]</strong>를 눌러요.</li>
+      <li>확인 창이 나오면 한 번 더 눌러요.</li>
+      <li>일이 끝나면 같은 자리에서 <strong>[퇴근하기]</strong>를 눌러요.</li>
+    </ol>
+    <p>깜빡하면 앱이 알려 줘요. 근무 시작 10분이 지나도 출근을 안 찍었으면 출근 찍으셨나요? 알림이 와요. 근무가 끝나고 20분이 지나도 퇴근을 안 찍었으면 퇴근을 찍어 달라는 알림이 와요.</p>
 
-    <h3>무엇을 기준으로 계산하나요</h3>
+    <h3>매장에서 찍었는지 확인하기(사장님)</h3>
+    <ol class="steps">
+      <li>매장 탭 → <strong>매장 설정</strong>을 눌러요.</li>
+      <li><strong>출퇴근 인증</strong>을 켜요.</li>
+      <li>확인하는 방법을 골라요.</li>
+    </ol>
     <ul>
-      <li><strong>출근·퇴근이 모두 찍힌 날</strong> — 실제 찍힌 시간으로 계산합니다</li>
-      <li><strong>안 찍었거나 퇴근을 안 찍은 날</strong> — 계산에 넣지 않습니다(0시간). 근태·급여 화면에 <strong>‘타각 누락 n일’</strong>로 표시되니 눌러서 시간을 채워 주세요</li>
-      <li><strong>아직 오지 않은 날</strong> — 계산에 넣지 않습니다</li>
+      <li><strong>Wi-Fi+위치</strong>(추천): 매장 Wi-Fi를 먼저 봐요. 안 되면 위치로 봐요.</li>
+      <li><strong>위치만</strong>: 지도에 찍은 매장 근처인지 봐요. 얼마나 가까워야 하는지(반경)도 정해요.</li>
+      <li><strong>Wi-Fi만</strong>: 매장 Wi-Fi에 연결됐는지만 봐요.</li>
     </ul>
-    <p>여기에 주 40시간을 넘는 <strong>연장</strong>과 <strong>주휴 발생</strong> 여부까지 자동으로 잡힙니다.</p>
 
-    <h3>주휴수당·가산수당 (근로기준법)</h3>
-    <p>기본값은 <strong>지금까지와 똑같이</strong> ‘실제 일한 시간 × 시급’입니다. 아래 두 가지는 매장 설정 → 정산에서 <strong>켜야</strong> 금액에 붙습니다. 켜기 전에는 정산액이 달라지지 않습니다.</p>
+    <div class="tip">
+      <b>매장 밖에서 찍으면 어떻게 돼요?</b>
+      <p>막지 않아요. 대신 이유를 적어야 해요. 기록에는 외부 표시와 이유가 남아요. 사장님과 점장님에게 알림이 가고, 결재함에도 들어가요. [확인]을 누르면 목록에서 사라져요. 확인을 안 눌러도 그 근무는 그대로 인정돼요.</p>
+    </div>
+
+    <h3>출퇴근을 빠뜨렸을 때(직원)</h3>
+    <ol class="steps">
+      <li>홈에 빠진 기록이 있다는 카드가 나와요.</li>
+      <li>카드를 눌러 출근·퇴근 시간을 적어요.</li>
+      <li>사장님이 승인하면 → 급여 계산에 들어가요.</li>
+    </ol>
     <ul>
-      <li><strong>사업장 규모</strong> — 연장·야간 가산수당(50%)은 상시 근로자 <strong>5인 이상</strong> 사업장만 법으로 의무입니다(근로기준법 제56조). 우리 매장이 어느 쪽인지 골라 주세요.</li>
-      <li><strong>주휴수당 포함</strong> — 켜면 주 15시간 이상 일한 주마다 하루치가 더해집니다(제55조). 끄면 ‘주휴 발생 n주’ 표시도 나오지 않습니다.</li>
+      <li>그날 정말 일을 안 했다면 <strong>이 날은 일하지 않았어요</strong>를 눌러요. 그러면 내 폰에서 그 알림만 꺼져요.</li>
+      <li>근무·급여 화면에서 빠진 날을 누르면 <strong>이날 쉬었어요</strong> 버튼이 있어요. 누르면 사장님께 그날 쉬었다는 요청이 가요. 사장님이 승인하면 그날은 빠진 날이 아니라 쉰 날이 돼요.</li>
     </ul>
-    <p>야간(밤 10시~새벽 6시) 근무 시간은 근태 파일에 따로 한 칸으로 나갑니다. 휴게시간은 <strong>급여에서 빼지 않습니다</strong> — 4시간 넘게 일하면 30분, 8시간 넘으면 1시간을 주어야 한다는 것이 법이고(제54조), 단도리는 찍힌 시간을 그대로 계산합니다.</p>
+    <p>사장님은 홈에서 출퇴근을 빠뜨린 직원을 볼 수 있어요. <strong>빠진 직원에게 알림</strong>을 누르면 그 직원에게 알림이 가요.</p>
 
-
-    <h3>분 단위 반올림</h3>
-    <p>매장 설정 → <strong>정산</strong>에서 반올림 <strong>단위</strong>를 고를 수 있습니다. 기본은 ‘없음’(기록된 그대로)이라 1분 단위로 계산됩니다.</p>
-    <p>단위를 1분보다 크게 잡으면 <strong>방식</strong>도 고를 수 있습니다.</p>
+    <h3>시간이 잘못 찍혔을 때</h3>
     <ul>
-      <li><strong>반올림</strong> — 가까운 쪽으로 맞춥니다. 10분 단위면 54분은 50분, 55분은 1시간입니다. 단위의 절반에 못 미치면 내려갑니다.</li>
-      <li><strong>올림</strong> — 항상 위로 올립니다. 30분 단위면 4시간 31분이 5시간입니다. 일한 시간이 깎이지 않습니다.</li>
+      <li><strong>직원</strong>: 그날 기록을 눌러 고칠 시간을 적어요 → 정정 요청이 결재함으로 가요. 사장님이 승인하면 고친 시간으로 계산돼요. 처음 기록은 지워지지 않아요.</li>
+      <li><strong>사장님</strong>: 요청을 기다리지 않고 바로 고칠 수 있어요. 홈 오늘 근무에서 그 직원을 눌러요 → 근무·급여 화면에서 그날을 눌러요 → 출근·퇴근 시간을 적고 이유를 남겨요.</li>
+      <li>퇴근을 안 찍고 간 사람도 같은 곳에서 대신 퇴근시켜 줄 수 있어요.</li>
     </ul>
-    <p>반올림이 걸려 실제 근무와 정산 기준이 달라지면, 직원 정보와 정산 상세에 <strong>실근무 옆에 ‘정산’ 시간이 함께</strong> 보입니다. 두 숫자가 같으면 나오지 않습니다.</p>
 
-    <h3>날짜별로 뜯어보기</h3>
-    <p>시급·정산 항목을 누르면 <strong>날짜별 명세</strong>가 열립니다. 그날 몇 시부터 몇 시까지 일했고 얼마인지가 한 줄씩 보이고, 맨 아래에 이 달 합계가 나옵니다. 직원이 “이번 달 얼마예요?”라고 물으면 이 화면을 그대로 보여주면 됩니다.</p>
-    <p>출퇴근이 찍힌 날과 근무표로 채운 날은 표시가 달라 어느 쪽으로 계산됐는지 바로 구분됩니다.</p>
-
-    <h3>내보내기</h3>
-    <p>근태·급여 화면 오른쪽 위 내보내기를 누르면 <strong>무엇을</strong> 낼지, <strong>어느 기간</strong>을 낼지 차례로 묻습니다.</p>
-    <ul>
-      <li><strong>직원별 합계</strong> — 급여 정산용. 직원 한 명이 한 줄입니다.</li>
-      <li><strong>근무일자별</strong> — 세무·노무 증빙용. 날짜마다 출퇴근·시간·금액이 한 줄씩 들어갑니다.</li>
-    </ul>
-    <p>기간은 보고 있는 정산 기간이 기본이고, <strong>달력에서 직접 고를</strong> 수도 있습니다(최대 366일). 매장 마감일이 8월 25일~9월 25일처럼 월과 어긋날 때 쓰면 됩니다.</p>
-    <p>파일은 <strong>엑셀(.xlsx)</strong>이라 받은 쪽에서 바로 표로 열립니다. 카톡·메일로 그대로 보낼 수 있습니다.</p>
+    <h3>그날 기록을 없던 일로 하기(사장님)</h3>
+    <ol class="steps">
+      <li>그날 기록을 열어요.</li>
+      <li>맨 아래 <strong>이 날 기록 반려하기</strong>를 눌러요.</li>
+      <li>그날 찍은 출퇴근과, 그날 고쳐 넣은 시간(정정)이 <strong>모두 함께</strong> 반려돼요.</li>
+    </ol>
+    <p>반려(받아들이지 않는 것)된 날은 급여 계산에 들어가지 않아요.</p>
     </div>
     <aside class="shots">
-    <figure>
-      <img src="guide-img/wage_total.png" alt="시급 정산 상세 화면">
-      <figcaption>시급·정산 항목을 누르면 날짜별 명세가 열립니다. 아래에 이 달 합계가 나옵니다.</figcaption>
-    </figure>
       <figure>
-        <img src="guide-img/attendance.png" alt="" loading="lazy">
-        <figcaption>근태 — 날짜별 출퇴근 기록과 정정 이력을 봅니다.</figcaption>
+        <img src="guide-img/attend_verify.png" alt="출퇴근 인증 설정 화면" loading="lazy">
+        <figcaption>출퇴근 인증 설정이에요. 확인 방법 세 가지 중에 골라요.</figcaption>
       </figure>
     </aside>
   </div>
 </section>
 
 <!-- 6 -->
-<section id="inventory">
-  <h2><span class="num">6</span>재고·발주</h2>
-  <p class="sub">종이 카운트 시트를 그대로 앱으로 옮겼습니다.</p>
+<section id="auto">
+  <h2><span class="num">6</span>자동 출퇴근(실험실)</h2>
+  <p class="sub">매장에 들어오면 출근, 나가면 퇴근이 저절로 찍혀요. 아직 실험 중인 기능이에요.</p>
   <div class="cols">
     <div class="body">
 
-    <h3>준비하기</h3>
-    <p>매장 설정에서 <strong>재고 관리</strong>를 켜면 할일 탭과 매장 탭에서 들어갈 수 있습니다. 구성은 이렇습니다.</p>
+    <h3>켜기(사장님)</h3>
+    <ol class="steps">
+      <li>매장 탭 → <strong>매장 설정</strong>을 눌러요.</li>
+      <li>출퇴근 칸에서 <strong>자동 출퇴근</strong>을 켜요. 옆에 실험실 표시가 있어요.</li>
+      <li>매장 위치를 아직 안 정했으면 먼저 지도에서 정해요.</li>
+      <li>아래 줄들을 하나씩 정해요.</li>
+    </ol>
     <ul>
-      <li><strong>리스트</strong> — 일일 재고, 주간 발주처럼 세는 묶음</li>
-      <li><strong>섹션</strong> — 셀프바·주방·조미료처럼 <strong>매장 동선 순서</strong>로 두면 세기 편합니다</li>
-      <li><strong>품목</strong> — 이름과 단위(kg·팩·박스)를 넣습니다</li>
+      <li><strong>머문 시간</strong>: 매장에 몇 분 있으면 출근으로 칠지 정해요(예: 5분 머물면 출근).</li>
+      <li><strong>벗어난 시간</strong>: 매장 밖에 몇 분 있으면 퇴근으로 칠지 정해요(예: 5분 벗어나 있으면 퇴근).</li>
+      <li><strong>반경</strong>: 매장에서 몇 m 안까지를 매장 안으로 볼지 정해요. 30m부터 500m까지 고를 수 있고, 처음엔 100m예요.</li>
+      <li><strong>대상 직원</strong>: 자동 출퇴근을 쓸 사람을 골라요.</li>
     </ul>
 
-    <h3>기입하기</h3>
-    <p>왼쪽에 품목, 위에 날짜가 있는 표입니다. 칸을 눌러 수량을 넣습니다. <strong>[재고]</strong>와 <strong>[발주]</strong>를 오가며 쓸 수 있고, 지난 날짜도 채워 넣을 수 있습니다.</p>
+    <h3>직원이 할 일</h3>
+    <ol class="steps">
+      <li>홈에 위치를 항상 허용해 달라는 줄이 나오면 눌러요.</li>
+      <li>위치 권한을 <strong>항상 허용</strong>으로 바꿔요. 앱을 닫아 둬도 들어오고 나간 걸 알 수 있게 하기 위해서예요.</li>
+      <li>이제 매장에 오면 → 머문 시간이 지난 뒤 들어온 시각으로 출근이 찍혀요.</li>
+      <li>매장을 나가면 → 벗어난 시간이 지난 뒤 나간 시각으로 퇴근이 찍혀요.</li>
+    </ol>
 
+    <h3>잠깐 밖에 나갈 때</h3>
+    <ol class="steps">
+      <li>일하는 중에 홈의 내 근무 카드를 봐요.</li>
+      <li><strong>잠깐 나갔다 올게요</strong>를 눌러요.</li>
+      <li>30분, 1시간, 2시간 중에 골라요.</li>
+      <li>그 시간까지는 밖에 있어도 퇴근이 찍히지 않아요.</li>
+    </ol>
+    <p>일찍 돌아왔으면 같은 곳에서 해제를 누르면 돼요.</p>
 
-    <h3>한 품목을 나눠 세기</h3>
-    <p>같은 품목이 여러 상태로 나뉘어 있을 때 씁니다. 예를 들어 족발을 <strong>삶은 것과 중탕한 것</strong>으로 따로 세고 싶다면, 품목 편집에서 <strong>나눠서 세기</strong>를 켜고 칸 이름을 넣으세요.</p>
-    <p>기입할 때는 칸마다 따로 넣고, <strong>재고는 합계로 계산</strong>됩니다. 5와 5를 넣으면 10으로 잡히니 더하실 필요가 없습니다.</p>
+    <h3>사장님도 대상일 때</h3>
+    <p>사장님 홈의 내 근무 카드에 <strong>매장 안 3분째 · 2분 뒤 자동 출근</strong>처럼 남은 시간이 나와요. 매장까지 거리도 함께 나와요. 이 줄을 누르면 → <strong>자동 출퇴근 기록</strong> 화면이 열려요. 언제 들어오고 나갔는지, 얼마나 떨어져 있었는지 볼 수 있어요. 매장 설정의 기록 보기를 눌러도 같은 화면이 열려요.</p>
+    <p>남은 시간 줄은 직원 홈에는 나오지 않아요.</p>
+
     <div class="tip">
       <b>알아두면 좋아요</b>
-      <p>칸은 3~4개까지가 적당합니다. 발주는 나누지 않고 총량으로 넣습니다.</p>
+      <p>휴대폰이 매장을 벗어났다고 알려 주기까지 몇 분 걸릴 수 있어요. 자동으로 찍힌 날은 근무·급여 화면에 자동이라고 적혀 있어요.</p>
     </div>
-
-    <h3>얼마나 썼는지 한눈에</h3>
-    <p>수량 아래에 <strong>직전에 센 날과 견준 증감</strong>이 함께 뜹니다. 지난번 5였는데 오늘 10이면 <strong>+5</strong>, 10이었는데 4면 <strong>−6</strong>입니다. 늘면 초록, 줄면 빨강이라 어느 품목이 빨리 나가는지 표에서 바로 보입니다.</p>
-    <p>기준은 ‘어제’가 아니라 <strong>마지막으로 센 날</strong>입니다. 매일 세지 않아도 증감이 나옵니다. 값이 그대로거나 표에서 처음 센 날은 비교할 대상이 없어 표시하지 않습니다.</p>
-
-    <h3>입고 예정</h3>
-    <p>마지막으로 재고를 센 뒤에 넣은 발주는 <strong>들어올 예정</strong>으로 잡힙니다. 다음에 재고를 세면 자동으로 사라집니다.</p>
-    <h3>엑셀로 내보내기</h3>
-    <p>재고 화면 오른쪽 위 내보내기를 누르면 기간(이번 달·지난 달·직접 선택)을 고르고 <strong>엑셀 파일</strong>을 받습니다. 파일은 탭 세 장입니다.</p>
-    <ul>
-      <li><strong>재고</strong>·<strong>발주</strong> — 화면에서 보던 것과 같은 표(품목 × 날짜)입니다. 열자마자 눈으로 읽힙니다.</li>
-      <li><strong>기입 상세</strong> — 기입 한 건이 한 줄입니다. 메모·기입자·같은 날 고친 이력이 여기에 남고, 피벗으로 분석할 때 씁니다.</li>
-    </ul>
-    <p>발주를 볼 수 없는 직책이면 파일에도 발주가 들어가지 않습니다.</p>
-
     </div>
-    <aside class="shots">
-    <figure>
-      <img src="guide-img/inventory.png" alt="재고 매트릭스 화면">
-      <figcaption>재고·발주 표 — 품목 아래에 현재 수량과 단위가 함께 보입니다.</figcaption>
-    </figure>
-      <figure>
-        <img src="guide-img/inventory_manage.png" alt="" loading="lazy">
-        <figcaption>품목 관리 — 리스트·섹션·품목과 나눠 세기 칸을 설정합니다.</figcaption>
-      </figure>
-    </aside>
   </div>
 </section>
 
 <!-- 7 -->
-<section id="notice">
-  <h2><span class="num">7</span>소식·알림</h2>
-  <p class="sub">단톡방에 묻히던 공지를 확실하게 전달합니다.</p>
+<section id="wage">
+  <h2><span class="num">7</span>근무·급여</h2>
+  <p class="sub">시급만 넣어 두면 일한 시간과 급여를 저절로 계산해 줘요.</p>
   <div class="cols">
     <div class="body">
 
-    <h3>소식 올리기</h3>
-    <p>매장 탭 → <strong>소식</strong>에서 글을 씁니다. 올리면 직원들에게 알림이 가고, 직원 홈 맨 위에 카드로 뜹니다. 중요한 글은 위로 고정할 수 있습니다.</p>
-
-
-    <h3>댓글로 답하기</h3>
-    <p>소식을 누르면 상세 화면이 열리고 <strong>댓글</strong>을 달 수 있습니다. “이번 주 금요일 회식”처럼 답이 필요한 글에 직원이 바로 답할 수 있어, 단톡방으로 새어나가지 않고 매장 기록으로 남습니다.</p>
+    <h3>근무·급여 화면 열기</h3>
     <ul>
-      <li>댓글은 <strong>매장 구성원 누구나</strong> 달 수 있습니다</li>
-      <li>수정은 <strong>쓴 사람만</strong>, 삭제는 쓴 사람과 관리자가 할 수 있습니다</li>
-      <li>댓글이 달리면 <strong>글쓴이와 이미 댓글을 단 사람</strong>에게 알림이 갑니다 — 관심 없는 사람은 울리지 않습니다</li>
+      <li><strong>사장님</strong>: 홈 오늘 근무에서 직원 이름을 눌러요. 또는 매장 탭 → 직원 → 직원 정보에서 <strong>근무·급여</strong>를 눌러요.</li>
+      <li><strong>직원</strong>: + 버튼에서 <strong>내 근무·급여</strong>를 눌러요.</li>
+      <li>모든 직원을 한꺼번에 보려면 매장 탭 → <strong>근태·급여</strong>를 눌러요. 근태는 출근·퇴근 기록이라는 뜻이에요.</li>
     </ul>
 
-    <h3>알림 설정</h3>
-    <p>설정 탭 → <strong>알림 설정</strong>에서 받고 싶은 알림만 켜둘 수 있습니다. 매장마다 따로 설정됩니다.</p>
-    <div class="tip">
-      <b>알림이 안 온다면</b>
-      <p>휴대폰 설정에서 단도리 알림이 꺼져 있을 수 있습니다. 앱의 알림 설정에서 토글을 켜면 안내에 따라 휴대폰 설정으로 이동할 수 있습니다.</p>
+    <h3>맨 위: 기간</h3>
+    <ul>
+      <li>맨 위에 지금 보는 기간이 나와요.</li>
+      <li>기간은 매장의 <strong>정산 주기</strong>(급여를 계산하는 기간)를 따라가요.</li>
+      <li>1일부터 말일까지면 2026년 10월처럼 나와요.</li>
+      <li>20일부터 다음 달 19일까지처럼 다르면 9/20(토) ~ 10/19(일)처럼 날짜로 나와요.</li>
+      <li>이럴 때는 [정산 주기] [달력 월] 버튼으로 달력의 한 달로 바꿔 볼 수도 있어요.</li>
+      <li>[목록] [달력]을 누르면 날짜 목록과 달력 모양을 바꿔 봐요.</li>
+    </ul>
+
+    <h3>합계 칸</h3>
+    <ol class="steps">
+      <li><strong>총 근무시간</strong>: 이 기간에 일한 시간이에요.</li>
+      <li><strong>시급</strong>: 한 시간에 받는 돈이에요. 옆에 10/14부터처럼 언제부터 이 시급인지 나와요.</li>
+      <li><strong>예상 정산액</strong>: 받을 돈이에요. 누르면 무엇이 더해졌는지 자세히 나와요.</li>
+    </ol>
+    <p>시급은 <strong>사장님만</strong> 눌러서 바꿀 수 있어요. 직원은 자기 시급만 볼 수 있어요. 합계 제목을 누르면 근무한 날 수 같은 내용이 더 나와요.</p>
+
+    <h3>날짜별 목록 읽는 법</h3>
+    <ul>
+      <li>하루가 한 줄이에요.</li>
+      <li>첫째 줄: 실제로 출근하고 퇴근한 시간이에요.</li>
+      <li>둘째 줄: <strong>배정 18:00–23:00</strong>처럼 근무표에 원래 정해진 시간이에요.</li>
+      <li>오른쪽 끝: 그날 계산된 근무 시간이에요.</li>
+      <li>줄을 누르면 → 그날 자세한 내용이 펼쳐져요.</li>
+    </ul>
+    <p>시간 옆에 작은 표가 하나 붙어요.</p>
+    <ul>
+      <li><strong>정상</strong>: 출근과 퇴근이 배정 시간과 5분도 차이 나지 않아요.</li>
+      <li><strong>+17분</strong>, <strong>−17분</strong>: 배정보다 더 일했거나(+) 덜 일했어요(−).</li>
+      <li><strong>정정</strong>: 시간을 고쳐서 승인받은 날이에요.</li>
+      <li><strong>빠짐</strong>: 일하기로 했는데 출퇴근 기록이 없는 날이에요. 누르면 바로 시간을 적을 수 있어요.</li>
+    </ul>
+
+    <h3>어떻게 계산해요?</h3>
+    <ul>
+      <li>출근과 퇴근이 <strong>둘 다</strong> 찍힌 날 → 찍힌 시간으로 계산해요.</li>
+      <li>하나라도 안 찍힌 날 → 0시간이에요. 빠진 기록 줄이 나오니 눌러서 채워 주세요.</li>
+      <li>아직 오지 않은 날 → 계산에 넣지 않아요.</li>
+      <li>시급이 중간에 올랐으면 → 그날그날의 시급으로 계산해요.</li>
+    </ul>
+
+    <h3>주휴수당·가산수당</h3>
+    <p>처음에는 일한 시간 × 시급만 계산해요. 아래 두 가지는 매장 설정 → 정산에서 <strong>켜야</strong> 더해져요.</p>
+    <ul>
+      <li><strong>주휴수당</strong>: 한 주에 15시간 이상 일하면 하루치를 더 주는 돈이에요(근로기준법 제55조).</li>
+      <li><strong>가산수당</strong>: 연장·야간에 일하면 50%를 더 주는 돈이에요. 직원이 5명 이상인 매장만 꼭 줘야 해요(제56조). 우리 매장이 어느 쪽인지 골라요.</li>
+    </ul>
+    <p>쉬는 시간은 급여에서 빼지 않아요. 단도리는 찍힌 시간을 그대로 계산해요.</p>
+
+    <h3>분 단위 맞추기(반올림)</h3>
+    <ol class="steps">
+      <li>매장 설정 → <strong>정산</strong>을 눌러요.</li>
+      <li>단위를 골라요. 처음에는 없음이라 1분까지 그대로 계산해요.</li>
+      <li>단위를 고르면 방식도 골라요.</li>
+    </ol>
+    <ul>
+      <li><strong>반올림</strong>: 가까운 쪽으로 맞춰요. 10분 단위면 54분은 50분, 55분은 1시간이에요.</li>
+      <li><strong>올림</strong>: 언제나 위로 맞춰요. 30분 단위면 4시간 31분이 5시간이에요.</li>
+    </ul>
+
+    <h3>엑셀로 내보내기</h3>
+    <ol class="steps">
+      <li>매장 탭 → 근태·급여를 눌러요.</li>
+      <li>오른쪽 위 내보내기를 눌러요.</li>
+      <li><strong>무엇을 내보낼까요</strong>에서 골라요. 직원별 합계는 급여 계산용, 근무일자별은 세무·노무 서류용이에요.</li>
+      <li><strong>어느 기간을 내보낼까요?</strong>에서 기간을 골라요. 달력에서 직접 고를 수도 있어요.</li>
+      <li>엑셀 파일이 만들어져요. 카톡이나 메일로 바로 보낼 수 있어요.</li>
+    </ol>
     </div>
-    </div>
-    <aside class="shots">
-    <figure>
-      <img src="guide-img/notices.png" alt="소식 화면">
-      <figcaption>소식 — 쓴 사람과 날짜가 함께 남습니다. 수정은 쓴 사람만, 삭제는 관리자도 할 수 있습니다.</figcaption>
-    </figure>
-      <figure>
-        <img src="guide-img/notif.png" alt="" loading="lazy">
-        <figcaption>알림 설정 — 받고 싶은 알림만 켜둡니다. 매장마다 따로 설정됩니다.</figcaption>
-      </figure>
-    </aside>
   </div>
 </section>
 
 <!-- 8 -->
-<section id="members">
-  <h2><span class="num">8</span>직원·권한</h2>
-  <p class="sub">누구에게 무엇까지 맡길지 정할 수 있습니다.</p>
+<section id="inventory">
+  <h2><span class="num">8</span>재고·발주</h2>
+  <p class="sub">종이에 세던 재고표를 앱으로 옮겼어요. 재고는 가게에 남은 물건, 발주는 주문한 물건이에요.</p>
   <div class="cols">
     <div class="body">
 
-    <h3>직책</h3>
+    <h3>준비하기</h3>
+    <ol class="steps">
+      <li>매장 설정에서 <strong>재고 관리</strong>를 켜요.</li>
+      <li>매장 탭 → <strong>재고·발주</strong>로 들어가요.</li>
+      <li>아래 세 가지를 만들어요.</li>
+    </ol>
     <ul>
-      <li><strong>사장</strong> — 매장을 만든 사람. 모든 권한을 가집니다</li>
-      <li><strong>매니저</strong> — 매장 설정에서 관리 권한을 켜면 체크리스트·직원·근무표를 관리할 수 있습니다</li>
-      <li><strong>직원</strong> — 본인 근무와 할 일 중심</li>
+      <li><strong>리스트</strong>: 일일 재고, 주간 발주처럼 세는 묶음이에요.</li>
+      <li><strong>섹션</strong>: 셀프바·주방처럼 물건이 있는 곳이에요. 걸어가는 순서대로 두면 세기 편해요.</li>
+      <li><strong>품목</strong>: 물건 이름과 단위(kg·팩·박스)예요.</li>
     </ul>
-    <p>직급 변경, 멤버 제거, 매장 설정, 구독은 언제나 사장님만 할 수 있습니다.</p>
 
-    <h3>직원별 세부 권한</h3>
-    <p>직원 상세에서 발주 기입, 재고 실사, 근무표 편집처럼 항목별로 따로 열어줄 수 있습니다.</p>
+    <h3>적기</h3>
+    <ol class="steps">
+      <li>왼쪽에 물건, 위에 날짜가 있는 표가 나와요.</li>
+      <li>칸을 누르고 개수를 적어요.</li>
+      <li><strong>[재고]</strong>와 <strong>[발주]</strong>를 눌러 바꿔 가며 적어요.</li>
+    </ol>
+    <p>지난 날짜도 채울 수 있어요.</p>
 
-    <h3>직원이 나가면</h3>
-    <p>직원 상세에서 내보내면 됩니다. 그동안의 출퇴근·완료 기록은 <strong>그대로 남습니다</strong> — 지난달 정산이나 인수인계 확인에 필요하기 때문입니다. 다시 들어오면 새로 초대하면 됩니다.</p>
+    <h3>한 물건을 나눠 세기</h3>
+    <p>같은 물건이 두 군데에 있을 때 써요. 예를 들어 족발을 삶은 것과 중탕한 것으로 따로 세고 싶을 때예요.</p>
+    <ol class="steps">
+      <li>품목 편집에서 <strong>나눠서 세기</strong>를 켜요.</li>
+      <li>칸 이름을 적어요.</li>
+      <li>칸마다 따로 적으면 → 합계가 저절로 나와요. 5와 5를 적으면 10이에요.</li>
+    </ol>
 
-    <h3>보건증</h3>
-    <p>직원이 본인 프로필에서 사진과 만료일을 등록합니다. 만료가 다가오면 홈에 알림 카드가 뜨고, 사장님과 매니저는 직원 상세에서 열람할 수 있습니다. <strong>등록과 갱신은 본인만</strong> 할 수 있습니다.</p>
+    <h3>얼마나 썼는지 보기</h3>
+    <p>개수 아래에 지난번에 센 날과 비교한 숫자가 나와요. 늘면 초록 +, 줄면 빨강 −예요. 비교하는 날은 어제가 아니라 <strong>마지막으로 센 날</strong>이에요.</p>
+
+    <h3>들어올 물건</h3>
+    <p>마지막으로 재고를 센 뒤에 넣은 발주는 들어올 예정으로 나와요. 다음에 재고를 세면 사라져요.</p>
+
+    <h3>엑셀로 내보내기</h3>
+    <ol class="steps">
+      <li>재고 화면 오른쪽 위 내보내기를 눌러요.</li>
+      <li>기간을 골라요(이번 달, 지난달, 직접 선택).</li>
+      <li>엑셀 파일이 나와요. 재고, 발주, 기입 상세 세 장이 들어 있어요.</li>
+    </ol>
+    <p>발주를 볼 수 없는 직책이면 파일에도 발주가 들어가지 않아요.</p>
     </div>
     <aside class="shots">
       <figure>
-        <img src="guide-img/members.png" alt="" loading="lazy">
-        <figcaption>직원 — 초대 코드·QR을 만들고 합류한 직원을 관리합니다.</figcaption>
+        <img src="guide-img/inventory.png" alt="재고 표 화면" loading="lazy">
+        <figcaption>재고·발주 표예요. 물건 아래에 지금 개수와 단위가 나와요.</figcaption>
       </figure>
       <figure>
-        <img src="guide-img/member_profile.png" alt="" loading="lazy">
-        <figcaption>직원 상세 — 직급·세부 권한·시급·보건증을 여기서 다룹니다.</figcaption>
+        <img src="guide-img/inventory_manage.png" alt="품목 관리 화면" loading="lazy">
+        <figcaption>품목 관리예요. 리스트·섹션·품목과 나눠 세기를 정해요.</figcaption>
       </figure>
     </aside>
   </div>
 </section>
 
 <!-- 9 -->
-<section id="plan">
-  <h2><span class="num">9</span>요금제</h2>
-  <p class="sub">작게 시작하고, 필요할 때 늘리세요.</p>
+<section id="notice">
+  <h2><span class="num">9</span>소식·알림</h2>
+  <p class="sub">단톡방에 묻히던 공지를 확실하게 전해요.</p>
   <div class="cols">
     <div class="body">
+
+    <h3>소식 올리기</h3>
+    <ol class="steps">
+      <li>매장 탭 → <strong>소식</strong>을 눌러요.</li>
+      <li>글을 써요.</li>
+      <li>올리면 → 직원들에게 알림이 가요.</li>
+      <li>직원 홈 맨 위에 카드로 나와요.</li>
+    </ol>
+    <p>중요한 글은 맨 위에 고정할 수 있어요.</p>
+
+    <h3>댓글 달기</h3>
+    <ol class="steps">
+      <li>소식을 눌러요.</li>
+      <li>아래에 댓글을 적어요.</li>
+    </ol>
     <ul>
-      <li><strong>무료</strong> — 사장님 포함 <strong>3명까지</strong>, 매장 1곳. 기능은 전부 씁니다</li>
-      <li><strong>프리미엄</strong> — 인원 제한 없이, 매장도 여러 곳. 월 9,900원 또는 연 99,000원</li>
+      <li>매장 사람 누구나 댓글을 달 수 있어요.</li>
+      <li>고치기는 쓴 사람만, 지우기는 쓴 사람과 관리자가 할 수 있어요.</li>
+      <li>댓글 알림은 글쓴이와 이미 댓글을 단 사람에게만 가요.</li>
     </ul>
-    <p>구독은 <strong>매장 단위</strong>입니다. 직원이 늘어도 요금은 그대로입니다. 인당 과금이 아니라, 알바가 자주 바뀌는 매장일수록 부담이 적습니다.</p>
-    <p>결제는 App Store·Google Play 계정으로 이뤄지고, 해지도 각 스토어의 구독 관리에서 합니다. 해지해도 남은 기간 동안은 프리미엄이 유지됩니다.</p>
-    <p>무료로 돌아가면 인원 제한이 다시 적용됩니다. 이미 들어와 있는 직원이 쫓겨나지는 않지만, 한도를 넘은 상태에서는 새로 초대할 수 없습니다.</p>
+
+    <h3>알림 고르기</h3>
+    <ol class="steps">
+      <li>설정 탭 → <strong>알림 설정</strong>을 눌러요.</li>
+      <li>받고 싶은 알림만 켜요.</li>
+    </ol>
+    <p>매장마다 따로 정해요.</p>
     <div class="tip">
-      <b>매장을 하나 더 만들려는데 막힌다면</b>
-      <p>매장 수 한도는 <strong>내가 직접 만든 매장</strong>을 기준으로 봅니다. 직원으로 참여 중인 매장에 프리미엄이 걸려 있어도 내 매장 한도와는 무관합니다.</p>
+      <b>알림이 안 와요</b>
+      <p>휴대폰 설정에서 단도리 알림이 꺼져 있을 수 있어요. 앱의 알림 설정에서 켜면 휴대폰 설정으로 가는 안내가 나와요.</p>
     </div>
     </div>
     <aside class="shots">
       <figure>
-        <img src="guide-img/subscription.png" alt="" loading="lazy">
-        <figcaption>구독 — 무료와 프리미엄 차이, 현재 사용 인원을 확인합니다.</figcaption>
+        <img src="guide-img/notices.png" alt="소식 화면" loading="lazy">
+        <figcaption>소식이에요. 쓴 사람과 날짜가 함께 남아요.</figcaption>
+      </figure>
+      <figure>
+        <img src="guide-img/notif.png" alt="알림 설정 화면" loading="lazy">
+        <figcaption>알림 설정이에요. 받고 싶은 알림만 켜요.</figcaption>
       </figure>
     </aside>
   </div>
 </section>
 
 <!-- 10 -->
+<section id="members">
+  <h2><span class="num">10</span>직원·권한</h2>
+  <p class="sub">누가 무엇까지 할 수 있는지 정해요.</p>
+  <div class="cols">
+    <div class="body">
+
+    <h3>직책</h3>
+    <ul>
+      <li><strong>사장</strong>: 매장을 만든 사람이에요. 뭐든 할 수 있어요.</li>
+      <li><strong>점장</strong>: 사장님이 열어 준 만큼 관리할 수 있어요.</li>
+      <li><strong>직원·알바</strong>: 내 근무와 내 할 일을 봐요.</li>
+    </ul>
+    <p>직책 바꾸기, 직원 내보내기, 매장 설정, 구독은 사장님만 할 수 있어요.</p>
+
+    <h3>하나씩 권한 주기</h3>
+    <ol class="steps">
+      <li>매장 탭 → 직원 → 직원 이름을 눌러요.</li>
+      <li>직원 정보가 열려요.</li>
+      <li>할일 관리, 근무표 편집, 요청 결재처럼 하나씩 켜고 끌 수 있어요.</li>
+    </ol>
+
+    <h3>직원이 그만두면</h3>
+    <p>직원 옆 ⋮을 눌러 내보내요. 그동안의 출퇴근·할 일 기록은 그대로 남아요. 지난 급여를 계산할 때 필요하기 때문이에요. 다시 오면 새로 초대하면 돼요.</p>
+
+    <h3>보건증</h3>
+    <ol class="steps">
+      <li>직원이 내 정보에서 보건증 사진과 끝나는 날을 올려요.</li>
+      <li>끝나는 날이 다가오면 홈에 알림 카드가 나와요.</li>
+      <li>사장님과 점장님은 직원 정보에서 볼 수 있어요.</li>
+    </ol>
+    <p>보건증을 올리고 바꾸는 건 본인만 할 수 있어요.</p>
+    </div>
+    <aside class="shots">
+      <figure>
+        <img src="guide-img/members.png" alt="직원 목록 화면" loading="lazy">
+        <figcaption>직원 목록이에요. 오른쪽 아래 버튼으로 직원을 초대해요.</figcaption>
+      </figure>
+    </aside>
+  </div>
+</section>
+
+<!-- 11 -->
+<section id="plan">
+  <h2><span class="num">11</span>요금제</h2>
+  <p class="sub">작게 시작하고, 필요할 때 늘려요.</p>
+  <div class="cols">
+    <div class="body">
+    <ul>
+      <li><strong>무료</strong>: 사장님까지 <strong>3명</strong>, 매장 1곳이에요. 기능은 다 써요.</li>
+      <li><strong>프리미엄</strong>: 사람 수 제한이 없고 매장도 여러 곳이에요. 한 달 9,900원, 1년 99,000원이에요.</li>
+    </ul>
+    <p>돈은 <strong>매장마다</strong> 내요. 직원이 늘어도 요금은 그대로예요.</p>
+    <p>결제는 App Store나 Google Play 계정으로 해요. 그만두기도 그 스토어의 구독 관리에서 해요. 그만둬도 남은 기간까지는 프리미엄을 써요.</p>
+    <p>무료로 돌아가도 이미 들어온 직원이 쫓겨나지는 않아요. 다만 3명이 넘으면 새로 초대할 수 없어요.</p>
+    <div class="tip">
+      <b>매장을 하나 더 만들려는데 막혀요</b>
+      <p>매장 수는 <strong>내가 만든 매장</strong>만 세요. 직원으로 들어간 매장이 프리미엄이어도 내 매장 수와는 상관없어요.</p>
+    </div>
+    </div>
+    <aside class="shots">
+      <figure>
+        <img src="guide-img/subscription.png" alt="구독 화면" loading="lazy">
+        <figcaption>구독 화면이에요. 무료와 프리미엄이 어떻게 다른지 봐요.</figcaption>
+      </figure>
+    </aside>
+  </div>
+</section>
+
+<!-- 12 -->
 <section id="faq">
-  <h2><span class="num">10</span>자주 묻는 질문</h2>
+  <h2><span class="num">12</span>자주 묻는 질문</h2>
 
-  <details class="faq"><summary>직원도 요금을 내야 하나요?</summary>
-    <p>아니요. 구독은 매장 단위라 사장님 한 분만 결제하면 그 매장 구성원 모두가 프리미엄 기능을 씁니다.</p></details>
+  <details class="faq"><summary>직원도 돈을 내야 해요?</summary>
+    <p>아니요. 사장님 한 분만 내면 그 매장 사람 모두가 프리미엄을 써요.</p></details>
 
-  <details class="faq"><summary>실근무 시간이 근태 화면과 달라 보입니다.</summary>
-    <p>‘실근무’는 <strong>출근·퇴근이 모두 찍힌 날</strong>만 더한 값이고, <strong>정산액도 같은 기준</strong>입니다. 퇴근을 안 찍은 날은 0시간으로 빠지므로 근태 목록과 달라 보일 수 있습니다. 그런 날은 <strong>‘타각 누락’</strong>으로 표시되니 시간을 채우면 바로 반영됩니다.</p></details>
+  <details class="faq"><summary>근무표에서 칸을 눌러 바꿨는데 다음 주는 그대로예요.</summary>
+    <p>맞아요. 근무표 칸에서 바꾸면 <strong>그날만</strong> 바뀌어요. 매주 바꾸려면 근무표 탭 → [편집] → 매주 근무표 편집에서 고쳐요.</p></details>
 
-  <details class="faq"><summary>아이폰에서도 Wi-Fi로 출퇴근이 확인되나요?</summary>
-    <p>됩니다. 다만 <strong>위치 권한(정확한 위치)</strong>이 허용돼 있어야 아이폰이 Wi-Fi 정보를 알려줍니다. 허용돼 있지 않으면 위치로 확인합니다.</p></details>
+  <details class="faq"><summary>주간 근무표 칸 옆 색깔 세로줄은 뭐예요?</summary>
+    <p>남들과 <strong>시간이 다른 사람</strong>이에요. 줄이 시작하는 곳이 출근, 끝나는 곳이 퇴근이에요. 칸 안에 같은 색으로 적힌 이름이 그 사람이에요.</p></details>
 
-  <details class="faq"><summary>발주를 미리 넣어두면 그날 재고에 잡히나요?</summary>
-    <p>아니요. 발주는 넣은 날짜가 아니라 <strong>받을 날짜</strong> 기준으로 기록됩니다. 활동 기록에는 실제로 기입한 날에 남고, 대상 날짜가 다르면 함께 표시됩니다.</p></details>
+  <details class="faq"><summary>대타 구하기 버튼이 안 보여요.</summary>
+    <p>근무 시작 2시간 전부터는 대타를 구할 수 없어요. 내 근무가 아닌 칸에도 버튼이 없어요. 홈이나 근무표의 + 버튼에서 대타 구하기를 찾아보세요.</p></details>
 
-  <details class="faq"><summary>직원이 매장 밖에서 출퇴근을 찍으면 막히나요?</summary>
-    <p>막히지 않습니다. 사유를 적으면 그대로 기록되고, <strong>사장님과 매니저에게 알림</strong>이 갑니다. 매장 탭 → 요청에서 ‘확인’을 누르면 목록에서 내려갑니다. 확인은 승인이 아니라 <strong>봤다는 표시</strong>라, 누르지 않아도 그 근무는 유효합니다.</p></details>
+  <details class="faq"><summary>뒤로 가기를 눌렀더니 앱이 닫힐 것 같아요.</summary>
+    <p>다른 탭에서 뒤로 가기를 누르면 홈으로 가요. 홈에서 누르면 한 번 더 누르면 앱이 닫혀요 라는 안내가 먼저 나와요. 2초 안에 한 번 더 눌러야 닫혀요.</p></details>
 
-  <details class="faq"><summary>재고 수량 옆의 초록·빨강 숫자는 뭔가요?</summary>
-    <p><strong>직전에 센 날과 견준 증감</strong>입니다. 늘면 초록(+), 줄면 빨강(−)으로 표시합니다. 기준은 어제가 아니라 마지막으로 센 날이라, 매일 세지 않아도 나옵니다. 값이 그대로이거나 표에서 처음 센 날은 비교 대상이 없어 아무것도 뜨지 않습니다.</p></details>
+  <details class="faq"><summary>근무 시간이 근태 목록과 달라 보여요.</summary>
+    <p>급여는 출근과 퇴근이 <strong>둘 다</strong> 찍힌 날만 계산해요. 퇴근을 안 찍은 날은 0시간이라 달라 보일 수 있어요. 그런 날은 빠짐으로 나오니 시간을 채우면 바로 들어가요.</p></details>
 
-  <details class="faq"><summary>소식에 댓글을 달면 전 직원에게 알림이 가나요?</summary>
-    <p>아니요. <strong>글쓴이와 이미 그 소식에 댓글을 단 사람</strong>에게만 갑니다. 대화에 참여하지 않은 직원은 울리지 않습니다.</p></details>
+  <details class="faq"><summary>쉬는 날인데 출퇴근이 빠졌다고 나와요.</summary>
+    <p>근무·급여 화면에서 그날을 누르고 <strong>이날 쉬었어요</strong>를 눌러요. 사장님이 승인하면 빠진 날에서 사라져요.</p></details>
 
-  <details class="faq"><summary>직원이 그만두면 어떻게 하나요?</summary>
-    <p>직원 상세에서 내보내면 됩니다. 그동안의 근무·출퇴근 기록은 그대로 남습니다.</p></details>
+  <details class="faq"><summary>자동 출퇴근이 안 돼요.</summary>
+    <p>위치 권한이 <strong>항상 허용</strong>인지 확인해 주세요. 사장님이 나를 대상 직원으로 골랐는지도 확인해 주세요. 휴대폰이 알려 주기까지 몇 분 늦을 수 있어요.</p></details>
+
+  <details class="faq"><summary>아이폰에서도 Wi-Fi로 출퇴근이 확인돼요?</summary>
+    <p>돼요. 다만 위치 권한(정확한 위치)을 허용해야 아이폰이 Wi-Fi 정보를 알려 줘요. 허용하지 않으면 위치로 확인해요.</p></details>
+
+  <details class="faq"><summary>직원이 매장 밖에서 출퇴근을 찍으면 막혀요?</summary>
+    <p>막히지 않아요. 이유를 적으면 그대로 기록되고, 사장님과 점장님에게 알림이 가요. 결재함에서 [확인]을 누르면 목록에서 사라져요.</p></details>
+
+  <details class="faq"><summary>재고 숫자 옆 초록·빨강 숫자는 뭐예요?</summary>
+    <p>마지막으로 센 날과 비교해서 늘었으면 초록 +, 줄었으면 빨강 −예요.</p></details>
 
   <details class="faq"><summary>계정이나 매장을 지우고 싶어요.</summary>
-    <p>설정 → 계정 관리에서 계정을 삭제할 수 있고, 매장은 매장 설정에서 삭제합니다. 되돌릴 수 없으니 확인 절차를 거칩니다.</p></details>
+    <p>계정은 설정 → 계정 관리에서 지워요. 매장은 매장 설정에서 지워요. 되돌릴 수 없어서 한 번 더 물어봐요.</p></details>
 </section>
 
 <footer>
-  <p>궁금한 점은 <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a>으로 알려주세요.</p>
+  <p>궁금한 점은 <a href="mailto:claypark12@gmail.com">claypark12@gmail.com</a>으로 알려 주세요.</p>
   <p style="margin-top:.4rem;"><a href="privacy-policy.html">개인정보 처리방침</a> · <a href="terms-of-service.html">이용약관</a></p>
 </footer>
 
