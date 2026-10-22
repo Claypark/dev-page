@@ -196,7 +196,14 @@
       <h2>6. 게임 소개 카드</h2>
       <p><strong>게임 소개 카드</strong>: 설정 화면에 다른 게임 소개 카드를 보여 주기 위해 공용 서버(Supabase)에서 카드 목록을 받아 오고, 카드가 보이거나 눌렸을 때 카드·이미지 번호, 카드 자리, 기기 종류(Android/iOS), 앱 언어를 기록해요. 이 요청과 기록에는 이름, 기기 식별자 등 이용자를 식별할 수 있는 정보가 포함되지 않아요. 카드를 누르면 Google Play 또는 App Store로 이동해요.</p>
 
-      <h2>7. 수집하지 않는 정보</h2>
+      <h2>7. 인앱 결제</h2>
+      <ul>
+        <li>구리 묶음과 후원 상품은 Google Play 결제 또는 Apple App Store 결제로 처리돼요. 후원 상품은 게임 안에서 아무것도 열지 않는 순수 후원이에요.</li>
+        <li>개발자는 카드 번호 같은 결제 정보를 받지 않으며, 구매 영수증을 개발자 서버로 보내지 않아요. 받은 구리와 후원 횟수는 기기 안에만 저장돼요.</li>
+        <li>구매 내역, 환불, 결제 정보는 Google Play와 App Store의 정책을 따라요.</li>
+      </ul>
+
+      <h2>8. 수집하지 않는 정보</h2>
       <p>본 앱은 다음 정보를 수집하지 않아요.</p>
       <ul>
         <li>실명, 이메일 주소, 전화번호, 연락처</li>
@@ -204,7 +211,7 @@
         <li>사진·미디어 파일, 카메라·마이크</li>
       </ul>
 
-      <h2>8. 처리 위탁 및 국외 이전</h2>
+      <h2>9. 처리 위탁 및 국외 이전</h2>
       <table>
         <thead>
           <tr>
@@ -245,10 +252,22 @@
             <td>게임 소개 카드 목록·노출·누름 기록(식별 정보 없음)</td>
             <td>삭제 요청 시까지</td>
           </tr>
+          <tr>
+            <td>Google (Play 결제)</td>
+            <td>미국</td>
+            <td>인앱 결제 처리</td>
+            <td>Google 정책에 따름</td>
+          </tr>
+          <tr>
+            <td>Apple (App Store 결제)</td>
+            <td>미국</td>
+            <td>인앱 결제 처리</td>
+            <td>Apple 정책에 따름</td>
+          </tr>
         </tbody>
       </table>
 
-      <h2>9. 보관 및 파기</h2>
+      <h2>10. 보관 및 파기</h2>
       <ul>
         <li>기기 내 데이터는 앱을 삭제하면 함께 삭제돼요.</li>
         <li>개발자는 별도 서버에 이용자 데이터를 보관하지 않아요.</li>
@@ -257,20 +276,20 @@
         <li>궁금한 점이나 삭제 요청은 아래 이메일로 보내 주세요.</li>
       </ul>
 
-      <h2>10. 아동의 개인정보</h2>
+      <h2>11. 아동의 개인정보</h2>
       <p>본 앱은 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않아요. 아동의 정보가 수집된 것을 발견하면 즉시 삭제할게요.</p>
 
-      <h2>11. 이용자의 권리</h2>
+      <h2>12. 이용자의 권리</h2>
       <ul>
         <li>맞춤 광고 동의는 앱 내 광고 개인정보 설정(EEA·영국)에서 변경할 수 있어요.</li>
         <li>게임 로그인은 Google Play 게임즈 또는 Game Center 설정에서 관리할 수 있어요.</li>
         <li>개인정보 관련 문의나 요청은 이메일로 할 수 있어요.</li>
       </ul>
 
-      <h2>12. 방침의 변경</h2>
+      <h2>13. 방침의 변경</h2>
       <p>이 방침은 법령 변경이나 서비스 변동에 따라 수정될 수 있어요. 변경 사항은 이 페이지를 통해 안내해 드려요.</p>
 
-      <h2>13. 문의 및 개인정보 보호책임자</h2>
+      <h2>14. 문의 및 개인정보 보호책임자</h2>
       <ul>
         <li>개발자: CLPAK (박정수)</li>
         <li>개인정보 보호책임자: 박정수</li>
@@ -334,7 +353,14 @@
       <h2>6. Game Introduction Cards</h2>
       <p><strong>Game introduction cards</strong>: To display other game introduction cards on the settings screen, the App fetches the card list from our shared server (Supabase) and, when a card is shown or tapped, records the card and image number, the card slot, the device type (Android/iOS), and the app language. These requests and records contain nothing that identifies you, such as your name or a device identifier. Tapping a card takes you to Google Play or the App Store.</p>
 
-      <h2>7. Data We Do Not Collect</h2>
+      <h2>7. In-App Purchases</h2>
+      <ul>
+        <li>Copper packs and support items are processed by Google Play Billing or the Apple App Store. Support items are pure donations and unlock nothing in the game.</li>
+        <li>The developer does not receive payment details such as card numbers, and the App does not send purchase receipts to the developer's server. Copper received and the number of support purchases are stored only on your device.</li>
+        <li>Purchase history, refunds, and payment information follow the policies of Google Play and the App Store.</li>
+      </ul>
+
+      <h2>8. Data We Do Not Collect</h2>
       <p>The App does not collect the following:</p>
       <ul>
         <li>Real name, email address, phone number, or contacts</li>
@@ -342,7 +368,7 @@
         <li>Photos or media files, camera or microphone</li>
       </ul>
 
-      <h2>8. Data Processors and International Transfers</h2>
+      <h2>9. Data Processors and International Transfers</h2>
       <table>
         <thead>
           <tr>
@@ -383,10 +409,22 @@
             <td>Game introduction card list and view/tap records (no identifying data)</td>
             <td>Until deletion is requested</td>
           </tr>
+          <tr>
+            <td>Google (Play Billing)</td>
+            <td>USA</td>
+            <td>In-app purchase processing</td>
+            <td>Per Google's policy</td>
+          </tr>
+          <tr>
+            <td>Apple (App Store)</td>
+            <td>USA</td>
+            <td>In-app purchase processing</td>
+            <td>Per Apple's policy</td>
+          </tr>
         </tbody>
       </table>
 
-      <h2>9. Retention and Deletion</h2>
+      <h2>10. Retention and Deletion</h2>
       <ul>
         <li>Data stored on your device is deleted when you uninstall the App.</li>
         <li>The developer does not keep any user data on its own servers.</li>
@@ -395,20 +433,20 @@
         <li>For questions or deletion requests, contact us at the email address below.</li>
       </ul>
 
-      <h2>10. Children's Privacy</h2>
+      <h2>11. Children's Privacy</h2>
       <p>The App does not knowingly collect personal information from children under 13 (or the equivalent minimum age in your jurisdiction). If we discover such data has been collected, we will delete it immediately.</p>
 
-      <h2>11. Your Rights</h2>
+      <h2>12. Your Rights</h2>
       <ul>
         <li>In the EEA and the UK, you can change your personalized-ads consent in the in-app ad privacy settings.</li>
         <li>You can manage your game sign-in in Google Play Games or Game Center settings.</li>
         <li>You can send privacy questions or requests by email.</li>
       </ul>
 
-      <h2>12. Changes to This Policy</h2>
+      <h2>13. Changes to This Policy</h2>
       <p>This policy may be updated due to legal changes or service changes. Any updates will be announced on this page.</p>
 
-      <h2>13. Contact and Data Protection Officer</h2>
+      <h2>14. Contact and Data Protection Officer</h2>
       <ul>
         <li>Developer: CLPAK (Jeongsoo Park)</li>
         <li>Data Protection Officer: Jeongsoo Park</li>
@@ -472,7 +510,14 @@
       <h2>6. Tarjetas de presentación del juego</h2>
       <p><strong>Tarjetas de presentación del juego</strong>: Para mostrar las tarjetas de presentación de otros juegos en la pantalla de ajustes, la App obtiene la lista de tarjetas del servidor compartido (Supabase) y, cuando una tarjeta se muestra o se toca, registra el número de tarjeta e imagen, el espacio de la tarjeta, el tipo de dispositivo (Android/iOS) y el idioma de la App. Estas solicitudes y registros no contienen nada que te identifique, como tu nombre o un identificador del dispositivo. Al tocar una tarjeta, accedes a Google Play o al App Store.</p>
 
-      <h2>7. Datos que no recopilamos</h2>
+      <h2>7. Compras dentro de la App</h2>
+      <ul>
+        <li>Los paquetes de cobre y los artículos de apoyo se procesan mediante la facturación de Google Play o el Apple App Store. Los artículos de apoyo son donaciones y no desbloquean nada en el juego.</li>
+        <li>El desarrollador no recibe datos de pago como números de tarjeta, y la App no envía recibos de compra al servidor del desarrollador. El cobre recibido y el número de compras de apoyo se guardan solo en tu dispositivo.</li>
+        <li>El historial de compras, los reembolsos y los datos de pago se rigen por las políticas de Google Play y del App Store.</li>
+      </ul>
+
+      <h2>8. Datos que no recopilamos</h2>
       <p>La App no recopila los siguientes datos:</p>
       <ul>
         <li>Nombre real, dirección de correo electrónico, número de teléfono ni contactos</li>
@@ -480,7 +525,7 @@
         <li>Fotos ni archivos multimedia, cámara ni micrófono</li>
       </ul>
 
-      <h2>8. Encargados del tratamiento y transferencias internacionales</h2>
+      <h2>9. Encargados del tratamiento y transferencias internacionales</h2>
       <table>
         <thead>
           <tr>
@@ -521,10 +566,22 @@
             <td>Lista de tarjetas de presentación y registros de vistas y toques (sin datos identificativos)</td>
             <td>Hasta que se solicite la eliminación</td>
           </tr>
+          <tr>
+            <td>Google (facturación de Play)</td>
+            <td>EE. UU.</td>
+            <td>Procesamiento de compras dentro de la App</td>
+            <td>Según la política de Google</td>
+          </tr>
+          <tr>
+            <td>Apple (App Store)</td>
+            <td>EE. UU.</td>
+            <td>Procesamiento de compras dentro de la App</td>
+            <td>Según la política de Apple</td>
+          </tr>
         </tbody>
       </table>
 
-      <h2>9. Conservación y eliminación</h2>
+      <h2>10. Conservación y eliminación</h2>
       <ul>
         <li>Los datos del dispositivo se eliminan al desinstalar la App.</li>
         <li>El desarrollador no guarda datos de usuarios en servidores propios.</li>
@@ -533,20 +590,20 @@
         <li>Envía tus preguntas o solicitudes de eliminación al correo electrónico indicado abajo.</li>
       </ul>
 
-      <h2>10. Privacidad de los menores</h2>
+      <h2>11. Privacidad de los menores</h2>
       <p>La App no recopila deliberadamente datos personales de menores de 13 años (o la edad mínima equivalente en tu jurisdicción). Si detectamos que se han recopilado tales datos, los eliminaremos de inmediato.</p>
 
-      <h2>11. Tus derechos</h2>
+      <h2>12. Tus derechos</h2>
       <ul>
         <li>En el EEE y el Reino Unido, puedes cambiar tu consentimiento de anuncios personalizados en la configuración de privacidad de anuncios de la App.</li>
         <li>Puedes gestionar tu inicio de sesión de juegos en los ajustes de Google Play Juegos o Game Center.</li>
         <li>Puedes enviar consultas o solicitudes sobre privacidad por correo electrónico.</li>
       </ul>
 
-      <h2>12. Cambios en esta política</h2>
+      <h2>13. Cambios en esta política</h2>
       <p>Esta política puede actualizarse por cambios legales o del servicio. Los cambios se anunciarán en esta página.</p>
 
-      <h2>13. Contacto y responsable de protección de datos</h2>
+      <h2>14. Contacto y responsable de protección de datos</h2>
       <ul>
         <li>Desarrollador: CLPAK (Jeongsoo Park)</li>
         <li>Responsable de protección de datos: Jeongsoo Park</li>
@@ -610,7 +667,14 @@
       <h2>6. ゲーム紹介カード</h2>
       <p><strong>ゲーム紹介カード</strong>：設定画面にほかのゲームの紹介カードを表示するため、共用サーバー（Supabase）からカードの一覧を取得し、カードが表示・タップされたときにカード・画像の番号、カードの表示場所、端末の種類（Android/iOS）、アプリの言語を記録します。これらのリクエストと記録には、名前や端末識別子など、ユーザーを特定できる情報は含まれません。カードをタップすると Google Play または App Store に移動します。</p>
 
-      <h2>7. 収集しない情報</h2>
+      <h2>7. アプリ内課金</h2>
+      <ul>
+        <li>銅のパックと応援アイテムは、Google Play の課金または Apple App Store の決済で処理されます。応援アイテムはゲーム内で何も解放しない純粋な応援です。</li>
+        <li>開発者はカード番号などの決済情報を受け取らず、購入レシートを開発者のサーバーに送信しません。受け取った銅と応援の回数は端末内にのみ保存されます。</li>
+        <li>購入履歴・返金・決済情報は Google Play と App Store のポリシーに従います。</li>
+      </ul>
+
+      <h2>8. 収集しない情報</h2>
       <p>本アプリは以下の情報を収集しません。</p>
       <ul>
         <li>氏名（本名）、メールアドレス、電話番号、連絡先</li>
@@ -618,7 +682,7 @@
         <li>写真・メディアファイル、カメラ・マイク</li>
       </ul>
 
-      <h2>8. 処理委託・国外移転</h2>
+      <h2>9. 処理委託・国外移転</h2>
       <table>
         <thead>
           <tr>
@@ -659,10 +723,22 @@
             <td>ゲーム紹介カードの一覧・表示・タップの記録（識別情報なし）</td>
             <td>削除の依頼があるまで</td>
           </tr>
+          <tr>
+            <td>Google（Play 課金）</td>
+            <td>米国</td>
+            <td>アプリ内課金の処理</td>
+            <td>Googleのポリシーに準拠</td>
+          </tr>
+          <tr>
+            <td>Apple（App Store）</td>
+            <td>米国</td>
+            <td>アプリ内課金の処理</td>
+            <td>Appleのポリシーに準拠</td>
+          </tr>
         </tbody>
       </table>
 
-      <h2>9. 保管・削除</h2>
+      <h2>10. 保管・削除</h2>
       <ul>
         <li>端末内のデータはアプリをアンインストールすると削除されます。</li>
         <li>開発者は独自のサーバーにユーザーのデータを保管しません。</li>
@@ -671,20 +747,20 @@
         <li>ご質問や削除のご請求は下記メールアドレスへお送りください。</li>
       </ul>
 
-      <h2>10. 子どものプライバシー</h2>
+      <h2>11. 子どものプライバシー</h2>
       <p>本アプリは13歳未満（またはお住まいの地域で定められた最低年齢）の子どもの個人情報を意図的に収集しません。万が一収集されていると判明した場合は、速やかに削除します。</p>
 
-      <h2>11. ユーザーの権利</h2>
+      <h2>12. ユーザーの権利</h2>
       <ul>
         <li>EEA・英国では、パーソナライズ広告への同意をアプリ内の広告プライバシー設定から変更できます。</li>
         <li>ゲームログインは、Google Play ゲームまたは Game Center の設定で管理できます。</li>
         <li>個人情報に関するお問い合わせやご請求はメールで受け付けます。</li>
       </ul>
 
-      <h2>12. ポリシーの変更</h2>
+      <h2>13. ポリシーの変更</h2>
       <p>本ポリシーは、法令の改正やサービスの変更に応じて改定されることがあります。変更内容はこのページでお知らせします。</p>
 
-      <h2>13. お問い合わせ・個人情報保護責任者</h2>
+      <h2>14. お問い合わせ・個人情報保護責任者</h2>
       <ul>
         <li>開発者：CLPAK（Jeongsoo Park）</li>
         <li>個人情報保護責任者：Jeongsoo Park</li>
