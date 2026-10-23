@@ -1620,7 +1620,11 @@
                 return;
             }
             if (activeDetail) document.getElementById('detail-' + activeDetail).classList.remove('active');
-            else detailOpener = document.activeElement;
+            else {
+                detailOpener = document.activeElement;
+                // 시스템 뒤로가기·브라우저 뒤로가 시트를 닫도록 기록을 하나 쌓는다(popstate에서 닫힘).
+                history.pushState({ sheet: id }, '');
+            }
             document.getElementById('overlayBackdrop').classList.add('active');
             panel.classList.add('active');
             panel.scrollTop = 0;
@@ -1632,8 +1636,10 @@
 
         function closeDetail() { closeAllDetails(); }
 
-        function closeAllDetails() {
+        function closeAllDetails(fromPop) {
             if (!activeDetail) return;
+            // 닫기 버튼·배경·Esc로 닫을 때도 열 때 쌓은 기록을 걷어 낸다 — popstate가 다시 불러 닫는다.
+            if (!fromPop && history.state && history.state.sheet) return history.back();
             document.getElementById('detail-' + activeDetail).classList.add('closing');
             document.getElementById('overlayBackdrop').classList.add('closing');
             closingTimer = setTimeout(finishClose, 220);
@@ -1644,6 +1650,7 @@
         }
 
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && activeDetail) closeAllDetails(); });
+        window.addEventListener('popstate', () => { if (activeDetail) closeAllDetails(true); });
 
         // ---------- Store badge click tracking ----------
         // Forward the inbound campaign source (e.g. Instagram → dev-page) into the
