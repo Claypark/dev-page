@@ -1450,12 +1450,12 @@
         // ---------- 앱 목록 (카드·섹션·검색·칩·개수의 단일 출처) ----------
         // cat = App Store Connect primaryCategory 실측값. kw = 한국어 검색어. accent = 배너 없는 앱의 상세 머리 색.
         const APPS = [
+            { id: 'hoegwan', cat: 'business', ios: true, android: true, kw: '테니스 레슨 회원 코치' },
             { id: 'cannon', cat: 'games', ios: true, android: true, kw: '캐논 디펜스 벌레 게임' },
             { id: 'muhanpalace', cat: 'games', dev: true, kw: '아파트 게임', accent: '#b91c1c' },
+            { id: 'dandori', cat: 'business', ios: true, android: true, kw: '매장 가게 근무표 체크리스트' },
             { id: 'naru', cat: 'games', ios: true, android: true, kw: '낚시 힐링' },
             { id: 'bagshot', cat: 'games', ios: true, android: true, kw: '샌드백 스트레스', accent: '#ef4444' },
-            { id: 'hoegwan', cat: 'business', ios: true, android: true, kw: '테니스 레슨 회원 코치' },
-            { id: 'dandori', cat: 'business', ios: true, android: true, kw: '매장 가게 근무표 체크리스트' },
             { id: 'doughlab', cat: 'productivity', ios: true, android: true, kw: '빵 제빵 레시피', accent: '#d98a3d' },
             { id: 'sogak', cat: 'productivity', ios: true, android: true, kw: '할 일 알람 인생 카운트다운', accent: '#f43f5e' },
             { id: 'dustler', cat: 'lifestyle', ios: true, android: true, kw: '청소 집안일' },
@@ -1466,8 +1466,8 @@
         ];
         // [앱, 라벨 키, 라벨 색]
         const BANNERS = [
-            ['cannon', 'banner_featured', '#f0a868'],
             ['hoegwan', 'banner_new', '#8fa8ff'],
+            ['cannon', 'banner_featured', '#f0a868'],
             ['dandori', 'banner_featured', '#6fd39d'],
             ['naru', 'banner_featured', '#a5a8ff'],
             ['dustler', 'banner_featured', '#9ec7f2'],
@@ -1528,7 +1528,7 @@
             const hay = a => [t('apps.' + a.id + '.name'), t('apps.' + a.id + '.tagline'), t('apps.' + a.id + '.detail_tagline'),
                 I18N.ko.apps[a.id].name, a.kw].join(' ').toLowerCase();
             const apps = APPS.filter(a => (catalogCat === 'all' || a.cat === catalogCat) && (!q || hay(a).includes(q)));
-            // 섹션 없이 한 목록(APPS 순서 = 카테고리끼리 모여 있다). 제목 아래 줄이 지금 보이는 범위와 개수를 말한다.
+            // 섹션 없이 한 목록(APPS 순서 — 맨 앞은 홍보 순서, 나머지는 카테고리끼리). 제목 아래 줄이 지금 보이는 범위와 개수를 말한다.
             document.getElementById('appCount').textContent =
                 q ? t('search_results') + ' ' + countText(apps.length)
                 : catalogCat === 'all' ? t('apps_count', { n: APPS.length })
