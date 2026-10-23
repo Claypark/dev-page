@@ -124,7 +124,7 @@
 <body>
   <div class="container">
     <h1>개인정보처리방침</h1>
-    <p class="date">시행일: 2026년 10월 14일</p>
+    <p class="date">시행일: 2026년 10월 23일</p>
 
     <nav class="lang-nav">
       <a href="#ko">한국어</a>
@@ -137,8 +137,15 @@
 
       <h2>1. 수집하는 개인정보</h2>
       <div class="highlight">
-        <p><strong>본 앱은 어떠한 개인정보도 수집하지 않아요.</strong></p>
-        <p>앱 내에서 입력하는 레시피, 베이커스 퍼센트, 실험 기록, 메모, 사진 등 모든 데이터는 오직 기기 내부(로컬 데이터베이스)에만 저장돼요. 외부 서버로 전송되거나 제3자와 공유되지 않으며, 로그인이나 계정이 필요하지 않아 오프라인에서도 동작해요.</p>
+        <p><strong>로그인하지 않으면 본 앱은 개인정보를 수집하지 않아요.</strong></p>
+        <p>레시피, 베이커스 퍼센트, 실험·제조 기록, 메모, 사진은 기본적으로 기기 내부(로컬 데이터베이스)에만 저장돼요. 로그인은 선택이며, 로그인하지 않아도 모든 기록 기능을 오프라인에서 쓸 수 있어요.</p>
+        <p>로그인하면(8항) 아래 정보를 처리해요.</p>
+        <ul>
+          <li><strong>계정 정보</strong>: Apple 또는 Google 로그인으로 받은 이메일 주소와 계정 식별자, 이용자가 정한 닉네임</li>
+          <li><strong>클라우드 백업</strong>: 백업에 동의하면 기기의 레시피·실험·제조 기록·재료·메모와 사진(압축본)을 서버에 저장해요. 새 기기로 옮기거나 복원할 때만 쓰여요.</li>
+          <li><strong>공개 레시피</strong>: 직접 공개를 선택한 배합·만드는 법·소개 글·대표 사진(압축본)과 닉네임은 발견 탭에서 누구나 볼 수 있어요. 좋아요·가져오기 수, 이용자가 보낸 신고와 숨긴 작성자 목록도 저장돼요.</li>
+        </ul>
+        <p>이 정보는 Supabase(클라우드 데이터베이스·저장소)에 저장되며, 위 목적 외에 쓰거나 제3자에게 팔지 않아요.</p>
       </div>
 
       <h2>2. 광고 (Google AdMob)</h2>
@@ -170,10 +177,11 @@
       <p>본 앱은 후원 및 광고 제거 등을 위한 인앱 결제를 제공할 수 있어요. 결제 처리는 전적으로 Google Play 또는 Apple App Store가 담당하며, 본 앱은 카드 번호 등 결제 정보를 수집하거나 저장하지 않아요.</p>
 
       <h2>8. 로그인 및 계정</h2>
-      <p>본 앱은 로그인, 회원가입, 계정 생성 기능이 없어요.</p>
+      <p>로그인은 선택 기능이에요. Apple 또는 Google 계정으로 로그인하며, 처음 로그인할 때 닉네임을 정해요. 닉네임은 공개한 레시피의 작성자 이름으로 보여요. 닉네임은 마이 탭에서 언제든 바꿀 수 있어요.</p>
 
       <h2>9. 데이터 삭제</h2>
-      <p>앱을 기기에서 삭제하면 모든 로컬 데이터가 함께 삭제돼요.</p>
+      <p>앱을 기기에서 삭제하면 기기에 저장된 데이터가 함께 삭제돼요.</p>
+      <p>마이 탭의 <strong>계정 삭제</strong>를 누르면 닉네임, 클라우드 백업(사진 포함), 공개한 레시피와 사진, 좋아요·신고·숨김 기록이 서버에서 즉시 삭제돼요. 기기에 저장된 데이터는 남아요. 앱을 쓸 수 없는 경우 아래 이메일로 삭제를 요청하면 처리해 드려요.</p>
 
       <h2>10. 아동 개인정보 보호</h2>
       <p>본 앱은 만 12세 미만 아동을 대상으로 하지 않으며, 아동으로부터 의도적으로 개인정보를 수집하지 않아요.</p>
@@ -189,14 +197,21 @@
 
     <section id="en" class="lang-divider">
       <h1>Privacy Policy</h1>
-      <p class="date">Last updated: October 14, 2026</p>
+      <p class="date">Last updated: October 23, 2026</p>
 
       <p>DoughLab (hereinafter "the App") is an app for recording and experimenting with baking recipes using baker's percentages. The App values your privacy and protects personal information in accordance with applicable laws. This policy explains what information the App handles and how.</p>
 
       <h2>1. Information We Collect</h2>
       <div class="highlight">
-        <p><strong>The App does not collect any personal information.</strong></p>
-        <p>All data you enter in the App — including recipes, baker's percentages, experiment logs, notes, and photos — is stored exclusively on your device (in a local database). It is never transmitted to external servers or shared with third parties. No login or account is required, and the App works fully offline.</p>
+        <p><strong>If you do not sign in, the App does not collect any personal information.</strong></p>
+        <p>Recipes, baker's percentages, experiment and bake logs, notes, and photos are stored on your device (in a local database) by default. Signing in is optional, and every logging feature works offline without an account.</p>
+        <p>If you sign in (section 8), the App processes the following:</p>
+        <ul>
+          <li><strong>Account information</strong>: the email address and account identifier from Sign in with Apple or Google, and the nickname you choose</li>
+          <li><strong>Cloud backup</strong>: if you agree to backup, your recipes, experiments, bake logs, ingredients, notes, and photos (compressed) are stored on our server, used only to restore them or move them to a new device.</li>
+          <li><strong>Shared recipes</strong>: the formula, method, description, cover photo (compressed), and nickname of recipes you choose to share are visible to anyone in the Discover tab. Like and save counts, reports you send, and authors you hide are also stored.</li>
+        </ul>
+        <p>This data is stored with Supabase (cloud database and storage). It is not used for any other purpose or sold to third parties.</p>
       </div>
 
       <h2>2. Advertising (Google AdMob)</h2>
@@ -228,10 +243,11 @@
       <p>The App may offer in-app purchases, such as tips to support the developer or removing ads. All payments are handled entirely by Google Play or the Apple App Store. The App does not collect or store any payment information, such as card numbers.</p>
 
       <h2>8. Login and Accounts</h2>
-      <p>The App has no login, registration, or account creation features.</p>
+      <p>Signing in is optional. You sign in with an Apple or Google account and choose a nickname the first time. Your nickname is shown as the author of recipes you share, and you can change it at any time in the Profile tab.</p>
 
       <h2>9. Data Deletion</h2>
-      <p>Uninstalling the App from your device will delete all locally stored data.</p>
+      <p>Uninstalling the App deletes the data stored on your device.</p>
+      <p>Tapping <strong>Delete account</strong> in the Profile tab immediately deletes your nickname, cloud backup (including photos), shared recipes and photos, and like, report, and hide records from our server. Data on your device remains. If you cannot use the App, email us below to request deletion.</p>
 
       <h2>10. Children's Privacy</h2>
       <p>The App is not directed at children under the age of 12, and we do not knowingly collect personal information from children.</p>
@@ -247,14 +263,21 @@
 
     <section id="es" class="lang-divider">
       <h1>Política de Privacidad</h1>
-      <p class="date">Última actualización: 14 de octubre de 2026</p>
+      <p class="date">Última actualización: 23 de octubre de 2026</p>
 
       <p>DoughLab (en adelante, "la App") es una app para registrar y experimentar con recetas de panadería usando porcentajes del panadero. La App valora tu privacidad y protege la información personal de acuerdo con la legislación aplicable. Esta política explica qué información maneja la App y cómo lo hace.</p>
 
       <h2>1. Información que recopilamos</h2>
       <div class="highlight">
-        <p><strong>La App no recopila ninguna información personal.</strong></p>
-        <p>Todos los datos que introduces en la App — incluidas recetas, porcentajes del panadero, registros de experimentos, notas y fotos — se almacenan exclusivamente en tu dispositivo (en una base de datos local). Nunca se transmiten a servidores externos ni se comparten con terceros. No se requiere inicio de sesión ni cuenta, y la App funciona totalmente sin conexión.</p>
+        <p><strong>Si no inicias sesión, la App no recopila ninguna información personal.</strong></p>
+        <p>Las recetas, porcentajes del panadero, registros de experimentos y horneadas, notas y fotos se guardan por defecto en tu dispositivo (en una base de datos local). Iniciar sesión es opcional y todas las funciones de registro funcionan sin conexión y sin cuenta.</p>
+        <p>Si inicias sesión (sección 8), la App trata lo siguiente:</p>
+        <ul>
+          <li><strong>Datos de la cuenta</strong>: la dirección de correo y el identificador de cuenta de Iniciar sesión con Apple o Google, y el apodo que elijas</li>
+          <li><strong>Copia en la nube</strong>: si aceptas la copia, tus recetas, experimentos, horneadas, ingredientes, notas y fotos (comprimidas) se guardan en nuestro servidor, solo para restaurarlos o pasarlos a un dispositivo nuevo.</li>
+          <li><strong>Recetas compartidas</strong>: la fórmula, el método, la descripción, la foto de portada (comprimida) y el apodo de las recetas que decidas compartir son visibles para cualquiera en la pestaña Descubrir. También se guardan los recuentos de me gusta y guardados, los reportes que envíes y los autores que ocultes.</li>
+        </ul>
+        <p>Estos datos se guardan en Supabase (base de datos y almacenamiento en la nube). No se usan para otros fines ni se venden a terceros.</p>
       </div>
 
       <h2>2. Publicidad (Google AdMob)</h2>
@@ -286,10 +309,11 @@
       <p>La App puede ofrecer compras dentro de la app, como propinas para apoyar al desarrollador o eliminar la publicidad. Todos los pagos los gestionan íntegramente Google Play o la App Store de Apple. La App no recopila ni almacena información de pago, como números de tarjeta.</p>
 
       <h2>8. Inicio de sesión y cuentas</h2>
-      <p>La App no tiene funciones de inicio de sesión, registro ni creación de cuenta.</p>
+      <p>Iniciar sesión es opcional. Se inicia sesión con una cuenta de Apple o Google y la primera vez eliges un apodo, que se muestra como autor de las recetas que compartas. Puedes cambiarlo cuando quieras en la pestaña Perfil.</p>
 
       <h2>9. Eliminación de datos</h2>
-      <p>Desinstalar la App de tu dispositivo eliminará todos los datos almacenados localmente.</p>
+      <p>Desinstalar la App elimina los datos guardados en tu dispositivo.</p>
+      <p>Al tocar <strong>Eliminar cuenta</strong> en la pestaña Perfil se eliminan de inmediato de nuestro servidor tu apodo, la copia en la nube (con fotos), las recetas y fotos compartidas, y los registros de me gusta, reportes y ocultaciones. Los datos de tu dispositivo se conservan. Si no puedes usar la App, escríbenos al correo de abajo para solicitar la eliminación.</p>
 
       <h2>10. Privacidad de menores</h2>
       <p>La App no está dirigida a menores de 12 años y no recopila intencionadamente información personal de menores.</p>
