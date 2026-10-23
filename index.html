@@ -264,218 +264,138 @@
             .site-footer { flex-direction: column; gap: 4px; font-size: 13px; margin-top: 64px; padding-top: 20px; }
         }
 
-        /* Expanded detail panel */
-        /* Overlay backdrop */
+        /* 앱 상세 — PC 가운데 모달 / 모바일(≤760) 아래 시트 */
         .overlay-backdrop {
             display: none;
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.6);
+            inset: 0;
+            background: rgba(1, 4, 9, 0.72);
             z-index: 100;
             justify-content: center;
-            align-items: center;
-            padding: 20px;
+            align-items: flex-start;
+            padding: 72px 0;
+            overflow-y: auto;
         }
-
-        .overlay-backdrop.active {
-            display: flex;
-        }
+        .overlay-backdrop.active { display: flex; }
+        body.modal-open { overflow: hidden; }
 
         .app-detail {
             display: none;
+            position: relative;
+            width: 680px;
+            max-width: calc(100% - 48px);
             background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 16px;
-            padding: 24px;
-            max-width: 480px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            padding-bottom: 28px;
+            flex-direction: column;
+            gap: 18px;
             animation: fadeUp 0.2s ease-out;
         }
-
-        .app-detail.active {
-            display: block;
-        }
+        .app-detail.active { display: flex; }
+        .app-detail > * { margin: 0 28px; }
 
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(16px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .app-detail .detail-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 12px;
-        }
+        /* 보이는 순서: 배너 → 머리 → 배지 → 설명 → 지원 언어 → 법적 링크 (포커스 순서는 DOM과 같다) */
+        .app-detail .detail-hero { order: 0; margin: 0; display: block; width: 100%; height: 120px; }
+        .app-detail img.detail-hero { height: auto; aspect-ratio: 1024 / 500; object-fit: cover; }
+        .app-detail .detail-header { order: 1; margin-top: 6px; display: flex; gap: 16px; align-items: center; }
+        .app-detail .app-links { order: 2; }
+        .app-detail .description { order: 3; }
+        .app-detail .app-langs { order: 4; }
+        .app-detail .app-meta-links { order: 5; }
 
-        .app-detail .detail-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 14px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-
-        .app-detail .detail-info h2 {
-            font-size: 20px;
-            color: #f0f6fc;
-            margin-bottom: 2px;
-        }
-
-        .app-detail .detail-info .tagline {
-            font-size: 13px;
-            color: #8b949e;
-        }
-
-        .app-detail .description {
-            font-size: 14px;
-            color: #c9d1d9;
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
+        .app-detail .detail-icon { width: 76px; height: 76px; border-radius: 18px; object-fit: cover; flex: none; }
+        .app-detail .detail-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+        .app-detail .detail-kicker { font-size: 12px; font-weight: 700; color: #9aa4b2; }
+        .app-detail .detail-info h2 { font-size: 24px; font-weight: 900; color: #e6edf3; }
+        .app-detail .detail-info .tagline { font-size: 14px; color: #c9d1d9; }
+        .app-detail .description { font-size: 15px; line-height: 1.8; color: #c9d1d9; }
 
         /* 지원 언어 — 언어명을 그 언어 표기(endonym)로 나열한다.
            국기 이모지는 언어≠국가라 쓰지 않는다(영어·스페인어에서 특히 어긋남). */
-        .app-detail .app-langs {
-            display: flex;
-            align-items: baseline;
-            flex-wrap: wrap;
-            gap: 4px 12px;
-            margin-bottom: 16px;
-            font-size: 12px;
-        }
-
-        .app-detail .app-langs .langs-label {
-            color: #6e7681;
-            flex-shrink: 0;
-        }
-
-        .app-detail .app-langs .langs-list {
-            color: #8b949e;
-            line-height: 1.5;
-        }
-
-        .app-detail .app-langs .langs-list .separator {
-            color: #484f58;
-            margin: 0 5px;
-        }
+        .app-detail .app-langs { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; }
+        .app-detail .app-langs .langs-label { color: #6e7681; flex-shrink: 0; }
+        .app-detail .app-langs .langs-list { color: #9aa4b2; line-height: 1.5; }
+        .app-detail .app-langs .langs-list .separator { color: #6e7681; margin: 0 5px; }
 
         .app-detail .close-btn {
-            float: right;
-            background: none;
-            border: none;
-            color: #8b949e;
+            position: absolute;
+            top: 14px; right: 14px;
+            z-index: 1;
+            margin: 0;
+            width: 40px; height: 40px;
+            border-radius: 20px;
+            border: 0;
+            background: rgba(14, 17, 23, 0.75);
+            color: #e6edf3;
+            display: flex; align-items: center; justify-content: center;
             cursor: pointer;
-            font-size: 18px;
-            padding: 4px;
-            line-height: 1;
         }
+        .app-detail .close-btn:hover { background: rgba(14, 17, 23, 0.95); }
 
-        .app-detail .close-btn:hover {
-            color: #f0f6fc;
-        }
-
-        .app-links {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .app-links a {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 7px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            text-decoration: none;
-            transition: background 0.2s;
-        }
-
-        .link-store {
-            background: #238636;
-            color: #fff;
-        }
-
-        .link-store:hover {
-            background: #2ea043;
-        }
-
-        .link-secondary {
-            background: #21262d;
-            color: #c9d1d9;
-            border: 1px solid #30363d;
-        }
-
-        .link-secondary:hover {
-            background: #30363d;
-        }
-
-        .app-links .link-badge {
-            padding: 0;
-            background: none;
-            border: none;
-            transition: opacity 0.2s;
-        }
-
-        .app-links .link-badge:hover {
-            background: none;
-            opacity: 0.85;
-        }
-
-        .app-links .link-badge img {
-            height: 36px;
-            display: block;
-        }
-
+        .app-links { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .app-links .link-badge { display: block; line-height: 0; transition: opacity 0.2s; }
+        .app-links .link-badge:hover { opacity: 0.85; }
+        .app-links .link-badge img { height: 44px; width: auto; display: block; }
         .link-badge-dev {
-            display: inline-flex;
-            align-items: center;
-            padding: 8px 14px;
+            display: flex; align-items: center;
+            height: 44px; padding: 0 16px;
+            border-radius: 12px;
             background: #21262d;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            color: #8b949e;
-            font-size: 11px;
-            font-weight: 500;
-            cursor: default;
-            user-select: none;
+            color: #9aa4b2;
+            font-size: 14px; font-weight: 700;
+            cursor: default; user-select: none;
         }
 
-        @media (min-width: 540px) {
-            .app-links .link-badge img {
-                height: 44px;
+        .app-meta-links { display: flex; flex-wrap: wrap; gap: 8px 16px; padding-top: 4px; font-size: 13px; }
+        .app-meta-links a { color: #9aa4b2; transition: color 0.2s; }
+        .app-meta-links a:hover { color: #e6edf3; }
+        .app-meta-links .separator { display: none; }
+
+        @media (max-width: 760px) {
+            .overlay-backdrop { align-items: flex-end; padding: 0; overflow: hidden; }
+            .app-detail {
+                width: 100%; max-width: none;
+                max-height: 88vh;
+                overflow-y: auto;
+                overscroll-behavior: contain;
+                border-radius: 24px 24px 0 0;
+                box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.5);
+                padding-bottom: calc(32px + env(safe-area-inset-bottom));
+                gap: 16px;
+                animation: sheetUp 0.25s ease-out;
             }
-
-            .link-badge-dev {
-                padding: 11px 18px;
-                font-size: 12px;
+            .app-detail > * { margin: 0 20px; }
+            /* 손잡이 막대 */
+            .app-detail::before {
+                content: ''; order: -1; flex: none;
+                width: 40px; height: 5px; border-radius: 3px; background: #3a414b;
+                margin: 10px auto -2px;
             }
+            .app-detail .detail-header { order: 1; margin-top: 0; gap: 14px; padding-right: 44px; }
+            .app-detail .detail-hero { order: 2; margin: 0 20px; width: auto; border-radius: 14px; }
+            .app-detail div.detail-hero { display: none; }
+            .app-detail .close-btn { top: 12px; right: 12px; background: #21262d; }
+            .app-detail .detail-icon { width: 64px; height: 64px; border-radius: 15px; }
+            .app-detail .detail-info { gap: 2px; }
+            .app-detail .detail-kicker { font-size: 11px; }
+            .app-detail .detail-info h2 { font-size: 20px; }
+            .app-detail .detail-info .tagline { font-size: 13px; }
+            .app-detail .description { font-size: 14px; line-height: 1.75; }
+            .app-links { gap: 8px; }
+            .link-badge-dev { flex: 1; justify-content: center; height: 46px; }
+            .app-meta-links { padding-top: 0; }
         }
 
-        .app-meta-links {
-            display: flex;
-            gap: 4px;
-            margin-top: 10px;
-            font-size: 11px;
-        }
-
-        .app-meta-links a {
-            color: #484f58;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .app-meta-links a:hover {
-            color: #8b949e;
-        }
-
-        .app-meta-links .separator {
-            color: #30363d;
+        @keyframes sheetUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
 
     </style>
@@ -541,7 +461,7 @@
         <!-- Detail panels — overlay modal -->
         <div class="overlay-backdrop" id="overlayBackdrop" onclick="closeAllDetails()">
         <div class="app-detail" id="detail-jukforest" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closeDetail('jukforest')">&times;</button>
+            <button type="button" class="close-btn" onclick="closeDetail('jukforest')" aria-label="닫기" data-i18n-aria-label="close_aria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
             <div class="detail-header">
                 <img src="juk-forest-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
@@ -566,7 +486,7 @@
         </div>
 
         <div class="app-detail" id="detail-ounwan" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closeDetail('ounwan')">&times;</button>
+            <button type="button" class="close-btn" onclick="closeDetail('ounwan')" aria-label="닫기" data-i18n-aria-label="close_aria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
             <div class="detail-header">
                 <img src="ounwan-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
@@ -590,11 +510,11 @@
         </div>
 
         <div class="app-detail" id="detail-amen" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closeDetail('amen')">&times;</button>
+            <button type="button" class="close-btn" onclick="closeDetail('amen')" aria-label="닫기" data-i18n-aria-label="close_aria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
             <div class="detail-header">
                 <img src="amen-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
-                    <h2 data-i18n="apps.amen.detail_name">AMEN - 기도 동행</h2>
+                    <h2 data-i18n="apps.amen.name">AMEN</h2>
                     <div class="tagline" data-i18n="apps.amen.detail_tagline">걱정과 근심을 나누면, AI가 당신을 위해 중보기도합니다</div>
                 </div>
             </div>
@@ -615,7 +535,7 @@
         </div>
 
         <div class="app-detail" id="detail-ipsomun" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closeDetail('ipsomun')">&times;</button>
+            <button type="button" class="close-btn" onclick="closeDetail('ipsomun')" aria-label="닫기" data-i18n-aria-label="close_aria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
             <div class="detail-header">
                 <img src="ipsomun-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
@@ -640,7 +560,7 @@
         </div>
 
         <div class="app-detail" id="detail-bagshot" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closeDetail('bagshot')">&times;</button>
+            <button type="button" class="close-btn" onclick="closeDetail('bagshot')" aria-label="닫기" data-i18n-aria-label="close_aria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
             <div class="detail-header">
                 <img src="bagshot-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
@@ -665,7 +585,7 @@
         </div>
 
         <div class="app-detail" id="detail-naru" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closeDetail('naru')">&times;</button>
+            <button type="button" class="close-btn" onclick="closeDetail('naru')" aria-label="닫기" data-i18n-aria-label="close_aria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
             <div class="detail-header">
                 <img src="naru-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
@@ -689,7 +609,7 @@
             </div>
         </div>
         <div class="app-detail" id="detail-dustler" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closeDetail('dustler')">&times;</button>
+            <button type="button" class="close-btn" onclick="closeDetail('dustler')" aria-label="닫기" data-i18n-aria-label="close_aria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
             <div class="detail-header">
                 <img src="dustler-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
@@ -714,7 +634,7 @@
         </div>
 
         <div class="app-detail" id="detail-sogak" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closeDetail('sogak')">&times;</button>
+            <button type="button" class="close-btn" onclick="closeDetail('sogak')" aria-label="닫기" data-i18n-aria-label="close_aria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
             <div class="detail-header">
                 <img src="sogak-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
@@ -739,11 +659,11 @@
         </div>
 
         <div class="app-detail" id="detail-cannon" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closeDetail('cannon')">&times;</button>
+            <button type="button" class="close-btn" onclick="closeDetail('cannon')" aria-label="닫기" data-i18n-aria-label="close_aria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
             <div class="detail-header">
                 <img src="cannon-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
-                    <h2 data-i18n="apps.cannon.detail_name">캐논 버티기 — 픽셀 캐논 디펜스</h2>
+                    <h2 data-i18n="apps.cannon.name">캐논 버티기</h2>
                     <div class="tagline" data-i18n="apps.cannon.detail_tagline">고철 캐논 하나로 벌레 떼를 버텨라</div>
                 </div>
             </div>
@@ -762,11 +682,11 @@
         </div>
 
         <div class="app-detail" id="detail-muhanpalace" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closeDetail('muhanpalace')">&times;</button>
+            <button type="button" class="close-btn" onclick="closeDetail('muhanpalace')" aria-label="닫기" data-i18n-aria-label="close_aria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
             <div class="detail-header">
                 <img src="muhanpalace-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
-                    <h2 data-i18n="apps.muhanpalace.detail_name">무한팰리스 — 픽셀 횡스크롤 액션</h2>
+                    <h2 data-i18n="apps.muhanpalace.name">무한팰리스</h2>
                     <div class="tagline" data-i18n="apps.muhanpalace.detail_tagline">펜트하우스 첫 입주하러 간다</div>
                 </div>
             </div>
@@ -776,7 +696,7 @@
                 <span class="langs-list">한국어<span class="separator">·</span>English<span class="separator">·</span>日本語</span>
             </div>
             <div class="app-links">
-                <span class="link-badge-dev" data-i18n="dev_coming">개발중 · 곧 출시 예정</span>
+                <span class="link-badge-dev" data-i18n="badge_dev">개발중</span>
             </div>
             <div class="app-meta-links">
                 <a href="https://claypark.github.io/dev-page/muhanpalace/privacy-policy.html" data-i18n="privacy">개인정보처리방침</a>
@@ -784,11 +704,11 @@
         </div>
 
         <div class="app-detail" id="detail-hoegwan" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closeDetail('hoegwan')">&times;</button>
+            <button type="button" class="close-btn" onclick="closeDetail('hoegwan')" aria-label="닫기" data-i18n-aria-label="close_aria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
             <div class="detail-header">
                 <img src="hoegwan-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
-                    <h2 data-i18n="apps.hoegwan.detail_name">회관 — 테니스 레슨장 회원관리</h2>
+                    <h2 data-i18n="apps.hoegwan.name">회관</h2>
                     <div class="tagline" data-i18n="apps.hoegwan.detail_tagline">회원 관리, 줄여서 회관</div>
                 </div>
             </div>
@@ -809,11 +729,11 @@
         </div>
 
         <div class="app-detail" id="detail-dandori" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closeDetail('dandori')">&times;</button>
+            <button type="button" class="close-btn" onclick="closeDetail('dandori')" aria-label="닫기" data-i18n-aria-label="close_aria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
             <div class="detail-header">
                 <img src="dandori-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
-                    <h2 data-i18n="apps.dandori.detail_name">단도리 — 매장 체크리스트·근무표</h2>
+                    <h2 data-i18n="apps.dandori.name">단도리</h2>
                     <div class="tagline" data-i18n="apps.dandori.detail_tagline">매장의 하루를 단단히</div>
                 </div>
             </div>
@@ -838,11 +758,11 @@
         </div>
 
         <div class="app-detail" id="detail-doughlab" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closeDetail('doughlab')">&times;</button>
+            <button type="button" class="close-btn" onclick="closeDetail('doughlab')" aria-label="닫기" data-i18n-aria-label="close_aria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
             <div class="detail-header">
                 <img src="doughlab-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
-                    <h2 data-i18n="apps.doughlab.detail_name">도우랩 — 제빵 레시피 랩</h2>
+                    <h2 data-i18n="apps.doughlab.name">도우랩</h2>
                     <div class="tagline" data-i18n="apps.doughlab.detail_tagline">반죽을 숫자로, 레시피를 실험으로</div>
                 </div>
             </div>
@@ -881,6 +801,9 @@
                 email_label: '문의:',
                 badge_live: '출시',
                 badge_dev: '개발중',
+                status_live: '출시',
+                close_aria: '닫기',
+                detail_aria: '{name} 앱 정보',
                 badge_new: 'NEW',
                 privacy: '개인정보처리방침',
                 terms: '이용약관',
@@ -1009,6 +932,9 @@
                 email_label: 'Email:',
                 badge_live: 'Live',
                 badge_dev: 'Soon',
+                status_live: 'Available',
+                close_aria: 'Close',
+                detail_aria: '{name} app info',
                 badge_new: 'NEW',
                 privacy: 'Privacy Policy',
                 terms: 'Terms of Service',
@@ -1137,6 +1063,9 @@
                 email_label: 'Correo:',
                 badge_live: 'Disponible',
                 badge_dev: 'En desarrollo',
+                status_live: 'Disponible',
+                close_aria: 'Cerrar',
+                detail_aria: 'Información de {name}',
                 badge_new: 'NUEVO',
                 privacy: 'Política de Privacidad',
                 terms: 'Términos de Servicio',
@@ -1265,6 +1194,9 @@
                 email_label: 'お問い合わせ:',
                 badge_live: 'リリース',
                 badge_dev: '開発中',
+                status_live: '配信中',
+                close_aria: '閉じる',
+                detail_aria: '{name}のアプリ情報',
                 badge_new: 'NEW',
                 privacy: 'プライバシーポリシー',
                 terms: '利用規約',
@@ -1444,6 +1376,7 @@
             });
             renderBanners();
             renderCatalog();
+            renderDetails();
 
             document.querySelectorAll('.lang-item').forEach(btn => {
                 btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
@@ -1487,21 +1420,21 @@
         });
 
         // ---------- 앱 목록 (카드·섹션·검색·칩·개수의 단일 출처) ----------
-        // cat = App Store Connect primaryCategory 실측값. kw = 한국어 검색어.
+        // cat = App Store Connect primaryCategory 실측값. kw = 한국어 검색어. accent = 배너 없는 앱의 상세 머리 색.
         const APPS = [
             { id: 'cannon', cat: 'games', ios: true, android: true, kw: '캐논 디펜스 벌레 게임' },
-            { id: 'muhanpalace', cat: 'games', dev: true, kw: '아파트 게임' },
+            { id: 'muhanpalace', cat: 'games', dev: true, kw: '아파트 게임', accent: '#b91c1c' },
             { id: 'naru', cat: 'games', ios: true, android: true, kw: '낚시 힐링' },
-            { id: 'bagshot', cat: 'games', ios: true, android: true, kw: '샌드백 스트레스' },
+            { id: 'bagshot', cat: 'games', ios: true, android: true, kw: '샌드백 스트레스', accent: '#ef4444' },
             { id: 'hoegwan', cat: 'business', ios: true, android: true, kw: '테니스 레슨 회원 코치' },
             { id: 'dandori', cat: 'business', ios: true, android: true, kw: '매장 가게 근무표 체크리스트' },
-            { id: 'doughlab', cat: 'productivity', ios: true, android: true, kw: '빵 제빵 레시피' },
-            { id: 'sogak', cat: 'productivity', ios: true, android: true, kw: '할 일 알람 인생 카운트다운' },
+            { id: 'doughlab', cat: 'productivity', ios: true, android: true, kw: '빵 제빵 레시피', accent: '#d98a3d' },
+            { id: 'sogak', cat: 'productivity', ios: true, android: true, kw: '할 일 알람 인생 카운트다운', accent: '#f43f5e' },
             { id: 'dustler', cat: 'lifestyle', ios: true, android: true, kw: '청소 집안일' },
-            { id: 'amen', cat: 'lifestyle', ios: true, android: true, kw: '기도 성경' },
-            { id: 'ounwan', cat: 'entertainment', android: true, kw: '사주 운세' },
-            { id: 'ipsomun', cat: 'food', ios: true, android: true, kw: '음식 맛집 트렌드' },
-            { id: 'jukforest', cat: 'social', ios: true, android: true, kw: '익명 게시판', icon: 'juk-forest-icon.png' },
+            { id: 'amen', cat: 'lifestyle', ios: true, android: true, kw: '기도 성경', accent: '#c9a96e' },
+            { id: 'ounwan', cat: 'entertainment', android: true, kw: '사주 운세', accent: '#a855f7' },
+            { id: 'ipsomun', cat: 'food', ios: true, android: true, kw: '음식 맛집 트렌드', accent: '#C4572A' },
+            { id: 'jukforest', cat: 'social', ios: true, android: true, kw: '익명 게시판', icon: 'juk-forest-icon.png', accent: '#4CAF50' },
         ];
         const CATS = ['games', 'business', 'productivity', 'lifestyle', 'entertainment', 'food', 'social'];
         // [앱, 라벨 키, 라벨 색]
@@ -1594,37 +1527,58 @@
         });
 
         // ---------- Detail modal ----------
+        // 머리 배너와 카테고리 · 상태 줄은 APPS·BANNERS에서 채운다(언어 바뀔 때마다).
+        function renderDetails() {
+            const bannerIds = BANNERS.map(([id]) => id);
+            APPS.forEach(a => {
+                const panel = document.getElementById('detail-' + a.id);
+                if (!panel.querySelector('.detail-hero')) {
+                    const hero = document.createElement(bannerIds.includes(a.id) ? 'img' : 'div');
+                    hero.className = 'detail-hero';
+                    if (hero.tagName === 'IMG') { hero.src = 'banners/' + a.id + '.jpg'; hero.alt = ''; }
+                    else hero.style.background = a.accent;
+                    panel.querySelector('.close-btn').after(hero);
+                    const kicker = document.createElement('span');
+                    kicker.className = 'detail-kicker';
+                    panel.querySelector('.detail-info').prepend(kicker);
+                    panel.setAttribute('role', 'dialog');
+                    panel.setAttribute('aria-modal', 'true');
+                }
+                panel.querySelector('.detail-kicker').textContent = t('cats.' + a.cat) + ' · ' + t(a.dev ? 'badge_dev' : 'status_live');
+                panel.setAttribute('aria-label', t('detail_aria', { name: t('apps.' + a.id + '.name') }));
+            });
+        }
+
         let activeDetail = null;
+        let detailOpener = null;
 
         function toggleDetail(id) {
+            if (activeDetail === id) return closeAllDetails();
+            if (activeDetail) document.getElementById('detail-' + activeDetail).classList.remove('active');
+            else detailOpener = document.activeElement;
             const panel = document.getElementById('detail-' + id);
-            const backdrop = document.getElementById('overlayBackdrop');
-            if (activeDetail === id) {
-                closeAllDetails();
-                return;
-            }
-            if (activeDetail) {
-                document.getElementById('detail-' + activeDetail).classList.remove('active');
-            }
-            backdrop.classList.add('active');
+            document.getElementById('overlayBackdrop').classList.add('active');
             panel.classList.add('active');
+            panel.scrollTop = 0;
+            document.body.classList.add('modal-open');
+            panel.querySelector('.close-btn').focus({ preventScroll: true });
             activeDetail = id;
             trackEvent('view_app_detail', { app_id: id, language: currentLang });
         }
 
-        function closeDetail(id) {
-            document.getElementById('detail-' + id).classList.remove('active');
-            document.getElementById('overlayBackdrop').classList.remove('active');
-            activeDetail = null;
-        }
+        function closeDetail() { closeAllDetails(); }
 
         function closeAllDetails() {
-            if (activeDetail) {
-                document.getElementById('detail-' + activeDetail).classList.remove('active');
-            }
+            if (!activeDetail) return;
+            document.getElementById('detail-' + activeDetail).classList.remove('active');
             document.getElementById('overlayBackdrop').classList.remove('active');
+            document.body.classList.remove('modal-open');
             activeDetail = null;
+            if (detailOpener && detailOpener.isConnected) detailOpener.focus();
+            detailOpener = null;
         }
+
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && activeDetail) closeAllDetails(); });
 
         // ---------- Store badge click tracking ----------
         // Forward the inbound campaign source (e.g. Instagram → dev-page) into the
