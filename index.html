@@ -146,7 +146,8 @@
 
         /* ---------- 이런 걸 만들고 있어요 ---------- */
         .catalog { display: flex; flex-direction: column; gap: 20px; margin-top: 80px; }
-        .catalog-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+        .catalog-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px 16px; flex-wrap: wrap; }
+        .catalog-tools { display: contents; }
         .catalog-title { display: flex; flex-direction: column; gap: 4px; }
         .catalog-title span { font-size: 14px; color: #9aa4b2; }
 
@@ -161,7 +162,7 @@
         }
 
         .search input::placeholder { color: #8b949e; }
-        .cat-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+        .cat-chips { flex-basis: 100%; display: flex; gap: 8px; flex-wrap: wrap; }
 
         .cat-chip {
             border: 0; border-radius: 999px; padding: 0 14px; height: 36px;
@@ -248,11 +249,16 @@
             .catalog-title { gap: 2px; }
             .catalog-title span { font-size: 13px; }
             .search { flex: none; }
-            .cat-chips { flex-wrap: nowrap; overflow-x: auto; margin: -2px -20px 0; padding: 0 20px; }
+            .cat-chips { flex-wrap: nowrap; overflow-x: auto; margin: 0 -20px; padding: 0 20px; }
             /* 스크롤해도 검색·칩이 위에 붙는다. 머리를 풀어 검색이 .catalog의 직계처럼 붙게 한다 */
             .catalog-head { display: contents; }
-            .search { position: sticky; top: 10px; z-index: 5; box-shadow: 0 0 0 10px #0e1117; }
-            .cat-chips { position: sticky; top: 64px; z-index: 5; background: #0e1117; padding-bottom: 10px; box-shadow: 0 -14px 0 #0e1117; }
+            .catalog-tools {
+                display: flex; flex-direction: column; gap: 12px;
+                position: sticky; top: 0; z-index: 5; background: #0e1117;
+                margin: -10px -20px 0; padding: 10px 20px;
+            }
+            /* 검색·칩으로 목록이 짧아져도 문서가 줄어 스크롤이 위로 튕기지 않게 */
+            .catalog { min-height: calc(100vh + 120px); min-height: calc(100dvh + 120px); }
             #appSections { margin-top: -24px; }
             .cat-chip { flex: none; padding: 0 12px; }
 
@@ -457,22 +463,24 @@
                     <h2 class="h2" data-i18n="catalog_title">이런 걸 만들고 있어요</h2>
                     <span id="appCount"></span>
                 </div>
-                <label class="search">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b949e" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
-                    <span class="sr-only" data-i18n="search_label">앱 검색</span>
-                    <input type="search" id="appSearch" placeholder="낚시, 매장처럼 궁금한 걸 검색해 보세요" data-i18n-placeholder="search_placeholder">
-                </label>
+                <div class="catalog-tools">
+                    <label class="search">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b949e" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+                        <span class="sr-only" data-i18n="search_label">앱 검색</span>
+                        <input type="search" id="appSearch" placeholder="낚시, 매장처럼 궁금한 걸 검색해 보세요" data-i18n-placeholder="search_placeholder">
+                    </label>
+                    <nav class="cat-chips" id="catChips" aria-label="카테고리" data-i18n-aria-label="cats_aria">
+                        <button type="button" class="cat-chip on" data-cat="all" data-i18n="cats.all">전체</button>
+                        <button type="button" class="cat-chip" data-cat="games" data-i18n="cats.games">게임</button>
+                        <button type="button" class="cat-chip" data-cat="business" data-i18n="cats.business">비즈니스</button>
+                        <button type="button" class="cat-chip" data-cat="productivity" data-i18n="cats.productivity">생산성</button>
+                        <button type="button" class="cat-chip" data-cat="lifestyle" data-i18n="cats.lifestyle">라이프스타일</button>
+                        <button type="button" class="cat-chip" data-cat="entertainment" data-i18n="cats.entertainment">엔터테인먼트</button>
+                        <button type="button" class="cat-chip" data-cat="food" data-i18n="cats.food">음식 및 음료</button>
+                        <button type="button" class="cat-chip" data-cat="social" data-i18n="cats.social">소셜 네트워킹</button>
+                    </nav>
+                </div>
             </div>
-            <nav class="cat-chips" id="catChips" aria-label="카테고리" data-i18n-aria-label="cats_aria">
-                <button type="button" class="cat-chip on" data-cat="all" data-i18n="cats.all">전체</button>
-                <button type="button" class="cat-chip" data-cat="games" data-i18n="cats.games">게임</button>
-                <button type="button" class="cat-chip" data-cat="business" data-i18n="cats.business">비즈니스</button>
-                <button type="button" class="cat-chip" data-cat="productivity" data-i18n="cats.productivity">생산성</button>
-                <button type="button" class="cat-chip" data-cat="lifestyle" data-i18n="cats.lifestyle">라이프스타일</button>
-                <button type="button" class="cat-chip" data-cat="entertainment" data-i18n="cats.entertainment">엔터테인먼트</button>
-                <button type="button" class="cat-chip" data-cat="food" data-i18n="cats.food">음식 및 음료</button>
-                <button type="button" class="cat-chip" data-cat="social" data-i18n="cats.social">소셜 네트워킹</button>
-            </nav>
 
             <div id="appSections"></div>
             <div class="app-empty" id="appEmpty" data-i18n="search_empty" hidden>찾는 앱이 없어요. 다른 말로 검색해 보세요.</div>
@@ -1541,11 +1549,20 @@
             document.querySelectorAll('.cat-chip').forEach(b => b.classList.toggle('on', b.dataset.cat === catalogCat));
         }
 
+        // 모바일에서 검색·칩이 붙어 있는 동안 걸러 내면 결과 첫 줄이 띠 바로 아래 오게 맞춘다.
+        function keepToolsStuck() {
+            const tools = document.querySelector('.catalog-tools');
+            if (getComputedStyle(tools).position !== 'sticky') return;
+            const y = document.querySelector('.catalog-title').getBoundingClientRect().bottom + scrollY + 4;
+            if (scrollY > y) window.scrollTo(0, y);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('appSearch').addEventListener('input', renderCatalog);
+            document.getElementById('appSearch').addEventListener('input', () => { renderCatalog(); keepToolsStuck(); });
             document.querySelectorAll('.cat-chip').forEach(b => b.addEventListener('click', () => {
                 catalogCat = b.dataset.cat;
                 renderCatalog();
+                keepToolsStuck();
             }));
             document.getElementById('bannerPrev').addEventListener('click', () => moveBanner(-1));
             document.getElementById('bannerNext').addEventListener('click', () => moveBanner(1));
@@ -1570,7 +1587,7 @@
                     panel.setAttribute('role', 'dialog');
                     panel.setAttribute('aria-modal', 'true');
                 }
-                panel.querySelector('.detail-kicker').textContent = t('cats.' + a.cat) + ' · ' + t(a.dev ? 'badge_dev' : 'status_live');
+                panel.querySelector('.detail-kicker').textContent = t('cats.' + a.cat) + (a.dev ? ' · ' + t('badge_dev') : '');
                 panel.setAttribute('aria-label', t('detail_aria', { name: t('apps.' + a.id + '.name') }));
             });
         }
