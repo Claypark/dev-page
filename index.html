@@ -174,9 +174,6 @@
         #appSections { margin-top: -20px; }
 
         .app-section { display: flex; flex-direction: column; gap: 16px; margin-top: 40px; }
-        .app-section-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-        .app-section-head h3 { font-size: 18px; font-weight: 900; }
-        .app-section-head span { font-size: 14px; color: #9aa4b2; }
         .app-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 
         .app-card {
@@ -263,9 +260,6 @@
             .cat-chip { flex: none; padding: 0 12px; }
 
             .app-section { margin-top: 32px; gap: 10px; }
-            .app-section-head { gap: 8px; margin-bottom: 2px; }
-            .app-section-head h3 { font-size: 17px; }
-            .app-section-head span { font-size: 13px; }
             .app-cards { grid-template-columns: minmax(0, 1fr); gap: 10px; }
             .app-card { gap: 14px; padding: 14px 14px 14px 16px; border-radius: 16px; }
             .app-card > img { width: 52px; height: 52px; border-radius: 13px; }
@@ -1468,7 +1462,6 @@
             { id: 'ipsomun', cat: 'food', ios: true, android: true, kw: '음식 맛집 트렌드', accent: '#C4572A' },
             { id: 'jukforest', cat: 'social', ios: true, android: true, kw: '익명 게시판', icon: 'juk-forest-icon.png', accent: '#4CAF50' },
         ];
-        const CATS = ['games', 'business', 'productivity', 'lifestyle', 'entertainment', 'food', 'social'];
         // [앱, 라벨 키, 라벨 색]
         const BANNERS = [
             ['cannon', 'banner_featured', '#f0a868'],
@@ -1533,19 +1526,15 @@
             const hay = a => [t('apps.' + a.id + '.name'), t('apps.' + a.id + '.tagline'), t('apps.' + a.id + '.detail_tagline'),
                 I18N.ko.apps[a.id].name, a.kw].join(' ').toLowerCase();
             const apps = APPS.filter(a => (catalogCat === 'all' || a.cat === catalogCat) && (!q || hay(a).includes(q)));
-            let sections;
-            if (q) sections = [[t('search_results'), apps]];
-            else if (catalogCat === 'all') sections = CATS.map(c => [t('cats.' + c), apps.filter(a => a.cat === c)]);
-            else sections = [[t('cats.' + catalogCat), apps]];
-            sections = sections.filter(([, list]) => list.length);
-
-            document.getElementById('appCount').textContent = t('apps_count', { n: APPS.length });
+            // 섹션 없이 한 목록(APPS 순서 = 카테고리끼리 모여 있다). 제목 아래 줄이 지금 보이는 범위와 개수를 말한다.
+            document.getElementById('appCount').textContent =
+                q ? t('search_results') + ' ' + countText(apps.length)
+                : catalogCat === 'all' ? t('apps_count', { n: APPS.length })
+                : t('cats.' + catalogCat) + ' ' + countText(apps.length);
             document.getElementById('featured').hidden = !!q || catalogCat !== 'all';
-            document.getElementById('appEmpty').hidden = sections.length > 0;
-            document.getElementById('appSections').innerHTML = sections.map(([title, list]) =>
-                '<section class="app-section"><div class="app-section-head"><h3>' + title + '</h3><span>' + countText(list.length) + '</span></div>'
-                + '<div class="app-cards">' + list.map(appCardHtml).join('') + '</div></section>'
-            ).join('');
+            document.getElementById('appEmpty').hidden = apps.length > 0;
+            document.getElementById('appSections').innerHTML = apps.length
+                ? '<section class="app-section"><div class="app-cards">' + apps.map(appCardHtml).join('') + '</div></section>' : '';
             document.querySelectorAll('.cat-chip').forEach(b => b.classList.toggle('on', b.dataset.cat === catalogCat));
         }
 
