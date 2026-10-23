@@ -1472,6 +1472,12 @@
             { id: 'jukforest', cat: 'social', ios: true, android: true, kw: '익명 게시판', icon: 'juk-forest-icon.png', accent: '#4CAF50' },
         ];
         // [앱, 라벨 키, 라벨 색]
+        // 언어별 배너(Play 그 언어 등록정보의 피처 그래픽) — 없으면 ko(banners/<id>.jpg). ja는 en을 쓴다.
+        const BANNER_LANGS = { amen: ['en', 'es'], bagshot: ['en', 'es'], doughlab: ['en', 'es'], dustler: ['en', 'es'], ounwan: ['en', 'es'], sogak: ['en', 'es'] };
+        function bannerSrc(id) {
+            const l = currentLang === 'ja' ? 'en' : currentLang;
+            return 'banners/' + id + ((BANNER_LANGS[id] || []).includes(l) ? '_' + l : '') + '.jpg';
+        }
         const BANNERS = [
             ['hoegwan', 'banner_new', '#8fa8ff'],
             ['cannon', 'banner_featured', '#f0a868'],
@@ -1511,7 +1517,7 @@
             const byId = Object.fromEntries(APPS.map(a => [a.id, a]));
             document.getElementById('bannerTrack').innerHTML = BANNERS.map(([id, labelKey, color]) =>
                 '<button type="button" class="banner-card" onclick="toggleDetail(\'' + id + '\')">'
-                + '<img src="banners/' + id + '.jpg" alt="">'
+                + '<img src="' + bannerSrc(id) + '" alt="">'
                 + '<span class="banner-meta"><img src="' + appIcon(byId[id]) + '" alt="">'
                 + '<span class="banner-text"><span class="banner-label" style="color: ' + color + '">' + t(labelKey) + ' · ' + t('cats.' + byId[id].cat) + '</span>'
                 + '<span class="banner-name">' + t('apps.' + id + '.name') + '</span>'
@@ -1583,7 +1589,7 @@
                 if (!panel.querySelector('.detail-hero')) {
                     const hero = document.createElement(a.dev ? 'div' : 'img');
                     hero.className = 'detail-hero';
-                    if (hero.tagName === 'IMG') { hero.src = 'banners/' + a.id + '.jpg'; hero.alt = ''; hero.decoding = 'async'; }
+                    if (hero.tagName === 'IMG') { hero.alt = ''; hero.decoding = 'async'; }
                     else hero.style.background = a.accent;
                     panel.querySelector('.close-btn').after(hero);
                     const kicker = document.createElement('span');
@@ -1592,6 +1598,9 @@
                     panel.setAttribute('role', 'dialog');
                     panel.setAttribute('aria-modal', 'true');
                 }
+                const img = panel.querySelector('img.detail-hero');
+                // 언어별 배너 — 바뀔 때만 src를 갈고, 첫 열기 디코딩 대기도 다시 하게 한다.
+                if (img && img.getAttribute('src') !== bannerSrc(a.id)) { img.src = bannerSrc(a.id); delete img.dataset.decoded; }
                 panel.querySelector('.detail-kicker').textContent = t('cats.' + a.cat) + (a.dev ? ' · ' + t('badge_dev') : '');
                 panel.setAttribute('aria-label', t('detail_aria', { name: t('apps.' + a.id + '.name') }));
             });
