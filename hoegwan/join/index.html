@@ -252,7 +252,7 @@
       <div class="notice" id="noapp">
         <b>앱이 열리지 않나요?</b>
         <p>앱을 설치한 뒤 이 페이지로 돌아와 다시 눌러 주세요. 또는 앱의 초대 코드 입력에 위 코드를 넣어 주세요.</p>
-        <p id="store-links">회관은 지금 테스트 중이라 초대받은 분만 설치할 수 있어요. 설치 방법은 사장님께 물어봐 주세요.</p>
+        <p id="store-links">App Store나 Google Play에서 회관을 검색해 설치해 주세요.</p>
       </div>
     </section>
 
@@ -270,8 +270,10 @@
 
       var PACKAGE = 'com.clpak.hoegwan';
       var SCHEME = 'hoegwan';
-      // 공개 출시 뒤 채운다 — 지금은 비공개 테스트(Play)·TestFlight라 누구나 열 수 있는 스토어 주소가 없다.
-      var STORE = { android: '', ios: '' };
+      var STORE = {
+        android: 'https://play.google.com/store/apps/details?id=com.clpak.hoegwan',
+        ios: 'https://apps.apple.com/kr/app/id6816950422',
+      };
       // 서버 알파벳 ABCDEFGHJKLMNPQRSTUVWXYZ23456789 (0·O·1·I 없음)
       var CODE_RE = /^HG-[A-HJ-NP-Z2-9]{6}$/;
       var STORE_NAME_MAX = 40;
