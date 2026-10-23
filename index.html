@@ -1560,9 +1560,15 @@
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('appSearch').addEventListener('input', () => { renderCatalog(); keepToolsStuck(); });
             document.querySelectorAll('.cat-chip').forEach(b => b.addEventListener('click', () => {
-                catalogCat = b.dataset.cat;
+                // 고른 칩을 한 번 더 누르면 전체로
+                catalogCat = catalogCat === b.dataset.cat ? 'all' : b.dataset.cat;
                 renderCatalog();
                 keepToolsStuck();
+                // 모바일 가로 스크롤 칩: 고른 칩을 가운데로(PC는 줄바꿈이라 움직일 거리 0)
+                const chips = document.getElementById('catChips');
+                const on = chips.querySelector('.cat-chip.on').getBoundingClientRect();
+                const box = chips.getBoundingClientRect();
+                chips.scrollBy({ left: on.left + on.width / 2 - (box.left + box.width / 2), behavior: 'smooth' });
             }));
             document.getElementById('bannerPrev').addEventListener('click', () => moveBanner(-1));
             document.getElementById('bannerNext').addEventListener('click', () => moveBanner(1));
