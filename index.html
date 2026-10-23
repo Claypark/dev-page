@@ -192,6 +192,7 @@
             display: inline-block; vertical-align: 2px; margin-left: 6px; background: #21262d; color: #9aa4b2;
             border-radius: 999px; padding: 2px 8px; font-size: 12px; font-weight: 700; line-height: 1.5;
         }
+        .dev-badge.new { background: rgba(143, 168, 255, 0.16); color: #8fa8ff; }
 
         .card-platforms { display: flex; align-items: center; gap: 6px; flex: none; }
         .card-platforms svg { fill: #9aa4b2; }
@@ -328,7 +329,7 @@
         .app-detail .detail-kicker { font-size: 12px; font-weight: 700; color: #9aa4b2; }
         .app-detail .detail-info h2 { font-size: 24px; font-weight: 900; color: #e6edf3; }
         .app-detail .detail-info .tagline { font-size: 14px; color: #c9d1d9; }
-        .app-detail .description { font-size: 15px; line-height: 1.8; color: #c9d1d9; }
+        .app-detail .description { font-size: 15px; line-height: 1.8; color: #c9d1d9; white-space: pre-line; }
 
         /* 지원 언어 — 언어명을 그 언어 표기(endonym)로 나열한다.
            국기 이모지는 언어≠국가라 쓰지 않는다(영어·스페인어에서 특히 어긋남). */
@@ -711,10 +712,12 @@
                 <img src="muhanpalace-icon.png" alt="" class="detail-icon">
                 <div class="detail-info">
                     <h2 data-i18n="apps.muhanpalace.name">무한팰리스</h2>
-                    <div class="tagline" data-i18n="apps.muhanpalace.detail_tagline">펜트하우스 첫 입주하러 간다</div>
+                    <div class="tagline" data-i18n="apps.muhanpalace.detail_tagline">펜트하우스를 되찾는 벨트스크롤 액션</div>
                 </div>
             </div>
-            <div class="description" data-i18n="apps.muhanpalace.detail_desc">2016년, 엄마는 모은 돈을 전부 털어 '끝없이 높은 삶, 무한팰리스' 꼭대기 펜트하우스를 계약했다. 그해 겨울 공사가 멈췄고, 대표는 돈을 챙겨 사라졌다. 10년 뒤 반지하 현관문에 철거 딱지가 붙던 날, 상자 밑바닥에서 빛바랜 계약서 한 장이 나왔다. 101동 PH01호. 밤마다 한 층씩 자라난다는 공사장 꼭대기에는 그 대표가 숨어 산다고 한다. 각목 하나 들고, 내 집을 찾아 한 층씩 올라가자.</div>
+            <div class="description" data-i18n="apps.muhanpalace.detail_desc">2016년, 엄마는 전 재산을 털어 '무한팰리스' 꼭대기 펜트하우스를 계약했다. 그해 겨울 공사는 멈췄고 대표는 돈을 챙겨 사라졌다. 10년 뒤 반지하에 철거 딱지가 붙던 날, 상자 밑바닥에서 계약서 한 장이 나왔다. 101동 PH01호. 밤마다 한 층씩 자라는 공사장 꼭대기에 그 대표가 숨어 산다고 한다.
+
+옛 오락실 감성의 픽셀 벨트스크롤 액션 게임이에요. 좌우뿐 아니라 화면 안쪽·바깥쪽으로도 움직이며 몰려드는 적을 각목 콤보로 띄우고 쓰러뜨려요. 한 층을 정리하면 다음 층으로, 올라갈수록 강한 적과 두목이 기다려요. 모은 고철로 무기·장비·기술을 키워 꼭대기의 내 집까지 올라가세요.</div>
             <div class="app-langs">
                 <span class="langs-label" data-i18n="langs_label">지원 언어</span>
                 <span class="langs-list">한국어<span class="separator">·</span>English<span class="separator">·</span>日本語</span>
@@ -825,6 +828,7 @@
                 email_label: '문의:',
                 badge_live: '출시',
                 badge_dev: '개발중',
+                card_new: '신규',
                 status_live: '출시',
                 close_aria: '닫기',
                 detail_aria: '{name} 앱 정보',
@@ -943,9 +947,9 @@
                     muhanpalace: {
                         name: '무한팰리스',
                         tagline: '내 집 찾아 꼭대기까지',
-                        detail_name: '무한팰리스 — 픽셀 횡스크롤 액션',
-                        detail_tagline: '펜트하우스 첫 입주하러 간다',
-                        detail_desc: '2016년, 엄마는 모은 돈을 전부 털어 \'끝없이 높은 삶, 무한팰리스\' 꼭대기 펜트하우스를 계약했다. 그해 겨울 공사가 멈췄고, 대표는 돈을 챙겨 사라졌다. 10년 뒤 반지하 현관문에 철거 딱지가 붙던 날, 상자 밑바닥에서 빛바랜 계약서 한 장이 나왔다. 101동 PH01호. 밤마다 한 층씩 자라난다는 공사장 꼭대기에는 그 대표가 숨어 산다고 한다. 각목 하나 들고, 내 집을 찾아 한 층씩 올라가자.',
+                        detail_name: '무한팰리스 — 픽셀 벨트스크롤 액션',
+                        detail_tagline: '펜트하우스를 되찾는 벨트스크롤 액션',
+                        detail_desc: '2016년, 엄마는 전 재산을 털어 \'무한팰리스\' 꼭대기 펜트하우스를 계약했다. 그해 겨울 공사는 멈췄고 대표는 돈을 챙겨 사라졌다. 10년 뒤 반지하에 철거 딱지가 붙던 날, 상자 밑바닥에서 계약서 한 장이 나왔다. 101동 PH01호. 밤마다 한 층씩 자라는 공사장 꼭대기에 그 대표가 숨어 산다고 한다.\n\n옛 오락실 감성의 픽셀 벨트스크롤 액션 게임이에요. 좌우뿐 아니라 화면 안쪽·바깥쪽으로도 움직이며 몰려드는 적을 각목 콤보로 띄우고 쓰러뜨려요. 한 층을 정리하면 다음 층으로, 올라갈수록 강한 적과 두목이 기다려요. 모은 고철로 무기·장비·기술을 키워 꼭대기의 내 집까지 올라가세요.',
                     },
                 },
             },
@@ -957,6 +961,7 @@
                 email_label: 'Email:',
                 badge_live: 'Live',
                 badge_dev: 'Soon',
+                card_new: 'New',
                 status_live: 'Available',
                 close_aria: 'Close',
                 detail_aria: '{name} app info',
@@ -1075,9 +1080,9 @@
                     muhanpalace: {
                         name: 'Infinite Palace',
                         tagline: 'Climb to the top to claim your home',
-                        detail_name: 'Infinite Palace — Pixel side-scrolling action',
-                        detail_tagline: 'Moving into the penthouse. Finally.',
-                        detail_desc: 'In 2016, Mom spent every penny she had on the penthouse of \'Infinite Palace — a life without limits.\' That winter construction stopped and the developer vanished with the money. Ten years later, the day an eviction notice hits our basement door, a faded contract turns up at the bottom of a box: Building 101, PH01. They say the abandoned site grows a floor every night, and the developer is hiding at the top. Grab a plank and fight your way up, floor by floor, to the home that was always yours.',
+                        detail_name: 'Infinite Palace — Pixel belt-scrolling action',
+                        detail_tagline: 'A belt-scrolling brawler to finally move into your penthouse',
+                        detail_desc: 'In 2016, Mom spent every penny on the penthouse of \'Infinite Palace.\' That winter construction stopped and the developer vanished with the money. Ten years later, the day an eviction notice hits our basement door, a contract turns up at the bottom of a box: Building 101, PH01. They say the abandoned site grows a floor every night, and the developer is hiding at the top.\n\nA pixel belt-scrolling brawler with old arcade spirit. Move left, right and up and down the street as enemies swarm in, launch them with plank combos and knock them down. Clear a floor to climb to the next, where tougher enemies and bosses wait. Use the scrap you collect to upgrade weapons, gear and skills, and fight your way up to your home at the top.',
                     },
                 },
             },
@@ -1089,6 +1094,7 @@
                 email_label: 'Correo:',
                 badge_live: 'Disponible',
                 badge_dev: 'En desarrollo',
+                card_new: 'Nuevo',
                 status_live: 'Disponible',
                 close_aria: 'Cerrar',
                 detail_aria: 'Información de {name}',
@@ -1207,9 +1213,9 @@
                     muhanpalace: {
                         name: 'Infinite Palace',
                         tagline: 'Sube hasta la cima para recuperar tu hogar',
-                        detail_name: 'Infinite Palace — Acción de scroll lateral en píxeles',
-                        detail_tagline: 'Hoy me mudo al ático. Por fin.',
-                        detail_desc: 'En 2016, mamá invirtió todos sus ahorros en el ático de \'Infinite Palace, una vida sin límites\'. Ese invierno la obra se detuvo y el promotor desapareció con el dinero. Diez años después, el día que pegan un aviso de desalojo en nuestro sótano, aparece un contrato descolorido en el fondo de una caja: Edificio 101, PH01. Dicen que la obra abandonada crece un piso cada noche y que el promotor se esconde en la cima. Agarra un tablón y ábrete paso, piso a piso, hasta el hogar que siempre fue tuyo.',
+                        detail_name: 'Infinite Palace — Acción beat \'em up en píxeles',
+                        detail_tagline: 'Un beat \'em up de scroll lateral para estrenar tu ático',
+                        detail_desc: 'En 2016, mamá invirtió todos sus ahorros en el ático de \'Infinite Palace\'. Ese invierno la obra se detuvo y el promotor desapareció con el dinero. Diez años después, el día que pegan un aviso de desalojo en nuestro sótano, aparece un contrato en el fondo de una caja: Edificio 101, PH01. Dicen que la obra crece un piso cada noche y que el promotor se esconde en la cima.\n\nUn beat \'em up de scroll lateral en píxeles con espíritu de salón recreativo. Muévete a izquierda y derecha, y también hacia el fondo y el frente, mientras los enemigos te rodean; lánzalos por los aires con combos de tablón y derríbalos. Despeja un piso para subir al siguiente, donde esperan enemigos más fuertes y jefes. Mejora armas, equipo y habilidades con la chatarra que reúnas y abre camino hasta tu hogar en la cima.',
                     },
                 },
             },
@@ -1221,6 +1227,7 @@
                 email_label: 'お問い合わせ:',
                 badge_live: 'リリース',
                 badge_dev: '開発中',
+                card_new: '新作',
                 status_live: '配信中',
                 close_aria: '閉じる',
                 detail_aria: '{name}のアプリ情報',
@@ -1339,9 +1346,9 @@
                     muhanpalace: {
                         name: '無限パレス',
                         tagline: 'わが家を取り戻しに、てっぺんまで',
-                        detail_name: '無限パレス — ピクセル横スクロールアクション',
-                        detail_tagline: 'ペントハウスに、初入居しに行く。',
-                        detail_desc: '2016年、母は貯金をすべてはたいて『果てしなく高い暮らし、無限パレス』最上階のペントハウスを契約した。その冬、工事は止まり、社長は金を持って消えた。10年後、半地下の玄関に立ち退きの貼り紙が貼られた日、箱の底から色あせた契約書が出てきた。101棟PH01号。毎晩ひとつずつ階が伸びるという工事現場のてっぺんに、あの社長が隠れ住んでいるらしい。角材一本を手に、わが家を目指して一階ずつ登っていこう。',
+                        detail_name: '無限パレス — ピクセル・ベルトスクロールアクション',
+                        detail_tagline: 'ペントハウス初入居を目指すベルトスクロールアクション',
+                        detail_desc: '2016年、母は貯金をすべてはたいて『無限パレス』最上階のペントハウスを契約した。その冬、工事は止まり、社長は金を持って消えた。10年後、半地下に立ち退きの貼り紙が貼られた日、箱の底から契約書が出てきた。101棟PH01号。毎晩ひとつずつ階が伸びる工事現場のてっぺんに、あの社長が隠れ住んでいるらしい。\n\n昔のゲームセンターの空気をまとったピクセルのベルトスクロールアクション。左右だけでなく画面の奥と手前にも動きながら、押し寄せる敵を角材コンボで打ち上げて倒していく。フロアを片付ければ次の階へ。上に行くほど強い敵とボスが待っている。集めた鉄くずで武器・装備・スキルを鍛え、てっぺんのわが家まで登りきろう。',
                     },
                 },
             },
@@ -1450,7 +1457,7 @@
         // ---------- 앱 목록 (카드·섹션·검색·칩·개수의 단일 출처) ----------
         // cat = App Store Connect primaryCategory 실측값. kw = 한국어 검색어. accent = 배너 없는 앱의 상세 머리 색.
         const APPS = [
-            { id: 'hoegwan', cat: 'business', ios: true, android: true, kw: '테니스 레슨 회원 코치' },
+            { id: 'hoegwan', cat: 'business', ios: true, android: true, isNew: true, kw: '테니스 레슨 회원 코치' },
             { id: 'cannon', cat: 'games', ios: true, android: true, kw: '캐논 디펜스 벌레 게임' },
             { id: 'muhanpalace', cat: 'games', dev: true, kw: '아파트 게임', accent: '#b91c1c' },
             { id: 'dandori', cat: 'business', ios: true, android: true, kw: '매장 가게 근무표 체크리스트' },
@@ -1494,7 +1501,8 @@
             return '<button type="button" class="app-card" onclick="toggleDetail(\'' + a.id + '\')" aria-label="' + t('card_aria', { name }) + '">'
                 + '<img src="' + appIcon(a) + '" alt="">'
                 + '<span class="card-body"><span class="card-head"><span class="card-name">' + name
-                + (a.dev ? '<span class="dev-badge">' + t('badge_dev') + '</span>' : '') + '</span>' + marks + '</span>'
+                + (a.dev ? '<span class="dev-badge">' + t('badge_dev') + '</span>' : '')
+                + (a.isNew ? '<span class="dev-badge new">' + t('card_new') + '</span>' : '') + '</span>' + marks + '</span>'
                 + '<span class="card-sub">' + t('apps.' + a.id + '.detail_tagline') + '</span></span>'
                 + ICON_CHEVRON + '</button>';
         }
