@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+  <title>도우랩 Admin</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0e1117; --bg-card: #161b22; --bg-input: #0d1117;
+      --border: #30363d; --border-hover: #484f58;
+      --text: #c9d1d9; --text-muted: #8b949e; --text-bright: #f0f6fc;
+      --accent: #238636; --accent-hover: #2ea043; --danger: #f85149; --warn: #d29922;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    #loading-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; color: var(--text-muted); font-size: 14px; }
+    #login-screen { display: none; align-items: center; justify-content: center; min-height: 100vh; padding: 16px; }
+    .login-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 40px 32px; max-width: 380px; width: 100%; }
+    .login-card h1 { font-size: 20px; color: var(--text-bright); margin-bottom: 8px; text-align: center; }
+    .login-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; text-align: center; line-height: 1.6; }
+    .login-card input { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; color: var(--text); padding: 10px 12px; font-size: 14px; margin-bottom: 10px; font-family: inherit; }
+    .btn { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 10px 16px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+    .btn:hover { background: var(--accent-hover); }
+    .btn:disabled { opacity: .5; cursor: default; }
+    .btn-wide { width: 100%; }
+    .btn-sm { padding: 5px 12px; font-size: 12px; }
+    .btn-ghost { background: none; border: 1px solid var(--border); color: var(--text-muted); }
+    .btn-ghost:hover { background: none; border-color: var(--border-hover); color: var(--text); }
+    .btn-danger { background: var(--danger); }
+    .btn-danger:hover { background: #da3633; }
+    .login-error { display: none; color: var(--danger); font-size: 13px; margin-top: 12px; text-align: center; }
+
+    #app { display: none; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 24px; border-bottom: 1px solid var(--border); background: var(--bg-card); flex-wrap: wrap; }
+    .topbar-left, .topbar-right { display: flex; align-items: center; gap: 16px; }
+    .back-link { color: var(--text-muted); text-decoration: none; font-size: 13px; }
+    .back-link:hover { color: var(--text); }
+    .topbar-title { font-size: 15px; font-weight: 600; color: var(--text-bright); }
+    .user-name { font-size: 13px; color: var(--text-muted); }
+
+    .main { max-width: 880px; margin: 32px auto; padding: 0 16px; }
+    .section { margin-bottom: 40px; }
+    .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+    .section-title { font-size: 18px; font-weight: 700; color: var(--text-bright); }
+    .section-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.6; }
+    .status { font-size: 13px; color: var(--text-muted); min-height: 18px; margin-bottom: 8px; }
+    .status.err { color: var(--danger); }
+    .empty { background: var(--bg-card); border-radius: 12px; padding: 24px; text-align: center; font-size: 13px; color: var(--text-muted); }
+
+    .list { display: grid; gap: 8px; }
+    .row { display: flex; align-items: center; gap: 14px; background: var(--bg-card); border-radius: 12px; padding: 12px 14px; }
+    .row.is-hidden { opacity: .55; }
+    .row.flash { outline: 2px solid var(--warn); }
+    .thumb { width: 64px; height: 64px; border-radius: 8px; object-fit: cover; background: var(--bg-input); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--text-muted); }
+    .row-body { flex: 1; min-width: 0; }
+    .row-title { font-size: 15px; font-weight: 600; color: var(--text-bright); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .row-meta { font-size: 12px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+    .tag { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 6px; padding: 1px 7px; margin-left: 6px; vertical-align: 2px; }
+    .tag-hidden { background: #3d1d20; color: var(--danger); }
+    .tag-report { background: #3b2e10; color: var(--warn); }
+    .row-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+    .reason { font-size: 14px; color: var(--text); white-space: pre-wrap; word-break: break-word; }
+    a.jump { color: #58a6ff; cursor: pointer; text-decoration: none; }
+    a.jump:hover { text-decoration: underline; }
+
+    @media (max-width: 560px) {
+      .topbar { padding: 12px 16px; }
+      .row { flex-wrap: wrap; }
+      .row-actions { flex-direction: row; width: 100%; justify-content: flex-end; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="loading-screen">불러오는 중...</div>
+
+<div id="login-screen">
+  <form class="login-card" id="login-form">
+    <h1>도우랩 발견 관리</h1>
+    <p>도우랩 운영자 계정(이메일)으로 로그인합니다.<br>관리자 계정만 들어올 수 있습니다.</p>
+    <input type="email" id="login-email" placeholder="이메일" autocomplete="username" required>
+    <input type="password" id="login-password" placeholder="비밀번호" autocomplete="current-password" required>
+    <button type="submit" class="btn btn-wide" id="login-btn">로그인</button>
+    <div class="login-error" id="login-error"></div>
+  </form>
+</div>
+
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-left">
+      <a href="../" class="back-link">← 어드민</a>
+      <span class="topbar-title">도우랩 발견</span>
+    </div>
+    <div class="topbar-right">
+      <span class="user-name" id="user-display"></span>
+      <button class="btn btn-sm btn-ghost" id="logout-btn">로그아웃</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">신고</div>
+        <button class="btn btn-sm btn-ghost" id="reload-btn">새로고침</button>
+      </div>
+      <div class="section-desc">앱의 신고 버튼으로 들어온 신고입니다. 신고된 레시피는 여기서 바로 숨길 수 있습니다.</div>
+      <div class="status" id="report-status"></div>
+      <div class="list" id="report-list"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">공개 레시피</div>
+      </div>
+      <div class="section-desc">최신순, 숨긴 레시피 포함. 숨기면 발견 탭에서 사라지고 작성자 본인에게만 보입니다. 순서를 고정하는 기능은 없습니다(인기 레시피는 좋아요 순으로 서버가 계산).</div>
+      <div class="status" id="recipe-status"></div>
+      <div class="list" id="recipe-list"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+// service-apps 프로젝트. anon(공개) 키만 둔다 — 관리 권한은 로그인한 운영자 세션 + RLS(doughlab_is_admin)로만 얻는다.
+const SUPABASE_URL = 'https://zdvyzauugrpjqttsicve.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpkdnl6YXV1Z3JwanF0dHNpY3ZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MTQ5MjAsImV4cCI6MjA5MDA5MDkyMH0.GDLhEvb8Nsf4n0-rrB1dM-EIsdUOWPOXAmY7azko2Zc';
+const PHOTO_BASE = `${SUPABASE_URL}/storage/v1/object/public/doughlab-public/`;
+// shortcut: 최신 300개만 읽는다, 공개 레시피가 그보다 많아지면 페이지 나눔을 붙인다.
+const RECIPE_LIMIT = 300;
+
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: { persistSession: true, autoRefreshToken: true, storageKey: 'doughlab-admin-auth' },
+});
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmt = (iso) => iso ? new Date(iso).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : '-';
+
+let recipes = [];
+let reports = [];
+let nicknames = new Map();
+
+// ─── AUTH ────────────────────────────────────────────
+function showLogin(msg) {
+  $('loading-screen').style.display = 'none';
+  $('app').style.display = 'none';
+  $('login-screen').style.display = 'flex';
+  $('login-error').textContent = msg || '';
+  $('login-error').style.display = msg ? 'block' : 'none';
+}
+
+$('login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $('login-btn').disabled = true;
+  const { data, error } = await sb.auth.signInWithPassword({
+    email: $('login-email').value.trim(),
+    password: $('login-password').value,
+  });
+  $('login-btn').disabled = false;
+  if (error) return showLogin(error.message);
+  $('login-password').value = '';
+  await onSession(data.session);
+});
+
+$('logout-btn').addEventListener('click', async () => {
+  await sb.auth.signOut();
+  showLogin();
+});
+
+async function onSession(session) {
+  if (!session) return showLogin();
+  const { data: isAdmin, error } = await sb.rpc('doughlab_is_admin');
+  if (error || isAdmin !== true) {
+    await sb.auth.signOut();
+    return showLogin(error ? error.message : `${session.user.email} 계정은 도우랩 관리자가 아닙니다.`);
+  }
+  $('loading-screen').style.display = 'none';
+  $('login-screen').style.display = 'none';
+  $('app').style.display = 'block';
+  $('user-display').textContent = session.user.email;
+  loadAll();
+}
+
+// ─── DATA ────────────────────────────────────────────
+async function loadAll() {
+  $('report-status').textContent = '불러오는 중...';
+  $('recipe-status').textContent = '불러오는 중...';
+  const [rec, rep] = await Promise.all([
+    sb.from('doughlab_public_recipes')
+      .select('id, author_id, title, photo_path, like_count, import_count, hidden, created_at')
+      .order('created_at', { ascending: false })
+      .limit(RECIPE_LIMIT),
+    sb.from('doughlab_reports')
+      .select('id, recipe_id, reporter_id, reason, created_at')
+      .order('created_at', { ascending: false }),
+  ]);
+  if (rec.error) return setStatus('recipe-status', rec.error.message, true);
+  if (rep.error) return setStatus('report-status', rep.error.message, true);
+  recipes = rec.data;
+  reports = rep.data;
+
+  const ids = [...new Set([...recipes.map((r) => r.author_id), ...reports.map((r) => r.reporter_id)])];
+  nicknames = new Map();
+  if (ids.length) {
+    // profiles는 user_id·nickname 열만 grant돼 있다 — 열을 명시한다.
+    const { data: profs } = await sb.from('doughlab_profiles').select('user_id, nickname').in('user_id', ids);
+    (profs || []).forEach((p) => nicknames.set(p.user_id, p.nickname));
+  }
+  // 신고 대상이 최신 목록 밖이면 따로 읽어 온다(제목·숨김 상태 표시용).
+  const missing = [...new Set(reports.map((r) => r.recipe_id))].filter((id) => !recipes.some((r) => r.id === id));
+  if (missing.length) {
+    const { data: extra } = await sb.from('doughlab_public_recipes')
+      .select('id, author_id, title, photo_path, like_count, import_count, hidden, created_at').in('id', missing);
+    recipes.push(...(extra || []).map((r) => ({ ...r, outOfList: true })));
+  }
+  render();
+}
+
+function setStatus(id, msg, err) {
+  $(id).textContent = msg;
+  $(id).classList.toggle('err', !!err);
+}
+
+const nick = (uid) => nicknames.get(uid) || `(닉네임 없음 ${String(uid).slice(0, 8)})`;
+const recipeById = (id) => recipes.find((r) => r.id === id);
+
+function render() {
+  const reportCount = new Map();
+  reports.forEach((r) => reportCount.set(r.recipe_id, (reportCount.get(r.recipe_id) || 0) + 1));
+
+  // 신고
+  setStatus('report-status', reports.length ? `${reports.length}건` : '');
+  $('report-list').innerHTML = reports.length ? reports.map((rp) => {
+    const target = recipeById(rp.recipe_id);
+    const title = target ? esc(target.title) : '(삭제된 레시피)';
+    const hiddenTag = target?.hidden ? '<span class="tag tag-hidden">숨김</span>' : '';
+    const action = !target ? '' : target.hidden
+      ? `<button class="btn btn-sm btn-ghost" data-toggle="${target.id}">숨김 풀기</button>`
+      : `<button class="btn btn-sm btn-danger" data-toggle="${target.id}">대상 숨기기</button>`;
+    return `<div class="row">
+      <div class="row-body">
+        <div class="reason">${rp.reason ? esc(rp.reason) : '(사유 없음)'}</div>
+        <div class="row-meta">
+          대상 <a class="jump" data-jump="${rp.recipe_id}">${title}</a>${hiddenTag}
+          · 신고자 ${esc(nick(rp.reporter_id))} · ${fmt(rp.created_at)}
+        </div>
+      </div>
+      <div class="row-actions">${action}</div>
+    </div>`;
+  }).join('') : '<div class="empty">들어온 신고가 없습니다.</div>';
+
+  // 공개 레시피
+  const listed = recipes.filter((r) => !r.outOfList);
+  const hiddenN = listed.filter((r) => r.hidden).length;
+  setStatus('recipe-status', listed.length ? `${listed.length}개 (숨김 ${hiddenN}개)` : '');
+  $('recipe-list').innerHTML = listed.length ? listed.map((r) => {
+    const thumb = r.photo_path
+      ? `<img class="thumb" src="${esc(PHOTO_BASE + r.photo_path)}" alt="" loading="lazy">`
+      : '<div class="thumb">사진 없음</div>';
+    const rc = reportCount.get(r.id) || 0;
+    return `<div class="row${r.hidden ? ' is-hidden' : ''}" id="recipe-${r.id}">
+      ${thumb}
+      <div class="row-body">
+        <div class="row-title">${esc(r.title)}${r.hidden ? '<span class="tag tag-hidden">숨김</span>' : ''}${rc ? `<span class="tag tag-report">신고 ${rc}</span>` : ''}</div>
+        <div class="row-meta">
+          ${esc(nick(r.author_id))} · ${fmt(r.created_at)}<br>
+          좋아요 ${r.like_count} · 가져오기 ${r.import_count}
+        </div>
+      </div>
+      <div class="row-actions">
+        <button class="btn btn-sm ${r.hidden ? 'btn-ghost' : 'btn-danger'}" data-toggle="${r.id}">${r.hidden ? '숨김 풀기' : '숨기기'}</button>
+      </div>
+    </div>`;
+  }).join('') : '<div class="empty">공개된 레시피가 없습니다.</div>';
+}
+
+async function toggleHidden(id, btn) {
+  const r = recipeById(id);
+  if (!r) return;
+  const next = !r.hidden;
+  if (next && !confirm(`"${r.title}"을(를) 숨길까요? 발견 탭에서 사라집니다.`)) return;
+  btn.disabled = true;
+  const { data, error } = await sb.from('doughlab_public_recipes')
+    .update({ hidden: next }).eq('id', id).select('hidden').single();
+  btn.disabled = false;
+  if (error) return alert(`바꾸지 못했습니다: ${error.message}`);
+  // 서버가 돌려준 값을 그대로 쓴다(트리거가 값을 지켰다면 그대로 보인다).
+  r.hidden = data.hidden;
+  if (r.hidden !== next) alert('서버가 값을 바꾸지 않았습니다. 관리자 권한을 확인하세요.');
+  render();
+}
+
+document.addEventListener('click', (e) => {
+  const t = e.target.closest('[data-toggle]');
+  if (t) return toggleHidden(t.dataset.toggle, t);
+  const j = e.target.closest('[data-jump]');
+  if (j) {
+    const row = $(`recipe-${j.dataset.jump}`);
+    if (!row) return alert('최신 목록 밖의 레시피입니다. 신고 행에서 바로 숨길 수 있습니다.');
+    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    row.classList.add('flash');
+    setTimeout(() => row.classList.remove('flash'), 1600);
+  }
+});
+$('reload-btn').addEventListener('click', loadAll);
+
+const { data: { session } } = await sb.auth.getSession();
+onSession(session).catch((e) => showLogin(e.message));
+sb.auth.onAuthStateChange((event) => { if (event === 'SIGNED_OUT') showLogin(); });
+</script>
+</body>
+</html>
