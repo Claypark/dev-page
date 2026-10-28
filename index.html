@@ -1459,7 +1459,7 @@
         const APPS = [
             { id: 'hoegwan', cat: 'business', ios: true, android: true, isNew: true, kw: '테니스 레슨 회원 코치' },
             { id: 'cannon', cat: 'games', ios: true, android: true, kw: '캐논 디펜스 벌레 게임' },
-            { id: 'muhanpalace', cat: 'games', dev: true, kw: '아파트 게임', accent: '#b91c1c' },
+            { id: 'muhanpalace', cat: 'games', dev: true, banner: true, kw: '아파트 게임', accent: '#b91c1c' },
             { id: 'dandori', cat: 'business', ios: true, android: true, kw: '매장 가게 근무표 체크리스트' },
             { id: 'naru', cat: 'games', ios: true, android: true, kw: '낚시 힐링' },
             { id: 'bagshot', cat: 'games', ios: true, android: true, kw: '샌드백 스트레스', accent: '#ef4444' },
@@ -1582,12 +1582,12 @@
         });
 
         // ---------- Detail modal ----------
-        // 머리 배너(banners/<id>.jpg — 개발중 앱은 색 면)와 카테고리 · 상태 줄은 APPS에서 채운다(언어 바뀔 때마다).
+        // 머리 배너(banners/<id>.jpg — 개발중 앱은 banner: true가 아니면 색 면)와 카테고리 · 상태 줄은 APPS에서 채운다(언어 바뀔 때마다).
         function renderDetails() {
                         APPS.forEach(a => {
                 const panel = document.getElementById('detail-' + a.id);
                 if (!panel.querySelector('.detail-hero')) {
-                    const hero = document.createElement(a.dev ? 'div' : 'img');
+                    const hero = document.createElement(a.dev && !a.banner ? 'div' : 'img');
                     hero.className = 'detail-hero';
                     if (hero.tagName === 'IMG') { hero.alt = ''; hero.decoding = 'async'; }
                     else hero.style.background = a.accent;
