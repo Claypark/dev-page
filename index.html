@@ -720,10 +720,10 @@
 옛 오락실 감성의 픽셀 벨트스크롤 액션 게임이에요. 좌우뿐 아니라 화면 안쪽·바깥쪽으로도 움직이며 몰려드는 적을 각목 콤보로 띄우고 쓰러뜨려요. 층마다 다른 적과 사연 있는 두목이 기다리고, 올라갈수록 이야기의 전말이 하나둘 드러나요. 주운 장비의 특수 옵션과 가방 속 부적, 헬스장에서 배운 기술로 나만의 싸움 방식을 만들어 꼭대기의 내 집까지 올라가세요.</div>
             <div class="app-langs">
                 <span class="langs-label" data-i18n="langs_label">지원 언어</span>
-                <span class="langs-list">한국어<span class="separator">·</span>English<span class="separator">·</span>日本語</span>
+                <span class="langs-list">한국어<span class="separator">·</span>English<span class="separator">·</span>日本語<span class="separator">·</span>Español</span>
             </div>
             <div class="app-links">
-                <span class="link-badge-dev" data-i18n="badge_dev">개발중</span>
+                <a href="https://play.google.com/store/apps/details?id=com.clpak.muhanpalace" class="link-badge" target="_blank" rel="noopener" data-app-id="muhanpalace"><img src="google-play-badge.svg" alt="Get it on Google Play"></a>
             </div>
             <div class="app-meta-links">
                 <a href="https://claypark.github.io/dev-page/muhanpalace/privacy-policy.html" data-i18n="privacy">개인정보처리방침</a>
@@ -1457,9 +1457,9 @@
         // ---------- 앱 목록 (카드·섹션·검색·칩·개수의 단일 출처) ----------
         // cat = App Store Connect primaryCategory 실측값. kw = 한국어 검색어. accent = 배너 없는 앱의 상세 머리 색.
         const APPS = [
+            { id: 'muhanpalace', cat: 'games', android: true, isNew: true, banner: true, kw: '아파트 게임', accent: '#b91c1c' },
             { id: 'hoegwan', cat: 'business', ios: true, android: true, isNew: true, kw: '테니스 레슨 회원 코치' },
             { id: 'cannon', cat: 'games', ios: true, android: true, kw: '캐논 디펜스 벌레 게임' },
-            { id: 'muhanpalace', cat: 'games', dev: true, banner: true, kw: '아파트 게임', accent: '#b91c1c' },
             { id: 'dandori', cat: 'business', ios: true, android: true, kw: '매장 가게 근무표 체크리스트' },
             { id: 'naru', cat: 'games', ios: true, android: true, kw: '낚시 힐링' },
             { id: 'bagshot', cat: 'games', ios: true, android: true, kw: '샌드백 스트레스', accent: '#ef4444' },
@@ -1473,12 +1473,13 @@
         ];
         // [앱, 라벨 키, 라벨 색]
         // 언어별 배너(Play 그 언어 등록정보의 피처 그래픽) — 없으면 ko(banners/<id>.jpg). ja는 en을 쓴다.
-        const BANNER_LANGS = { amen: ['en', 'es'], bagshot: ['en', 'es'], doughlab: ['en', 'es'], dustler: ['en', 'es'], jukforest: ['en', 'es'], ounwan: ['en', 'es'], sogak: ['en', 'es'] };
+        const BANNER_LANGS = { amen: ['en', 'es'], bagshot: ['en', 'es'], doughlab: ['en', 'es'], dustler: ['en', 'es'], jukforest: ['en', 'es'], ounwan: ['en', 'es'], sogak: ['en', 'es'], muhanpalace: ['en', 'es'] };
         function bannerSrc(id) {
             const l = currentLang === 'ja' ? 'en' : currentLang;
             return 'banners/' + id + ((BANNER_LANGS[id] || []).includes(l) ? '_' + l : '') + '.jpg';
         }
         const BANNERS = [
+            ['muhanpalace', 'banner_new', '#f87171'],
             ['hoegwan', 'banner_new', '#8fa8ff'],
             ['cannon', 'banner_featured', '#f0a868'],
             ['dandori', 'banner_featured', '#6fd39d'],
