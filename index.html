@@ -1581,6 +1581,9 @@
             document.getElementById('bannerNext').addEventListener('click', () => moveBanner(1));
             document.querySelector('.carousel-viewport').addEventListener('scroll', syncBannerButtons, { passive: true });
             syncBannerButtons();
+            // ?app=<id> 로 들어오면 그 앱 상세를 연 채로 보여 준다(블로그·SNS 링크용). 모르는 id는 무시.
+            const linkedApp = new URLSearchParams(location.search).get('app');
+            if (linkedApp && APPS.some(a => a.id === linkedApp)) toggleDetail(linkedApp);
         });
 
         // ---------- Detail modal ----------
