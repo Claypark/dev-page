@@ -1637,7 +1637,7 @@
             else {
                 detailOpener = document.activeElement;
                 // 시스템 뒤로가기·브라우저 뒤로가 시트를 닫도록 기록을 하나 쌓는다(popstate에서 닫힘).
-                history.pushState({ sheet: id }, '');
+                pushSheetState(id);
             }
             document.getElementById('overlayBackdrop').classList.add('active');
             panel.classList.add('active');
@@ -1646,6 +1646,18 @@
             panel.querySelector('.close-btn').focus({ preventScroll: true });
             activeDetail = id;
             trackEvent('view_app_detail', { app_id: id, language: currentLang });
+        }
+
+        // ?app= 링크로 들어와 저절로 열린 시트는 사용자 입력 없이 쌓은 기록이라 Chrome이 뒤로가기에서 건너뛴다
+        // (시스템 백버튼이 시트를 못 닫고 페이지를 떠남). 그때는 첫 터치·클릭·키 입력 순간에 기록을 쌓는다.
+        function pushSheetState(id) {
+            const push = () => {
+                if (activeDetail === id && !(history.state && history.state.sheet)) history.pushState({ sheet: id }, '');
+            };
+            const ua = navigator.userActivation;
+            // 열리는 중엔 activeDetail이 아직 안 바뀌었으니 바로 쌓는다(탭으로 연 보통 경우).
+            if (!ua || ua.hasBeenActive) return history.pushState({ sheet: id }, '');
+            ['pointerup', 'touchend', 'keydown'].forEach(t => window.addEventListener(t, push, { once: true, capture: true }));
         }
 
         function closeDetail() { closeAllDetails(); }
