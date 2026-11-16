@@ -9,7 +9,7 @@ import html, os, re, sys
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE = 'https://claypark.github.io/dev-page'
+BASE = 'https://clpak.dev'
 src = open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
 
 ids = re.findall(r"\{ id: '([a-z0-9]+)'", src)

@@ -10,7 +10,7 @@
 - 감지 우선순위: URL `?lang=xx` → `localStorage('clpak_lang')` → `navigator.language` → `ko`
 - 번역 대상 요소는 `data-i18n="path.to.key"` 또는 `data-i18n-html="..."` (innerHTML용, `<br>` 등 허용)
 - 우상단 언어 전환 버튼(`.lang-btn`) — 클릭 시 localStorage에 저장
-- 광고 링크 예: `https://claypark.github.io/dev-page/?lang=es`
+- 광고 링크 예: `https://clpak.dev/?lang=es`
 
 ### 수정 시 반드시 체크
 
