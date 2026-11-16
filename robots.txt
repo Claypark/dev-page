@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://clpak.dev/sitemap.xml
+
+#DaumWebMasterTool:63da1a251f988451687777fac2709b11e24632b8e9908c8f4c3b82c0e1e7fea5:CNSJIIGOISrSV2aL3hPlgQ==
