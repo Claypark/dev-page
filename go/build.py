@@ -6,7 +6,7 @@
 새 앱을 index.html에 추가하면 이 스크립트만 다시 돌린다: python3 go/build.py
 """
 import html, os, re, sys
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = 'https://clpak.dev'
@@ -41,6 +41,15 @@ ACCENT = dict(re.findall(r"\{ id: '([a-z0-9]+)'[^}]*?accent: '(#[0-9a-fA-F]{6})'
 ICON = {i: (re.search(r"\{ id: '%s'[^}]*?icon: '([^']+)'" % i, src) or [None, f'{i}-icon.png'])[1] for i in ids}
 
 def og_image(i, name, desc):
+    banner = os.path.join(ROOT, 'banners', f'{i}.jpg')
+    if os.path.exists(banner):
+        # 스토어 배너를 가운데 1100px에 두고, 가장자리는 배너 색을 흐리게 이어 붙인다(네이버 5:3 잘림 안쪽)
+        b = Image.open(banner).convert('RGB')
+        c = b.resize((8, 4), Image.BOX).resize((1200, 630), Image.BICUBIC).filter(ImageFilter.GaussianBlur(40))
+        w = 1100; h = round(b.height * w / b.width)
+        m = Image.new('L', (w, h), 0); ImageDraw.Draw(m).rectangle((24, 24, w - 25, h - 25), fill=255)
+        c.paste(b.resize((w, h), Image.LANCZOS), ((1200 - w) // 2, (630 - h) // 2), m.filter(ImageFilter.GaussianBlur(14)))
+        c.save(os.path.join(ROOT, 'go', f'{i}.png')); return
     bg = ACCENT.get(i, '#1c1c1e')
     c = Image.new('RGB', (1200, 630), bg)
     icon = Image.open(os.path.join(ROOT, ICON[i])).convert('RGBA').resize((220, 220), Image.LANCZOS)
@@ -59,7 +68,7 @@ for i in ids:
     if not name:
         print(f'건너뜀 {i}: 이름 없음', file=sys.stderr); continue
     og_image(i, name, desc)
-    img = f'{BASE}/go/{i}.png'
+    img = f'{BASE}/go/{i}.png?v=20261116'
     out = TPL.format(id=i, name=html.escape(name), desc=html.escape(desc), image=img,
                      url=f'{BASE}/go/{i}.html', target=f'{BASE}/?app={i}')
     open(os.path.join(ROOT, 'go', f'{i}.html'), 'w', encoding='utf-8').write(out)
