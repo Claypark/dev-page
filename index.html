@@ -422,6 +422,11 @@
             .overlay-backdrop, .app-detail { animation: none !important; }
         }
 
+        /* 누르면 살짝 줄었다 돌아오는 피드백(탭 하이라이트 대신) */
+        .banner-card, .app-card, .cat-chip, .lang-current, .carousel-btn { transition: transform 0.12s ease; }
+        .app-links .link-badge { transition: opacity 0.2s, transform 0.12s ease; }
+        .banner-card:active, .app-card:active, .cat-chip:active, .lang-current:active, .app-links .link-badge:active { transform: scale(0.96); }
+        @media (prefers-reduced-motion: reduce) { .banner-card:active, .app-card:active, .cat-chip:active, .lang-current:active, .app-links .link-badge:active { transform: none; } }
     </style>
 </head>
 <body>
@@ -1587,6 +1592,7 @@
             document.getElementById('bannerNext').addEventListener('click', () => moveBanner(1));
             document.querySelector('.carousel-viewport').addEventListener('scroll', syncBannerButtons, { passive: true });
             syncBannerButtons();
+            document.addEventListener('touchstart', () => {}, { passive: true }); // iOS 사파리는 이게 있어야 :active가 터치에 걸린다
             // 스레드(안드로이드) 앱 안 브라우저는 가로로 밀어도 스냅이 제자리로 되돌린다(2026-11-16 신고).
             // 손가락이 옆으로 40px 넘게 움직였는데 0.4초 뒤에도 같은 카드면 한 장 대신 넘긴다. 정상 브라우저는 이미 넘어가 있어 아무 일 없음.
             (() => {
