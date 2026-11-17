@@ -32,7 +32,6 @@ TPL = '''<!doctype html>
 <meta property="og:url" content="{url}">
 <link rel="icon" type="image/png" href="{icon}">
 <link rel="apple-touch-icon" href="{icon}">
-<link rel="canonical" href="{target}">
 <script>location.replace('../?app={id}' + (location.search ? '&' + location.search.slice(1) : '') );</script>
 </head><body><a href="../?app={id}">{name} 보러 가기</a></body></html>
 '''
@@ -72,7 +71,7 @@ for i in ids:
     og_image(i, name, desc)
     img = f'{BASE}/go/{i}.png?v=20261116'
     out = TPL.format(id=i, name=html.escape(name), desc=html.escape(desc), image=img,
-                     url=f'{BASE}/go/{i}.html', icon=f'{BASE}/{ICON[i]}', target=f'{BASE}/?app={i}')
+                     url=f'{BASE}/go/{i}.html', icon=f'{BASE}/{ICON[i]}')
     open(os.path.join(ROOT, 'go', f'{i}.html'), 'w', encoding='utf-8').write(out)
     made.append(i)
 print(f'{len(made)}개: ' + ' '.join(made))
