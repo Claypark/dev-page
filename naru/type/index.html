@@ -27,7 +27,7 @@
   <!-- 나루 낚시 유형 테스트 — 서버 없이 이 파일 하나로 동작한다. 한 화면에 질문 하나, 보기에 점수 숫자 없음.
        결과 공유 = r/<유형>/ (유형별 og 그림) → 여기로 돌아와 결과를 보여 준다. 그림 = 나루 실제 캐릭터·물고기 스프라이트. -->
   <style>
-    @font-face { font-family: 'Galmuri11'; src: url('galmuri11-sub.woff2?v=b38886fa') format('woff2'); font-display: swap; }
+    @font-face { font-family: 'Galmuri11'; src: url('galmuri11-sub.woff2?v=3fb22f6d') format('woff2'); font-display: swap; }
     :root {
       --bg: #1A1A2E; --surface: rgba(38,38,60,.88); --surface-2: #30304A; --ink: #FFFFFF; --muted: rgba(255,255,255,.6);
       --sky: #4FC3F7; --gold: #FFD54F; --water: #1F3B5C;
@@ -312,10 +312,11 @@ function renderMix(list) {
   const box = $('r-mix'); box.innerHTML = '';
   if (!list || list.length !== QUESTIONS.length) return;
   const n = {}; list.forEach(t => n[t] = (n[t] || 0) + 1);
-  const top = Object.entries(n).sort((a, b) => b[1] - a[1] || (a[0] === decide(list) ? -1 : 1)).slice(0, 3);
-  top.forEach(([t, c]) => {
-    const chances = QUESTIONS.filter(Q => Q.a.some(a => a[1] === t)).length;  // 그 유형 보기가 나온 질문 수
-    const pct = Math.round(c / chances * 100);
+  const win = decide(list);
+  const chances = t => QUESTIONS.filter(Q => Q.a.some(a => a[1] === t)).length;  // 그 유형 보기가 나온 질문 수
+  const top = Object.entries(n).map(([t, c]) => [t, Math.round(c / chances(t) * 100)])
+    .sort((a, b) => (b[0] === win) - (a[0] === win) || b[1] - a[1]).slice(0, 3);  // 결과 유형 먼저, 나머지는 % 높은 순
+  top.forEach(([t, pct]) => {
     const r = document.createElement('div'); r.className = 'row3';
     r.innerHTML = `<b>${TYPES[t].name}</b><i><span></span></i><em>${pct}%</em>`;
     box.appendChild(r);
