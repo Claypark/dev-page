@@ -1,0 +1,133 @@
+{
+  "_heading": { "ko": "주요 기능", "en": "Features", "es": "Funciones", "ja": "主な機能" },
+  "muhanpalace": {
+    "ko": { "tags": ["벨트스크롤", "횡스크롤액션", "오락실게임", "도트게임", "콤보액션", "보스전"],
+      "features": ["좌우·안팎으로 움직이며 적을 띄우고 이어 치는 오락실식 벨트스크롤 액션", "헬스장에서 배운 기술을 버튼에 끼워 나만의 콤보를 만들어요", "층마다 다른 풍경과 함정, 저마다 다른 두목", "짓다 만 아파트 꼭대기 펜트하우스까지 올라가는 이야기"] },
+    "en": { "tags": ["beat 'em up", "belt-scroll action", "arcade brawler", "pixel art game", "combo action", "boss fights"],
+      "features": ["Arcade-style belt-scroll action: move in every direction, launch enemies and juggle them in the air", "Learn moves at the gym and slot them into buttons to build your own combos", "Every floor brings new scenery, new traps and a new boss", "Fight your way to the penthouse of an apartment tower left half-built for ten years"] },
+    "es": { "tags": ["beat 'em up", "acción arcade", "juego de peleas", "pixel art", "combos", "jefes"],
+      "features": ["Acción beat 'em up al estilo arcade: muévete en todas direcciones, lanza enemigos y encadena golpes en el aire", "Aprende técnicas en el gimnasio y asígnalas a los botones para crear tus propios combos", "Cada piso trae paisajes, trampas y jefes distintos", "Abre camino hasta el ático de un edificio que lleva diez años a medio construir"] },
+    "ja": { "tags": ["ベルトスクロール", "ベルスクアクション", "アーケード", "ドット絵ゲーム", "コンボ", "ボス戦"],
+      "features": ["奥行きも使って動き、敵を浮かせて追撃するアーケード風ベルトスクロールアクション", "ジムで覚えた技をボタンにセットして自分だけのコンボを作れます", "フロアごとに変わる景色と罠、個性的なボス", "10年間建設が止まったマンションの最上階ペントハウスを目指す物語"] }
+  },
+  "hoegwan": {
+    "ko": { "tags": ["테니스레슨", "레슨장관리", "회원관리앱", "레슨시간표", "출석부", "코치앱"],
+      "features": ["영업시간·코치 일정·코트 빈자리를 따져서 새 회원이 들어갈 시간을 찾아 줘요", "출석 체크, 남은 횟수, 보강 날짜까지 한곳에서", "수강 연장과 못 받은 레슨비 정리", "회원은 설치하지 않아도 돼요. 코치만 쓰면 돼요"] },
+    "en": { "tags": ["tennis lessons", "lesson scheduling", "member management", "coach app", "attendance tracker"],
+      "features": ["Finds open slots for new members by checking business hours, coach schedules and free courts", "Attendance, remaining sessions and make-up lessons in one place", "Track renewals and unpaid lesson fees", "Members don't need to install anything — only coaches use the app"] },
+    "es": { "tags": ["clases de tenis", "gestión de alumnos", "horario de clases", "app para entrenadores", "control de asistencia"],
+      "features": ["Encuentra horarios para nuevos alumnos según el horario del club, la agenda de los entrenadores y las pistas libres", "Asistencia, clases restantes y recuperaciones en un solo lugar", "Renovaciones y cuotas pendientes bajo control", "Los alumnos no necesitan instalar nada: solo lo usan los entrenadores"] },
+    "ja": { "tags": ["テニスレッスン", "スクール管理", "会員管理アプリ", "レッスン予定表", "出欠管理"],
+      "features": ["営業時間・コーチの予定・空きコートから新しい会員が入れる時間を探します", "出欠、残り回数、振替日まで一か所で管理", "受講延長と未払いレッスン料の整理", "会員はアプリ不要。コーチだけが使えばOK"] }
+  },
+  "cannon": {
+    "ko": { "tags": ["타워디펜스", "로그라이크", "뱀서류", "픽셀게임", "오프라인게임", "디펜스게임"],
+      "features": ["조준점을 끌어 주포를 겨누고, 붙인 파츠는 알아서 쏴요", "레벨업마다 셋 중 하나를 골라서 판마다 빌드가 달라져요", "파츠 30종 이상, 속성 시너지 15종 이상, 보스 39종 이상", "인터넷 없이 오프라인으로 즐겨요"] },
+    "en": { "tags": ["tower defense", "roguelike", "survivor-like", "pixel game", "offline game"],
+      "features": ["Drag to aim your main cannon while attached parts fire on their own", "Pick one of three upgrades every level — every run is a different build", "30+ parts, 15+ element synergies and 39+ bosses", "Plays fully offline"] },
+    "es": { "tags": ["tower defense", "roguelike", "estilo survivors", "juego pixel", "juego sin conexión"],
+      "features": ["Arrastra para apuntar el cañón principal; las piezas acopladas disparan solas", "Elige una de tres mejoras en cada nivel: cada partida es una build distinta", "Más de 30 piezas, 15 sinergias de elementos y 39 jefes", "Se juega sin conexión"] },
+    "ja": { "tags": ["タワーディフェンス", "ローグライク", "ヴァンサバ系", "ドット絵ゲーム", "オフラインゲーム"],
+      "features": ["照準をドラッグして主砲を狙い、付けたパーツは自動で攻撃", "レベルアップごとに3択、毎回違うビルドに", "パーツ30種以上、属性シナジー15種以上、ボス39種以上", "オフラインで遊べます"] }
+  },
+  "dandori": {
+    "ko": { "tags": ["매장관리", "오픈마감체크리스트", "근무표", "출퇴근기록", "알바관리", "재고관리"],
+      "features": ["시간대별 할 일을 오늘 근무자에게 자동으로 배정하고, 사진 인증·관리자 더블체크까지", "근무표를 짜면 매주 반복되고, 근무 변경·휴가는 요청과 승인으로", "매장 Wi-Fi·위치로 출퇴근을 확인하고, 연장·주휴까지 정산을 자동으로 계산해요", "재고 실사와 발주를 날짜별 표로"] },
+    "en": { "tags": ["store management", "opening and closing checklist", "staff schedule", "time clock", "inventory"],
+      "features": ["Assigns each shift's tasks to whoever works today, with photo proof and manager double-checks", "Build a schedule once and it repeats weekly; shift swaps and time off go through requests and approvals", "Verifies clock-ins by store Wi-Fi or location and calculates pay, overtime included", "Stock counts and orders in a simple dated table"] },
+    "es": { "tags": ["gestión de tiendas", "checklist de apertura y cierre", "horarios de personal", "control horario", "inventario"],
+      "features": ["Asigna las tareas de cada turno a quien trabaja hoy, con foto de comprobación y doble revisión del encargado", "El horario se repite cada semana; cambios y permisos se piden y se aprueban", "Verifica fichajes por Wi-Fi o ubicación de la tienda y calcula el pago, horas extra incluidas", "Recuentos de stock y pedidos en una tabla por fechas"] },
+    "ja": { "tags": ["店舗管理", "開店閉店チェックリスト", "シフト表", "勤怠管理", "在庫管理"],
+      "features": ["時間帯ごとの作業を今日の出勤者に自動で割り当て、写真確認や管理者のダブルチェックも", "シフトは一度作れば毎週くり返し、交代や休みは申請と承認で", "店舗のWi-Fiや位置で出退勤を確認し、残業を含む給与を自動計算", "在庫の棚卸しと発注を日付ごとの表で"] }
+  },
+  "naru": {
+    "ko": { "tags": ["낚시게임", "힐링게임", "물멍", "픽셀아트", "물고기도감", "방치형"],
+      "features": ["찌를 띄우고 입질을 기다리는 잔잔한 낚시", "한국 호수, 노르웨이 피요르드, 심연 동굴, 남태평양 아이투타키까지 네 곳의 낚시터", "계절과 날씨에 따라 다른 물고기, 도감 채우기", "수조를 꾸미고 통발로 잡은 물고기를 받아요"] },
+    "en": { "tags": ["fishing game", "cozy game", "relaxing game", "pixel art", "fish collection", "idle game"],
+      "features": ["Calm fishing: cast your float and wait for a bite", "Four fishing spots — a Korean lake, a Norwegian fjord, an abyssal cave and Aitutaki in the South Pacific", "Different fish by season and weather; fill your fish encyclopedia", "Decorate your aquarium and collect fish from your traps"] },
+    "es": { "tags": ["juego de pesca", "juego relajante", "cozy game", "pixel art", "colección de peces", "juego idle"],
+      "features": ["Pesca tranquila: lanza el flotador y espera a que piquen", "Cuatro lugares de pesca: un lago coreano, un fiordo noruego, una cueva abisal y Aitutaki en el Pacífico Sur", "Peces distintos según la estación y el clima; completa tu enciclopedia", "Decora tu acuario y recoge los peces de tus nasas"] },
+    "ja": { "tags": ["釣りゲーム", "癒しゲーム", "ぼんやり", "ドット絵", "魚図鑑", "放置ゲーム"],
+      "features": ["ウキを浮かべてアタリを待つ、のんびりした釣り", "韓国の湖、ノルウェーのフィヨルド、深淵の洞窟、南太平洋アイツタキの4つの釣り場", "季節と天気で変わる魚、図鑑を埋めよう", "水槽を飾り、仕掛けにかかった魚を受け取れます"] }
+  },
+  "bagshot": {
+    "ko": { "tags": ["스트레스해소", "샌드백게임", "타격감", "심심풀이게임", "사진게임"],
+      "features": ["앨범이나 카메라 사진을 샌드백에 붙여요", "글러브, 방망이, 몽둥이 세 가지 무기와 콤보", "업적과 리더보드로 기록 겨루기"] },
+    "en": { "tags": ["stress relief", "punching bag game", "satisfying hits", "time killer", "photo game"],
+      "features": ["Put any photo from your album or camera on the punching bag", "Three weapons — gloves, bat and club — plus combos", "Achievements and leaderboards to compare your records"] },
+    "es": { "tags": ["antiestrés", "saco de boxeo", "golpes satisfactorios", "pasatiempo", "juego con fotos"],
+      "features": ["Pon cualquier foto de tu galería o cámara en el saco de boxeo", "Tres armas: guantes, bate y garrote, con combos", "Logros y clasificaciones para comparar récords"] },
+    "ja": { "tags": ["ストレス解消", "サンドバッグゲーム", "爽快感", "暇つぶしゲーム", "写真ゲーム"],
+      "features": ["アルバムやカメラの写真をサンドバッグに貼れます", "グローブ、バット、こん棒の3つの武器とコンボ", "実績とランキングで記録を競う"] }
+  },
+  "doughlab": {
+    "ko": { "tags": ["베이킹레시피", "베이커스퍼센트", "사워도우", "홈베이킹", "제빵노트", "발효빵"],
+      "features": ["밀가루 100% 기준으로 배합 비율과 수화율을 자동 계산해요", "총 반죽량이나 개수만 정하면 재료 무게가 맞춰져요", "회차마다 사진·별점·메모를 남기고 배합을 비교해요", "굽기 일정을 등록하면 시작 시각에 알림이 와요"] },
+    "en": { "tags": ["baking recipes", "baker's percentage", "sourdough", "home baking", "bread journal"],
+      "features": ["Calculates baker's percentages and hydration with flour as 100%", "Set a total dough weight or piece count and ingredient weights scale automatically", "Log each bake with photos, ratings and notes, and compare formulas", "Schedule bakes and get a reminder when it's time to start"] },
+    "es": { "tags": ["recetas de panadería", "porcentaje panadero", "masa madre", "pan casero", "diario de horneado"],
+      "features": ["Calcula porcentajes panaderos e hidratación tomando la harina como 100%", "Indica el peso total o el número de piezas y los ingredientes se ajustan solos", "Registra cada horneada con fotos, valoración y notas, y compara fórmulas", "Programa horneadas y recibe un aviso a la hora de empezar"] },
+    "ja": { "tags": ["パンレシピ", "ベーカーズパーセント", "サワードウ", "ホームベーカリー", "パン作りノート"],
+      "features": ["粉を100%としてベーカーズパーセントと加水率を自動計算", "総生地量や個数を決めるだけで材料の重さが合います", "焼くたびに写真・評価・メモを残し、配合を比較", "焼く予定を登録すると開始時刻に通知"] }
+  },
+  "sogak": {
+    "ko": { "tags": ["인생카운트다운", "메멘토모리", "동기부여앱", "시간관리", "라이프인위크"],
+      "features": ["남은 주말·시간·일수를 숫자 하나로 보여 줘요", "벚꽃을 몇 번 더 볼까? 같은 인생 프리셋 80개 이상", "태어난 날부터 주 단위로 칠하는 인생 그리드", "아침·저녁 체크인으로 오늘을 기록해요"] },
+    "en": { "tags": ["life countdown", "memento mori", "motivation app", "time management", "life in weeks"],
+      "features": ["Shows your remaining weekends, hours and days as a single number", "80+ life presets like 'How many more cherry blossom seasons?'", "A life-in-weeks grid filled in from the day you were born", "Morning and evening check-ins to record each day"] },
+    "es": { "tags": ["cuenta atrás de vida", "memento mori", "app de motivación", "gestión del tiempo", "vida en semanas"],
+      "features": ["Muestra los fines de semana, horas y días que te quedan en un solo número", "Más de 80 ajustes de vida, como '¿cuántas primaveras más?'", "Una cuadrícula de tu vida en semanas desde el día en que naciste", "Registros de mañana y noche para anotar cada día"] },
+    "ja": { "tags": ["人生カウントダウン", "メメントモリ", "モチベーションアプリ", "時間管理", "ライフインウィークス"],
+      "features": ["残りの週末・時間・日数をひとつの数字で表示", "「桜をあと何回見られる?」など人生プリセット80種以上", "生まれた日から週ごとに塗っていく人生グリッド", "朝と夜のチェックインで今日を記録"] }
+  },
+  "dustler": {
+    "ko": { "tags": ["청소앱", "청소일정", "집안일관리", "가사분담", "청소체크리스트"],
+      "features": ["오늘 할 청소와 밀린 청소를 한눈에", "거실·주방·욕실처럼 방마다 맞춤 청소 루틴", "가족·룸메이트를 초대해 가사 분담"] },
+    "en": { "tags": ["cleaning app", "cleaning schedule", "chore tracker", "household chores", "cleaning checklist"],
+      "features": ["See today's cleaning and overdue chores at a glance", "Custom cleaning routines for each room — living room, kitchen, bathroom", "Invite family or roommates and share the chores"] },
+    "es": { "tags": ["app de limpieza", "calendario de limpieza", "tareas del hogar", "reparto de tareas", "lista de limpieza"],
+      "features": ["Ve de un vistazo la limpieza de hoy y las tareas atrasadas", "Rutinas de limpieza para cada estancia: salón, cocina, baño", "Invita a tu familia o compañeros de piso y repartid las tareas"] },
+    "ja": { "tags": ["掃除アプリ", "掃除スケジュール", "家事管理", "家事分担", "掃除チェックリスト"],
+      "features": ["今日の掃除とたまった掃除がひと目でわかる", "リビング・キッチン・浴室など部屋ごとの掃除ルーティン", "家族やルームメイトを招待して家事分担"] }
+  },
+  "amen": {
+    "ko": { "tags": ["기도앱", "중보기도", "성경말씀", "기도일지", "큐티"],
+      "features": ["기도 내용을 적으면 어울리는 성경 구절과 묵상을 찾아 줘요", "가족·교회를 위한 중보기도문 작성", "기도 제목과 응답 기록, 기도 일지", "개역한글·KJV·RVR1960 성경 읽기와 오늘의 말씀"] },
+    "en": { "tags": ["prayer app", "intercessory prayer", "Bible verses", "prayer journal", "daily devotional"],
+      "features": ["Write your prayer and get fitting Bible verses and reflections", "Intercessory prayers for family and church", "Prayer requests, answered prayers and a prayer journal", "Read the Bible (KJV, RVR1960, Korean) and a daily verse"] },
+    "es": { "tags": ["app de oración", "oración intercesora", "versículos bíblicos", "diario de oración", "devocional diario"],
+      "features": ["Escribe tu oración y recibe versículos y reflexiones que encajan", "Oraciones intercesoras por la familia y la iglesia", "Peticiones, oraciones respondidas y diario de oración", "Lee la Biblia (RVR1960, KJV, coreano) y el versículo del día"] },
+    "ja": { "tags": ["祈りアプリ", "とりなしの祈り", "聖書の言葉", "祈りの日記", "デボーション"],
+      "features": ["祈りを書くと、合う聖書の言葉と黙想を見つけます", "家族や教会のためのとりなしの祈り", "祈りの課題と応答の記録、祈りの日記", "聖書(韓国語・KJV・RVR1960)と今日のみことば"] }
+  },
+  "ounwan": {
+    "ko": { "tags": ["오늘의운세", "사주", "카드운세", "궁합", "일진"],
+      "features": ["매일 그날의 일진으로 정해지는 카드 한 장", "사람과 마음·재물·몸과 기운·일을 카드로 넘겨 읽는 풀이", "두 사람의 카드로 보는 궁합", "태어난 해·달·날·시 네 장으로 보는 내 사주"] },
+    "en": { "tags": ["daily horoscope", "saju", "Korean fortune", "card reading", "compatibility"],
+      "features": ["One card a day, chosen by the day's energy", "Readings for love, money, health and work, card by card", "Compatibility from two people's cards", "Your Four Pillars (saju) laid out as four cards"] },
+    "es": { "tags": ["horóscopo diario", "saju", "fortuna coreana", "lectura de cartas", "compatibilidad"],
+      "features": ["Una carta al día, elegida por la energía del día", "Lecturas de amor, dinero, salud y trabajo, carta a carta", "Compatibilidad con las cartas de dos personas", "Tus Cuatro Pilares (saju) en cuatro cartas"] },
+    "ja": { "tags": ["今日の運勢", "四柱推命", "カード占い", "相性占い", "日運"],
+      "features": ["その日の日運で決まる一枚のカード", "人間関係・金運・体調・仕事をカードでめくって読む", "二人のカードで見る相性", "生まれた年・月・日・時の4枚で見る四柱推命"] }
+  },
+  "ipsomun": {
+    "ko": { "tags": ["음식트렌드", "편의점신상", "신메뉴", "맛집추천", "오늘뭐먹지"],
+      "features": ["AI가 매일 뉴스·블로그·유튜브에서 뜨는 음식을 골라 줘요", "프랜차이즈 신메뉴와 편의점 신상", "제철 음식과 간단 레시피"] },
+    "en": { "tags": ["food trends", "Korean food", "new menu items", "convenience store snacks", "what to eat"],
+      "features": ["AI picks trending foods from news, blogs and YouTube every day", "New menu items from chains and new convenience store snacks in Korea", "Seasonal foods and easy recipes"] },
+    "es": { "tags": ["tendencias gastronómicas", "comida coreana", "nuevos menús", "snacks de tienda", "qué comer hoy"],
+      "features": ["La IA elige cada día las comidas de moda en noticias, blogs y YouTube", "Nuevos menús de cadenas y novedades de tiendas de conveniencia en Corea", "Comida de temporada y recetas sencillas"] },
+    "ja": { "tags": ["グルメトレンド", "韓国グルメ", "新メニュー", "コンビニ新商品", "今日なに食べる"],
+      "features": ["AIが毎日ニュース・ブログ・YouTubeから話題の食べ物を選びます", "韓国のチェーン店新メニューとコンビニ新商品", "旬の食べ物と簡単レシピ"] }
+  },
+  "jukforest": {
+    "ko": { "tags": ["익명게시판", "고민상담", "익명커뮤니티", "속마음", "대나무숲"],
+      "features": ["익명으로 외치면 누군가 엿듣고 마음을 남겨요", "외침은 24시간 뒤에 사라져요", "말 못 할 이야기는 땅에 묻으면 어디에도 남지 않아요"] },
+    "en": { "tags": ["anonymous board", "vent app", "anonymous community", "share secrets"],
+      "features": ["Shout anonymously and someone listens and leaves a kind word", "Shouts disappear after 24 hours", "Bury what you can't say — it stays nowhere"] },
+    "es": { "tags": ["foro anónimo", "desahogo", "comunidad anónima", "secretos"],
+      "features": ["Grita de forma anónima y alguien te escucha y deja una palabra amable", "Los gritos desaparecen a las 24 horas", "Entierra lo que no puedes decir: no queda en ningún lado"] },
+    "ja": { "tags": ["匿名掲示板", "悩み相談", "匿名コミュニティ", "本音"],
+      "features": ["匿名で叫ぶと、誰かが聞いて気持ちを残してくれます", "叫びは24時間後に消えます", "言えない話は土に埋めれば、どこにも残りません"] }
+  }
+}

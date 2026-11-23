@@ -83,6 +83,7 @@ I18N = json.loads(subprocess.run(['node', '-e', 'process.stdout.write(JSON.strin
                                  input=re.search(r'const I18N = (\{.*?\n        \});', src, re.S).group(1), capture_output=True, text=True, check=True).stdout)
 LANGS = ['ko', 'en', 'es', 'ja']
 BANNER_LANGS = json.loads(re.sub(r'(\w+):', r'"\1":', re.search(r'const BANNER_LANGS = (\{.*?\});', src).group(1).replace("'", '"')))
+EXTRA = json.load(open(os.path.join(ROOT, 'go', 'app_pages.json'), encoding='utf-8'))  # 앱별 태그·주요 기능(언어별)
 LABEL = {'ko': '한국어', 'en': 'English', 'es': 'Español', 'ja': '日本語'}
 path = lambda i, l: f'/{i}/' + ('' if l == 'ko' else f'{l}/')
 
@@ -120,6 +121,8 @@ h1{{margin:0;font-size:26px}} .tag{{margin:2px 0 0;color:var(--sub)}}
 .banner{{width:100%;border-radius:14px;margin:24px 0 8px;display:block}}
 .app-links{{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}} .link-badge img{{height:44px;display:block}}
 .meta,.langs{{color:var(--sub);font-size:14px}} .meta a,.more a{{color:inherit}} .separator{{margin:0 6px}}
+.tags{{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 0;padding:0;list-style:none}} .tags li{{font-size:13px;color:var(--sub);background:var(--line);border-radius:999px;padding:3px 10px}}
+h2{{font-size:17px;margin:28px 0 8px}} .feat{{margin:0;padding-left:20px}} .feat li{{margin:4px 0}}
 .more{{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:14px}} .more a{{color:var(--fg)}}
 </style>
 </head><body>
@@ -127,6 +130,7 @@ h1{{margin:0;font-size:26px}} .tag{{margin:2px 0 0;color:var(--sub)}}
 <main>
 <header><img src="{icon}" alt=""><div><h1>{name}</h1><p class="tag">{tagline}</p></div></header>
 {banner}<p>{desc}</p>
+{{extra}}
 {links}
 {langs}
 {meta}
@@ -173,6 +177,10 @@ for i in made:
                           banner=f'<img class="banner" src="{BASE}/banners/{bfile}" alt="">' if has_banner else '',
                           links=links, langs=localize(grab('app-langs'), d).replace('app-langs', 'langs'),
                           meta=localize(grab('app-meta-links'), d).replace('app-meta-links', 'meta'))
+        x = EXTRA.get(i, {}).get(l)
+        extra = (f'<h2>{EXTRA["_heading"][l]}</h2><ul class="feat">' + ''.join(f'<li>{html.escape(f)}</li>' for f in x['features']) + '</ul>'
+                 + '<ul class="tags">' + ''.join(f'<li>#{html.escape(t)}</li>' for t in x['tags']) + '</ul>') if x else ''
+        out = out.replace('{extra}', extra)
         os.makedirs(os.path.join(ROOT, path(i, l).strip('/')), exist_ok=True)
         open(os.path.join(ROOT, path(i, l).strip('/'), 'index.html'), 'w', encoding='utf-8').write(out)
         urls.append(url)
