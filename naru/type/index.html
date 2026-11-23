@@ -27,7 +27,7 @@
   <!-- 나루 낚시 유형 테스트 — 서버 없이 이 파일 하나로 동작한다. 한 화면에 질문 하나, 보기에 점수 숫자 없음.
        결과 공유 = r/<유형>/ (유형별 og 그림) → 여기로 돌아와 결과를 보여 준다. 그림 = 나루 실제 캐릭터·물고기 스프라이트. -->
   <style>
-    @font-face { font-family: 'Galmuri11'; src: url('galmuri11-sub.woff2?v=3fb22f6d') format('woff2'); font-display: swap; }
+    @font-face { font-family: 'Galmuri11'; src: url('galmuri11-sub.woff2?v=8cd6ac77') format('woff2'); font-display: swap; }
     :root {
       --bg: #1A1A2E; --surface: rgba(38,38,60,.88); --surface-2: #30304A; --ink: #FFFFFF; --muted: rgba(255,255,255,.6);
       --sky: #4FC3F7; --gold: #FFD54F; --water: #1F3B5C;
@@ -229,7 +229,7 @@ const BG = {
   lake_autumn: ['img/bg_lake_autumn.webp', '#3A3A70'],
   tank:   ['img/bg_tank.webp',   '#163A56'],
 };
-const Q_BG = ['lake', 'fjord', 'lagoon', 'cave', 'amazon', 'lake_autumn', 'snow'];
+const Q_BG = ['fjord', 'lagoon', 'cave', 'snow', 'fjord', 'lagoon', 'cave'];  // 세로로 긴 그림만(호수·아마존은 가로로 자른 조각이라 화면 가득 늘리면 흐려진다)
 // 배경 = 겹친 두 장을 번갈아 써서 바뀔 때 서서히 넘어간다
 let bgFront = 0, bgNow = null, bgTimer = null;
 function setBg(k) {
