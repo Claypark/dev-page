@@ -132,7 +132,7 @@ def share_page(slug, t, outfit, title, line):
 <title>{title} - 나루</title>
 <meta property="og:type" content="website"><meta property="og:site_name" content="나루">
 <meta property="og:title" content="{title}">
-<meta property="og:description" content="{line}. 나는 어떤 낚시꾼일까? 질문 7개로 알아보세요.">
+<meta property="og:description" content="{line}. 질문 7개로 나와 닮은 나루 낚시꾼을 찾아보세요.">
 <meta property="og:url" content="https://clpak.dev/naru/type/r/{slug}/">
 <meta property="og:image" content="https://clpak.dev/naru/type/og/{t}-{outfit}.png?v=2">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
@@ -155,7 +155,8 @@ for t, (name, line, anglers) in types.items():
         sc = sc.resize((round(sc.width * sh / sc.height), sh), Image.NEAREST)
         im.alpha_composite(sc, (W - sc.width - (30 if sh == 140 else 14), H - 40 - sh + 14))
         save(im, f'og/{t}-{outfit}.png')
-        share_page(f'{t}-{outfit}', t, outfit, f'나는 {name} 낚시꾼 {aname}', line)
+        title = f'나는 {aname}{josa} 닮은 {name}'  # og 그림 문구와 같게('밤낚시꾼 낚시꾼' 겹침 방지)
+        share_page(f'{t}-{outfit}', t, outfit, title, line)
         if i == 0:
-            share_page(t, t, outfit, f'나는 {name} 낚시꾼', line)
+            share_page(t, t, outfit, title, line)
 print('ok', {t: [a[1] for a in v[2]] for t, v in types.items()})

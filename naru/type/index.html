@@ -368,7 +368,9 @@ $('share').onclick = async () => {
   const type = $('share').dataset.type, outfit = $('share').dataset.outfit, T = TYPES[type];
   const url = 'https://clpak.dev/naru/type/r/' + type + '-' + outfit + '/?p=' + picksIdx.join('');
   gtag('event', 'naru_type_share', { type });
-  if (navigator.share) { try { await navigator.share({ title: '나는 ' + T.name + ' 낚시꾼', text: T.line, url }); return; } catch (e) { if (e.name === 'AbortError') return; } }
+  const A = T.anglers.find(a => a[0] === outfit) || T.anglers[0];
+  const josa = (A[1].charCodeAt(A[1].length - 1) - 0xAC00) % 28 === 0 ? '를' : '을';
+  if (navigator.share) { try { await navigator.share({ title: '나는 ' + A[1] + josa + ' 닮은 ' + T.name, text: T.line, url }); return; } catch (e) { if (e.name === 'AbortError') return; } }
   try { await navigator.clipboard.writeText(url); } catch (e) { prompt('링크를 복사하세요', url); return; }
   $('toast').classList.add('on'); setTimeout(() => $('toast').classList.remove('on'), 1600);
 };
