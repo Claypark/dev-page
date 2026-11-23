@@ -845,6 +845,8 @@
                 terms: '이용약관',
                 guide: '사용설명서',
                 service_intro: '서비스 소개',
+                app_page: '앱 소개 페이지',
+                more_apps: 'CLPAK의 다른 앱 보기',
                 langs_label: '지원 언어',
                 dev_coming: '개발중 · 곧 출시 예정',
                 featured_title: '추천',
@@ -979,6 +981,8 @@
                 terms: 'Terms of Service',
                 guide: 'User Guide',
                 service_intro: 'Service Overview',
+                app_page: 'App page',
+                more_apps: 'More apps by CLPAK',
                 langs_label: 'Languages',
                 dev_coming: 'In development · Launching soon',
                 featured_title: 'Featured',
@@ -1113,6 +1117,8 @@
                 terms: 'Términos de Servicio',
                 guide: 'Guía de uso',
                 service_intro: 'Presentación',
+                app_page: 'Página de la app',
+                more_apps: 'Más apps de CLPAK',
                 langs_label: 'Idiomas',
                 dev_coming: 'En desarrollo · Próximamente',
                 featured_title: 'Destacados',
@@ -1247,6 +1253,8 @@
                 terms: '利用規約',
                 guide: '使い方ガイド',
                 service_intro: 'サービス紹介',
+                app_page: 'アプリ紹介ページ',
+                more_apps: 'CLPAKのほかのアプリ',
                 langs_label: '対応言語',
                 dev_coming: '開発中 · 近日リリース予定',
                 featured_title: 'おすすめ',
@@ -1635,6 +1643,11 @@
                 if (img && img.getAttribute('src') !== bannerSrc(a.id)) { img.src = bannerSrc(a.id); delete img.dataset.decoded; }
                 panel.querySelector('.detail-kicker').textContent = t('cats.' + a.cat) + (a.dev ? ' · ' + t('badge_dev') : '');
                 panel.setAttribute('aria-label', t('detail_aria', { name: t('apps.' + a.id + '.name') }));
+                // 앱 소개 페이지(/<id>/, 언어별 /<id>/<lang>/) 링크 — go/build.py가 만든다
+                const meta = panel.querySelector('.app-meta-links');
+                let pg = meta && meta.querySelector('.app-page-link');
+                if (meta && !pg) { meta.insertAdjacentHTML('beforeend', '<span class="separator">·</span><a class="app-page-link"></a>'); pg = meta.querySelector('.app-page-link'); }
+                if (pg) { pg.href = '/' + a.id + '/' + (currentLang === 'ko' ? '' : currentLang + '/'); pg.textContent = t('app_page'); }
             });
         }
 

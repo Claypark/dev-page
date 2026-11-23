@@ -5,6 +5,11 @@
 <title>도우랩 — 반죽을 숫자로, 레시피를 실험으로 | CLPAK</title>
 <meta name="description" content="모든 재료를 밀가루 기준 퍼센트(베이커스 %)로 다루는 제빵 레시피 앱. 수분율과 배합을 한눈에 계산하고, 구울 때마다 조건과 결과를 기록해 시행착오를 데이터로 쌓아가며 나만의 레시피를 완성하세요. 모든 기록은 기기 안에만 안전하게 저장됩니다.">
 <link rel="canonical" href="https://clpak.dev/doughlab/">
+<link rel="alternate" hreflang="ko" href="https://clpak.dev/doughlab/">
+<link rel="alternate" hreflang="en" href="https://clpak.dev/doughlab/en/">
+<link rel="alternate" hreflang="es" href="https://clpak.dev/doughlab/es/">
+<link rel="alternate" hreflang="ja" href="https://clpak.dev/doughlab/ja/">
+<link rel="alternate" hreflang="x-default" href="https://clpak.dev/doughlab/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="CLPAK">
 <meta property="og:title" content="도우랩 — 반죽을 숫자로, 레시피를 실험으로">
@@ -13,7 +18,7 @@
 <meta property="og:url" content="https://clpak.dev/doughlab/">
 <link rel="icon" type="image/png" href="https://clpak.dev/doughlab-icon.png">
 <link rel="apple-touch-icon" href="https://clpak.dev/doughlab-icon.png">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "도우랩", "description": "모든 재료를 밀가루 기준 퍼센트(베이커스 %)로 다루는 제빵 레시피 앱. 수분율과 배합을 한눈에 계산하고, 구울 때마다 조건과 결과를 기록해 시행착오를 데이터로 쌓아가며 나만의 레시피를 완성하세요. 모든 기록은 기기 안에만 안전하게 저장됩니다.", "operatingSystem": "iOS, Android", "applicationCategory": "MobileApplication", "url": "https://clpak.dev/doughlab/", "image": "https://clpak.dev/doughlab-icon.png", "sameAs": ["https://play.google.com/store/apps/details?id=com.clpak.doughlab", "https://apps.apple.com/app/id6781079793"], "author": {"@type": "Person", "name": "CLPAK", "url": "https://clpak.dev/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "도우랩", "description": "모든 재료를 밀가루 기준 퍼센트(베이커스 %)로 다루는 제빵 레시피 앱. 수분율과 배합을 한눈에 계산하고, 구울 때마다 조건과 결과를 기록해 시행착오를 데이터로 쌓아가며 나만의 레시피를 완성하세요. 모든 기록은 기기 안에만 안전하게 저장됩니다.", "inLanguage": "ko", "operatingSystem": "iOS, Android", "applicationCategory": "MobileApplication", "url": "https://clpak.dev/doughlab/", "image": "https://clpak.dev/doughlab-icon.png", "sameAs": ["https://play.google.com/store/apps/details?id=com.clpak.doughlab", "https://apps.apple.com/app/id6781079793"], "author": {"@type": "Person", "name": "CLPAK", "url": "https://clpak.dev/"}}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QS77BLL0BN"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-QS77BLL0BN');
 document.addEventListener('click',e=>{const a=e.target.closest('a.link-badge');if(!a)return;const ios=a.href.includes('apps.apple.com');
@@ -21,18 +26,23 @@ gtag('event',ios?'app_store_click':'play_store_click',{app_id:'doughlab',languag
 <style>
 :root{color-scheme:light dark;--bg:#fff;--fg:#1c1c1e;--sub:#6b7280;--line:#e5e7eb}
 @media (prefers-color-scheme:dark){:root{--bg:#111113;--fg:#f4f4f5;--sub:#a1a1aa;--line:#27272a}}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif}
-main{max-width:640px;margin:0 auto;padding:40px 20px 64px}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Hiragino Sans",sans-serif}
+nav{max-width:640px;margin:0 auto;padding:16px 20px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px}
+nav a{color:var(--sub);text-decoration:none} .home{display:flex;align-items:center;gap:8px;color:var(--fg);font-weight:700} .home img{width:24px;height:24px;border-radius:6px}
+.lng a{margin-left:10px} .lng a[aria-current]{color:var(--fg);font-weight:600}
+main{max-width:640px;margin:0 auto;padding:28px 20px 64px}
 header{display:flex;gap:16px;align-items:center} header img{width:72px;height:72px;border-radius:18px}
 h1{margin:0;font-size:26px} .tag{margin:2px 0 0;color:var(--sub)}
 .banner{width:100%;border-radius:14px;margin:24px 0 8px;display:block}
 .app-links{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0} .link-badge img{height:44px;display:block}
 .meta,.langs{color:var(--sub);font-size:14px} .meta a,.more a{color:inherit} .separator{margin:0 6px}
-.more{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:14px;color:var(--sub)}
+.more{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:14px} .more a{color:var(--fg)}
 </style>
-</head><body><main>
+</head><body>
+<nav><a class="home" href="https://clpak.dev/"><img src="https://clpak.dev/clpak-icon.png" alt="">CLPAK</a><span class="lng"><a href="/doughlab/" hreflang="ko" aria-current="page">한국어</a><a href="/doughlab/en/" hreflang="en">English</a><a href="/doughlab/es/" hreflang="es">Español</a><a href="/doughlab/ja/" hreflang="ja">日本語</a></span></nav>
+<main>
 <header><img src="https://clpak.dev/doughlab-icon.png" alt=""><div><h1>도우랩</h1><p class="tag">반죽을 숫자로, 레시피를 실험으로</p></div></header>
-<img class="banner" src="https://clpak.dev/banners/doughlab.jpg" alt="도우랩 화면"><p>모든 재료를 밀가루 기준 퍼센트(베이커스 %)로 다루는 제빵 레시피 앱. 수분율과 배합을 한눈에 계산하고, 구울 때마다 조건과 결과를 기록해 시행착오를 데이터로 쌓아가며 나만의 레시피를 완성하세요. 모든 기록은 기기 안에만 안전하게 저장됩니다.</p>
+<img class="banner" src="https://clpak.dev/banners/doughlab.jpg" alt=""><p>모든 재료를 밀가루 기준 퍼센트(베이커스 %)로 다루는 제빵 레시피 앱. 수분율과 배합을 한눈에 계산하고, 구울 때마다 조건과 결과를 기록해 시행착오를 데이터로 쌓아가며 나만의 레시피를 완성하세요. 모든 기록은 기기 안에만 안전하게 저장됩니다.</p>
 <div class="app-links">
                 <a href="https://play.google.com/store/apps/details?id=com.clpak.doughlab" class="link-badge" target="_blank" rel="noopener" data-app-id="doughlab"><img src="https://clpak.dev/google-play-badge.svg" alt="Get it on Google Play"></a>
                 <a href="https://apps.apple.com/app/id6781079793" class="link-badge" target="_blank" rel="noopener" data-app-id="doughlab"><img src="https://clpak.dev/app-store-badge.svg" alt="Download on the App Store"></a>
@@ -46,5 +56,5 @@ h1{margin:0;font-size:26px} .tag{margin:2px 0 0;color:var(--sub)}
                 <span class="separator">·</span>
                 <a href="https://clpak.dev/doughlab/terms.html" data-i18n="terms">이용약관</a>
             </div>
-<p class="more"><a href="https://clpak.dev/">CLPAK</a>이 만든 다른 앱 보기</p>
+<p class="more"><a href="https://clpak.dev/">CLPAK의 다른 앱 보기 →</a></p>
 </main></body></html>

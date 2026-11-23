@@ -76,15 +76,24 @@ for i in ids:
     made.append(i)
 print(f'{len(made)}개: ' + ' '.join(made))
 
-# ── 앱 소개 페이지 /<id>/ — 검색용(색인 허용). go/는 공유 링크용이라 메인 시트로 넘기고, 이건 앱마다 주소를 하나씩 준다 ──
-# 본문은 메인 index.html 상세 시트(detail-<id>)를 그대로 옮긴다. 문구를 고치면 메인만 고치고 이 스크립트를 다시 돌린다
-PAGE = '''<!doctype html>
-<html lang="ko"><head>
+# ── 앱 소개 페이지 /<id>/(ko)·/<id>/<lang>/ — 검색용(색인 허용, hreflang로 서로 묶음). go/는 공유 링크용이라 메인 시트로 넘긴다 ──
+# 문구는 메인 index.html의 I18N·상세 시트(detail-<id>)에서 가져온다. 문구를 고치면 메인만 고치고 이 스크립트를 다시 돌린다
+import subprocess
+I18N = json.loads(subprocess.run(['node', '-e', 'process.stdout.write(JSON.stringify(eval("(" + require("fs").readFileSync(0, "utf8") + ")")))'],
+                                 input=re.search(r'const I18N = (\{.*?\n        \});', src, re.S).group(1), capture_output=True, text=True, check=True).stdout)
+LANGS = ['ko', 'en', 'es', 'ja']
+BANNER_LANGS = json.loads(re.sub(r'(\w+):', r'"\1":', re.search(r'const BANNER_LANGS = (\{.*?\});', src).group(1).replace("'", '"')))
+LABEL = {'ko': '한국어', 'en': 'English', 'es': 'Español', 'ja': '日本語'}
+path = lambda i, l: f'/{i}/' + ('' if l == 'ko' else f'{l}/')
+
+PAGE = """<!doctype html>
+<html lang="{lang}"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{name} — {tagline} | CLPAK</title>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{url}">
+{alts}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="CLPAK">
 <meta property="og:title" content="{name} — {tagline}">
@@ -97,60 +106,79 @@ PAGE = '''<!doctype html>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QS77BLL0BN"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag('js',new Date());gtag('config','G-QS77BLL0BN');
 document.addEventListener('click',e=>{{const a=e.target.closest('a.link-badge');if(!a)return;const ios=a.href.includes('apps.apple.com');
-gtag('event',ios?'app_store_click':'play_store_click',{{app_id:'{id}',language:'ko',store:ios?'app_store':'google_play',source:'app-page',transport_type:'beacon'}})}},true);</script>
+gtag('event',ios?'app_store_click':'play_store_click',{{app_id:'{id}',language:'{lang}',store:ios?'app_store':'google_play',source:'app-page',transport_type:'beacon'}})}},true);</script>
 <style>
 :root{{color-scheme:light dark;--bg:#fff;--fg:#1c1c1e;--sub:#6b7280;--line:#e5e7eb}}
 @media (prefers-color-scheme:dark){{:root{{--bg:#111113;--fg:#f4f4f5;--sub:#a1a1aa;--line:#27272a}}}}
-body{{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif}}
-main{{max-width:640px;margin:0 auto;padding:40px 20px 64px}}
+body{{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Hiragino Sans",sans-serif}}
+nav{{max-width:640px;margin:0 auto;padding:16px 20px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px}}
+nav a{{color:var(--sub);text-decoration:none}} .home{{display:flex;align-items:center;gap:8px;color:var(--fg);font-weight:700}} .home img{{width:24px;height:24px;border-radius:6px}}
+.lng a{{margin-left:10px}} .lng a[aria-current]{{color:var(--fg);font-weight:600}}
+main{{max-width:640px;margin:0 auto;padding:28px 20px 64px}}
 header{{display:flex;gap:16px;align-items:center}} header img{{width:72px;height:72px;border-radius:18px}}
 h1{{margin:0;font-size:26px}} .tag{{margin:2px 0 0;color:var(--sub)}}
 .banner{{width:100%;border-radius:14px;margin:24px 0 8px;display:block}}
 .app-links{{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}} .link-badge img{{height:44px;display:block}}
 .meta,.langs{{color:var(--sub);font-size:14px}} .meta a,.more a{{color:inherit}} .separator{{margin:0 6px}}
-.more{{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:14px;color:var(--sub)}}
+.more{{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:14px}} .more a{{color:var(--fg)}}
 </style>
-</head><body><main>
+</head><body>
+<nav><a class="home" href="{home}"><img src="{base}/clpak-icon.png" alt="">CLPAK</a><span class="lng">{lnav}</span></nav>
+<main>
 <header><img src="{icon}" alt=""><div><h1>{name}</h1><p class="tag">{tagline}</p></div></header>
 {banner}<p>{desc}</p>
 {links}
 {langs}
 {meta}
-<p class="more"><a href="{base}/">CLPAK</a>이 만든 다른 앱 보기</p>
+<p class="more"><a href="{home}">{more} →</a></p>
 </main></body></html>
-'''
+"""
 
 def block(i):
     m = re.search(r'<div class="app-detail" id="detail-%s"(.*?)(?=<div class="app-detail" id="detail-|</body>)' % i, src, re.S)
     return m.group(1) if m else ''
 
-pages = []
+def localize(h, d):  # 시트 조각의 data-i18n 문구를 그 언어로
+    return re.sub(r'data-i18n="([\w.]+)">[^<]*<', lambda m: f'data-i18n="{m.group(1)}">{html.escape(str(get(d, m.group(1)) or ""))}<', h)
+get = lambda d, k: __import__('functools').reduce(lambda a, x: a.get(x) if isinstance(a, dict) else None, k.split('.'), d)
+
+pages, urls = [], []
 for i in made:
     b = block(i)
-    name, tag, desc = ko((i, 'name')), ko((i, 'detail_tagline')), ko((i, 'detail_desc'))
-    if not (b and desc):
+    if not (b and get(I18N['ko'], f'apps.{i}.detail_desc')):
         print(f'소개 페이지 건너뜀 {i}', file=sys.stderr); continue
     grab = lambda cls: (re.search(r'(<div class="%s">.*?</div>)' % cls, b, re.S) or [None, ''])[1]
     links = grab('app-links').replace('src="', f'src="{BASE}/')
-    langs = grab("app-langs").replace("app-langs", "langs")
-    meta = grab('app-meta-links').replace('app-meta-links', 'meta')
     stores = re.findall(r'href="(https://(?:apps\.apple\.com|play\.google\.com)[^"]+)"', links)
-    url = f'{BASE}/{i}/'
-    ld = json.dumps({'@context': 'https://schema.org', '@type': 'SoftwareApplication', 'name': name, 'description': desc,
-                     'operatingSystem': ', '.join(x for x, k in (('iOS', 'apple'), ('Android', 'google')) if any(k in u for u in stores)),
-                     'applicationCategory': 'GameApplication' if 'games' in re.search(r"\{ id: '%s'[^}]*" % i, src).group() else 'MobileApplication',
-                     'url': url, 'image': f'{BASE}/{ICON[i]}', 'sameAs': stores,
-                     'author': {'@type': 'Person', 'name': 'CLPAK', 'url': BASE + '/'}}, ensure_ascii=False)
-    has_banner = os.path.exists(os.path.join(ROOT, 'banners', f'{i}.jpg'))
-    out = PAGE.format(id=i, name=html.escape(name), tagline=html.escape(tag), desc=html.escape(desc), url=url, base=BASE,
-                      image=f'{BASE}/go/{i}.png?v=20261116', icon=f'{BASE}/{ICON[i]}', ld=ld.replace('</', '<\\/'),
-                      banner=f'<img class="banner" src="{BASE}/banners/{i}.jpg" alt="{html.escape(name)} 화면">' if has_banner else '',
-                      links=links, langs=langs, meta=meta)
-    os.makedirs(os.path.join(ROOT, i), exist_ok=True)
-    open(os.path.join(ROOT, i, 'index.html'), 'w', encoding='utf-8').write(out)
+    langs_here = [l for l in LANGS if get(I18N[l], f'apps.{i}.detail_desc')]
+    alts = '\n'.join(f'<link rel="alternate" hreflang="{l}" href="{BASE}{path(i, l)}">' for l in langs_here) + f'\n<link rel="alternate" hreflang="x-default" href="{BASE}{path(i, "ko")}">'
+    game = 'games' in re.search(r"\{ id: '%s'[^}]*" % i, src).group()
+    for l in langs_here:
+        d = I18N[l]; A = d['apps'][i]
+        name, tag, desc = A['name'], A['detail_tagline'], A['detail_desc']
+        url = BASE + path(i, l)
+        ld = json.dumps({'@context': 'https://schema.org', '@type': 'SoftwareApplication', 'name': name, 'description': desc, 'inLanguage': l,
+                         'operatingSystem': ', '.join(x for x, k in (('iOS', 'apple'), ('Android', 'google')) if any(k in u for u in stores)),
+                         'applicationCategory': 'GameApplication' if game else 'MobileApplication',
+                         'url': url, 'image': f'{BASE}/{ICON[i]}', 'sameAs': stores,
+                         'author': {'@type': 'Person', 'name': 'CLPAK', 'url': BASE + '/'}}, ensure_ascii=False)
+        bl = 'en' if l == 'ja' else l
+        bfile = f'{i}_{bl}.jpg' if bl in BANNER_LANGS.get(i, []) else f'{i}.jpg'
+        has_banner = os.path.exists(os.path.join(ROOT, 'banners', bfile))
+        home = BASE + '/' + ('' if l == 'ko' else f'?lang={l}')
+        lnav = ''.join(f'<a href="{path(i, x)}" hreflang="{x}"' + (' aria-current="page"' if x == l else '') + f'>{LABEL[x]}</a>' for x in langs_here)
+        out = PAGE.format(lang=l, id=i, name=html.escape(name), tagline=html.escape(tag), desc=html.escape(desc), url=url, base=BASE, alts=alts,
+                          image=f'{BASE}/go/{i}.png?v=20261116', icon=f'{BASE}/{ICON[i]}', ld=ld.replace('</', '<\\/'), home=home, lnav=lnav,
+                          more=html.escape(d['more_apps']),
+                          banner=f'<img class="banner" src="{BASE}/banners/{bfile}" alt="">' if has_banner else '',
+                          links=links, langs=localize(grab('app-langs'), d).replace('app-langs', 'langs'),
+                          meta=localize(grab('app-meta-links'), d).replace('app-meta-links', 'meta'))
+        os.makedirs(os.path.join(ROOT, path(i, l).strip('/')), exist_ok=True)
+        open(os.path.join(ROOT, path(i, l).strip('/'), 'index.html'), 'w', encoding='utf-8').write(out)
+        urls.append(url)
     pages.append(i)
 
-sm = '\n'.join(f'  <url><loc>{BASE}/{x}</loc></url>' for x in [''] + [f'{i}/' for i in pages])
+sm = '\n'.join(f'  <url><loc>{u}</loc></url>' for u in [BASE + '/'] + urls)
 open(os.path.join(ROOT, 'sitemap.xml'), 'w', encoding='utf-8').write(
     f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sm}\n</urlset>\n')
-print(f'소개 페이지 {len(pages)}개: ' + ' '.join(pages))
+print(f'소개 페이지 {len(pages)}개 앱 · {len(urls)}쪽: ' + ' '.join(pages))

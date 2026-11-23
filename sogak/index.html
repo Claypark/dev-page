@@ -5,6 +5,11 @@
 <title>소각 — 유한한 시간을 연료 삼아, 오늘을 태우다 | CLPAK</title>
 <meta name="description" content="인생에 남은 주말과 시간을 시각화해주는 동기부여 카운트다운 앱. 아침·저녁 체크인으로 오늘 하루를 기록하고, 소중한 사람과 함께할 수 있는 시간을 확인하세요. 모든 데이터는 기기 안에만 저장됩니다.">
 <link rel="canonical" href="https://clpak.dev/sogak/">
+<link rel="alternate" hreflang="ko" href="https://clpak.dev/sogak/">
+<link rel="alternate" hreflang="en" href="https://clpak.dev/sogak/en/">
+<link rel="alternate" hreflang="es" href="https://clpak.dev/sogak/es/">
+<link rel="alternate" hreflang="ja" href="https://clpak.dev/sogak/ja/">
+<link rel="alternate" hreflang="x-default" href="https://clpak.dev/sogak/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="CLPAK">
 <meta property="og:title" content="소각 — 유한한 시간을 연료 삼아, 오늘을 태우다">
@@ -13,7 +18,7 @@
 <meta property="og:url" content="https://clpak.dev/sogak/">
 <link rel="icon" type="image/png" href="https://clpak.dev/sogak-icon.png">
 <link rel="apple-touch-icon" href="https://clpak.dev/sogak-icon.png">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "소각", "description": "인생에 남은 주말과 시간을 시각화해주는 동기부여 카운트다운 앱. 아침·저녁 체크인으로 오늘 하루를 기록하고, 소중한 사람과 함께할 수 있는 시간을 확인하세요. 모든 데이터는 기기 안에만 저장됩니다.", "operatingSystem": "iOS, Android", "applicationCategory": "MobileApplication", "url": "https://clpak.dev/sogak/", "image": "https://clpak.dev/sogak-icon.png", "sameAs": ["https://play.google.com/store/apps/details?id=com.clpak.sogak", "https://apps.apple.com/app/id6779591274"], "author": {"@type": "Person", "name": "CLPAK", "url": "https://clpak.dev/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "소각", "description": "인생에 남은 주말과 시간을 시각화해주는 동기부여 카운트다운 앱. 아침·저녁 체크인으로 오늘 하루를 기록하고, 소중한 사람과 함께할 수 있는 시간을 확인하세요. 모든 데이터는 기기 안에만 저장됩니다.", "inLanguage": "ko", "operatingSystem": "iOS, Android", "applicationCategory": "MobileApplication", "url": "https://clpak.dev/sogak/", "image": "https://clpak.dev/sogak-icon.png", "sameAs": ["https://play.google.com/store/apps/details?id=com.clpak.sogak", "https://apps.apple.com/app/id6779591274"], "author": {"@type": "Person", "name": "CLPAK", "url": "https://clpak.dev/"}}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QS77BLL0BN"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-QS77BLL0BN');
 document.addEventListener('click',e=>{const a=e.target.closest('a.link-badge');if(!a)return;const ios=a.href.includes('apps.apple.com');
@@ -21,18 +26,23 @@ gtag('event',ios?'app_store_click':'play_store_click',{app_id:'sogak',language:'
 <style>
 :root{color-scheme:light dark;--bg:#fff;--fg:#1c1c1e;--sub:#6b7280;--line:#e5e7eb}
 @media (prefers-color-scheme:dark){:root{--bg:#111113;--fg:#f4f4f5;--sub:#a1a1aa;--line:#27272a}}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif}
-main{max-width:640px;margin:0 auto;padding:40px 20px 64px}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Hiragino Sans",sans-serif}
+nav{max-width:640px;margin:0 auto;padding:16px 20px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px}
+nav a{color:var(--sub);text-decoration:none} .home{display:flex;align-items:center;gap:8px;color:var(--fg);font-weight:700} .home img{width:24px;height:24px;border-radius:6px}
+.lng a{margin-left:10px} .lng a[aria-current]{color:var(--fg);font-weight:600}
+main{max-width:640px;margin:0 auto;padding:28px 20px 64px}
 header{display:flex;gap:16px;align-items:center} header img{width:72px;height:72px;border-radius:18px}
 h1{margin:0;font-size:26px} .tag{margin:2px 0 0;color:var(--sub)}
 .banner{width:100%;border-radius:14px;margin:24px 0 8px;display:block}
 .app-links{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0} .link-badge img{height:44px;display:block}
 .meta,.langs{color:var(--sub);font-size:14px} .meta a,.more a{color:inherit} .separator{margin:0 6px}
-.more{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:14px;color:var(--sub)}
+.more{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:14px} .more a{color:var(--fg)}
 </style>
-</head><body><main>
+</head><body>
+<nav><a class="home" href="https://clpak.dev/"><img src="https://clpak.dev/clpak-icon.png" alt="">CLPAK</a><span class="lng"><a href="/sogak/" hreflang="ko" aria-current="page">한국어</a><a href="/sogak/en/" hreflang="en">English</a><a href="/sogak/es/" hreflang="es">Español</a><a href="/sogak/ja/" hreflang="ja">日本語</a></span></nav>
+<main>
 <header><img src="https://clpak.dev/sogak-icon.png" alt=""><div><h1>소각</h1><p class="tag">유한한 시간을 연료 삼아, 오늘을 태우다</p></div></header>
-<img class="banner" src="https://clpak.dev/banners/sogak.jpg" alt="소각 화면"><p>인생에 남은 주말과 시간을 시각화해주는 동기부여 카운트다운 앱. 아침·저녁 체크인으로 오늘 하루를 기록하고, 소중한 사람과 함께할 수 있는 시간을 확인하세요. 모든 데이터는 기기 안에만 저장됩니다.</p>
+<img class="banner" src="https://clpak.dev/banners/sogak.jpg" alt=""><p>인생에 남은 주말과 시간을 시각화해주는 동기부여 카운트다운 앱. 아침·저녁 체크인으로 오늘 하루를 기록하고, 소중한 사람과 함께할 수 있는 시간을 확인하세요. 모든 데이터는 기기 안에만 저장됩니다.</p>
 <div class="app-links">
                 <a href="https://play.google.com/store/apps/details?id=com.clpak.sogak" class="link-badge" target="_blank" rel="noopener" data-app-id="sogak"><img src="https://clpak.dev/google-play-badge.svg" alt="Get it on Google Play"></a>
                 <a href="https://apps.apple.com/app/id6779591274" class="link-badge" target="_blank" rel="noopener" data-app-id="sogak"><img src="https://clpak.dev/app-store-badge.svg" alt="Download on the App Store"></a>
@@ -46,5 +56,5 @@ h1{margin:0;font-size:26px} .tag{margin:2px 0 0;color:var(--sub)}
                 <span class="separator">·</span>
                 <a href="https://clpak.dev/sogak/terms-of-service.html" data-i18n="terms">이용약관</a>
             </div>
-<p class="more"><a href="https://clpak.dev/">CLPAK</a>이 만든 다른 앱 보기</p>
+<p class="more"><a href="https://clpak.dev/">CLPAK의 다른 앱 보기 →</a></p>
 </main></body></html>
