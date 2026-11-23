@@ -138,6 +138,7 @@ def share_page(slug, t, outfit, title, line):
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta http-equiv="refresh" content="0; url=../../?r={t}&c={outfit}&utm_source=share&utm_medium=link&utm_campaign=naru_type">
+<script>location.replace('../../?r={t}&c={outfit}&utm_source=share&utm_medium=link&utm_campaign=naru_type' + (location.search ? '&' + location.search.slice(1) : ''));</script>
 </head><body><a href="../../?r={t}&c={outfit}">결과 보기</a></body></html>
 ''')
 

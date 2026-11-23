@@ -27,7 +27,7 @@
   <!-- 나루 낚시 유형 테스트 — 서버 없이 이 파일 하나로 동작한다. 한 화면에 질문 하나, 보기에 점수 숫자 없음.
        결과 공유 = r/<유형>/ (유형별 og 그림) → 여기로 돌아와 결과를 보여 준다. 그림 = 나루 실제 캐릭터·물고기 스프라이트. -->
   <style>
-    @font-face { font-family: 'Galmuri11'; src: url('galmuri11-sub.woff2?v=4a7c3e5c') format('woff2'); font-display: swap; }
+    @font-face { font-family: 'Galmuri11'; src: url('galmuri11-sub.woff2?v=b38886fa') format('woff2'); font-display: swap; }
     :root {
       --bg: #1A1A2E; --surface: rgba(38,38,60,.88); --surface-2: #30304A; --ink: #FFFFFF; --muted: rgba(255,255,255,.6);
       --sky: #4FC3F7; --gold: #FFD54F; --water: #1F3B5C;
@@ -45,9 +45,9 @@
 
     /* 시작 */
     #s-start { padding: 44px 12px 8px; }  /* 첫 화면 글자를 위·좌우에서 띄운다(가장자리 = 위 68·좌우 32) */
-    .brand { color: var(--sky); font-size: 15px; letter-spacing: .5px; }
-    .title { font-size: 34px; line-height: 1.35; margin-top: 10px; }
-    .lead { color: var(--muted); font-size: 16px; margin-top: 12px; }
+    .brand { color: var(--sky); font-size: 13px; letter-spacing: .5px; }
+    .title { font-size: 30px; line-height: 1.35; margin-top: 10px; }
+    .lead { color: var(--muted); font-size: 14px; margin-top: 12px; }
     .stage { flex: 1; min-height: 240px; display: flex; align-items: center; justify-content: center; }
     /* 결과 전엔 누군지 모르게 — 낚시꾼 실루엣 + 물음표 */
     .sil { position: relative; animation: float 3s ease-in-out infinite; }
@@ -62,7 +62,7 @@
     .bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(16,18,34,.86), rgba(16,18,34,.55) 50%, rgba(16,18,34,.25)); }
     .star { position: absolute; width: 3px; height: 3px; background: #fff; opacity: .5; }
 
-    .btn { display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 16px; background: var(--sky); color: #0E1A2B; font-size: 19px; margin-top: 16px; box-shadow: 0 4px 0 #2A8FBF; transition: transform .08s; }
+    .btn { display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 16px; background: var(--sky); color: #0E1A2B; font-size: 17px; margin-top: 16px; box-shadow: 0 4px 0 #2A8FBF; transition: transform .08s; }
     .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #2A8FBF; }
     .btn.ghost { background: var(--surface); color: var(--ink); box-shadow: 0 4px 0 #18182A; }
     .btn.ghost:active { box-shadow: 0 1px 0 #18182A; }
@@ -71,24 +71,24 @@
     /* 질문 */
     .bar { height: 6px; border-radius: 3px; background: var(--surface); overflow: hidden; }
     .bar i { display: block; height: 100%; background: var(--sky); border-radius: 3px; transition: width .3s; }
-    .qno { color: var(--sky); font-size: 15px; margin-top: 28px; }
-    .q { font-size: 26px; line-height: 1.45; margin-top: 8px; min-height: 68px; }
+    .qno { color: var(--sky); font-size: 13px; margin-top: 28px; }
+    .q { font-size: 22px; line-height: 1.45; margin-top: 8px; min-height: 68px; }
     .opts { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
-    .opt { backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); text-align: left; padding: 16px 18px; border-radius: 16px; background: var(--surface); font-size: 17px; line-height: 1.5; transition: background .15s, transform .08s; }
+    .opt { backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); text-align: left; padding: 16px 18px; border-radius: 16px; background: rgba(20, 22, 40, .52); font-size: 15px; line-height: 1.5; transition: background .15s, transform .08s; }
     .opt:active { transform: scale(.98); }
     .opt.pick { background: var(--sky); color: #0E1A2B; }
-    .back { margin-top: auto; padding-top: 20px; color: var(--muted); font-size: 15px; align-self: flex-start; }
+    .back { margin-top: auto; padding-top: 20px; color: var(--muted); font-size: 13px; align-self: flex-start; }
 
     /* 결과 */
-    .r-top { color: var(--muted); font-size: 15px; text-align: center; }
-    .r-name { font-size: 38px; text-align: center; margin-top: 4px; }
-    .r-line { color: var(--sky); text-align: center; font-size: 17px; margin-top: 4px; }
+    .r-top { color: var(--muted); font-size: 13px; text-align: center; }
+    .r-name { font-size: 32px; text-align: center; margin-top: 4px; }
+    .r-line { color: var(--sky); text-align: center; font-size: 15px; margin-top: 4px; }
     /* 결과 = 상자 없이 세 덩어리(낚시꾼 · 물고기 · 낚시 포인트), 가운데 정렬, 덩어리 사이는 여백으로만 나눈다 */
     .sec { text-align: center; margin-top: 40px; }
-    .sec .k { color: var(--muted); font-size: 14px; letter-spacing: .5px; }
-    .sec .nm { font-size: 26px; margin-top: 6px; }
-    .sec .sub { color: var(--muted); font-size: 14px; margin-top: 2px; }
-    .sec p { font-size: 16px; line-height: 1.75; margin: 10px auto 0; max-width: 330px; color: rgba(255,255,255,.88); }
+    .sec .k { color: var(--muted); font-size: 12px; letter-spacing: .5px; }
+    .sec .nm { font-size: 22px; margin-top: 6px; }
+    .sec .sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .sec p { font-size: 14px; line-height: 1.75; margin: 10px auto 0; max-width: 320px; color: rgba(255,255,255,.88); }
     .who-img { display: block; height: 132px; margin: 14px auto 0; }
     /* 물고기 = 앱 포획 결과 창 문법(등급색 맥박 빛 + 도는 빛줄기 + 반짝이)을 상자 없이 둥글게 번지게 */
     .fishwrap { position: relative; width: 180px; height: 150px; margin: 8px auto 0; display: flex; align-items: center; justify-content: center; }
@@ -101,8 +101,17 @@
     @keyframes pulse { 50% { opacity: .18; } }
     @keyframes twinkle { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
     @keyframes swim { 50% { transform: translateY(-4px) rotate(-3deg); } }
-    .rpill { display: inline-block; font-size: 13px; line-height: 1; padding: 4px 8px; border-radius: 10px; color: var(--rc); background: color-mix(in srgb, var(--rc) 16%, transparent); vertical-align: 4px; margin-left: 6px; }
+    .rpill { display: inline-block; font-size: 11px; line-height: 1; padding: 4px 8px; border-radius: 10px; color: var(--rc); background: color-mix(in srgb, var(--rc) 16%, transparent); vertical-align: 4px; margin-left: 6px; }
     .pic-point { aspect-ratio: 16 / 9; border-radius: 16px; margin-top: 14px; background-size: cover; background-position: center bottom; image-rendering: pixelated; }
+    /* 내 낚시 성향 = 고른 보기 7개 중 유형별 비율(위 3개) */
+    .mix { width: 100%; max-width: 300px; margin: 22px auto 0; }
+    .mix .row3 { display: flex; align-items: center; gap: 10px; font-size: 13px; margin-top: 8px; }
+    .mix .row3 b { flex: 0 0 92px; text-align: right; font-weight: normal; color: rgba(255,255,255,.85); }
+    .mix .row3 i { flex: 1; height: 10px; border-radius: 5px; background: rgba(255,255,255,.08); overflow: hidden; }
+    .mix .row3 i span { display: block; height: 100%; border-radius: 5px; background: var(--sky); width: 0; transition: width .9s ease .2s; }
+    .mix .row3:first-child i span { background: var(--gold); }
+    .mix .row3 em { flex: 0 0 38px; font-style: normal; color: var(--muted); }
+    .mix .row3:first-child em { color: var(--gold); }
     .r-actions { margin-top: 40px; }
     .tag { color: var(--muted); font-size: 12px; }
     .pointname { color: var(--sky); }
@@ -143,6 +152,7 @@
     <div class="r-top" id="r-top">나는</div>
     <h2 class="r-name" id="r-name"></h2>
     <div class="r-line" id="r-line"></div>
+    <div class="mix" id="r-mix"></div>
     <section class="sec">
       <div class="k">닮은 낚시꾼</div>
       <img class="who-img" id="r-who-img" alt="">
@@ -233,27 +243,27 @@ function setBg(k) {
 function stopBgCycle() { clearInterval(bgTimer); bgTimer = null; }
 const ORDER = ['dreamer', 'collector', 'releaser', 'explorer', 'fighter', 'jackpot', 'night', 'decorator'];
 const QUESTIONS = [
-  { q: '낚시터에 도착했어요.<br>제일 먼저 하는 건?', a: [
-    ['자리 잡고 물부터 한참 바라봐요', 'dreamer'], ['오늘 나오는 물고기부터 확인해요', 'collector'],
-    ['안 가 본 쪽 물가로 걸어가 봐요', 'explorer'], ['해 질 때까지 기다려요. 진짜는 밤이니까', 'night']] },
-  { q: '찌가 30분째<br>꼼짝도 안 해요.', a: [
-    ['괜찮아요, 바람 소리 듣는 중이에요', 'dreamer'], ['루어로 바꿔서 직접 끌어 봐요', 'fighter'],
-    ['큰 놈이 오려고 이러는 거예요', 'jackpot'], ['기다림도 낚시죠. 잡혀도 놓아줄 거지만', 'releaser']] },
-  { q: '처음 보는 물고기가<br>올라왔어요.', a: [
-    ['도감 칸이 채워지는 이 순간이 제일 좋아요', 'collector'], ['한참 들여다보다가 물로 돌려보내요', 'releaser'],
-    ['수조에 넣으면 예쁘겠다', 'decorator'], ['얘는 어디서 왔을까 궁금해져요', 'explorer']] },
-  { q: '갑자기 비가<br>내리기 시작했어요.', a: [
-    ['빗소리 들으니까 더 좋아요', 'dreamer'], ['비 오는 날 더 잘 무는 녀석이 있을지도', 'collector'],
-    ['오히려 기회예요. 큰 게 물어요', 'jackpot'], ['비 그치면 밤하늘 보러 남을래요', 'night']] },
-  { q: '바구니가<br>꽉 찼어요.', a: [
-    ['한 마리씩 놓아줘요. 그것도 낚시니까', 'releaser'], ['제일 큰 것만 남기고 정리해요', 'jackpot'],
-    ['예쁜 애들은 수조로 데려가요', 'decorator'], ['다 비우고 다음 물가로 가요', 'explorer']] },
-  { q: '지도에 아직 안 가 본<br>물가가 있어요.', a: [
-    ['당장 가요', 'explorer'], ['거긴 밤에 어떤 모습일까?', 'night'],
-    ['제일 험한 곳이면 더 좋아요', 'fighter'], ['거기 사는 전설이 있다면 가요', 'jackpot']] },
-  { q: '오늘 낚시,<br>어떻게 마무리할까요?', a: [
-    ['마지막 한 마리도 놓아주고 일어나요', 'releaser'], ['별 보면서 딱 한 번만 더 던져요', 'night'],
-    ['오늘 잡은 애들 수조에 넣고 구경해요', 'decorator'], ['제일 힘센 녀석이랑 마지막 한판', 'fighter']] },
+  { q: '내일은 낚시 가는 날.<br>전날 밤 나는?', a: [
+    ['채비 다 꺼내 놓고 하나하나 점검 중', 'fighter'], ['대물 잡는 상상하느라 잠이 안 온다', 'jackpot'],
+    ['알람 맞추는 걸 깜빡하고 그냥 잠듦', 'dreamer'], ['자긴 왜 자. 지금 바로 출발', 'night']] },
+  { q: '미리 알아본 포인트에<br>이미 누가 있다.', a: [
+    ['그냥 깔끔히 포기하고 다른 곳을 찾는다', 'explorer'], ['옆에 능청스럽게 접근해서 자리 같이 쓴다', 'fighter'],
+    ['사실 그냥 이 풍경이 좋은 거임. 어디든 상관없음', 'dreamer'], ['저 사람 바구니가 많이 찼는지 보고 결정한다', 'collector']] },
+  { q: '3시간째<br>입질이 하나도 없다.', a: [
+    ['자리가 잘못됐나? 다른 곳으로 자리를 옮긴다', 'explorer'], ['언젠간 잡히겠지. 컵라면 먹으면서 물 구경하기', 'dreamer'],
+    ['이 정도 기다렸으면 이제 대어가 잡힐 때가 됐다. 더 기다린다', 'jackpot'], ['채비가 잘못된 것 같으니 처음부터 다시 채비한다', 'fighter']] },
+  { q: '드디어 입질!<br>근데 생각보다 너무 작다.', a: [
+    ['귀엽네. 사진 한 장 찍고 바로 놓아줌', 'releaser'], ['처음 보는 놈이면 작아도 대만족', 'collector'],
+    ['작아도 예쁘면 데려가서 수조에', 'decorator'], ['미끼 큰 걸로 바꾼다. 노리는 건 따로 있음', 'jackpot']] },
+  { q: '바구니가<br>꽉 찼다.', a: [
+    ['제일 예쁜 애들만 골라서 수조로 가져간다', 'decorator'], ['잡는 데에만 관심 있음. 다 놓아주고 다시 채운다', 'fighter'],
+    ['종류별로 큰 놈들만 놔두고 작은 놈들은 놓아준다', 'collector'], ['사진 다 찍었으니 다 놓아준다', 'releaser']] },
+  { q: '해가 지고 있다.<br>다들 짐 싸는 중.', a: [
+    ['이제부터가 진짜 낚시지. 랜턴을 켠다', 'night'], ['노을 지는 거까지만 보고 짐 싼다', 'dreamer'],
+    ['아까 다른 사람 자리에서 많이 잡히던데. 한 번만 들렀다가 간다', 'explorer'], ['빨리 집에 간다. 가서 수조 컬렉션을 완성해야지', 'decorator']] },
+  { q: '친구가 묻는다.<br>"낚시 왜 해?"', a: [
+    ['월척을 낚았을 때 도파민이 터져서', 'jackpot'], ['그냥 이 풍경에서 고요함을 느끼는 게 좋아', 'night'],
+    ['아직 못 잡은 애들이 너무 많아서', 'collector'], ['손맛. 이건 해 봐야 앎', 'fighter']] },
 ];
 
 const $ = id => document.getElementById(id);
@@ -298,6 +308,21 @@ function pickAngler(type) {
   return TYPES[type].anglers[picksIdx.reduce((a, b, i) => a + b * (i + 1), 0) % n][0];
 }
 
+function renderMix(list) {
+  const box = $('r-mix'); box.innerHTML = '';
+  if (!list || list.length !== QUESTIONS.length) return;
+  const n = {}; list.forEach(t => n[t] = (n[t] || 0) + 1);
+  const top = Object.entries(n).sort((a, b) => b[1] - a[1] || (a[0] === decide(list) ? -1 : 1)).slice(0, 3);
+  top.forEach(([t, c]) => {
+    const chances = QUESTIONS.filter(Q => Q.a.some(a => a[1] === t)).length;  // 그 유형 보기가 나온 질문 수
+    const pct = Math.round(c / chances * 100);
+    const r = document.createElement('div'); r.className = 'row3';
+    r.innerHTML = `<b>${TYPES[t].name}</b><i><span></span></i><em>${pct}%</em>`;
+    box.appendChild(r);
+    requestAnimationFrame(() => requestAnimationFrame(() => { r.querySelector('span').style.width = pct + '%'; }));
+  });
+}
+
 function showResult(type, outfit) {
   const T = TYPES[type];
   const A = T.anglers.find(a => a[0] === outfit) || T.anglers[0];
@@ -331,8 +356,9 @@ function finish() {
   $('bar').style.width = '100%';
   const type = decide(picks), outfit = pickAngler(type);
   gtag('event', 'naru_type_result', { type, outfit });
-  history.replaceState(null, '', '?r=' + type + '&c=' + outfit);
+  history.replaceState(null, '', '?r=' + type + '&c=' + outfit + '&p=' + picksIdx.join(''));
   showResult(type, outfit);
+  renderMix(picks);
 }
 
 $('go').onclick = () => { stopBgCycle(); Q_BG.forEach(k => { new Image().src = BG[k][0]; }); picks = []; picksIdx = []; gtag('event', 'naru_type_start'); renderQ(); show('s-q'); };
@@ -340,7 +366,7 @@ $('back').onclick = () => { picks.pop(); picksIdx.pop(); renderQ(); };
 $('again').onclick = () => { $('again').textContent = '다시 하기'; $('r-top').textContent = '나는'; picks = []; picksIdx = []; history.replaceState(null, '', location.pathname); renderQ(); show('s-q'); };
 $('share').onclick = async () => {
   const type = $('share').dataset.type, outfit = $('share').dataset.outfit, T = TYPES[type];
-  const url = 'https://clpak.dev/naru/type/r/' + type + '-' + outfit + '/';
+  const url = 'https://clpak.dev/naru/type/r/' + type + '-' + outfit + '/?p=' + picksIdx.join('');
   gtag('event', 'naru_type_share', { type });
   if (navigator.share) { try { await navigator.share({ title: '나는 ' + T.name + ' 낚시꾼', text: T.line, url }); return; } catch (e) { if (e.name === 'AbortError') return; } }
   try { await navigator.clipboard.writeText(url); } catch (e) { prompt('링크를 복사하세요', url); return; }
@@ -363,6 +389,8 @@ START_CYCLE.forEach(k => { new Image().src = BG[k][0]; });  // 첫 화면 것만
 const qs = new URLSearchParams(location.search), r = qs.get('r');
 if (TYPES[r]) {
   showResult(r, qs.get('c'));
+  const pp = (qs.get('p') || '').split('').map(Number);  // 공유 링크의 고른 보기 → 성향 % 다시 계산
+  if (pp.length === QUESTIONS.length && pp.every(j => j >= 0 && j < 4)) { picksIdx = pp; renderMix(pp.map((j, i) => QUESTIONS[i].a[j][1])); }
   // 공유 링크로 들어온 사람에겐 '다시 하기' 대신 '나도 해 보기'
   if (qs.get('utm_source') === 'share') { $('again').textContent = '나도 해 보기'; $('r-top').textContent = '친구는'; }
 }
