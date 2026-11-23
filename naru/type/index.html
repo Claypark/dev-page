@@ -27,7 +27,7 @@
   <!-- 나루 낚시 유형 테스트 — 서버 없이 이 파일 하나로 동작한다. 한 화면에 질문 하나, 보기에 점수 숫자 없음.
        결과 공유 = r/<유형>/ (유형별 og 그림) → 여기로 돌아와 결과를 보여 준다. 그림 = 나루 실제 캐릭터·물고기 스프라이트. -->
   <style>
-    @font-face { font-family: 'Galmuri11'; src: url('galmuri11-sub.woff2?v=8cd6ac77') format('woff2'); font-display: swap; }
+    @font-face { font-family: 'Galmuri11'; src: url('galmuri11-sub.woff2?v=ad884642') format('woff2'); font-display: swap; }
     :root {
       --bg: #1A1A2E; --surface: rgba(38,38,60,.88); --surface-2: #30304A; --ink: #FFFFFF; --muted: rgba(255,255,255,.6);
       --sky: #4FC3F7; --gold: #FFD54F; --water: #1F3B5C;
@@ -35,6 +35,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { background: var(--bg); height: 100%; } body { height: 100%; }
     body { font-family: 'Galmuri11', 'Apple SD Gothic Neo', sans-serif; color: var(--ink); line-height: 1.6; word-break: keep-all; -webkit-font-smoothing: none; }
+    html[lang=ja] body { word-break: normal; line-break: strict; }
     img { image-rendering: pixelated; }
     button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
     a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
@@ -106,7 +107,7 @@
     /* 내 낚시 성향 = 고른 보기 7개 중 유형별 비율(위 3개) */
     .mix { width: 100%; max-width: 300px; margin: 22px auto 0; }
     .mix .row3 { display: flex; align-items: center; gap: 10px; font-size: 13px; margin-top: 8px; }
-    .mix .row3 b { flex: 0 0 92px; text-align: right; font-weight: normal; color: rgba(255,255,255,.85); }
+    .mix .row3 b { flex: 0 0 112px; line-height: 1.3; text-align: right; font-weight: normal; color: rgba(255,255,255,.85); }
     .mix .row3 i { flex: 1; height: 10px; border-radius: 5px; background: rgba(255,255,255,.08); overflow: hidden; }
     .mix .row3 i span { display: block; height: 100%; border-radius: 5px; background: var(--sky); width: 0; transition: width .9s ease .2s; }
     .mix .row3:first-child i span { background: var(--gold); }
@@ -124,6 +125,9 @@
     .fishname { color: var(--rc, var(--gold)); }
     .row { display: flex; gap: 10px; }
     .row .btn { flex: 1; }
+    .langs { display: flex; gap: 14px; justify-content: center; margin-top: 14px; font-size: 13px; }
+    .langs a { color: var(--muted); }
+    .langs a.on { color: var(--sky); }
     .toast { position: fixed; left: 50%; bottom: 40px; transform: translateX(-50%); background: #000C; padding: 10px 16px; border-radius: 12px; font-size: 15px; opacity: 0; transition: opacity .2s; pointer-events: none; }
     .toast.on { opacity: 1; }
   </style>
@@ -133,11 +137,12 @@
 <div class="app">
 
   <section class="screen on" id="s-start">
-    <div class="brand">나루 · 낚시 유형 테스트</div>
-    <h1 class="title">나는 어떤<br>낚시꾼일까?</h1>
-    <p class="lead">질문 7개면 끝나요.<br>나루 낚시꾼 18명 중 누구를 닮았을까요?</p>
+    <div class="brand" data-t="brand"></div>
+    <h1 class="title" data-h="title"></h1>
+    <p class="lead" data-h="lead"></p>
     <div class="stage"><div class="sil"><img src="img/silhouette.webp" alt=""><span>?</span></div></div>
-    <button class="btn" id="go">찌 던지기</button>
+    <button class="btn" id="go" data-t="go"></button>
+    <nav class="langs" id="langs"></nav>
   </section>
 
   <section class="screen" id="s-q">
@@ -145,80 +150,57 @@
     <div class="qno" id="qno"></div>
     <h2 class="q" id="q"></h2>
     <div class="opts" id="opts"></div>
-    <button class="back" id="back">← 이전 질문</button>
+    <button class="back" id="back" data-t="back"></button>
   </section>
 
   <section class="screen" id="s-r">
-    <div class="r-top" id="r-top">나는</div>
+    <div class="r-top" id="r-top" data-t="me"></div>
     <h2 class="r-name" id="r-name"></h2>
     <div class="r-line" id="r-line"></div>
     <div class="mix" id="r-mix"></div>
     <section class="sec">
-      <div class="k">닮은 낚시꾼</div>
+      <div class="k" data-t="kAngler"></div>
       <img class="who-img" id="r-who-img" alt="">
       <div class="nm" id="r-angler"></div>
       <p id="r-who"></p>
     </section>
     <section class="sec">
-      <div class="k">닮은 물고기</div>
+      <div class="k" data-t="kFish"></div>
       <div class="fishwrap" id="p-fish"><i style="left:22px;top:24px"></i><i style="right:20px;top:36px;animation-delay:.6s"></i><i style="left:36px;bottom:20px;animation-delay:1.2s"></i><img id="r-fish-img" alt=""></div>
       <div class="nm"><span class="fishname" id="r-fish"></span><span class="rpill" id="r-rar"></span></div>
       <div class="sub" id="r-region"></div>
       <p id="r-fishwhy"></p>
     </section>
     <section class="sec">
-      <div class="k">어울리는 낚시 포인트</div>
+      <div class="k" data-t="kPoint"></div>
       <div class="pic-point" id="p-point"></div>
       <div class="nm pointname" id="r-point"></div>
       <p id="r-pointwhy"></p>
     </section>
     <div class="r-actions"></div>
     <div class="row">
-      <button class="btn ghost" id="again">다시 하기</button>
-      <button class="btn ghost" id="share">결과 공유</button>
+      <button class="btn ghost" id="again" data-t="again"></button>
+      <button class="btn ghost" id="share" data-t="share"></button>
     </div>
-    <a class="btn" id="get" href="https://clpak.dev/go/naru.html?utm_source=naru_type&utm_medium=web&utm_campaign=naru_type">나루에서 낚시하러 가기</a>
+    <a class="btn" id="get" href="https://clpak.dev/go/naru.html?utm_source=naru_type&utm_medium=web&utm_campaign=naru_type" data-t="get"></a>
   </section>
 
 </div>
-<div class="toast" id="toast">링크를 복사했어요</div>
+<div class="toast" id="toast" data-t="copied"></div>
 
+<script id="i18n" type="application/json">{"ko":{"label":"한국어","docTitle":"나는 어떤 낚시꾼일까 - 나루","brand":"나루 · 낚시 유형 테스트","title":"나는 어떤<br>낚시꾼일까?","lead":"질문 7개면 끝나요.<br>나루 낚시꾼 18명 중 누구를 닮았을까요?","go":"찌 던지기","back":"← 이전 질문","me":"나는","friend":"친구는","kAngler":"닮은 낚시꾼","kFish":"닮은 물고기","kPoint":"어울리는 낚시 포인트","again":"다시 하기","tryToo":"나도 해 보기","share":"결과 공유","get":"나루에서 낚시하러 가기","copied":"링크를 복사했어요","copyPrompt":"링크를 복사하세요","caughtIn":"{r}에서 낚여요","shareTitle":"나는 {a}{을} 닮은 {t}","ogPre":"나는 {a}{을} 닮은","ogCta":"나도 해 보기 →","ogDesc":"{line}. 질문 7개로 나와 닮은 나루 낚시꾼을 찾아보세요.","ogMainTitle":"나는 어떤 낚시꾼일까?","ogMainDesc":"질문 7개로 알아보는 내 낚시 유형. 나루 낚시꾼 18명 중 누구를 닮았을까요?","ogMain":["나루 · 낚시 유형 테스트","나는 어떤","낚시꾼일까?"],"seeResult":"결과 보기","rarity":{"common":"일반","rare":"희귀","legendary":"전설"},"region":{"lake":"호수","aitutaki":"아이투타키","cave":"심연 동굴","amazon":"아마존"},"questions":[["내일은 낚시 가는 날.<br>전날 밤 나는?","채비 다 꺼내 놓고 하나하나 점검 중","대물 잡는 상상하느라 잠이 안 온다","알람 맞추는 걸 깜빡하고 그냥 잠듦","자긴 왜 자. 지금 바로 출발"],["미리 알아본 포인트에<br>이미 누가 있다.","그냥 깔끔히 포기하고 다른 곳을 찾는다","옆에 능청스럽게 접근해서 자리 같이 쓴다","사실 그냥 이 풍경이 좋은 거임. 어디든 상관없음","저 사람 바구니가 많이 찼는지 보고 결정한다"],["3시간째<br>입질이 하나도 없다.","자리가 잘못됐나? 다른 곳으로 자리를 옮긴다","언젠간 잡히겠지. 컵라면 먹으면서 물 구경하기","이 정도 기다렸으면 이제 대어가 잡힐 때가 됐다. 더 기다린다","채비가 잘못된 것 같으니 처음부터 다시 채비한다"],["드디어 입질!<br>근데 생각보다 너무 작다.","귀엽네. 사진 한 장 찍고 바로 놓아줌","처음 보는 놈이면 작아도 대만족","작아도 예쁘면 데려가서 수조에","미끼 큰 걸로 바꾼다. 노리는 건 따로 있음"],["바구니가<br>꽉 찼다.","제일 예쁜 애들만 골라서 수조로 가져간다","잡는 데에만 관심 있음. 다 놓아주고 다시 채운다","종류별로 큰 놈들만 놔두고 작은 놈들은 놓아준다","사진 다 찍었으니 다 놓아준다"],["해가 지고 있다.<br>다들 짐 싸는 중.","이제부터가 진짜 낚시지. 랜턴을 켠다","노을 지는 거까지만 보고 짐 싼다","아까 다른 사람 자리에서 많이 잡히던데. 한 번만 들렀다가 간다","빨리 집에 간다. 가서 수조 컬렉션을 완성해야지"],["친구가 묻는다.<br>\"낚시 왜 해?\"","월척을 낚았을 때 도파민이 터져서","그냥 이 풍경에서 고요함을 느끼는 게 좋아","아직 못 잡은 애들이 너무 많아서","손맛. 이건 해 봐야 앎"]],"anglers":{"01":"하람","02":"노을","03":"산들","04":"보라","05":"나리","06":"가을","07":"새록","08":"이슬","09":"아라","10":"몽돌","11":"바우","12":"여울","13":"미르","14":"마루","15":"구름","16":"여름","17":"다솜","18":"한솔"},"types":{"dreamer":{"name":"몽상가형","line":"입질보다 물빛을 보러 와요","who":"찌가 한참 안 움직여도 괜찮아요. 바람 소리, 물결, 노을까지 다 낚시라고 생각하거든요.","fish":"비단잉어","fishWhy":"물 위를 천천히 맴도는 모습이 꼭 닮았어요.","point":"가을 호수","pointWhy":"단풍이 물든 호숫가예요. 찌 하나 던져 두고 노을만 봐도 좋아요."},"collector":{"name":"수집가형","line":"도감 빈칸은 못 참아요","who":"처음 보는 물고기가 올라오면 크기보다 이름부터 확인해요. 빈칸 하나 채우려고 또 던져요.","fish":"해마","fishWhy":"작고 귀해서 한 번 보면 도감에 꼭 넣고 싶어지는 녀석이에요.","point":"아이투타키","pointWhy":"물때 따라 바다가 바뀌는 산호 바다예요. 여기서만 나오는 물고기가 잔뜩 있어요."},"releaser":{"name":"방생러","line":"잡는 맛만큼 놓아주는 맛","who":"손맛은 즐기고, 물고기는 물로 돌려보내요. 낚시가 끝나도 물가가 그대로였으면 해요.","fish":"붕어","fishWhy":"제일 흔하지만 제일 반가운 손님. 놓아줘도 또 만나요.","point":"봄 호수","pointWhy":"나루가 시작된 물가예요. 봄이면 벚꽃이 피어요."},"explorer":{"name":"탐험가형","line":"안 가 본 물가부터 가요","who":"익숙한 자리보다 처음 가 보는 물가가 더 설레요. 지도에 빈 곳이 보이면 일단 짐부터 챙겨요.","fish":"피라루쿠","fishWhy":"세상에서 가장 큰 민물고기 중 하나. 멀리까지 가 본 사람만 만나요.","point":"노르웨이 피요르드","pointWhy":"절벽 사이로 폭포가 떨어지는 북쪽 바다예요. 호수 다음으로 떠나는 첫 원정지예요."},"fighter":{"name":"승부사형","line":"내 손으로 끌어올려야 낚시죠","who":"루어 던지듯 내 실력으로 한판 붙는 게 좋아요. 어려운 물가일수록 오히려 불이 붙어요.","fish":"실러캔스","fishWhy":"수억 년을 버텨 온 살아 있는 화석. 쉽게 올라와 주지 않아요.","point":"심연 동굴","pointWhy":"빛이 거의 없는 깊은 동굴이에요. 나루에서 가장 까다로운 물가예요."},"jackpot":{"name":"한 방형","line":"전설 한 마리면 돼요","who":"잔챙이 열 마리보다 큰 놈 한 마리. 입질이 없어도 언젠가 올 그 한 방을 기다려요.","fish":"황금잉어","fishWhy":"몇 번을 던져도 안 나오다가 한 번에 나타나는 금빛이에요.","point":"아마존","pointWhy":"힘센 물고기가 가득한 다섯 번째 물가예요. 신화 등급도 셋이나 숨어 있어요."},"night":{"name":"밤낚시꾼","line":"해가 지면 시작이에요","who":"다들 짐 쌀 때 자리를 펴요. 조용한 물가와 별빛, 밤에만 오는 녀석들이 있다는 걸 알거든요.","fish":"오로라물고기","fishWhy":"밤하늘 오로라 색을 그대로 담은 비늘이에요.","point":"노르웨이의 밤","pointWhy":"백야와 극야가 있는 노르웨이. 밤하늘엔 오로라가 떠요."},"decorator":{"name":"수조 꾸미기형","line":"잡은 녀석들로 집을 꾸며요","who":"잡은 물고기는 그냥 보내기 아까워요. 제일 예쁜 녀석들로 내 수조를 채워요.","fish":"디스커스","fishWhy":"실제로도 수조에서 많이 키우는 화려한 물고기예요.","point":"나루 수조","pointWhy":"잡은 물고기를 넣고, 물가마다 얻는 장식으로 꾸며요."}}},"en":{"label":"EN","docTitle":"What kind of angler are you? - Naru","brand":"Naru · Angler Type Test","title":"What kind of<br>angler are you?","lead":"Just 7 questions.<br>Which of Naru's 18 anglers are you most like?","go":"Cast your line","back":"← Previous","me":"I'm","friend":"My friend is","kAngler":"Your angler","kFish":"Your fish","kPoint":"Your fishing spot","again":"Try again","tryToo":"Take the test","share":"Share result","get":"Go fishing in Naru","copied":"Link copied","copyPrompt":"Copy this link","caughtIn":"Caught in {r}","shareTitle":"I'm {t}, just like {a}","ogPre":"Just like {a}, I'm","ogCta":"Take the test →","ogDesc":"{line}. 7 questions to find the Naru angler most like you.","ogMainTitle":"What kind of angler are you?","ogMainDesc":"7 questions to find your fishing type. Which of Naru's 18 anglers are you most like?","ogMain":["Naru · Angler Type Test","What kind of","angler are you?"],"seeResult":"See result","rarity":{"common":"Common","rare":"Rare","legendary":"Legendary"},"region":{"lake":"the Lake","aitutaki":"Aitutaki","cave":"the Abyss Cave","amazon":"the Amazon"},"questions":[["Fishing trip tomorrow.<br>The night before, I...","Lay out all my gear and check every piece","Can't sleep. Too busy picturing the monster I'll land","Forget to set an alarm and just pass out","Sleep? Why. I'm heading out right now"],["The spot I scouted<br>is already taken.","No fuss. I go find somewhere else","Casually slide in next to them and share the spot","Honestly I'm just here for the view. Anywhere works","Peek at their bucket first, then decide"],["Three hours in.<br>Not a single bite.","Wrong spot? Time to move","It'll bite eventually. Cup noodles and water-watching","After this long, a big one is due. I keep waiting","Must be my rig. I set it all up again from scratch"],["Finally, a bite!<br>But it's way smaller than expected.","Cute. One photo, then right back in","Never seen this one before? Tiny, but I'm thrilled","Small but pretty. It's coming home to my tank","Switching to bigger bait. I'm after something else"],["My bucket<br>is full.","Pick the prettiest ones to take home to my tank","I'm only here for the catching. Release them all and fill it again","Keep the biggest of each kind, let the small ones go","Got my photos. Let them all go"],["The sun is setting.<br>Everyone's packing up.","Now the real fishing begins. Lantern on","Stay for the sunset, then pack up","That other spot was busy earlier. One quick stop before I go","Straight home. My tank collection won't finish itself"],["A friend asks,<br>\"Why do you even fish?\"","The dopamine rush when I land a monster","I just love how quiet it is out there","There are way too many I haven't caught yet","The feel on the line. You have to try it to get it"]],"anglers":{"01":"Haram","02":"Noeul","03":"Sandeul","04":"Bora","05":"Nari","06":"Gaeul","07":"Saerok","08":"Iseul","09":"Ara","10":"Mongdol","11":"Bau","12":"Yeoul","13":"Mir","14":"Maru","15":"Gureum","16":"Yeoreum","17":"Dasom","18":"Hansol"},"types":{"dreamer":{"name":"The Dreamer","line":"Here for the water, not the bite","who":"A float that won't move for ages? No problem. The wind, the ripples and the sunset are all part of fishing to you.","fish":"Koi","fishWhy":"It slowly circles the surface, just like you.","point":"Autumn Lake","pointWhy":"A lakeside in autumn colors. Cast once and just watch the sunset."},"collector":{"name":"The Collector","line":"An empty slot in the Collection? Not on my watch","who":"When a new fish comes up, you check its name before its size. One more empty slot, one more cast.","fish":"Common Seahorse","fishWhy":"Small and rare. One look and you want it in your Collection.","point":"Aitutaki","pointWhy":"A coral sea that changes with the tide, full of fish you won't find anywhere else."},"releaser":{"name":"The Releaser","line":"Letting go feels as good as catching","who":"You enjoy the fight, then send the fish back home. You want the water to stay just as it was.","fish":"Crucian Carp","fishWhy":"The most common guest, and the most welcome. Let it go and you'll meet again.","point":"Spring Lake","pointWhy":"Where Naru began. Cherry blossoms bloom here in spring."},"explorer":{"name":"The Explorer","line":"New waters first","who":"A place you've never fished beats your usual spot. See a blank on the map and your bag is already packed.","fish":"Arapaima","fishWhy":"One of the biggest freshwater fish in the world. Only those who travel far get to meet it.","point":"Norwegian Fjord","pointWhy":"A northern sea where waterfalls drop between cliffs. Your first trip out after the lake."},"fighter":{"name":"The Fighter","line":"If I didn't reel it in myself, it doesn't count","who":"You love a head-to-head fight, like working a lure on your own skill. The harder the water, the more fired up you get.","fish":"Coelacanth","fishWhy":"A living fossil that has survived for hundreds of millions of years. It never comes up easy.","point":"Abyss Cave","pointWhy":"A deep cave with almost no light. The toughest water in Naru."},"jackpot":{"name":"The Jackpot Hunter","line":"One legend is all I need","who":"One big one beats ten tiddlers. Even with no bites, you wait for the one that's coming someday.","fish":"Golden Carp","fishWhy":"A flash of gold that won't show for cast after cast, then appears all at once.","point":"Amazon","pointWhy":"Naru's fifth waters, packed with strong fish. Three Mythic ones hide here."},"night":{"name":"The Night Angler","line":"It starts when the sun goes down","who":"When everyone packs up, you set up. You know about the quiet water, the starlight and the ones that only come out at night.","fish":"Aurora Fish","fishWhy":"Its scales hold the colors of the aurora in the night sky.","point":"Norway at Night","pointWhy":"Norway, with its midnight sun and polar night. The aurora rises in the sky."},"decorator":{"name":"The Tank Decorator","line":"I decorate my home with my catch","who":"Letting a good catch go feels like a waste. You fill your tank with the prettiest ones.","fish":"Discus","fishWhy":"A colorful fish that people really keep in home tanks.","point":"Naru Fish Tank","pointWhy":"Put your catch in, then decorate it with items from each fishing spot."}}},"ja":{"label":"日本語","docTitle":"あなたはどんな釣り人? - ナル","brand":"ナル・釣り人タイプ診断","title":"あなたは<br>どんな釣り人？","lead":"質問は7つだけ。<br>ナルの釣り人18人のうち、誰に似ている？","go":"ウキを投げる","back":"← 前の質問","me":"私は","friend":"友だちは","kAngler":"似ている釣り人","kFish":"似ている魚","kPoint":"ぴったりの釣りポイント","again":"もう一度","tryToo":"私もやってみる","share":"結果をシェア","get":"ナルで釣りをする","copied":"リンクをコピーしました","copyPrompt":"リンクをコピーしてください","caughtIn":"{r}で釣れる","shareTitle":"私は{a}に似た{t}","ogPre":"私は{a}に似た","ogCta":"私もやってみる →","ogDesc":"{line}。7つの質問で、自分に似たナルの釣り人を見つけよう。","ogMainTitle":"あなたはどんな釣り人？","ogMainDesc":"7つの質問でわかる釣り人タイプ。ナルの釣り人18人のうち、誰に似ている？","ogMain":["ナル・釣り人タイプ診断","あなたは","どんな釣り人？"],"seeResult":"結果を見る","rarity":{"common":"コモン","rare":"レア","legendary":"レジェンダリー"},"region":{"lake":"湖","aitutaki":"アイツタキ","cave":"深淵洞窟","amazon":"アマゾン"},"questions":[["明日は釣りの日。<br>前の晩の私は？","仕掛けを全部広げて、ひとつずつ点検中","大物を釣る妄想で眠れない","アラームをかけ忘れて、そのまま寝落ち","寝る？なんで。今すぐ出発"],["下調べしたポイントに<br>もう先客がいる。","あっさり諦めて別の場所を探す","さりげなく隣に入って一緒に使う","正直この景色が好きなだけ。どこでもいい","あの人のバケツがどれだけ埋まってるか見て決める"],["3時間たっても<br>アタリがひとつもない。","場所が悪いのかな？別の場所に移る","そのうち釣れるでしょ。カップ麺食べながら水面ぼーっと","これだけ待ったんだから、そろそろ大物の番。まだ待つ","仕掛けが悪そうだから、最初から組み直す"],["ついにアタリ！<br>でも思ったより小さすぎる。","かわいい。写真を1枚撮ってすぐリリース","初めて見るやつなら、小さくても大満足","小さくてもきれいなら、連れて帰って水槽へ","エサを大きいのに替える。狙いは別にある"],["バケツが<br>いっぱいになった。","いちばんきれいな子だけ選んで水槽へ持ち帰る","釣ること自体が楽しい。全部リリースしてまた埋める","種類ごとに大きいのだけ残して、小さいのは逃がす","写真は全部撮ったから全部リリース"],["日が沈んでいく。<br>みんな片付け中。","ここからが本当の釣りでしょ。ランタンをつける","夕焼けだけ見てから片付ける","さっき他の人の場所でよく釣れてたな。ちょっと寄ってから帰る","早く帰る。水槽コレクションを完成させなきゃ"],["友だちに聞かれた。<br>「なんで釣りするの？」","大物を釣ったときのドーパミンがすごいから","この景色の中で静けさを感じるのが好き","まだ釣ってない子が多すぎるから","手応え。これはやってみないとわからない"]],"anglers":{"01":"ハラム","02":"ノウル","03":"サンドゥル","04":"ボラ","05":"ナリ","06":"ガウル","07":"セロク","08":"イスル","09":"アラ","10":"モンドル","11":"バウ","12":"ヨウル","13":"ミル","14":"マル","15":"クルム","16":"ヨルム","17":"ダソム","18":"ハンソル"},"types":{"dreamer":{"name":"夢想家タイプ","line":"アタリより水の色を見に来る","who":"ウキがしばらく動かなくても平気。風の音も波も夕焼けも、ぜんぶ釣りだと思っているから。","fish":"ニシキゴイ","fishWhy":"水面をゆっくり回る姿がそっくり。","point":"秋の湖","pointWhy":"紅葉に染まった湖畔。ウキを投げておいて、夕焼けを眺めるだけでいい。"},"collector":{"name":"コレクタータイプ","line":"図鑑の空欄は許せない","who":"初めて見る魚が上がったら、大きさより先に名前を確認。空欄をひとつ埋めるために、また投げる。","fish":"タツノオトシゴ","fishWhy":"小さくて珍しい。一度見たら図鑑に入れたくなる子。","point":"アイツタキ","pointWhy":"潮で表情が変わるサンゴの海。ここでしか釣れない魚がたくさん。"},"releaser":{"name":"リリース派","line":"釣る楽しさと同じくらい、逃がす楽しさ","who":"手応えを楽しんだら、魚は水へ返す。釣りが終わっても、水辺がそのままであってほしい。","fish":"フナ","fishWhy":"いちばんよく会うけど、いちばんうれしいお客さん。逃がしてもまた会える。","point":"春の湖","pointWhy":"ナルが始まった水辺。春には桜が咲く。"},"explorer":{"name":"探検家タイプ","line":"行ったことのない水辺から","who":"いつもの場所より、初めての水辺のほうがわくわくする。地図に空白があれば、まず荷物をまとめる。","fish":"ピラルクー","fishWhy":"世界最大級の淡水魚。遠くまで行った人だけが出会える。","point":"ノルウェーのフィヨルド","pointWhy":"崖の間から滝が落ちる北の海。湖の次に向かう、最初の遠征先。"},"fighter":{"name":"勝負師タイプ","line":"自分の手で釣り上げてこそ","who":"ルアーを投げるみたいに、自分の腕で真っ向勝負するのが好き。難しい水辺ほど燃える。","fish":"シーラカンス","fishWhy":"何億年も生き抜いてきた生きた化石。簡単には上がってこない。","point":"深淵洞窟","pointWhy":"光がほとんど届かない深い洞窟。ナルでいちばん手ごわい水辺。"},"jackpot":{"name":"一発大物タイプ","line":"伝説が1匹いればいい","who":"小物10匹より大物1匹。アタリがなくても、いつか来るその一発を待つ。","fish":"コガネゴイ","fishWhy":"何度投げても出なかったのに、ある日いきなり現れる金色。","point":"アマゾン","pointWhy":"力強い魚でいっぱいの、5番目の水辺。ミシックも3匹隠れている。"},"night":{"name":"夜釣り師","line":"日が沈んでからが本番","who":"みんなが片付けるころに準備を始める。静かな水辺と星明かり、夜にしか来ない魚がいるのを知っているから。","fish":"オーロラウオ","fishWhy":"夜空のオーロラの色をそのまま映したうろこ。","point":"ノルウェーの夜","pointWhy":"白夜と極夜があるノルウェー。夜空にはオーロラが揺れる。"},"decorator":{"name":"水槽デコタイプ","line":"釣った魚で家を飾る","who":"釣った魚をそのまま逃がすのはもったいない。いちばんきれいな子たちで自分の水槽を埋める。","fish":"ディスカス","fishWhy":"実際にも水槽でよく飼われる、華やかな魚。","point":"ナルの水槽","pointWhy":"釣った魚を入れて、水辺ごとにもらえる飾りでデコる。"}}},"es":{"label":"ES","docTitle":"¿Qué tipo de pescador eres? - Naru","brand":"Naru · Test de pescador","title":"¿Qué tipo de<br>pescador eres?","lead":"Solo 7 preguntas.<br>¿A cuál de los 18 pescadores de Naru te pareces?","go":"Lanzar el sedal","back":"← Anterior","me":"Soy","friend":"Mi amigo es","kAngler":"Tu pescador","kFish":"Tu pez","kPoint":"Tu lugar de pesca","again":"Repetir","tryToo":"Hacer el test","share":"Compartir","get":"Ir a pescar en Naru","copied":"Enlace copiado","copyPrompt":"Copia este enlace","caughtIn":"Se pesca en {r}","shareTitle":"Soy {t}, como {a}","ogPre":"Como {a}, soy","ogCta":"Hacer el test →","ogDesc":"{line}. 7 preguntas para descubrir a qué pescador de Naru te pareces.","ogMainTitle":"¿Qué tipo de pescador eres?","ogMainDesc":"7 preguntas para descubrir tu tipo de pescador. ¿A cuál de los 18 pescadores de Naru te pareces?","ogMain":["Naru · Test de pescador","¿Qué tipo de","pescador eres?"],"seeResult":"Ver resultado","rarity":{"common":"Común","rare":"Raro","legendary":"Legendario"},"region":{"lake":"el Lago","aitutaki":"Aitutaki","cave":"la Cueva","amazon":"el Amazonas"},"questions":[["Mañana toca pesca.<br>La noche anterior, yo...","Saco todo el equipo y lo reviso pieza por pieza","No puedo dormir imaginando el pez enorme que voy a sacar","Se me olvida poner la alarma y me quedo frito","¿Dormir? ¿Para qué? Me voy ya"],["El sitio que había mirado<br>ya está ocupado.","Sin drama. Busco otro sitio","Me acerco como si nada y compartimos sitio","En realidad vengo por el paisaje. Me da igual dónde","Miro cuánto lleva en el cubo y luego decido"],["Tres horas<br>y ni una picada.","¿Sitio equivocado? Me cambio a otro","Ya picará. Fideos instantáneos y a mirar el agua","Después de tanto esperar, ya toca uno grande. Sigo esperando","Será el aparejo. Lo vuelvo a montar desde cero"],["¡Por fin pican!<br>Pero es mucho más pequeño de lo esperado.","Qué mono. Una foto y de vuelta al agua","Si nunca lo había visto, me vale aunque sea pequeño","Pequeño pero bonito. Se viene a mi acuario","Cambio a un cebo más grande. Voy a por otra cosa"],["El cubo<br>está lleno.","Elijo los más bonitos y me los llevo al acuario","Solo me importa pescar. Los suelto todos y a llenarlo otra vez","Me quedo con el más grande de cada especie y suelto los pequeños","Ya tengo las fotos. Los suelto todos"],["Se está poniendo el sol.<br>Todos están recogiendo.","Ahora empieza la pesca de verdad. Enciendo el farol","Me quedo a ver el atardecer y luego recojo","Antes picaban mucho en el sitio de otro. Paso un momento y me voy","A casa rápido. Tengo que completar mi colección del acuario"],["Un amigo te pregunta:<br>\"¿Por qué pescas?\"","Por el subidón de dopamina cuando saco uno enorme","Me gusta sentir la calma de este paisaje","Porque me faltan muchísimos por pescar","Por la sensación en la caña. Hay que probarlo"]],"anglers":{"01":"Haram","02":"Noeul","03":"Sandeul","04":"Bora","05":"Nari","06":"Gaeul","07":"Saerok","08":"Iseul","09":"Ara","10":"Mongdol","11":"Bau","12":"Yeoul","13":"Mir","14":"Maru","15":"Gureum","16":"Yeoreum","17":"Dasom","18":"Hansol"},"types":{"dreamer":{"name":"Soñador","line":"Vengo por el agua, no por la picada","who":"No te importa que el flotador no se mueva en un buen rato. El viento, las ondas y el atardecer también son pesca.","fish":"Carpa Koi","fishWhy":"Da vueltas despacio por la superficie, igual que tú.","point":"Lago en otoño","pointWhy":"Una orilla teñida de otoño. Lanza una vez y quédate mirando el atardecer."},"collector":{"name":"Coleccionista","line":"No soporto un hueco vacío en la Colección","who":"Cuando sale un pez nuevo, miras su nombre antes que su tamaño. Un hueco más, un lanzamiento más.","fish":"Caballito de Mar","fishWhy":"Pequeño y raro. Lo ves una vez y ya lo quieres en tu Colección.","point":"Aitutaki","pointWhy":"Un mar de coral que cambia con la marea, lleno de peces que solo salen aquí."},"releaser":{"name":"Liberador","line":"Soltar sienta tan bien como pescar","who":"Disfrutas la pelea y devuelves el pez al agua. Quieres que la orilla quede igual que estaba.","fish":"Carpa Cruciana","fishWhy":"El visitante más común y el más bienvenido. Si lo sueltas, os volveréis a ver.","point":"Lago en primavera","pointWhy":"Donde empezó Naru. En primavera florecen los cerezos."},"explorer":{"name":"Explorador","line":"Primero, las aguas que no conozco","who":"Un sitio nuevo te emociona más que el de siempre. Ves un hueco en el mapa y ya tienes la mochila hecha.","fish":"Paiche","fishWhy":"Uno de los peces de agua dulce más grandes del mundo. Solo lo conoce quien viaja lejos.","point":"Fiordo noruego","pointWhy":"Un mar del norte con cascadas entre acantilados. Tu primera expedición después del lago."},"fighter":{"name":"Luchador","line":"Si no lo saco yo, no cuenta","who":"Te gusta un cara a cara a pura habilidad, como pescar con señuelo. Cuanto más difícil el agua, más te picas.","fish":"Celacanto","fishWhy":"Un fósil viviente que ha resistido cientos de millones de años. Nunca sale fácil.","point":"Cueva del abismo","pointWhy":"Una cueva profunda casi sin luz. El agua más difícil de Naru."},"jackpot":{"name":"Cazador de Trofeos","line":"Con un legendario me basta","who":"Mejor uno grande que diez pequeños. Aunque no piquen, esperas ese golpe que llegará algún día.","fish":"Carpa Dorada","fishWhy":"Un destello dorado que no sale en mil lanzamientos y de repente aparece.","point":"Amazonas","pointWhy":"Las quintas aguas de Naru, llenas de peces fuertes. Tres míticos se esconden aquí."},"night":{"name":"Pescador Nocturno","line":"Empiezo cuando se pone el sol","who":"Cuando todos recogen, tú te instalas. Conoces el agua en calma, la luz de las estrellas y los peces que solo salen de noche.","fish":"Pez Aurora","fishWhy":"Sus escamas guardan los colores de la aurora en el cielo nocturno.","point":"Noruega de noche","pointWhy":"Noruega, con su sol de medianoche y su noche polar. En el cielo brilla la aurora."},"decorator":{"name":"Decorador de Acuarios","line":"Decoro mi casa con lo que pesco","who":"Te da pena soltar una buena captura. Llenas tu acuario con los más bonitos.","fish":"Pez Disco","fishWhy":"Un pez vistoso que de verdad se cría mucho en acuarios.","point":"Acuario de Naru","pointWhy":"Mete tus capturas y decóralo con los adornos que consigues en cada lugar de pesca."}}}}</script>
 <script>
-const TYPES = {
-  dreamer:   { name: '몽상가형', anglers: [['06', '가을'], ['15', '구름'], ['04', '보라']], line: '입질보다 물빛을 보러 와요', bg: 'lake_autumn',
-               who: '찌가 한참 안 움직여도 괜찮아요. 바람 소리, 물결, 노을까지 다 낚시라고 생각하거든요.',
-               fish: '비단잉어', fishTag: '호수 · 희귀', fishWhy: '물 위를 천천히 맴도는 모습이 꼭 닮았어요.',
-               point: '가을 호수', pointWhy: '단풍이 물든 호숫가예요. 찌 하나 던져 두고 노을만 봐도 좋아요.' },
-  collector: { name: '수집가형', anglers: [['10', '몽돌'], ['03', '산들']], line: '도감 빈칸은 못 참아요', bg: 'lagoon',
-               who: '처음 보는 물고기가 올라오면 크기보다 이름부터 확인해요. 빈칸 하나 채우려고 또 던져요.',
-               fish: '해마', fishTag: '아이투타키 · 희귀', fishWhy: '작고 귀해서 한 번 보면 도감에 꼭 넣고 싶어지는 녀석이에요.',
-               point: '아이투타키', pointWhy: '물때 따라 바다가 바뀌는 산호 바다예요. 여기서만 나오는 물고기가 잔뜩 있어요.' },
-  releaser:  { name: '방생러', anglers: [['02', '노을'], ['01', '하람']], line: '잡는 맛만큼 놓아주는 맛', bg: 'lake',
-               who: '손맛은 즐기고, 물고기는 물로 돌려보내요. 낚시가 끝나도 물가가 그대로였으면 해요.',
-               fish: '붕어', fishTag: '호수 · 일반', fishWhy: '제일 흔하지만 제일 반가운 손님. 놓아줘도 또 만나요.',
-               point: '봄 호수', pointWhy: '나루가 시작된 물가예요. 봄이면 벚꽃이 피어요.' },
-  explorer:  { name: '탐험가형', anglers: [['05', '나리'], ['13', '미르']], line: '안 가 본 물가부터 가요', bg: 'fjord',
-               who: '익숙한 자리보다 처음 가 보는 물가가 더 설레요. 지도에 빈 곳이 보이면 일단 짐부터 챙겨요.',
-               fish: '피라루쿠', fishTag: '아마존 · 전설', fishWhy: '세상에서 가장 큰 민물고기 중 하나. 멀리까지 가 본 사람만 만나요.',
-               point: '노르웨이 피요르드', pointWhy: '절벽 사이로 폭포가 떨어지는 북쪽 바다예요. 호수 다음으로 떠나는 첫 원정지예요.' },
-  fighter:   { name: '승부사형', anglers: [['09', '아라'], ['12', '여울']], line: '내 손으로 끌어올려야 낚시죠', bg: 'cave',
-               who: '루어 던지듯 내 실력으로 한판 붙는 게 좋아요. 어려운 물가일수록 오히려 불이 붙어요.',
-               fish: '실러캔스', fishTag: '심연 동굴 · 희귀', fishWhy: '수억 년을 버텨 온 살아 있는 화석. 쉽게 올라와 주지 않아요.',
-               point: '심연 동굴', pointWhy: '빛이 거의 없는 깊은 동굴이에요. 나루에서 가장 까다로운 물가예요.' },
-  jackpot:   { name: '한 방형', anglers: [['14', '마루'], ['18', '한솔']], line: '전설 한 마리면 돼요', bg: 'amazon',
-               who: '잔챙이 열 마리보다 큰 놈 한 마리. 입질이 없어도 언젠가 올 그 한 방을 기다려요.',
-               fish: '황금잉어', fishTag: '호수 · 전설', fishWhy: '몇 번을 던져도 안 나오다가 한 번에 나타나는 금빛이에요.',
-               point: '아마존', pointWhy: '힘센 물고기가 가득한 다섯 번째 물가예요. 신화 등급도 셋이나 숨어 있어요.' },
-  night:     { name: '밤낚시꾼', anglers: [['08', '이슬'], ['11', '바우']], line: '해가 지면 시작이에요', bg: 'snow',
-               who: '다들 짐 쌀 때 자리를 펴요. 조용한 물가와 별빛, 밤에만 오는 녀석들이 있다는 걸 알거든요.',
-               fish: '오로라물고기', fishTag: '호수 · 전설', fishWhy: '밤하늘 오로라 색을 그대로 담은 비늘이에요.',
-               point: '노르웨이의 밤', pointWhy: '백야와 극야가 있는 노르웨이. 밤하늘엔 오로라가 떠요.' },
-  decorator: { name: '수조 꾸미기형', anglers: [['17', '다솜'], ['07', '새록'], ['16', '여름']], line: '잡은 녀석들로 집을 꾸며요', bg: 'tank',
-               who: '잡은 물고기는 그냥 보내기 아까워요. 제일 예쁜 녀석들로 내 수조를 채워요.',
-               fish: '디스커스', fishTag: '아마존 · 희귀', fishWhy: '실제로도 수조에서 많이 키우는 화려한 물고기예요.',
-               point: '나루 수조', pointWhy: '잡은 물고기를 넣고, 물가마다 얻는 장식으로 꾸며요.' },
+const TYPES = {  // 그림·낚시꾼 번호·물고기 등급만. 문구는 i18n.json(언어별)
+  dreamer: { anglers: ['06', '15', '04'], bg: 'lake_autumn', region: 'lake', rar: 'rare' },
+  collector: { anglers: ['10', '03'], bg: 'lagoon', region: 'aitutaki', rar: 'rare' },
+  releaser: { anglers: ['02', '01'], bg: 'lake', region: 'lake', rar: 'common' },
+  explorer: { anglers: ['05', '13'], bg: 'fjord', region: 'amazon', rar: 'legendary' },
+  fighter: { anglers: ['09', '12'], bg: 'cave', region: 'cave', rar: 'rare' },
+  jackpot: { anglers: ['14', '18'], bg: 'amazon', region: 'lake', rar: 'legendary' },
+  night: { anglers: ['08', '11'], bg: 'snow', region: 'lake', rar: 'legendary' },
+  decorator: { anglers: ['17', '07', '16'], bg: 'tank', region: 'amazon', rar: 'rare' },
 };
-const RC = { '일반': '#B8BCCB', '희귀': '#4FC3F7', '전설': '#FFD54F' };  // 앱 등급색(일반은 흰빛 회색)
+const RC = { common: '#B8BCCB', rare: '#4FC3F7', legendary: '#FFD54F' };  // 앱 등급색(일반은 흰빛 회색)
 const BG = {
   fjord:  ['img/bg_fjord.webp',  'linear-gradient(#5B8FD0, #A9CFEF 60%)'],
   snow:   ['img/bg_snow.webp',   'linear-gradient(#0B1028, #2A3A6A 60%)'],
@@ -242,31 +224,31 @@ function setBg(k) {
 }
 function stopBgCycle() { clearInterval(bgTimer); bgTimer = null; }
 const ORDER = ['dreamer', 'collector', 'releaser', 'explorer', 'fighter', 'jackpot', 'night', 'decorator'];
-const QUESTIONS = [
-  { q: '내일은 낚시 가는 날.<br>전날 밤 나는?', a: [
-    ['채비 다 꺼내 놓고 하나하나 점검 중', 'fighter'], ['대물 잡는 상상하느라 잠이 안 온다', 'jackpot'],
-    ['알람 맞추는 걸 깜빡하고 그냥 잠듦', 'dreamer'], ['자긴 왜 자. 지금 바로 출발', 'night']] },
-  { q: '미리 알아본 포인트에<br>이미 누가 있다.', a: [
-    ['그냥 깔끔히 포기하고 다른 곳을 찾는다', 'explorer'], ['옆에 능청스럽게 접근해서 자리 같이 쓴다', 'fighter'],
-    ['사실 그냥 이 풍경이 좋은 거임. 어디든 상관없음', 'dreamer'], ['저 사람 바구니가 많이 찼는지 보고 결정한다', 'collector']] },
-  { q: '3시간째<br>입질이 하나도 없다.', a: [
-    ['자리가 잘못됐나? 다른 곳으로 자리를 옮긴다', 'explorer'], ['언젠간 잡히겠지. 컵라면 먹으면서 물 구경하기', 'dreamer'],
-    ['이 정도 기다렸으면 이제 대어가 잡힐 때가 됐다. 더 기다린다', 'jackpot'], ['채비가 잘못된 것 같으니 처음부터 다시 채비한다', 'fighter']] },
-  { q: '드디어 입질!<br>근데 생각보다 너무 작다.', a: [
-    ['귀엽네. 사진 한 장 찍고 바로 놓아줌', 'releaser'], ['처음 보는 놈이면 작아도 대만족', 'collector'],
-    ['작아도 예쁘면 데려가서 수조에', 'decorator'], ['미끼 큰 걸로 바꾼다. 노리는 건 따로 있음', 'jackpot']] },
-  { q: '바구니가<br>꽉 찼다.', a: [
-    ['제일 예쁜 애들만 골라서 수조로 가져간다', 'decorator'], ['잡는 데에만 관심 있음. 다 놓아주고 다시 채운다', 'fighter'],
-    ['종류별로 큰 놈들만 놔두고 작은 놈들은 놓아준다', 'collector'], ['사진 다 찍었으니 다 놓아준다', 'releaser']] },
-  { q: '해가 지고 있다.<br>다들 짐 싸는 중.', a: [
-    ['이제부터가 진짜 낚시지. 랜턴을 켠다', 'night'], ['노을 지는 거까지만 보고 짐 싼다', 'dreamer'],
-    ['아까 다른 사람 자리에서 많이 잡히던데. 한 번만 들렀다가 간다', 'explorer'], ['빨리 집에 간다. 가서 수조 컬렉션을 완성해야지', 'decorator']] },
-  { q: '친구가 묻는다.<br>"낚시 왜 해?"', a: [
-    ['월척을 낚았을 때 도파민이 터져서', 'jackpot'], ['그냥 이 풍경에서 고요함을 느끼는 게 좋아', 'night'],
-    ['아직 못 잡은 애들이 너무 많아서', 'collector'], ['손맛. 이건 해 봐야 앎', 'fighter']] },
+// 보기 순서별 유형(문구는 i18n.json questions[i] = [질문, 보기1..4])
+const Q_TYPES = [
+  ['fighter', 'jackpot', 'dreamer', 'night'],
+  ['explorer', 'fighter', 'dreamer', 'collector'],
+  ['explorer', 'dreamer', 'jackpot', 'fighter'],
+  ['releaser', 'collector', 'decorator', 'jackpot'],
+  ['decorator', 'fighter', 'collector', 'releaser'],
+  ['night', 'dreamer', 'explorer', 'decorator'],
+  ['jackpot', 'night', 'collector', 'fighter'],
 ];
 
 const $ = id => document.getElementById(id);
+// 언어 = ?lang= → 브라우저 언어 → 영어. 나루 앱과 같은 4개 언어
+const ALL = JSON.parse($('i18n').textContent), qs0 = new URLSearchParams(location.search);
+const LANG = [qs0.get('lang'), ...(navigator.languages || [navigator.language])].map(l => (l || '').slice(0, 2).toLowerCase()).find(l => ALL[l]) || 'en';
+const I = ALL[LANG];
+const QUESTIONS = I.questions.map((q, i) => ({ q: q[0], a: q.slice(1).map((t, j) => [t, Q_TYPES[i][j]]) }));
+const fill = (tpl, v) => tpl.replace(/\{([^}]+)\}/g, (_, k) => v[k] ?? '');
+const josa = n => (n.charCodeAt(n.length - 1) - 0xAC00) % 28 === 0 ? '를' : '을';  // 한국어 '을/를'
+const shareTitle = (t, a) => fill(I.shareTitle, { a, t, '을': josa(a) });
+document.documentElement.lang = LANG;
+document.title = I.docTitle;
+document.querySelectorAll('[data-t]').forEach(e => { e.textContent = I[e.dataset.t]; });
+document.querySelectorAll('[data-h]').forEach(e => { e.innerHTML = I[e.dataset.h]; });
+$('langs').innerHTML = Object.keys(ALL).map(l => `<a href="?lang=${l}"${l === LANG ? ' class="on"' : ''}>${ALL[l].label}</a>`).join('');
 let picks = [], picksIdx = [];
 
 function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id)); window.scrollTo(0, 0); }
@@ -305,7 +287,7 @@ function decide(list) {
 // 같은 유형이라도 고른 보기 조합에 따라 낚시꾼이 달라진다(같은 답 = 같은 낚시꾼)
 function pickAngler(type) {
   const n = TYPES[type].anglers.length;
-  return TYPES[type].anglers[picksIdx.reduce((a, b, i) => a + b * (i + 1), 0) % n][0];
+  return TYPES[type].anglers[picksIdx.reduce((a, b, i) => a + b * (i + 1), 0) % n];
 }
 
 function renderMix(list) {
@@ -318,61 +300,58 @@ function renderMix(list) {
     .sort((a, b) => (b[0] === win) - (a[0] === win) || b[1] - a[1]).slice(0, 3);  // 결과 유형 먼저, 나머지는 % 높은 순
   top.forEach(([t, pct]) => {
     const r = document.createElement('div'); r.className = 'row3';
-    r.innerHTML = `<b>${TYPES[t].name}</b><i><span></span></i><em>${pct}%</em>`;
+    r.innerHTML = `<b>${I.types[t].name}</b><i><span></span></i><em>${pct}%</em>`;
     box.appendChild(r);
     requestAnimationFrame(() => requestAnimationFrame(() => { r.querySelector('span').style.width = pct + '%'; }));
   });
 }
 
 function showResult(type, outfit) {
-  const T = TYPES[type];
-  const A = T.anglers.find(a => a[0] === outfit) || T.anglers[0];
+  const T = TYPES[type], S = I.types[type];
+  const id = T.anglers.includes(outfit) ? outfit : T.anglers[0], aname = I.anglers[id];
   const [img, sky] = BG[T.bg];
   stopBgCycle(); $('bg').querySelectorAll('.layer').forEach(l => l.classList.remove('on')); bgNow = null;
-  $('r-name').textContent = T.name;
-  $('r-line').textContent = T.line;
-  $('r-who-img').src = 'img/c_' + A[0] + '.webp';
-  $('r-who-img').alt = A[1];
-  $('r-angler').textContent = A[1];
+  $('r-name').textContent = S.name;
+  $('r-line').textContent = S.line;
+  $('r-who-img').src = 'img/c_' + id + '.webp';
+  $('r-who-img').alt = aname;
+  $('r-angler').textContent = aname;
   $('r-fish-img').src = 'img/f_' + type + '.webp';
-  $('r-fish-img').alt = T.fish;
-  const [region, rar] = T.fishTag.split(' · ');
-  $('p-fish').style.setProperty('--rc', RC[rar]);
-  $('r-rar').style.setProperty('--rc', RC[rar]);
-  $('r-fish').style.setProperty('--rc', RC[rar]);
-  $('r-rar').textContent = rar;
-  $('r-region').textContent = region + '에서 낚여요';
+  $('r-fish-img').alt = S.fish;
+  ['p-fish', 'r-rar', 'r-fish'].forEach(k => $(k).style.setProperty('--rc', RC[T.rar]));
+  $('r-rar').textContent = I.rarity[T.rar];
+  $('r-region').textContent = fill(I.caughtIn, { r: I.region[T.region] });
   $('p-point').style.background = `url(${img}?v=3) center ${({ lagoon: 'top', cave: '80%' })[T.bg] || 'bottom'} / cover no-repeat, ${sky}`;  // 아이투타키=수평선이 위, 동굴=물가
-  $('r-who').textContent = T.who;
-  $('r-fish').textContent = T.fish;
-  $('r-fishwhy').textContent = T.fishWhy;
-  $('r-point').textContent = T.point;
-  $('r-pointwhy').textContent = T.pointWhy;
+  $('r-who').textContent = S.who;
+  $('r-fish').textContent = S.fish;
+  $('r-fishwhy').textContent = S.fishWhy;
+  $('r-point').textContent = S.point;
+  $('r-pointwhy').textContent = S.pointWhy;
   $('share').dataset.type = type;
-  $('share').dataset.outfit = A[0];
+  $('share').dataset.outfit = id;
   show('s-r');
 }
 
 function finish() {
   $('bar').style.width = '100%';
   const type = decide(picks), outfit = pickAngler(type);
-  gtag('event', 'naru_type_result', { type, outfit });
-  history.replaceState(null, '', '?r=' + type + '&c=' + outfit + '&p=' + picksIdx.join(''));
+  gtag('event', 'naru_type_result', { type, outfit, lang: LANG });
+  history.replaceState(null, '', '?r=' + type + '&c=' + outfit + '&p=' + picksIdx.join('') + (LANG === 'ko' ? '' : '&lang=' + LANG));
   showResult(type, outfit);
   renderMix(picks);
 }
 
-$('go').onclick = () => { stopBgCycle(); Q_BG.forEach(k => { new Image().src = BG[k][0]; }); picks = []; picksIdx = []; gtag('event', 'naru_type_start'); renderQ(); show('s-q'); };
+$('go').onclick = () => { stopBgCycle(); Q_BG.forEach(k => { new Image().src = BG[k][0]; }); picks = []; picksIdx = []; gtag('event', 'naru_type_start', { lang: LANG }); renderQ(); show('s-q'); };
 $('back').onclick = () => { picks.pop(); picksIdx.pop(); renderQ(); };
-$('again').onclick = () => { $('again').textContent = '다시 하기'; $('r-top').textContent = '나는'; picks = []; picksIdx = []; history.replaceState(null, '', location.pathname); renderQ(); show('s-q'); };
+// 공유로 들어온 사람의 '나도 해 보기'는 첫 화면(제목·실루엣)부터, 내 결과의 '다시 하기'는 바로 1번 질문
+$('again').onclick = () => { const fromShare = $('again').textContent === I.tryToo; $('again').textContent = I.again; $('r-top').textContent = I.me; picks = []; picksIdx = []; history.replaceState(null, '', location.pathname + (LANG === 'ko' ? '' : '?lang=' + LANG)); if (fromShare) { startBgCycle(); show('s-start'); } else { renderQ(); show('s-q'); } };
 $('share').onclick = async () => {
-  const type = $('share').dataset.type, outfit = $('share').dataset.outfit, T = TYPES[type];
-  const url = 'https://clpak.dev/naru/type/r/' + type + '-' + outfit + '/?p=' + picksIdx.join('');
-  gtag('event', 'naru_type_share', { type });
-  const A = T.anglers.find(a => a[0] === outfit) || T.anglers[0];
-  const josa = (A[1].charCodeAt(A[1].length - 1) - 0xAC00) % 28 === 0 ? '를' : '을';
-  if (navigator.share) { try { await navigator.share({ title: '나는 ' + A[1] + josa + ' 닮은 ' + T.name, text: T.line, url }); return; } catch (e) { if (e.name === 'AbortError') return; } }
-  try { await navigator.clipboard.writeText(url); } catch (e) { prompt('링크를 복사하세요', url); return; }
+  const type = $('share').dataset.type, outfit = $('share').dataset.outfit;
+  // 공유 주소 = 언어별 og 그림이 달린 r/ 페이지(한국어 r/<유형-옷>/, 나머지 r/<언어>/<유형-옷>/)
+  const url = 'https://clpak.dev/naru/type/r/' + (LANG === 'ko' ? '' : LANG + '/') + type + '-' + outfit + '/?p=' + picksIdx.join('');
+  gtag('event', 'naru_type_share', { type, lang: LANG });
+  if (navigator.share) { try { await navigator.share({ title: shareTitle(I.types[type].name, I.anglers[outfit]), text: I.types[type].line, url }); return; } catch (e) { if (e.name === 'AbortError') return; } }
+  try { await navigator.clipboard.writeText(url); } catch (e) { prompt(I.copyPrompt, url); return; }
   $('toast').classList.add('on'); setTimeout(() => $('toast').classList.remove('on'), 1600);
 };
 
@@ -395,7 +374,7 @@ if (TYPES[r]) {
   const pp = (qs.get('p') || '').split('').map(Number);  // 공유 링크의 고른 보기 → 성향 % 다시 계산
   if (pp.length === QUESTIONS.length && pp.every(j => j >= 0 && j < 4)) { picksIdx = pp; renderMix(pp.map((j, i) => QUESTIONS[i].a[j][1])); }
   // 공유 링크로 들어온 사람에겐 '다시 하기' 대신 '나도 해 보기'
-  if (qs.get('utm_source') === 'share') { $('again').textContent = '나도 해 보기'; $('r-top').textContent = '친구는'; }
+  if (qs.get('utm_source') === 'share') { $('again').textContent = I.tryToo; $('r-top').textContent = I.friend; }
 }
 </script>
 </body>

@@ -1,13 +1,21 @@
 """나루 낚시 유형 테스트 — 글꼴 서브셋 + og 그림 + 공유용 r/<유형>/ 페이지 생성.
-index.html 문구를 바꾸면 다시 돌린다: cd dev-page/naru/type && python3 build.py"""
+문구(i18n.json, 한·영·일·스페인어)를 바꾸면 다시 돌린다: cd dev-page/naru/type && python3 build.py
+i18n.json은 index.html의 <script id="i18n">에 그대로 들어간다(페이지는 이 파일 하나로 동작)."""
 import json, os, re, subprocess
 from PIL import Image, ImageDraw, ImageFont
 
 GAL = '/Users/clpak/workspace/mi-app/apps/naru/app/assets/fonts/Galmuri11.ttf'
 html = open('index.html', encoding='utf-8').read()
+I18N = json.load(open('i18n.json', encoding='utf-8'))
+html = re.sub(r'(<script id="i18n" type="application/json">).*?(</script>)',
+              lambda m: m.group(1) + json.dumps(I18N, ensure_ascii=False, separators=(',', ':')) + m.group(2), html, flags=re.S)
 
 # 1) 글꼴 서브셋 (페이지에 나오는 글자만)
 chars = set(html) | set('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !?.,~/←·')
+from fontTools.ttLib import TTFont
+cmap = TTFont(GAL).getBestCmap()
+miss = sorted({c for c in json.dumps(I18N, ensure_ascii=False) if ord(c) > 127 and ord(c) not in cmap})
+assert not miss, f'Galmuri11에 없는 글자: {miss}'
 open('/tmp/naru_type_chars.txt', 'w').write(''.join(sorted(chars)))
 subprocess.run(['pyftsubset', GAL, '--text-file=/tmp/naru_type_chars.txt', '--flavor=woff2',
                 '--output-file=galmuri11-sub.woff2'], check=True)
@@ -17,9 +25,10 @@ h = hashlib.md5(open('galmuri11-sub.woff2', 'rb').read()).hexdigest()[:8]
 html = re.sub(r"url\('galmuri11-sub\.woff2[^']*'\)", f"url('galmuri11-sub.woff2?v={h}')", html)
 open('index.html', 'w', encoding='utf-8').write(html)
 
-# 2) 유형 목록은 index.html의 TYPES에서 읽는다 (한 곳에서만 관리)
-types = {k: (n, l, re.findall(r"\['(\d+)', '([^']+)'\]", a)) for k, n, a, l in re.findall(r"(\w+):\s*\{ name: '([^']+)', anglers: (\[.*?\]\]), line: '([^']+)'", html)}
+# 2) 유형별 낚시꾼 번호는 index.html의 TYPES에서 읽는다 (한 곳에서만 관리)
+types = {k: re.findall(r"'(\d+)'", a) for k, a in re.findall(r"(\w+): \{ anglers: (\[[^\]]*\])", html)}
 assert len(types) == 8, types
+
 
 BG, WATER, SKY, GOLD = (26, 26, 46), (31, 59, 92), (79, 195, 247), (255, 213, 79)
 W, H, S = 400, 210, 3  # 1배로 그리고 3배 → 1200x630
@@ -105,58 +114,108 @@ def silhouette():
 
 
 silhouette()
-os.makedirs('og', exist_ok=True)
-# 메인 og
-im, d = base()
-# 아까 구성 그대로, 글씨만 크게(11 → 22·33, 사용자 11-23)
-d.text((40, 30), '나루 · 낚시 유형 테스트', font=font(22), fill=SKY)
-d.text((40, 66), '나는 어떤', font=font(33), fill=(255, 255, 255))
-d.text((40, 106), '낚시꾼일까?', font=font(33), fill=(255, 255, 255))
-d.line((340, 0, 340, H - 46), fill=(255, 255, 255, 90), width=1)
-d.rectangle((336, H - 50, 344, H - 46), fill=(255, 90, 90)); d.rectangle((336, H - 45, 344, H - 41), fill=(255, 255, 255))
-d.text((350, H - 80), '!', font=font(22), fill=GOLD)
-save(im, 'og/main.png')
-
-# 낚시꾼별 og + 공유 페이지 r/<유형>-<의상>/ (r/<유형>/ = 그 유형 첫 낚시꾼)
 import shutil
+shutil.rmtree('og', ignore_errors=True)
 shutil.rmtree('r', ignore_errors=True)
-for f in os.listdir('og'):
-    if f != 'main.png':
-        os.remove(os.path.join('og', f))
+for l in I18N:
+    if l != 'ko':
+        shutil.rmtree(l, ignore_errors=True)
 
 
-def share_page(slug, t, outfit, title, line):
-    os.makedirs(f'r/{slug}', exist_ok=True)
-    open(f'r/{slug}/index.html', 'w', encoding='utf-8').write(f'''<!DOCTYPE html>
-<html lang="ko"><head><meta charset="UTF-8">
-<title>{title} - 나루</title>
-<meta property="og:type" content="website"><meta property="og:site_name" content="나루">
+def fill(tpl, **v):
+    return re.sub(r'\{([^}]+)\}', lambda m: v.get(m.group(1), ''), tpl)
+
+
+def josa(n):
+    return '를' if (ord(n[-1]) - 0xAC00) % 28 == 0 else '을'
+
+
+def fit(d, text, maxw):
+    """이름이 한 줄(33)에 안 들어가면 띄어쓰기에서 두 줄로, 그래도 넘치면 22로 줄인다."""
+    if d.textlength(text, font=font(33)) <= maxw:
+        return [text], 33
+    words = text.split(' ')
+    cuts = [[' '.join(words[:i]), ' '.join(words[i:])] for i in sorted(range(1, len(words)), key=lambda i: abs(len(' '.join(words[:i])) - len(' '.join(words[i:]))))]
+    if text.endswith('タイプ') and ' ' not in text:  # 일본어는 띄어쓰기가 없으니 '…タイプ' 앞에서 나눈다
+        cuts.append([text[:-3], 'タイプ'])
+    for size in (33, 22):
+        for ls in cuts:
+            if all(d.textlength(x, font=font(size)) <= maxw for x in ls):
+                return ls, size
+    return [text], 22
+
+
+def og_path(l, name):
+    return f'og/{name}.png' if l == 'ko' else f'og/{l}/{name}.png'
+
+
+def head(l, title, desc, url, img):
+    return f'''<!DOCTYPE html>
+<html lang="{l}"><head><meta charset="UTF-8">
+<title>{title} - {I18N[l]['docTitle'].split(' - ')[-1]}</title>
+<meta property="og:type" content="website"><meta property="og:site_name" content="{I18N[l]['docTitle'].split(' - ')[-1]}">
 <meta property="og:title" content="{title}">
-<meta property="og:description" content="{line}. 질문 7개로 나와 닮은 나루 낚시꾼을 찾아보세요.">
-<meta property="og:url" content="https://clpak.dev/naru/type/r/{slug}/">
-<meta property="og:image" content="https://clpak.dev/naru/type/og/{t}-{outfit}.png?v=2">
+<meta property="og:description" content="{desc}">
+<meta property="og:url" content="{url}">
+<meta property="og:image" content="https://clpak.dev/naru/type/{img}?v=3">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta http-equiv="refresh" content="0; url=../../?r={t}&c={outfit}&utm_source=share&utm_medium=link&utm_campaign=naru_type">
-<script>location.replace('../../?r={t}&c={outfit}&utm_source=share&utm_medium=link&utm_campaign=naru_type' + (location.search ? '&' + location.search.slice(1) : ''));</script>
-</head><body><a href="../../?r={t}&c={outfit}">결과 보기</a></body></html>
+<meta name="twitter:card" content="summary_large_image">'''
+
+
+def redirect_page(path, l, title, desc, img, query):
+    """크롤러용 og만 달고 본 페이지로 넘긴다(공유 링크의 ?p= 등은 그대로 붙여 넘긴다)."""
+    os.makedirs(path, exist_ok=True)
+    to = '/naru/type/?' + query + ('' if l == 'ko' else f'&lang={l}')
+    open(f'{path}/index.html', 'w', encoding='utf-8').write(head(l, title, desc, f'https://clpak.dev/naru/type/{path}/', img) + f'''
+<meta http-equiv="refresh" content="0; url={to}">
+<script>location.replace('{to}' + (location.search ? '&' + location.search.slice(1) : ''));</script>
+</head><body><a href="{to}">{I18N[l]['seeResult']}</a></body></html>
 ''')
 
 
-for t, (name, line, anglers) in types.items():
-    for i, (outfit, aname) in enumerate(anglers):
-        im, d = base()
-        josa = '를' if (ord(aname[-1]) - 0xAC00) % 28 == 0 else '을'
-        d.text((40, 30), f'나는 {aname}{josa} 닮은', font=font(22), fill=(200, 205, 220))
-        d.text((40, 64), name, font=font(33), fill=(255, 255, 255))
-        d.text((40, 120), '나도 해 보기 →', font=font(22), fill=GOLD)
-        sc = scene(t, outfit)
-        sh = 140 if len(name) <= 5 else 118  # 이름이 길면(수조 꾸미기형) 그림을 줄여 글자와 띄운다
-        sc = sc.resize((round(sc.width * sh / sc.height), sh), Image.NEAREST)
-        im.alpha_composite(sc, (W - sc.width - (30 if sh == 140 else 14), H - 40 - sh + 14))
-        save(im, f'og/{t}-{outfit}.png')
-        title = f'나는 {aname}{josa} 닮은 {name}'  # og 그림 문구와 같게('밤낚시꾼 낚시꾼' 겹침 방지)
-        share_page(f'{t}-{outfit}', t, outfit, title, line)
-        if i == 0:
-            share_page(t, t, outfit, title, line)
-print('ok', {t: [a[1] for a in v[2]] for t, v in types.items()})
+for l, L in I18N.items():
+    os.makedirs(os.path.dirname(og_path(l, 'x')), exist_ok=True)
+    # 메인 og — 구성 그대로, 글씨만 크게(11 → 22·33, 사용자 11-23)
+    im, d = base()
+    d.text((40, 30), L['ogMain'][0], font=font(22), fill=SKY)
+    d.text((40, 66), L['ogMain'][1], font=font(33), fill=(255, 255, 255))
+    d.text((40, 106), L['ogMain'][2], font=font(33), fill=(255, 255, 255))
+    d.line((340, 0, 340, H - 46), fill=(255, 255, 255, 90), width=1)
+    d.rectangle((336, H - 50, 344, H - 46), fill=(255, 90, 90)); d.rectangle((336, H - 45, 344, H - 41), fill=(255, 255, 255))
+    d.text((350, H - 80), '!', font=font(22), fill=GOLD)
+    save(im, og_path(l, 'main'))
+    if l != 'ko':  # 언어별 입구 clpak.dev/naru/type/<언어>/ — 그 언어 og로 보이고 본 페이지로 넘어간다
+        redirect_page(l, l, L['ogMainTitle'], L['ogMainDesc'], og_path(l, 'main'), 'utm_source=lang_link')
+
+    # 낚시꾼별 og + 공유 페이지 r/<유형>-<의상>/ (r/<유형>/ = 그 유형 첫 낚시꾼), 한국어 말고는 r/<언어>/…
+    for t, ids in types.items():
+        name, line = L['types'][t]['name'], L['types'][t]['line']
+        for i, outfit in enumerate(ids):
+            aname = L['anglers'][outfit]
+            im, d = base()
+            pre = fill(L['ogPre'], a=aname, **{'을': josa(aname)})
+            sc = scene(t, outfit)
+            sh = 140
+            lines, size = fit(d, name, W - 40 - 30 - round(sc.width * sh / sc.height) - 8)
+            if size < 33 or len(lines) > 1 or len(name) > 5:  # 이름이 길면 그림을 줄여 글자와 띄운다
+                sh = 118
+                lines, size = fit(d, name, W - 40 - 14 - round(sc.width * sh / sc.height) - 8)
+            two = len(lines) > 1  # 두 줄이면 위로 당겨서 '해 보기'가 물에 안 닿게
+            d.text((40, 24 if two else 30), pre, font=font(22), fill=(200, 205, 220))
+            y = 56 if two else 64
+            for ln in lines:
+                d.text((40, y), ln, font=font(size), fill=(255, 255, 255))
+                y += size + 2
+            d.text((40, y + 8 if two else 120), L['ogCta'], font=font(22), fill=GOLD)
+            sc = sc.resize((round(sc.width * sh / sc.height), sh), Image.NEAREST)
+            im.alpha_composite(sc, (W - sc.width - (30 if sh == 140 else 14), H - 40 - sh + 14))
+            img = og_path(l, f'{t}-{outfit}')
+            save(im, img)
+            title = fill(L['shareTitle'], a=aname, t=name, **{'을': josa(aname)})  # og 그림 문구와 같게('밤낚시꾼 낚시꾼' 겹침 방지)
+            desc = fill(L['ogDesc'], line=line)
+            q = f'r={t}&c={outfit}&utm_source=share&utm_medium=link&utm_campaign=naru_type'
+            base_dir = 'r' if l == 'ko' else f'r/{l}'
+            redirect_page(f'{base_dir}/{t}-{outfit}', l, title, desc, img, q)
+            if i == 0:
+                redirect_page(f'{base_dir}/{t}', l, title, desc, img, q)
+print('ok', {t: [I18N['ko']['anglers'][o] for o in v] for t, v in types.items()})
