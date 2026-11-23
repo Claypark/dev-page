@@ -77,7 +77,7 @@ def scene(t, outfit):
     out = Image.new('RGBA', (W2, c.height), (0, 0, 0, 0))
     out.alpha_composite(c, (0, 0))
     fy = ty + 46
-    ImageDraw.Draw(out).line((tx, ty + 2, tx, fy + 2), fill=(240, 240, 240, 200), width=1)
+    ImageDraw.Draw(out).line((tx, ty + 2, tx, fy + 2), fill=(225, 228, 238, 255), width=1)  # 불투명 — 반투명이면 og 팔레트 압축 때 사라진다
     out.alpha_composite(f, (tx - f.width // 2, fy))
     return out
 
