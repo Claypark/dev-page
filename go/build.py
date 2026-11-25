@@ -153,7 +153,7 @@ for i in made:
         print(f'소개 페이지 건너뜀 {i}', file=sys.stderr); continue
     grab = lambda cls: (re.search(r'(<div class="%s">.*?</div>)' % cls, b, re.S) or [None, ''])[1]
     links = grab('app-links').replace('src="', f'src="{BASE}/')
-    stores = re.findall(r'href="(https://(?:apps\.apple\.com|play\.google\.com)[^"]+)"', links)
+    stores = re.findall(r'href="(https://(?:apps\.apple\.com|play\.google\.com|sheafapp\.dev)[^"]+)"', links)
     langs_here = [l for l in LANGS if get(I18N[l], f'apps.{i}.detail_desc')]
     alts = '\n'.join(f'<link rel="alternate" hreflang="{l}" href="{BASE}{path(i, l)}">' for l in langs_here) + f'\n<link rel="alternate" hreflang="x-default" href="{BASE}{path(i, "ko")}">'
     game = 'games' in re.search(r"\{ id: '%s'[^}]*" % i, src).group()
@@ -162,7 +162,7 @@ for i in made:
         name, tag, desc = A['name'], A['detail_tagline'], A['detail_desc']
         url = BASE + path(i, l)
         ld = json.dumps({'@context': 'https://schema.org', '@type': 'SoftwareApplication', 'name': name, 'description': desc, 'inLanguage': l,
-                         'operatingSystem': ', '.join(x for x, k in (('iOS', 'apple'), ('Android', 'google')) if any(k in u for u in stores)),
+                         'operatingSystem': ', '.join(x for x, k in (('iOS', 'apple'), ('Android', 'google'), ('macOS', 'sheafapp')) if any(k in u for u in stores)),
                          'applicationCategory': 'GameApplication' if game else 'MobileApplication',
                          'url': url, 'image': f'{BASE}/{ICON[i]}', 'sameAs': stores,
                          'author': {'@type': 'Person', 'name': 'CLPAK', 'url': BASE + '/'}}, ensure_ascii=False)
@@ -175,7 +175,7 @@ for i in made:
                           image=f'{BASE}/go/{i}.png?v=20261116', icon=f'{BASE}/{ICON[i]}', ld=ld.replace('</', '<\\/'), home=home, lnav=lnav,
                           more=html.escape(d['more_apps']),
                           banner=f'<img class="banner" src="{BASE}/banners/{bfile}" alt="">' if has_banner else '',
-                          links=links, langs=localize(grab('app-langs'), d).replace('app-langs', 'langs'),
+                          links=localize(links, d), langs=localize(grab('app-langs'), d).replace('app-langs', 'langs'),
                           meta=localize(grab('app-meta-links'), d).replace('app-meta-links', 'meta'))
         x = EXTRA.get(i, {}).get(l)
         extra = (f'<h2>{EXTRA["_heading"][l]}</h2><ul class="feat">' + ''.join(f'<li>{html.escape(f)}</li>' for f in x['features']) + '</ul>'
