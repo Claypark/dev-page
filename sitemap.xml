@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://clpak.dev/</loc></url>
+  <url><loc>https://clpak.dev/sheaf/</loc></url>
+  <url><loc>https://clpak.dev/sheaf/en/</loc></url>
+  <url><loc>https://clpak.dev/sheaf/es/</loc></url>
+  <url><loc>https://clpak.dev/sheaf/ja/</loc></url>
   <url><loc>https://clpak.dev/muhanpalace/</loc></url>
   <url><loc>https://clpak.dev/muhanpalace/en/</loc></url>
   <url><loc>https://clpak.dev/muhanpalace/es/</loc></url>
