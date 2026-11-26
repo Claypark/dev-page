@@ -57,7 +57,7 @@
     @keyframes float { 50% { transform: translateY(-6px); } }
     @keyframes bob { 50% { transform: translateY(4px); } }
     /* 배경 = 나루 실제 낚시터 그림(투명 하늘은 CSS 하늘색), 위쪽은 글이 읽히게 어둡게 */
-    .bg { position: fixed; inset: 0; z-index: -1; background-repeat: no-repeat; background-position: center bottom; background-size: cover; transition: background-image .4s; }
+    .bg { position: fixed; inset: 0; z-index: -1; background-color: var(--bg); background-repeat: no-repeat; background-position: center bottom; background-size: cover; transition: background-image .4s; }
     .bg .layer { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease; image-rendering: pixelated; }
     .bg .layer.on { opacity: 1; }
     .bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(16,18,34,.86), rgba(16,18,34,.55) 50%, rgba(16,18,34,.25)); }
@@ -310,7 +310,7 @@ function showResult(type, outfit) {
   const T = TYPES[type], S = I.types[type];
   const id = T.anglers.includes(outfit) ? outfit : T.anglers[0], aname = I.anglers[id];
   const [img, sky] = BG[T.bg];
-  stopBgCycle(); $('bg').querySelectorAll('.layer').forEach(l => l.classList.remove('on')); bgNow = null;
+  stopBgCycle(); $('bg').querySelectorAll('.layer').forEach(l => { l.classList.remove('on'); l.style.background = ''; }); bgNow = null;  // 인앱 브라우저에서 꺼진 층의 밝은 하늘색이 비쳐 회색 띠가 생겼다(11-26)
   $('r-name').textContent = S.name;
   $('r-line').textContent = S.line;
   $('r-who-img').src = 'img/c_' + id + '.webp';
