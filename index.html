@@ -1811,6 +1811,13 @@
                     // Carries the upstream source: e.g. Instagram → ct=instagram-ko.
                     store = 'app_store';
                     url.searchParams.set('ct', utmSource + '-' + currentLang);
+                } else if (!url.hostname.includes('play.google.com')) {
+                    // 웹사이트(Sheaf 등): 그 사이트 GA가 읽도록 utm을 주소에 바로 붙인다(Play식 referrer=로 감싸면 '직접 방문'이 된다)
+                    store = 'site';
+                    url.searchParams.set('utm_source', utmSource);
+                    url.searchParams.set('utm_medium', utmMedium);
+                    url.searchParams.set('utm_campaign', utmCampaign);
+                    url.searchParams.set('utm_content', currentLang);
                 } else {
                     // Google Play install referrer (utm_source = true origin).
                     store = 'google_play';
@@ -1827,7 +1834,7 @@
             // Distinct event names per store so both show up in GA4's event
             // list without registering `store` as a custom dimension.
             // 'play_store_click' is kept as-is for GA4 continuity.
-            const eventName = store === 'app_store' ? 'app_store_click' : 'play_store_click';
+            const eventName = store === 'app_store' ? 'app_store_click' : store === 'site' ? 'site_click' : 'play_store_click';
             trackEvent(eventName, {
                 app_id: appId,
                 language: currentLang,
